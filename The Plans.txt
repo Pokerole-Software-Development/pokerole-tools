@@ -1,0 +1,233 @@
+Features:
+	Generate Random encounters
+	Create and modify Pokémon definitions and instances
+	Parse and/or generate the core rulebook
+	Use "Yes" for Aceus stats?
+	Search 'mon, items, moves, etc.
+Task:
+	Determine programming language and licence...
+		Not too sure about using Java at the moment...
+
+? = May be null
+Types and Classes:
+	enum (or possibly class) Type:
+		<type list here>
+		(if class):
+			class TypeBuilder:
+				#worry about this later...
+	enum MoveCategory:
+		Physical
+		Special
+		Support
+	enum MoveTarget:
+		Foe
+		RandomFoe
+		AllFoes
+		User
+		OneAlly
+		UserAndAllies
+		Area
+		BattleField
+	class Move:
+		String Name
+		String Description
+		int Power
+		MoveCategory Category
+		Type Type
+		bool Ranged
+		List<Skill> Accuracy
+		int ReducedAccuracy
+		Skill DamageSkill
+		int DamageModifier
+		String AdditionalInfo
+		MoveTarget Target
+		List<IEffect> Effects
+	class DexEntry:
+		int DexNum
+		bool SuggestedStarer
+		Type PrimaryType
+		Type? SecondaryType
+		String Name
+		String? Variant #like "Galaran"
+		Height AverageHeight
+		Weight AverageWeight
+		String Category
+		String DexDescription
+		Rank SuggestedRank
+		int BaseHp
+		Image PrimaryImage
+		Image SmallImage
+		List<Ability, bool> Abilities (true value for hidden)
+		EvolutionList? EvolutionList
+		#mega stuff
+		bool IsMegaEvolution
+		DexEntry? MegaEvolutionCounterpart #So, it points to the mega unless this is the mega. In that case, it point to the original
+		Item? MegaEvolutionItem
+		#core stats
+		int MaxStrength
+		int StartingStrength
+		int MaxDexterity
+		int StartingDexterity
+		int MaxVitality
+		int StartingVitality
+		int MaxSpecial
+		int StartingSpecial
+		int MaxInsight
+		int StartingInsight
+		List<Move, Rank> MoveSet
+	class MonInstance: #not the final name yet
+		Image Picture
+		DexEntry Definition
+		String Name
+		Ability Ability
+		int HP
+		int WillPoints
+		Item HeldItem
+		MonStatus Status
+		int EvasionDice
+		int ClashDice
+		int Defence
+		int SpecialDefence
+		Rank Rank
+		List<Move> Moves
+		Height Height
+		Weight Weight
+		#Attributes
+		int Strength
+		int Dexterity
+		int Vitality
+		int Special
+		int Insight
+		#Skills
+		#region Fight
+		int Brawl
+		int Channel
+		int Clash
+		int Evasion
+		#end region
+		#region Survival
+		int Alert
+		int Athletic
+		int Nature
+		int Stealth
+		#endregion
+		#region Social
+		int Allure
+		int Etiquette
+		int Intimidate
+		int Perform
+		#endregion
+		List<CustomSkill> CustomSkills
+		#Social Attributes
+		int Tough
+		int Cool
+		int Beauty
+		int Clever
+		int Cute
+		Nature MonNature
+		int Happiness
+		int Loyalty
+		int BattleCount
+		int VicoryCount
+		#Type and weakness can be inferred from definition
+		List<Accesory> Accesories #maybe Item type?
+		List<Ribbon> Ribbons
+	class CustomSkill:
+		String Name
+		int Value
+	class Trainer:
+		Image Picture
+		Rank Rank
+		String CharacterName
+		<undefined> Age
+		String PlayerName
+		String Concept
+		#note: Confidence can be derived from nature, so we don't need to store that
+		Nature TrainerNature
+		int Confidence => { TrainerNature.Confidence }
+		String Money #String for now...
+		int HP
+		int WillPoints
+		MonInstance[6] Party
+		#Attributes
+		int Strength
+		int Dexterity
+		int Vitality
+		int Insight
+		#Skills
+		#region Fight
+		int Brawl
+		int Throw
+		int Evasion
+		int Weapons
+		#end region
+		#region Survival
+		int Alert
+		int Athletic
+		int Nature
+		int Stealth
+		#endregion
+		#region Social
+		int Allure
+		int Etiquette
+		int Intimidate
+		int Perform
+		#endregion
+		#region Knowledge
+		int Crafts
+		int Lore
+		int Medicine
+		int Science
+		#end region
+		List<CustomSkill> CustomSkills
+		#Social Attributes
+		int Tough
+		int Cool
+		int Beauty
+		int Clever
+		int Cute
+		List<String, bool> Achievments
+		int MonSeen
+		int MonCaught
+		Backpack Backpack
+	class Backpack:
+		int PotionCount
+		int SuperPotionCount
+		int HyperPotionCount
+		List<Item> BattleItems
+		List<Item> OtherItems
+		List<Badge> Badges
+	enum RivalBackground:
+		Hax0rus
+		Tentacool #Rule of Tenta-Cool
+		AwesomeCurse #Cursed with Awesome
+		Richboy
+		TeamMember
+		DisabledOrphan
+		AntiHero
+		TyrantMentor
+	enum RivalAttitudes:
+		Virtuous
+		Jerk
+		Deceitful
+		Envious
+		Evil
+	class UnlilkeAbility
+		String Name
+		String Description
+	class Rival:
+		Image Picture
+		Rank Rank
+		String Name
+		<undefined> Age
+		String Concept
+		#note: Confidence can be derived from nature, so we don't need to store that
+		Nature Nature
+		String Money #String for now
+		int HP
+		int WillPoints
+		MonInstance[6] Party
+		String Relationship
+		List<RivalBackground> Backgrounds
+		RivalAttitude Attitude
+		List<UnlilkeAbility> UnlilkeAbilities
