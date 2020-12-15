@@ -13,10 +13,10 @@ namespace Pokerole.Core
 		private static readonly Dictionary<BuiltInType, BuiltInTypeImpl> builtInTypeImplementations =
 			new Dictionary<BuiltInType, BuiltInTypeImpl>(20);
 		private static volatile int typeEffectivenessModificationCount = 0;
-		private static readonly Dictionary<ITypeDefinition, (ITypeDefinition type, TypeEffectiveness effectiveness)>
-			offensiveTypeEffectivenessDictionary = new Dictionary<ITypeDefinition, (ITypeDefinition, TypeEffectiveness)>(20);
-		private static readonly Dictionary<ITypeDefinition, (ITypeDefinition type, TypeEffectiveness effectiveness)>
-			defensiveTypeEffectivenessDictionary = new Dictionary<ITypeDefinition, (ITypeDefinition, TypeEffectiveness)>(20);
+		private static readonly Dictionary<ITypeDefinition, List<EffectivenessNode>>
+			offensiveTypeEffectivenessDictionary = new Dictionary<ITypeDefinition, List<EffectivenessNode>>(20);
+		private static readonly Dictionary<ITypeDefinition, List<EffectivenessNode>>
+			defensiveTypeEffectivenessDictionary = new Dictionary<ITypeDefinition, List<EffectivenessNode>>(20);
 		private static readonly Object initLock = new object();
 		public static IReadOnlyList<ITypeDefinition> RegisteredTypes
 		{
@@ -62,6 +62,7 @@ namespace Pokerole.Core
 			//Normal
 			AddTypeEffectivenessEntry(BuiltInType.Normal, BuiltInType.Rock, TypeEffectiveness.Ineffective);
 			AddTypeEffectivenessEntry(BuiltInType.Normal, BuiltInType.Steel, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Normal, BuiltInType.Ghost, TypeEffectiveness.NoEffect);
 			//Fire
 			AddTypeEffectivenessEntry(BuiltInType.Fire, BuiltInType.Bug, TypeEffectiveness.SuperEffective);
 			AddTypeEffectivenessEntry(BuiltInType.Fire, BuiltInType.Grass, TypeEffectiveness.SuperEffective);
@@ -117,8 +118,85 @@ namespace Pokerole.Core
 			AddTypeEffectivenessEntry(BuiltInType.Poison, BuiltInType.Ghost, TypeEffectiveness.Ineffective);
 			AddTypeEffectivenessEntry(BuiltInType.Poison, BuiltInType.Steel, TypeEffectiveness.NoEffect);
 			//Electric
-			AddTypeEffectivenessEntry(BuiltInType.Electric, BuiltInType., TypeEffectiveness.SuperEffective);
-
+			AddTypeEffectivenessEntry(BuiltInType.Electric, BuiltInType.Flying, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Electric, BuiltInType.Water, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Electric, BuiltInType.Dragon, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Electric, BuiltInType.Electric, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Electric, BuiltInType.Grass, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Electric, BuiltInType.Ground, TypeEffectiveness.NoEffect);
+			//Ground
+			AddTypeEffectivenessEntry(BuiltInType.Ground, BuiltInType.Electric, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ground, BuiltInType.Fire, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ground, BuiltInType.Poison, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ground, BuiltInType.Rock, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ground, BuiltInType.Steel, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ground, BuiltInType.Bug, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ground, BuiltInType.Grass, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ground, BuiltInType.Flying, TypeEffectiveness.NoEffect);
+			//Psychic
+			AddTypeEffectivenessEntry(BuiltInType.Psychic, BuiltInType.Fighting, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Psychic, BuiltInType.Poison, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Psychic, BuiltInType.Psychic, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Psychic, BuiltInType.Steel, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Psychic, BuiltInType.Dark, TypeEffectiveness.NoEffect);
+			//Rock
+			AddTypeEffectivenessEntry(BuiltInType.Rock, BuiltInType.Bug, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Rock, BuiltInType.Fire, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Rock, BuiltInType.Flying, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Rock, BuiltInType.Ice, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Rock, BuiltInType.Fighting, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Rock, BuiltInType.Ground, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Rock, BuiltInType.Steel, TypeEffectiveness.Ineffective);
+			//Ice
+			AddTypeEffectivenessEntry(BuiltInType.Ice, BuiltInType.Dragon, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ice, BuiltInType.Flying, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ice, BuiltInType.Ground, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ice, BuiltInType.Ground, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ice, BuiltInType.Fire, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ice, BuiltInType.Ice, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ice, BuiltInType.Steel, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ice, BuiltInType.Water, TypeEffectiveness.Ineffective);
+			//Bug
+			AddTypeEffectivenessEntry(BuiltInType.Bug, BuiltInType.Dark, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Bug, BuiltInType.Grass, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Bug, BuiltInType.Psychic, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Bug, BuiltInType.Fairy, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Bug, BuiltInType.Fighting, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Bug, BuiltInType.Fire, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Bug, BuiltInType.Flying, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Bug, BuiltInType.Ghost, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Bug, BuiltInType.Poison, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Bug, BuiltInType.Steel, TypeEffectiveness.Ineffective);
+			//Dragon
+			AddTypeEffectivenessEntry(BuiltInType.Dragon, BuiltInType.Dragon, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Dragon, BuiltInType.Steel, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Dragon, BuiltInType.Fairy, TypeEffectiveness.NoEffect);
+			//Ghost
+			AddTypeEffectivenessEntry(BuiltInType.Ghost, BuiltInType.Ghost, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ghost, BuiltInType.Psychic, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ghost, BuiltInType.Dark, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Ghost, BuiltInType.Normal, TypeEffectiveness.NoEffect);
+			//Dark
+			AddTypeEffectivenessEntry(BuiltInType.Dark, BuiltInType.Ghost, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Dark, BuiltInType.Psychic, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Dark, BuiltInType.Dark, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Dark, BuiltInType.Fairy, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Dark, BuiltInType.Fighting, TypeEffectiveness.Ineffective);
+			//Steel
+			AddTypeEffectivenessEntry(BuiltInType.Steel, BuiltInType.Fairy, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Steel, BuiltInType.Ice, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Steel, BuiltInType.Rock, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Steel, BuiltInType.Electric, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Steel, BuiltInType.Fire, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Steel, BuiltInType.Steel, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Steel, BuiltInType.Water, TypeEffectiveness.Ineffective);
+			//Fairy
+			AddTypeEffectivenessEntry(BuiltInType.Fairy, BuiltInType.Dark, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Fairy, BuiltInType.Dragon, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Fairy, BuiltInType.Fighting, TypeEffectiveness.SuperEffective);
+			AddTypeEffectivenessEntry(BuiltInType.Fairy, BuiltInType.Fire, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Fairy, BuiltInType.Poison, TypeEffectiveness.Ineffective);
+			AddTypeEffectivenessEntry(BuiltInType.Fairy, BuiltInType.Steel, TypeEffectiveness.Ineffective);
 
 			#endregion
 
@@ -134,8 +212,18 @@ namespace Pokerole.Core
 		{
 			void AddItem()
 			{
-				offensiveTypeEffectivenessDictionary.Add(attacker, (defender, effectiveness));
-				defensiveTypeEffectivenessDictionary.Add(defender, (attacker, effectiveness));
+				if (!offensiveTypeEffectivenessDictionary.TryGetValue(attacker, out List<EffectivenessNode>? list))
+				{
+					list = new List<EffectivenessNode>(20);
+					offensiveTypeEffectivenessDictionary.Add(attacker, list);
+				}
+				list.Add((defender, effectiveness));
+				if (!defensiveTypeEffectivenessDictionary.TryGetValue(defender, out list))
+				{
+					list = new List<EffectivenessNode>(20);
+					defensiveTypeEffectivenessDictionary.Add(defender, list);
+				}
+				list.Add((attacker, effectiveness));
 				typeEffectivenessModificationCount++;//this should be the only place this number is modified!
 			}
 			if (!initted)
@@ -201,6 +289,45 @@ namespace Pokerole.Core
 			}
 		}
 
+		internal struct EffectivenessNode
+		{
+			public ITypeDefinition type;
+			public TypeEffectiveness effectiveness;
+
+			public EffectivenessNode(ITypeDefinition type, TypeEffectiveness effectiveness)
+			{
+				this.type = type;
+				this.effectiveness = effectiveness;
+			}
+
+			public override bool Equals(object? obj)
+			{
+				return obj is EffectivenessNode other &&
+					   EqualityComparer<ITypeDefinition>.Default.Equals(type, other.type) &&
+					   effectiveness == other.effectiveness;
+			}
+
+			public override int GetHashCode()
+			{
+				return HashCode.Combine(type, effectiveness);
+			}
+
+			public void Deconstruct(out ITypeDefinition type, out TypeEffectiveness effectiveness)
+			{
+				type = this.type;
+				effectiveness = this.effectiveness;
+			}
+
+			public static implicit operator (ITypeDefinition type, TypeEffectiveness effectiveness)(EffectivenessNode value)
+			{
+				return (value.type, value.effectiveness);
+			}
+
+			public static implicit operator EffectivenessNode((ITypeDefinition type, TypeEffectiveness effectiveness) value)
+			{
+				return new EffectivenessNode(value.type, value.effectiveness);
+			}
+		}
 		internal readonly struct EffectivenessCache
 		{
 			public readonly int version;
@@ -268,4 +395,5 @@ namespace Pokerole.Core
 		Steel,
 		Fairy
 	}
+
 }
