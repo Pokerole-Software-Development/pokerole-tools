@@ -13,10 +13,10 @@ namespace Pokerole.Core
 		private static readonly Dictionary<BuiltInType, BuiltInTypeImpl> builtInTypeImplementations =
 			new Dictionary<BuiltInType, BuiltInTypeImpl>(20);
 		private static volatile int typeEffectivenessModificationCount = 0;
-		private static readonly Dictionary<ITypeDefinition, List<EffectivenessNode>>
-			offensiveTypeEffectivenessDictionary = new Dictionary<ITypeDefinition, List<EffectivenessNode>>(20);
-		private static readonly Dictionary<ITypeDefinition, List<EffectivenessNode>>
-			defensiveTypeEffectivenessDictionary = new Dictionary<ITypeDefinition, List<EffectivenessNode>>(20);
+		private static readonly Dictionary<ITypeDefinition, HashSet<EffectivenessNode>>
+			offensiveTypeEffectivenessDictionary = new Dictionary<ITypeDefinition, HashSet<EffectivenessNode>>(20);
+		private static readonly Dictionary<ITypeDefinition, HashSet<EffectivenessNode>>
+			defensiveTypeEffectivenessDictionary = new Dictionary<ITypeDefinition, HashSet<EffectivenessNode>>(20);
 		private static readonly Object initLock = new object();
 		public static IReadOnlyList<ITypeDefinition> RegisteredTypes
 		{
@@ -212,18 +212,18 @@ namespace Pokerole.Core
 		{
 			void AddItem()
 			{
-				if (!offensiveTypeEffectivenessDictionary.TryGetValue(attacker, out List<EffectivenessNode>? list))
+				if (!offensiveTypeEffectivenessDictionary.TryGetValue(attacker, out HashSet<EffectivenessNode>? set))
 				{
-					list = new List<EffectivenessNode>(20);
-					offensiveTypeEffectivenessDictionary.Add(attacker, list);
+					set = new HashSet<EffectivenessNode>(20);
+					offensiveTypeEffectivenessDictionary.Add(attacker, set);
 				}
-				list.Add((defender, effectiveness));
-				if (!defensiveTypeEffectivenessDictionary.TryGetValue(defender, out list))
+				set.Add((defender, effectiveness));
+				if (!defensiveTypeEffectivenessDictionary.TryGetValue(defender, out set))
 				{
-					list = new List<EffectivenessNode>(20);
-					defensiveTypeEffectivenessDictionary.Add(defender, list);
+					set = new HashSet<EffectivenessNode>(20);
+					defensiveTypeEffectivenessDictionary.Add(defender, set);
 				}
-				list.Add((attacker, effectiveness));
+				set.Add((attacker, effectiveness));
 				typeEffectivenessModificationCount++;//this should be the only place this number is modified!
 			}
 			if (!initted)
@@ -254,8 +254,11 @@ namespace Pokerole.Core
 			return item;
 		}
 
-		private static EffectivenessCache GetTypeEffectiveness(bool offensive, TypeEffectiveness kind)
+		private static EffectivenessCache GetTypeEffectiveness(ITypeDefinition type, bool offensive,
+			TypeEffectiveness kind)
 		{
+			ArgCheck.NotNull(type, nameof(type));
+			CheckInit();
 			List<ITypeDefinition> resultList = new List<ITypeDefinition>(20);
 			int startVersion, endVersion;
 			do
@@ -263,10 +266,33 @@ namespace Pokerole.Core
 				resultList.Clear();
 				startVersion = typeEffectivenessModificationCount;
 				//code here
-#error not implemented
+				var targetDict = offensive ? offensiveTypeEffectivenessDictionary : defensiveTypeEffectivenessDictionary;
+				if (!targetDict.TryGetValue(type, out HashSet<EffectivenessNode>? entries))
+				{
+					throw new ArgumentException($"Unknown type: {type.Name}");
+				}
+				if (kind == TypeEffectiveness.Normal)
+				{
+					resultList.AddRange(typeList);
+					//remove all of the ones we find
+					foreach (var item in entries)
+					{
+						resultList.Remove(item.type);
+					}
+				}
+				else
+				{
+					foreach (var item in entries)
+					{
+						if (item.effectiveness == kind)
+						{
+							resultList.Add(item.type);
+						}
+					}
+				}
 				endVersion = typeEffectivenessModificationCount;
 			} while (startVersion != endVersion);//in case things change while we are processing
-			return (startVersion, resultList);
+			return (startVersion, resultList.AsReadOnly());
 		}
 		private abstract class TypeImpl : ITypeDefinition
 		{
@@ -279,13 +305,34 @@ namespace Pokerole.Core
 			public abstract string Name { get; }
 			public abstract Color? BackgroundColor { get; }
 
+			private IReadOnlyList<ITypeDefinition> GetEffectiveness(TypeEffectiveness kind,
+				Dictionary<TypeEffectiveness, EffectivenessCache> cache, bool offensive)
+			{
+				if (!cache.TryGetValue(kind, out EffectivenessCache entry))
+				{
+					return AddNewEntry();
+				}
+				if (entry.version == typeEffectivenessModificationCount)
+				{
+					return entry.list;
+				}
+				cache.Remove(kind);
+				return AddNewEntry();
+
+				IReadOnlyList<ITypeDefinition> AddNewEntry()
+				{
+					entry = GetTypeEffectiveness(this, offensive, kind);
+					cache[kind] = entry;
+					return entry.list;
+				}
+			}
 			public IReadOnlyList<ITypeDefinition> GetDefensiveEffectiveness(TypeEffectiveness kind)
 			{
-
+				return GetEffectiveness(kind, defensiveTypeEffectiveness, false);
 			}
 			public IReadOnlyList<ITypeDefinition> GetOffensiveEffectiveness(TypeEffectiveness kind)
 			{
-
+				return GetEffectiveness(kind, offensiveTypeEffectiveness, true);
 			}
 		}
 
