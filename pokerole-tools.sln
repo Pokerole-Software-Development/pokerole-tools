@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pokerole-tools", "pokerole-tools\pokerole-tools.csproj", "{775838F8-9537-40D9-8FEC-4C491A191051}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pokerole-core", "pokerole-core\pokerole-core.csproj", "{D680FC67-904C-43C6-94B9-C34AB36F7D11}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{345AA4AD-BD08-4273-9C17-76139DB9B446}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{775838F8-9537-40D9-8FEC-4C491A191051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{775838F8-9537-40D9-8FEC-4C491A191051}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{775838F8-9537-40D9-8FEC-4C491A191051}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{775838F8-9537-40D9-8FEC-4C491A191051}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D680FC67-904C-43C6-94B9-C34AB36F7D11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D680FC67-904C-43C6-94B9-C34AB36F7D11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D680FC67-904C-43C6-94B9-C34AB36F7D11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D680FC67-904C-43C6-94B9-C34AB36F7D11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AF71CB7B-90A1-4AD6-9F1E-760282AC8D69}
+	EndGlobalSection
+EndGlobal
