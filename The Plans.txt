@@ -39,6 +39,8 @@ Types and Classes:
 		int ReducedAccuracy
 		Skill DamageSkill
 		int DamageModifier
+		bool HasSpecialAccuracyMod //See AdditionalInfo
+		bool HasSpecialDamageMod //See AdditionalInfo
 		String AdditionalInfo
 		MoveTarget Target
 		List<IEffect> Effects
@@ -80,6 +82,7 @@ Types and Classes:
 		DexEntry Definition
 		String Name
 		Ability Ability
+		Ability? OveriddenAblity //like if they were hit with simple beam
 		int HP
 		int WillPoints
 		Item HeldItem

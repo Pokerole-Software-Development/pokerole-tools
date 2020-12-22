@@ -202,7 +202,7 @@ namespace Pokerole.Core
 			AddTypeEffectivenessEntry(BuiltInType.Fairy, BuiltInType.Steel, TypeEffectiveness.Ineffective);
 
 			#endregion
-
+			initted = true;
 		}
 		private static void AddTypeEffectivenessEntry(BuiltInType attacker, BuiltInType defender,
 			TypeEffectiveness effectiveness)
@@ -303,7 +303,7 @@ namespace Pokerole.Core
 				defensiveTypeEffectiveness = new Dictionary<TypeEffectiveness, EffectivenessCache>();
 			private readonly Dictionary<TypeEffectiveness, EffectivenessCache>
 				offensiveTypeEffectiveness = new Dictionary<TypeEffectiveness, EffectivenessCache>();
-
+			public abstract int Id { get; }
 			public abstract bool IsBuiltInType { get; }
 			public abstract string Name { get; }
 			public abstract Color? BackgroundColor { get; }
@@ -412,6 +412,7 @@ namespace Pokerole.Core
 	public interface ITypeBuilder { }
 	public interface ITypeDefinition
 	{
+		int Id { get; }
 		bool IsBuiltInType { get; }
 		String Name { get; }
 		IReadOnlyList<ITypeDefinition> GetOffensiveEffectiveness(TypeEffectiveness kind);

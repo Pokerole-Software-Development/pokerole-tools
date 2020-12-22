@@ -16,7 +16,7 @@ namespace Pokerole.Core
 			{
 				this.type = type;
 			}
-
+			public override int Id => (int)type;
 			public override bool IsBuiltInType => true;
 
 			public override string Name => type.ToString();
