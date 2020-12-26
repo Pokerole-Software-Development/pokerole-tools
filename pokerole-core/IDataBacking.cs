@@ -20,6 +20,8 @@ namespace Pokerole.Core
 		V GetValue<V>([CallerMemberName] String prop = "");
 		bool GetValue<V>([MaybeNullWhen(false)] out V value, [CallerMemberName] String prop = "");
 		void SetValue<V>(V value, [CallerMemberName] String prop = "");
+
+		IDataBacking<V> GetObject<V>(int id) where V:IDataBackedItem<V>;
 	}
 	public interface IDataBackedItem<T> where T : IDataBackedItem<T>
 	{
@@ -39,6 +41,8 @@ namespace Pokerole.Core
 	public class DummyDataBacking<T> : IDataBacking<T> where T : IDataBackedItem<T>
 	{
 		private readonly Dictionary<String, object?> dataTable = new Dictionary<string, object?>();
+
+		public IDataBacking<V> GetObject<V>(int id) where V : IDataBackedItem<V> => throw new NotImplementedException();
 
 		public V GetValue<V>([CallerMemberName] string prop = "")
 		{
