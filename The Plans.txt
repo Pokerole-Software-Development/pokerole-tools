@@ -44,6 +44,9 @@ Types and Classes:
 		String AdditionalInfo
 		MoveTarget Target
 		List<IEffect> Effects
+	Record MegaEvolutionEntry:
+		Item Item
+		DexEntry TargetEvolution
 	class DexEntry:
 		int DexNum
 		bool SuggestedStarer
@@ -62,9 +65,9 @@ Types and Classes:
 		List<Ability, bool> Abilities (true value for hidden)
 		EvolutionList? EvolutionList
 		#mega stuff
-		bool IsMegaEvolution
-		DexEntry? MegaEvolutionCounterpart #So, it points to the mega unless this is the mega. In that case, it point to the original
-		Item? MegaEvolutionItem
+		bool IsMegaEvolution => MegaEvolutionBaseEntry != null
+		DexEntry? MegaEvolutionBaseEntry //points to the base DexEntry if this entry is a megaevolution
+		List<MegaEvolutionEntry> MegaEvolutions
 		#core stats
 		int MaxStrength
 		int StartingStrength

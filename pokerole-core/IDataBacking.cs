@@ -9,8 +9,10 @@ using System.Text;
 
 namespace Pokerole.Core
 {
-	public interface IDataBacking<T> where T : IDataBackedItem<T>
+	public interface IDataBacking<T> where T : class, IDataBackedItem<T>
 	{
+		int ItemId { get; }
+		T? GetBackedItem([NotNullWhen(true)]bool createIfNull);
 		/// <summary>
 		/// Try to get the given value, throwing a <see cref="ValueNotSetException"/> if the value was not set
 		/// </summary>
@@ -21,10 +23,11 @@ namespace Pokerole.Core
 		bool GetValue<V>([MaybeNullWhen(false)] out V value, [CallerMemberName] String prop = "");
 		void SetValue<V>(V value, [CallerMemberName] String prop = "");
 
-		IDataBacking<V> GetObject<V>(int id) where V:IDataBackedItem<V>;
+		IDataBacking<V> GetObject<V>(int id) where V : class, IDataBackedItem<V>;
 	}
-	public interface IDataBackedItem<T> where T : IDataBackedItem<T>
+	public interface IDataBackedItem<T> where T : class, IDataBackedItem<T>
 	{
+		int ItemId { get; }
 		IDataBacking<T> GetDataBacking();
 	}
 
@@ -38,11 +41,23 @@ namespace Pokerole.Core
 		  System.Runtime.Serialization.SerializationInfo info,
 		  System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 	}
-	public class DummyDataBacking<T> : IDataBacking<T> where T : IDataBackedItem<T>
+	public class DummyDataBacking<T> : IDataBacking<T> where T : class, IDataBackedItem<T>
 	{
 		private readonly Dictionary<String, object?> dataTable = new Dictionary<string, object?>();
+		private T? backedItem;
+		public int ItemId => GetValue<int>("ID");
 
-		public IDataBacking<V> GetObject<V>(int id) where V : IDataBackedItem<V> => throw new NotImplementedException();
+		public T? GetBackedItem([NotNullWhen(true)] bool createIfNull)
+		{
+			if (!createIfNull)
+			{
+				return backedItem;
+			}
+			backedItem = (T?)Activator.CreateInstance(typeof(T), this);
+			return backedItem;
+		}
+
+		public IDataBacking<V> GetObject<V>(int id) where V : class, IDataBackedItem<V> => throw new NotImplementedException();
 
 		public V GetValue<V>([CallerMemberName] string prop = "")
 		{
