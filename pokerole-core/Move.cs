@@ -27,11 +27,14 @@ namespace Pokerole.Core
 		Battlefield
 	}
 
+
+
 	public class Move : IDataBackedItem<Move>
 	{
 		private readonly IDataBacking<Move> backing;
 		public Move(IDataBacking<Move> backing)
 		{
+			ArgCheck.NotNull(backing, nameof(backing));
 			this.backing = backing;
 		}
 		public IDataBacking<Move> GetDataBacking() => backing;

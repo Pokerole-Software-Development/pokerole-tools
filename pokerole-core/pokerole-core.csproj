@@ -6,5 +6,32 @@
 	<LangVersion>9.0</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="BaseTypeBuilder.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BaseTypeBuilder.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="BaseTypeBuilder.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BaseTypeBuilder.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="BaseTypeBuilder.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BaseTypeBuilder.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 
 </Project>

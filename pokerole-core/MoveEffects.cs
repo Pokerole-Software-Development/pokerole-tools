@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Pokerole.Core
 {
-	//Don't know what we ill need for this yet, so leaving it as a blank interface
+	//Don't know what we will need for this yet, so leaving it as a blank interface
 	public interface IMoveEffect
 	{
 	}

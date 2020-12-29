@@ -9,6 +9,7 @@ using System.Text;
 
 namespace Pokerole.Core
 {
+	public interface I
 	public interface IDataBacking<T> where T : class, IDataBackedItem<T>
 	{
 		int ItemId { get; }
@@ -23,12 +24,37 @@ namespace Pokerole.Core
 		bool GetValue<V>([MaybeNullWhen(false)] out V value, [CallerMemberName] String prop = "");
 		void SetValue<V>(V value, [CallerMemberName] String prop = "");
 
-		IDataBacking<V> GetObject<V>(int id) where V : class, IDataBackedItem<V>;
+		IDataPointer<V> GetObject<V>(int id) where V : class, IDataBackedItem<V>;
+		IDataPointer<V> GetObject<V>(Guid id) where V : class, IDataBackedItem<V>;
+	}
+	public interface IDataPointer<T> where T : class, IDataBackedItem<T>
+	{
+		int DbId { get; }
+		Guid CrossBackingId { get; }
+		bool IsLoaded { get; }
+		void Load();
+		/// <summary>
+		/// Gets the value this pointer points to unless the value is not loaded, in which case it throws a
+		/// <see cref="DataPointerNotLoadedException"/>
+		/// </summary>
+		T Value { get; }
+
 	}
 	public interface IDataBackedItem<T> where T : class, IDataBackedItem<T>
 	{
 		int ItemId { get; }
 		IDataBacking<T> GetDataBacking();
+	}
+
+	[Serializable]
+	public class DataPointerNotLoadedException : Exception
+	{
+		public DataPointerNotLoadedException() { }
+		public DataPointerNotLoadedException(string message) : base(message) { }
+		public DataPointerNotLoadedException(string message, Exception inner) : base(message, inner) { }
+		protected DataPointerNotLoadedException(
+		  System.Runtime.Serialization.SerializationInfo info,
+		  System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 	}
 
 	[Serializable]
@@ -49,7 +75,7 @@ namespace Pokerole.Core
 
 		public T? GetBackedItem([NotNullWhen(true)] bool createIfNull)
 		{
-			if (!createIfNull)
+			if (!createIfNull || backedItem != null)
 			{
 				return backedItem;
 			}
@@ -57,7 +83,8 @@ namespace Pokerole.Core
 			return backedItem;
 		}
 
-		public IDataBacking<V> GetObject<V>(int id) where V : class, IDataBackedItem<V> => throw new NotImplementedException();
+		public IDataPointer<V> GetObject<V>(int id) where V : class, IDataBackedItem<V> => throw new NotImplementedException();
+		public IDataPointer<V> GetObject<V>(Guid id) where V : class, IDataBackedItem<V> => throw new NotImplementedException();
 
 		public V GetValue<V>([CallerMemberName] string prop = "")
 		{

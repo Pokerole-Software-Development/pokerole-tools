@@ -338,11 +338,10 @@ namespace Pokerole.Core
 				return GetEffectiveness(kind, offensiveTypeEffectiveness, true);
 			}
 		}
-
-		internal struct EffectivenessNode
+		internal readonly struct EffectivenessNode
 		{
-			public ITypeDefinition type;
-			public TypeEffectiveness effectiveness;
+			public readonly ITypeDefinition type;
+			public readonly TypeEffectiveness effectiveness;
 
 			public EffectivenessNode(ITypeDefinition type, TypeEffectiveness effectiveness)
 			{
