@@ -20,27 +20,41 @@
 	<xs:simpleType name="intOrEmpty">
 		<xs:union memberTypes="xs:int emptyString" />
 	</xs:simpleType>
+	<!--For xsd things-->
+	<xs:attribute name="generic" type="xs:QName"/>
+	<xs:attribute name="isDbLazy" type="xs:boolean"/>
 
 	<xs:complexType name="DataId">
 		<xs:attribute name="DbId" type="intOrEmpty"/>
 		<xs:attribute name="Uuid" type="ms:guid"/>
 	</xs:complexType>
+	<xs:complexType name="BaseDataItem" abstract="true">
+		<xs:sequence>
+			<xs:element name="DataId" type="DataId"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DbReference">
+		<xs:sequence>
+			<xs:element name="DataId" type="DataId"/>
+		</xs:sequence>
+	</xs:complexType>
 	<!--Interfaces-->
 	<xs:complexType name="ITypeDefinition">
-		<xs:all>
+		<xs:sequence>
 			<xs:element name="DataId" type="DataId"/>
 			<xs:element name="Name" type="xs:string"/>
-		</xs:all>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ISkill">
-		<xs:all>
+		<xs:sequence>
 			<xs:element name="DataId" type="DataId"/>
 			<xs:element name="Name" type="xs:string"/>
 			<!--Base scemas don't need to know about "IsBuiltInSkill"-->
 			<xs:element name="SkillCategory" type="SkillCategory"/>
 			<xs:element name="SkillExclusivity" type ="SkillExclusivity"/>
-		</xs:all>
+		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="IEffect"/>
 	<!--Enums-->
 	<xs:simpleType name="MoveCategory" final="restriction">
 		<xs:restriction base="xs:NMTOKEN">
@@ -66,6 +80,18 @@
 			<xs:enumeration value="Knowledge"/>
 			<xs:enumeration value="HappinesOrLoyalty"/>
 			<xs:enumeration value="Extra"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MoveTarget" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Foe"/>
+			<xs:enumeration value="RandomFoe"/>
+			<xs:enumeration value="AllFoes"/>
+			<xs:enumeration value="User"/>
+			<xs:enumeration value="OneAlly"/>
+			<xs:enumeration value="UserAndAllies"/>
+			<xs:enumeration value="Area"/>
+			<xs:enumeration value="Battlefield"/>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>
