@@ -3,6 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading;
 
@@ -17,7 +18,42 @@ namespace Pokerole.Core
 		private static readonly IReadOnlyList<ISkill> readonlySkills = skillList.AsReadOnly();
 		private static readonly Dictionary<BuiltInSkill, ISkill> builtInSkillImplementations =
 			new Dictionary<BuiltInSkill, ISkill>(30);
-
+		private static readonly IReadOnlyDictionary<BuiltInSkill, Guid> baseTypeGuids =
+			new ReadOnlyDictionary<BuiltInSkill, Guid>(new Dictionary<BuiltInSkill, Guid>
+			{
+#region Skills
+				{ BuiltInSkill.Strength, Guid.Parse("aee02cc8-60ee-4916-8320-282a307103ba") },
+				{ BuiltInSkill.Dexterity, Guid.Parse("e4f0fbba-eeea-45e9-9e1e-24c68d3653d5") },
+				{ BuiltInSkill.Vitality, Guid.Parse("36800f3e-de5f-4316-bfad-427569707974") },
+				{ BuiltInSkill.Special, Guid.Parse("ef3c7e05-d222-489c-9898-f063773787af") },
+				{ BuiltInSkill.Insight, Guid.Parse("93ee2cee-e910-401d-bfb1-41c7458b5872") },
+				{ BuiltInSkill.Tough, Guid.Parse("c55d3235-baa5-4345-8865-824ef09ca063") },
+				{ BuiltInSkill.Cool, Guid.Parse("2c7f0ce1-2dc4-4400-a538-63e7f0beaddb") },
+				{ BuiltInSkill.Beauty, Guid.Parse("7a873215-4d94-4e17-8a99-de852a5159db") },
+				{ BuiltInSkill.Cute, Guid.Parse("25035da9-c8a2-4bf2-a9ce-e25356f03877") },
+				{ BuiltInSkill.Clever, Guid.Parse("c86835a3-f974-40e6-959d-150f6e54f88e") },
+				{ BuiltInSkill.Brawl, Guid.Parse("56fd77c7-0aeb-450e-b94e-60ec0a698e04") },
+				{ BuiltInSkill.Channel, Guid.Parse("643ef7b7-fe3f-451a-ae8b-263c137c188e") },
+				{ BuiltInSkill.Clash, Guid.Parse("4306fa61-44cf-4655-b0a4-b572a4e7abfa") },
+				{ BuiltInSkill.Evasion, Guid.Parse("18874376-3dc1-4a3e-9ce4-4f46045b106b") },
+				{ BuiltInSkill.Throw, Guid.Parse("7213861f-92c4-4e8f-b8f5-6d24261cddce") },
+				{ BuiltInSkill.Weapons, Guid.Parse("4dc76c9d-7ebc-4822-bb9c-c8d0a098f84c") },
+				{ BuiltInSkill.Alert, Guid.Parse("1603f97f-a8f2-4f3c-8358-406641a61959") },
+				{ BuiltInSkill.Athletic, Guid.Parse("bee1700a-966e-4164-bc78-dc8ac23ff9e3") },
+				{ BuiltInSkill.Nature, Guid.Parse("c953af2a-e106-4b55-aeb8-6e8644b7ab70") },
+				{ BuiltInSkill.Stealth, Guid.Parse("bf82a4f2-45ce-45df-ad24-afeb691d1378") },
+				{ BuiltInSkill.Allure, Guid.Parse("157395de-ae48-43f7-8581-dc6159a161ac") },
+				{ BuiltInSkill.Etiquette, Guid.Parse("84d5d104-b042-4df0-b910-4ddfddc9ed32") },
+				{ BuiltInSkill.Intimidate, Guid.Parse("c2edd061-c645-4f45-83df-29a92c3a101c") },
+				{ BuiltInSkill.Perform, Guid.Parse("7ec5ccfd-cc2f-4b39-8d69-dca877d65ec9") },
+				{ BuiltInSkill.Crafts, Guid.Parse("f76ae46a-d152-4df2-8616-a301ce873823") },
+				{ BuiltInSkill.Lore, Guid.Parse("2800112c-8a65-4ef1-b092-5a668c3bf861") },
+				{ BuiltInSkill.Medicine, Guid.Parse("404911a0-8d74-4b1b-918c-16a938a38349") },
+				{ BuiltInSkill.Science, Guid.Parse("5717accb-d70e-43ea-9a26-fd8da623c497") },
+				{ BuiltInSkill.Happiness, Guid.Parse("9d882c06-536a-48ae-b8d4-68cf2175e889") },
+				{ BuiltInSkill.Loyalty, Guid.Parse("e44f6385-7cfc-4169-98ee-499ab945febd") }, 
+	#endregion
+			});
 		public static IReadOnlyList<ISkill> RegisteredSkills
 		{
 			get
@@ -103,15 +139,32 @@ namespace Pokerole.Core
 			};
 			return new BuiltInSkillImpl(skill, exclusivity, category);
 		}
+		/*
+		/// <summary>
+		/// This method is for the initial generation of the guids, not for population, and will likely only be invoked
+		/// in Roslyn
+		/// </summary>
+		private static String GenerateBuiltInGuids()
+		{
+			StringBuilder codeBuilder = new StringBuilder();
+			BuiltInSkill[] types = (BuiltInSkill[])Enum.GetValues(typeof(BuiltInSkill));
+			foreach (var type in types)
+			{
+				codeBuilder.AppendFormat("{{ BuiltInSkill.{0}, Guid.Parse(\"{1}\") }},\n", type, Guid.NewGuid());
+			}
+			return codeBuilder.ToString();
+		}*/
 		private class BuiltInSkillImpl : SkillImpl
 		{
 			private readonly BuiltInSkill skill;
+			private readonly DataId dataId;
 			internal BuiltInSkillImpl(BuiltInSkill skill, SkillExclusivity exclusivity, SkillCategory category)
 				: base(exclusivity, category)
 			{
 				this.skill = skill;
+				dataId = new DataId((int)skill, baseTypeGuids[skill]);
 			}
-			public override int Id => (int)skill;
+			public override DataId DataId => dataId;
 			public override bool IsBuiltInSkill => true;
 			public override string Name => skill.ToString();
 		}
@@ -124,7 +177,7 @@ namespace Pokerole.Core
 				this.category = category;
 				this.exclusivity = exclusivity;
 			}
-			public abstract int Id { get; }
+			public abstract DataId DataId { get; }
 			public abstract string Name { get; }
 			public abstract bool IsBuiltInSkill { get; }
 			public SkillCategory SkillCategory => category;
@@ -138,7 +191,7 @@ namespace Pokerole.Core
 
 	public interface ISkill
 	{
-		int Id { get; }
+		DataId DataId { get; }
 		String Name { get; }
 		bool IsBuiltInSkill { get; }
 		SkillCategory SkillCategory { get; }

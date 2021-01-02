@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="BaseTypeBuilder.cs">
+    <None Include="Types\BaseTypeBuilder.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>BaseTypeBuilder.tt</DependentUpon>
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="BaseTypeBuilder.tt">
+    <None Update="Types\BaseTypeBuilder.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BaseTypeBuilder.cs</LastGenOutput>
     </None>
@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="BaseTypeBuilder.cs">
+    <Compile Update="Types\BaseTypeBuilder.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>BaseTypeBuilder.tt</DependentUpon>

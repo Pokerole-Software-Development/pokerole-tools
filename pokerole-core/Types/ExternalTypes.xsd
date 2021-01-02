@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at https://mozilla.org/MPL/2.0/. -->
+<xs:schema id="ExternalTypes"
+	targetNamespace="https://www.pokeroleproject.com/schemas/ExternalTypes.xsd"
+	elementFormDefault="qualified"
+	xmlns="https://www.pokeroleproject.com/schemas/ExternalTypes.xsd"
+	xmlns:mstns="https://www.pokeroleproject.com/schemas/ExternalTypes.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ms="http://microsoft.com/wsdl/types"
+>
+	<xs:import schemaLocation="MissingTypes.xsd" namespace="http://microsoft.com/wsdl/types"/>
+	<!--Copied from https://stackoverflow.com/a/12022548/1366594-->
+	<xs:simpleType name="emptyString">
+		<xs:restriction base="xs:string">
+			<xs:length value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="intOrEmpty">
+		<xs:union memberTypes="xs:int emptyString" />
+	</xs:simpleType>
+
+	<xs:complexType name="DataId">
+		<xs:attribute name="DbId" type="intOrEmpty"/>
+		<xs:attribute name="Uuid" type="ms:guid"/>
+	</xs:complexType>
+	<!--Interfaces-->
+	<xs:complexType name="ITypeDefinition">
+		<xs:all>
+			<xs:element name="DataId" type="DataId"/>
+			<xs:element name="Name" type="xs:string"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="ISkill">
+		<xs:all>
+			<xs:element name="DataId" type="DataId"/>
+			<xs:element name="Name" type="xs:string"/>
+			<!--Base scemas don't need to know about "IsBuiltInSkill"-->
+			<xs:element name="SkillCategory" type="SkillCategory"/>
+			<xs:element name="SkillExclusivity" type ="SkillExclusivity"/>
+		</xs:all>
+	</xs:complexType>
+	<!--Enums-->
+	<xs:simpleType name="MoveCategory" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Physical"/>
+			<xs:enumeration value="Special"/>
+			<xs:enumeration value="Support"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SkillExclusivity" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="None"/>
+			<xs:enumeration value="Pokemon"/>
+			<xs:enumeration value="Trainer"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SkillCategory" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Primary"/>
+			<xs:enumeration value="SocialAttribute"/>
+			<xs:enumeration value="Fight"/>
+			<xs:enumeration value="Survival"/>
+			<xs:enumeration value="Social"/>
+			<xs:enumeration value="Knowledge"/>
+			<xs:enumeration value="HappinesOrLoyalty"/>
+			<xs:enumeration value="Extra"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

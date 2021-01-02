@@ -303,7 +303,7 @@ namespace Pokerole.Core
 				defensiveTypeEffectiveness = new Dictionary<TypeEffectiveness, EffectivenessCache>();
 			private readonly Dictionary<TypeEffectiveness, EffectivenessCache>
 				offensiveTypeEffectiveness = new Dictionary<TypeEffectiveness, EffectivenessCache>();
-			public abstract int Id { get; }
+			public abstract DataId DataId { get; }
 			public abstract bool IsBuiltInType { get; }
 			public abstract string Name { get; }
 			public abstract Color? BackgroundColor { get; }
@@ -411,7 +411,7 @@ namespace Pokerole.Core
 	public interface ITypeBuilder { }
 	public interface ITypeDefinition
 	{
-		int Id { get; }
+		DataId DataId { get; }
 		bool IsBuiltInType { get; }
 		String Name { get; }
 		IReadOnlyList<ITypeDefinition> GetOffensiveEffectiveness(TypeEffectiveness kind);

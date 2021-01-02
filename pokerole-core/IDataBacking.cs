@@ -9,7 +9,54 @@ using System.Text;
 
 namespace Pokerole.Core
 {
-	public interface I
+	public readonly struct DataId : IEquatable<DataId>
+	{
+		public int? DbId { get; }
+		public Guid Uuid { get; }
+		public DataId(int? dbId, Guid uuid)
+		{
+			DbId = dbId;
+			Uuid = uuid;
+		}
+		
+		public class Builder
+		{
+			public Builder() { }
+			public Builder(DataId id)
+			{
+				DbId = id.DbId;
+				Uuid = id.Uuid;
+			}
+			public int? DbId { get; set; }
+			public Guid Uuid { get; set; }
+			public DataId Build()
+			{
+				return new DataId(DbId, Uuid);
+			}
+		}
+
+		public override bool Equals(object? obj) => obj is DataId id && Equals(id);
+		public bool Equals(DataId other) => DbId == other.DbId && Uuid.Equals(other.Uuid);
+		public override int GetHashCode() => HashCode.Combine(DbId, Uuid);
+
+		public static bool operator ==(DataId left, DataId right)
+		{
+			return left.Equals(right);
+		}
+
+		public static bool operator !=(DataId left, DataId right)
+		{
+			return !(left == right);
+		}
+		public override string? ToString()
+		{
+			return $"DbId = {DbId}, Uuid = {Uuid}";
+		}
+	}
+	public interface IDataItem
+	{
+		DataId Id { get; }
+	}
 	public interface IDataBacking<T> where T : class, IDataBackedItem<T>
 	{
 		int ItemId { get; }

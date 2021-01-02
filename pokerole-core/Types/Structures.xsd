@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at https://mozilla.org/MPL/2.0/. -->
+<xs:schema id="Structures"
+	targetNamespace="https://www.pokeroleproject.com/schemas/Structures.xsd"
+	elementFormDefault="qualified"
+	xmlns="https://www.pokeroleproject.com/schemas/Structures.xsd"
+	xmlns:mstns="http://tempuri.org/https://www.pokeroleproject.com/schemas/Structures.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ms="http://microsoft.com/wsdl/types"
+	xmlns:ex="https://www.pokeroleproject.com/schemas/ExternalTypes.xsd"
+>
+	<xs:import schemaLocation="MissingTypes.xsd" namespace="http://microsoft.com/wsdl/types"/>
+	<xs:import schemaLocation="ExternalTypes.xsd" namespace="https://www.pokeroleproject.com/schemas/ExternalTypes.xsd"
+			   />
+	<xs:complexType name="BaseDataItem" abstract="true">
+		<xs:all>
+			<xs:element name="DataId" type="ex:DataId"/>
+		</xs:all>
+	</xs:complexType>
+	
+	<!--<xs:complexType name=""-->
+</xs:schema>
