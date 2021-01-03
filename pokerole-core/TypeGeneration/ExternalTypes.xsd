@@ -23,6 +23,10 @@
 	<!--For xsd things-->
 	<xs:attribute name="generic" type="xs:QName"/>
 	<xs:attribute name="isDbLazy" type="xs:boolean"/>
+	<xs:attribute name="isDict" type="xs:boolean"/>
+	<xs:attribute name="keyType" type="xs:QName"/>
+	<xs:attribute name="valueType" type="xs:QName"/>
+	
 
 	<xs:complexType name="DataId">
 		<xs:attribute name="DbId" type="intOrEmpty"/>
@@ -113,6 +117,35 @@
 			<xs:enumeration value="God"/>
 			<xs:enumeration value="Firstborn"/>
 			<xs:enumeration value="OriginalOne"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Nature" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Adamant"/>
+			<xs:enumeration value="Bashful"/>
+			<xs:enumeration value="Bold"/>
+			<xs:enumeration value="Brave"/>
+			<xs:enumeration value="Calm"/>
+			<xs:enumeration value="Careful"/>
+			<xs:enumeration value="Docile"/>
+			<xs:enumeration value="Gentle"/>
+			<xs:enumeration value="Hardy"/>
+			<xs:enumeration value="Hasty"/>
+			<xs:enumeration value="Impish"/>
+			<xs:enumeration value="Jolly"/>
+			<xs:enumeration value="Lax"/>
+			<xs:enumeration value="Lonely"/>
+			<xs:enumeration value="Mild"/>
+			<xs:enumeration value="Modest"/>
+			<xs:enumeration value="Naive"/>
+			<xs:enumeration value="Naughty"/>
+			<xs:enumeration value="Quiet"/>
+			<xs:enumeration value="Quirky"/>
+			<xs:enumeration value="Rash"/>
+			<xs:enumeration value="Relaxed"/>
+			<xs:enumeration value="Sassy"/>
+			<xs:enumeration value="Serious"/>
+			<xs:enumeration value="Timid"/>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>
