@@ -28,7 +28,23 @@ Types and Classes:
 		UserAndAllies
 		Area
 		BattleField
-	class Move:
+	enum Rank
+		//standard rankings
+		Starter
+		Beginner
+		Amateur
+		Ace
+		Pro
+		Master
+		Champion
+		//Legendary rankings
+		Hero
+		Guardian
+		DemiGod
+		God
+		Firstborn
+		OriginalOne
+	record Move:
 		String Name
 		String Description
 		int Power
@@ -44,10 +60,10 @@ Types and Classes:
 		bool HasSpecialDamageMod //See AdditionalInfo
 		String AdditionalInfo
 		List<IEffect> Effects
-	Record MegaEvolutionEntry:
+	record MegaEvolutionEntry:
 		Item Item
 		DexEntry TargetEvolution
-	class DexEntry:
+	record DexEntry:
 		int DexNum
 		bool SuggestedStarer
 		Type PrimaryType
@@ -62,6 +78,8 @@ Types and Classes:
 		int BaseHp
 		Image PrimaryImage
 		Image SmallImage
+		Image? ShinyImage
+		Image? SmallShinyImage
 		List<Ability, bool> Abilities (true value for hidden)
 		EvolutionList? EvolutionList
 		#mega stuff
@@ -80,7 +98,7 @@ Types and Classes:
 		int MaxInsight
 		int StartingInsight
 		List<Move, Rank> MoveSet
-	class MonInstance: #not the final name yet
+	record MonInstance: #not the final name yet
 		Image Picture
 		DexEntry Definition
 		String Name
@@ -138,10 +156,10 @@ Types and Classes:
 		#Type and weakness can be inferred from definition
 		List<Accesory> Accesories #maybe Item type?
 		List<Ribbon> Ribbons
-	class CustomSkill:
+	record CustomSkill:
 		String Name
 		int Value
-	class Trainer:
+	record Trainer:
 		Image Picture
 		Rank Rank
 		String CharacterName
@@ -196,7 +214,7 @@ Types and Classes:
 		int MonSeen
 		int MonCaught
 		Backpack Backpack
-	class Backpack:
+	record Backpack:
 		int PotionCount
 		int SuperPotionCount
 		int HyperPotionCount
@@ -218,10 +236,10 @@ Types and Classes:
 		Deceitful
 		Envious
 		Evil
-	class UnlilkeAbility
+	record UnlilkeAbility
 		String Name
 		String Description
-	class Rival:
+	record Rival:
 		Image Picture
 		Rank Rank
 		String Name

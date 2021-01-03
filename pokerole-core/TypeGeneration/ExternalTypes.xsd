@@ -38,6 +38,10 @@
 			<xs:element name="DataId" type="DataId"/>
 		</xs:sequence>
 	</xs:complexType>
+	<!--TODO: Implement-->
+	<xs:complexType name="Height"/>
+	<xs:complexType name="Weight"/>
+	<xs:complexType name="ImageRef"/>
 	<!--Interfaces-->
 	<xs:complexType name="ITypeDefinition">
 		<xs:sequence>
@@ -92,6 +96,23 @@
 			<xs:enumeration value="UserAndAllies"/>
 			<xs:enumeration value="Area"/>
 			<xs:enumeration value="Battlefield"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Rank" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Starter"/>
+			<xs:enumeration value="Beginner"/>
+			<xs:enumeration value="Amateur"/>
+			<xs:enumeration value="Ace"/>
+			<xs:enumeration value="Pro"/>
+			<xs:enumeration value="Master"/>
+			<xs:enumeration value="Champion"/>
+			<xs:enumeration value="Hero"/>
+			<xs:enumeration value="Guardian"/>
+			<xs:enumeration value="DemiGod"/>
+			<xs:enumeration value="God"/>
+			<xs:enumeration value="Firstborn"/>
+			<xs:enumeration value="OriginalOne"/>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

@@ -34,22 +34,6 @@ namespace Pokerole.Core
 				{ BuiltInType.Fairy, Guid.Parse("9d5f2e81-b827-4cb7-a81e-b7b71a551d86") },
 
 			});
-		/*
-		/// <summary>
-		/// This method is for the initial generation of the guids, not for population, and will likely only be invoked
-		/// in Roslyn
-		/// </summary>
-		private static String GenerateBuiltInGuids()
-		{
-			StringBuilder codeBuilder = new StringBuilder();
-			BuiltInType[] types = (BuiltInType[])Enum.GetValues(typeof(BuiltInType));
-			foreach (var type in types)
-			{
-				codeBuilder.AppendFormat("{{ BuiltInType.{0}, Guid.Parse(\"{1}\") }},\n", type, Guid.NewGuid());
-			}
-			return codeBuilder.ToString();
-		}
-		*/
 		private class BuiltInTypeImpl : TypeImpl
 		{
 			private readonly DataId dataId;

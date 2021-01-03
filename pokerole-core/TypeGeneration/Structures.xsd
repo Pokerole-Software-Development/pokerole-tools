@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at https://mozilla.org/MPL/2.0/. -->
+<xs:schema id="Structures"
+	targetNamespace="https://www.pokeroleproject.com/schemas/Structures.xsd"
+	elementFormDefault="qualified"
+	xmlns="https://www.pokeroleproject.com/schemas/Structures.xsd"
+	xmlns:mstns="http://tempuri.org/https://www.pokeroleproject.com/schemas/Structures.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ms="http://microsoft.com/wsdl/types"
+	xmlns:ex="https://www.pokeroleproject.com/schemas/ExternalTypes.xsd"
+>
+	<xs:import schemaLocation="MissingTypes.xsd" namespace="http://microsoft.com/wsdl/types"/>
+	<xs:import schemaLocation="ExternalTypes.xsd" namespace="https://www.pokeroleproject.com/schemas/ExternalTypes.xsd"
+			   />
+	<xs:complexType name="Move">
+		<xs:complexContent>
+			<xs:extension base="ex:BaseDataItem">
+				<xs:sequence>
+					<xs:element name="Name" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Name of the move</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Description" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Move's description</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Power" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The power of the move</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MoveCategory" type="ex:MoveCategory">
+						<xs:annotation>
+							<xs:documentation>Category of the move</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Type" type="ex:ITypeDefinition" ex:isDbLazy="true">
+						<xs:annotation>
+							<xs:documentation>Move Type</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MoveTarget" type="ex:MoveTarget">
+						<xs:annotation>
+							<xs:documentation>What this move targets</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Ranged" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>Whether or not this move is ranged</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Accuracy" ex:isDbLazy="true">
+						<xs:annotation>
+							<xs:documentation>Skills used to roll accuracy for this move</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Skill" maxOccurs="unbounded" type="ex:ISkill" ex:isDbLazy="true" minOccurs="1"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="ReducedAccuracy" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>How many more successes are needed for this attack to hit</xs:documentation>
+						</xs:annotation>
+					</xs:element><xs:element name="DamageSkill" type="ex:ISkill" nillable="true">
+						<xs:annotation>
+							<xs:documentation>Skill used to roll damage for this move if any</xs:documentation>
+						</xs:annotation>
+					</xs:element><xs:element name="DamageModifier" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>How many more dice to add to the damage roll pool</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="HasSpecialAccuracyMod" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>Refer to AdditionalInfo if this is true</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="HasSpecialDamageMod" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>Refer to AdditionalInfo if this is true</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AdditionalInfo" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>More information about this move that could not be contained in the other variables</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				<xs:element name="Effects">
+					<xs:annotation>
+						<xs:documentation>List of effects this move causes when it hits</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Effect" type="ex:IEffect" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Item">
+		<xs:complexContent>
+			<xs:extension base="ex:BaseDataItem">
+				<xs:sequence>
+					<xs:element name="Name" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Item Name</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Description" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Item Description</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MegaEvolutionEntry">
+		<xs:sequence>
+			<xs:element name="Item" type="Item">
+				<xs:annotation>
+					<xs:documentation>Item the Pokémon must be holding to perform this megaevolution</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TargetEvolution" type="DexEntry">
+				<xs:annotation>
+					<xs:documentation>DexEntry to use when mega-evolved</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MoveEntry">
+		<xs:sequence>
+			<xs:element name="Move" type="Move"/>
+		</xs:sequence>
+		<xs:attribute name="Rank" type="ex:Rank">
+			<xs:annotation>
+				<xs:documentation>Required rank to learn the given move</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="AbilityEntry">
+		<xs:sequence>
+			<xs:element name="Ability" type="Ability"/>
+		</xs:sequence>
+		<xs:attribute name="Hidden" type="xs:boolean" default="false">
+			<xs:annotation>
+				<xs:documentation>Whether or not this is a hidden ability</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="DexEntry">
+		<xs:complexContent>
+			<xs:extension base="ex:BaseDataItem">
+				<xs:sequence>
+					<xs:element name="DexNum" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The international dex number of this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SuggestedStarer" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>Whether or not this Pokémon is recommended as a starter</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PrimaryType" type="ex:ITypeDefinition">
+						<xs:annotation>
+							<xs:documentation>The primary type of this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SecondaryType" type="ex:ITypeDefinition" nillable="true">
+						<xs:annotation>
+							<xs:documentation>The secondary type of this Pokémon if applicable</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Name" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>The name of this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Variant" type="xs:string" nillable="true">
+						<xs:annotation>
+							<xs:documentation>Regional variant of this Pokémon (if applicable) such as "Galaran"</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AverageHeight" type="ex:Height">
+						<xs:annotation>
+							<xs:documentation>The average height of this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AverageWeight" type="ex:Weight">
+						<xs:annotation>
+							<xs:documentation>The average weight of this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Category" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>The descriptive category for this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DexDescription" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>The description of this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SuggestedRank" type="ex:Rank">
+						<xs:annotation>
+							<xs:documentation>Suggested starting rank of this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BaseHp" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The base hp of this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PrimaryImage" type="ex:ImageRef">
+						<xs:annotation>
+							<xs:documentation>Primary display image of this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SmallImage" type="ex:ImageRef">
+						<xs:annotation>
+							<xs:documentation>Smaller display image of this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ShinyImage" type="ex:ImageRef" nillable="true">
+						<xs:annotation>
+							<xs:documentation>Primary display image of a shiny instance of this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SmallShinyImage" type="ex:ImageRef" nillable="true">
+						<xs:annotation>
+							<xs:documentation>Smaller display image of a shiny instance of this Pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Abilities" ex:isDbLazy="true">
+						<xs:annotation>
+							<xs:documentation>List of possible abilities this Pokémon can have</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="AbilityEntry" type="AbilityEntry" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="EvolutionList" type="EvolutionList" ex:isDbLazy="true" nillable="true">
+						<xs:annotation>
+							<xs:documentation>Evolution line of this Pokémon if applicable</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MegaEvolutionBaseEntry" type="DexEntry" nillable="true">
+						<xs:annotation>
+							<xs:documentation>If this is a mega evolution, then what it evolved from, otherwise null</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MegaEvolutions" ex:isDbLazy="true">
+						<xs:annotation>
+							<xs:documentation>List of possible mega evolutions of this Pokémon and their required items if any</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="MegaEvolutionEntry" type="MegaEvolutionEntry" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="MaxStrength" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The maximum strength score this Pokémon can have</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StartingStrength" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The initial strength score this Pokémon has</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MaxDexterity" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The maximum dexterity score this Pokémon can have</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StartingDexterity" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The initial dexterity score this Pokémon has</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MaxVitality" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The maximum vitality score this Pokémon can have</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StartingVitality" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The initial vitality score this Pokémon has</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MaxSpecial" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The maximum special score this Pokémon can have</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StartingSpecial" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The initial special score this Pokémon has</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MaxInsight" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The maximum insight score this Pokémon can have</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StartingInsight" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The initial insight score this Pokémon has</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MoveSet">
+						<xs:annotation>
+							<xs:documentation>List of moves that this Pokémon can learn</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="MoveEntry" type="MoveEntry" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>		
+	</xs:complexType>
+	<!--TODO: Implement-->
+	<xs:complexType name="Ability">
+		<xs:complexContent>
+			<xs:extension base="ex:BaseDataItem">
+				<!--TODO: Implement-->
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="EvolutionList">
+		<xs:complexContent>
+			<xs:extension base="ex:BaseDataItem">
+				<!--TODO: Implement-->
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

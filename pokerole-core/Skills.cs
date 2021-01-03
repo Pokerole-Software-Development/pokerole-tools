@@ -139,21 +139,7 @@ namespace Pokerole.Core
 			};
 			return new BuiltInSkillImpl(skill, exclusivity, category);
 		}
-		/*
-		/// <summary>
-		/// This method is for the initial generation of the guids, not for population, and will likely only be invoked
-		/// in Roslyn
-		/// </summary>
-		private static String GenerateBuiltInGuids()
-		{
-			StringBuilder codeBuilder = new StringBuilder();
-			BuiltInSkill[] types = (BuiltInSkill[])Enum.GetValues(typeof(BuiltInSkill));
-			foreach (var type in types)
-			{
-				codeBuilder.AppendFormat("{{ BuiltInSkill.{0}, Guid.Parse(\"{1}\") }},\n", type, Guid.NewGuid());
-			}
-			return codeBuilder.ToString();
-		}*/
+
 		private class BuiltInSkillImpl : SkillImpl
 		{
 			private readonly BuiltInSkill skill;

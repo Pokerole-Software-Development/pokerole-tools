@@ -11,6 +11,7 @@ namespace Pokerole.Core
 {
 	public readonly struct DataId : IEquatable<DataId>
 	{
+		//This is a nullable int since "0" is a valid db id and we don't want to have to worry about that issue
 		public int? DbId { get; }
 		public Guid Uuid { get; }
 		public DataId(int? dbId, Guid uuid)
