@@ -27,6 +27,20 @@ namespace Pokerole.Core
 		Battlefield
 	}
 
+	public enum MonStatus
+	{
+		None,
+		Burned,
+		Poisoned,
+		Paralyzed,
+		Frozen,
+		Asleep,
+		Confused,
+		Disabled,
+		Flinched,
+		Infatuated
+	}
+
 
 
 	public class Move : IDataBackedItem<Move>

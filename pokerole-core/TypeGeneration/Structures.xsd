@@ -379,10 +379,15 @@
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Status" type="MonStatus">
+					<xs:element name="Status">
 						<xs:annotation>
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="MonStatus" type="ex:MonStatus" maxOccurs="unbounded" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
 					</xs:element>
 					<xs:element name="EvasionDice" type="xs:int">
 						<xs:annotation>
@@ -589,10 +594,20 @@
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
 					</xs:element>
-							<!--#Type and weakness can be inferred from definition
-							List<Accesory>
-								Accesories #maybe Item type?
-								List<Ribbon> Ribbons-->
+					<xs:element name="Accessories">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Accessory" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Ribbons">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Ribbon" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

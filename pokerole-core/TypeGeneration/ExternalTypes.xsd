@@ -148,4 +148,18 @@
 			<xs:enumeration value="Timid"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="MonStatus" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="None"/>
+			<xs:enumeration value="Burned"/>
+			<xs:enumeration value="Poisoned"/>
+			<xs:enumeration value="Paralyzed"/>
+			<xs:enumeration value="Frozen"/>
+			<xs:enumeration value="Asleep"/>
+			<xs:enumeration value="Confused"/>
+			<xs:enumeration value="Disabled"/>
+			<xs:enumeration value="Flinched"/>
+			<xs:enumeration value="Infatuated"/>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

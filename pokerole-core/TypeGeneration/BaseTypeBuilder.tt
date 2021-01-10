@@ -1,9 +1,22 @@
-﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml"#>
+<#@ assembly name="System.Xml.Linq"#>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Xml.Schema" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
 <#@ output extension=".cs" #>
 <# 
+	String structuresPath = this.Host.ResolvePath("Structures.xsd");
+	XmlSchema schema = XmlSchema.Read(new FileStream(structuresPath, FileMode.Open), null);
+	var schemaItems = schema.Items;
+	foreach	(XmlSchemaObject item in schemaItems){
+		
+	}
+	String foo= "";
 
 #>
