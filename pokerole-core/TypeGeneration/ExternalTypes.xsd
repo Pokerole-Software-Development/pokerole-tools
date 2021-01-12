@@ -21,7 +21,7 @@
 		<xs:union memberTypes="xs:int emptyString" />
 	</xs:simpleType>
 	<!--For xsd things-->
-	<xs:attribute name="generic" type="xs:QName"/>
+	<xs:attribute name="listItemType" type="xs:QName"/>
 	<xs:attribute name="isDbLazy" type="xs:boolean"/>
 	<xs:attribute name="isDict" type="xs:boolean"/>
 	<xs:attribute name="keyType" type="xs:QName"/>

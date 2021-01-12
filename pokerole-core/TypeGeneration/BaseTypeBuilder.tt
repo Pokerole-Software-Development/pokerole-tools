@@ -42,7 +42,7 @@
 		if (typeDef == null){
 			String message = "Handling of type not implemnted: " + item;
 			this.Host.LogErrors(new CompilerErrorCollection(){
-				new CompilerError(this.Host.TemplateFile, item.LineNumber, item.LinePosition, "Unknown type", message)
+				new CompilerError(structuresPath, item.LineNumber, item.LinePosition, "Unknown type", message)
 			});
 			continue;
 		}
@@ -59,24 +59,90 @@
 	//parse things further since we now know all classes in the template file
 	foreach (var def in classes.Values){
 		WriteLine("//defining {0}...", def.name);
+		XmlSchemaComplexType typeDef = def.definition;
 		XmlSchemaSequence sequence = (XmlSchemaSequence)def.definition.ContentTypeParticle;
-		def.fields = new List<FieldDef>(sequence.Items.Count);
-		foreach	(XmlSchemaElement item in sequence.Items){
+		def.fields = new List<FieldDef>(sequence.Items.Count + typeDef.Attributes.Count);
+		WriteLine("//{0} has {1} attributes", def.name, typeDef.Attributes.Count);
+		foreach (XmlSchemaAttribute attr in typeDef.Attributes)
+		{
 			FieldDef field = new FieldDef();
+			field.name = attr.Name;
+			field.isAttribute = true;
+			field.typeName = attr.SchemaTypeName.Name;
+			if (attr.Annotation != null)
+			{
+				XmlSchemaDocumentation documentation = attr.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
+				if (documentation != null){
+					XmlNode node = documentation.Markup.FirstOrDefault();
+					if (node != null){
+						field.documentation = node.InnerText;
+						//WriteLine(field.documentation);
+					}
+				}
+			}
+			def.fields.Add(field);
+		}
+		
+		foreach	(XmlSchemaElement item in sequence.Items){
+			if (item.Name == "DataId"){
+				//skip that one. It will be present in the base class
+				continue;
+			}
+			FieldDef field = new FieldDef();
+			field.name = item.Name;
+			//item.
 			if (item.Annotation != null)
 			{
 				XmlSchemaDocumentation documentation = item.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
 				if (documentation != null){
 					XmlNode node = documentation.Markup.FirstOrDefault();
-					field.documentation = node.InnerText;
-					WriteLine(field.documentation);
+					if (node != null){
+						field.documentation = node.InnerText;
+						//WriteLine(field.documentation);
+					}
 				}
 			}
+
+			if (item.UnhandledAttributes != null)
+			{
+				foreach (XmlAttribute unhandled in item.UnhandledAttributes)
+				{
+					switch (unhandled.LocalName){
+						case "isDbLazy":
+							field.isDbLazy = XmlConvert.ToBoolean(unhandled.Value);
+							break;
+						case "isDict":
+							field.isDict = XmlConvert.ToBoolean(unhandled.Value);
+							break;
+						case "keyType":
+							field.keyType = unhandled.Value;
+							break;
+						case "valueType":
+							field.valueType = unhandled.Value;
+							break;
+						case "listItemType":
+							field.listType = unhandled.Value;
+							field.isList = true;
+							break;
+						default:
+							this.Host.LogErrors(new CompilerErrorCollection(){
+								new CompilerError(structuresPath, item.LineNumber, item.LinePosition,
+								"Unknown attribute", String.Format("Attribute '{0}' is unknown", unhandled.LocalName))
+								});
+							break;
+					}
+				}
+			}
+			if (item.SchemaType != null)
+			{
+				//that is a list
+				field.isList = true;
+			}
+			field.type = item.SchemaTypeName.Name;
+			field.nullable = item.IsNillable;
+			WriteLine("//Item {0} is of type {1}{2}", field.name, item.SchemaTypeName, field.isDbLazy ? "DbLazy" : "");
+			def.fields.Add(field);
 		}
-		//foreach(var item in schemaDef.ContentTypeParticle.){
-			////being prepared for more than one, just in case...
-			//
-		//}
 	}
 	String foo= "";
 
@@ -93,6 +159,16 @@
 	class FieldDef{
 		public bool isAttribute;
 		public String documentation;
+		public string name;
+		public String type;
+		public String typeName;
+		public bool referById = false;
+		public bool isDbLazy;
+		public bool isDict;
+		public bool isList;
+		public String keyType, valueType;
+		public String listType;
+		public bool nullable;
 	}
 
  #>

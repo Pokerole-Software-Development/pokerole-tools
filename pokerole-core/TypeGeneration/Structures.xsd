@@ -53,7 +53,7 @@
 							<xs:documentation>Whether or not this move is ranged</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Accuracy" ex:isDbLazy="true">
+					<xs:element name="Accuracy" ex:isDbLazy="true" ex:listItemType="ex:ISkill">
 						<xs:annotation>
 							<xs:documentation>Skills used to roll accuracy for this move</xs:documentation>
 						</xs:annotation>
@@ -91,7 +91,7 @@
 							<xs:documentation>More information about this move that could not be contained in the other variables</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-				<xs:element name="Effects">
+				<xs:element name="Effects" ex:isDbLazy="true" ex:listItemType="ex:IEffect">
 					<xs:annotation>
 						<xs:documentation>List of effects this move causes when it hits</xs:documentation>
 					</xs:annotation>
@@ -261,7 +261,7 @@
 							<xs:documentation>If this is a mega evolution, then what it evolved from, otherwise null</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="MegaEvolutions" ex:isDbLazy="true">
+					<xs:element name="MegaEvolutions" ex:isDbLazy="true" ex:listItemType="MegaEvolutionEntry">
 						<xs:annotation>
 							<xs:documentation>List of possible mega evolutions of this Pokémon and their required items if any</xs:documentation>
 						</xs:annotation>
@@ -321,7 +321,7 @@
 							<xs:documentation>The initial insight score this Pokémon has</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="MoveSet">
+					<xs:element name="MoveSet" ex:isDbLazy="true" ex:listItemType="MoveEntry">
 						<xs:annotation>
 							<xs:documentation>List of moves that this Pokémon can learn</xs:documentation>
 						</xs:annotation>
@@ -379,7 +379,7 @@
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Status">
+					<xs:element name="Status" ex:isDbLazy="true" ex:listItemType="xs:MonStatus">
 						<xs:annotation>
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
@@ -414,7 +414,7 @@
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Moves">
+					<xs:element name="Moves" ex:isDbLazy="true" ex:listItemType="MoveEntry">
 						<xs:annotation>
 							<xs:documentation>List of moves this Pokémon knows</xs:documentation>
 						</xs:annotation>
@@ -594,14 +594,14 @@
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Accessories">
+					<xs:element name="Accessories" ex:listItemType="xs:string">
 						<xs:complexType>
 							<xs:sequence>
 								<xs:element name="Accessory" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
-					<xs:element name="Ribbons">
+					<xs:element name="Ribbons" ex:listItemType="xs:string">
 						<xs:complexType>
 							<xs:sequence>
 								<xs:element name="Ribbon" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
