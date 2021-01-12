@@ -18,8 +18,6 @@
 <#@ output extension=".cs" #>
 <# 
 	XmlSchemaSet schemaSet = new XmlSchemaSet();
-	//schemaSet.
- //XmlSchemaSet.Read(new FileStream(structuresPath, FileMode.Open), null);
 	String structuresPath = this.Host.ResolvePath("Structures.xsd");
 	XmlSchema primarySchema = XmlSchema.Read(new FileStream(structuresPath, FileMode.Open), null);
 	schemaSet.Add(primarySchema);
@@ -47,7 +45,6 @@
 			continue;
 		}
 		XmlSchemaType baseType = typeDef.BaseXmlSchemaType;
-		WriteLine("//Processing {0}...", typeDef.Name);
 		bool isDataItem = baseType.Name == "BaseDataItem";
 		ClassDef def = new ClassDef();
 		def.definition = typeDef;
@@ -55,20 +52,17 @@
 		def.name = typeDef.Name;
 		classes[def.name] = def;
 	}
-	WriteLine("//Found {0} items", classes.Count);
 	//parse things further since we now know all classes in the template file
 	foreach (var def in classes.Values){
-		WriteLine("//defining {0}...", def.name);
 		XmlSchemaComplexType typeDef = def.definition;
 		XmlSchemaSequence sequence = (XmlSchemaSequence)def.definition.ContentTypeParticle;
 		def.fields = new List<FieldDef>(sequence.Items.Count + typeDef.Attributes.Count);
-		WriteLine("//{0} has {1} attributes", def.name, typeDef.Attributes.Count);
 		foreach (XmlSchemaAttribute attr in typeDef.Attributes)
 		{
 			FieldDef field = new FieldDef();
 			field.name = attr.Name;
 			field.isAttribute = true;
-			field.typeName = attr.SchemaTypeName.Name;
+			field.type = NormalizeType(attr.SchemaTypeName.Name);
 			if (attr.Annotation != null)
 			{
 				XmlSchemaDocumentation documentation = attr.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
@@ -76,7 +70,6 @@
 					XmlNode node = documentation.Markup.FirstOrDefault();
 					if (node != null){
 						field.documentation = node.InnerText;
-						//WriteLine(field.documentation);
 					}
 				}
 			}
@@ -90,7 +83,6 @@
 			}
 			FieldDef field = new FieldDef();
 			field.name = item.Name;
-			//item.
 			if (item.Annotation != null)
 			{
 				XmlSchemaDocumentation documentation = item.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
@@ -98,7 +90,6 @@
 					XmlNode node = documentation.Markup.FirstOrDefault();
 					if (node != null){
 						field.documentation = node.InnerText;
-						//WriteLine(field.documentation);
 					}
 				}
 			}
@@ -121,7 +112,22 @@
 							field.valueType = unhandled.Value;
 							break;
 						case "listItemType":
-							field.listType = unhandled.Value;
+							String verified;
+							try{verified = XmlConvert.VerifyName(unhandled.Value); }
+							catch (XmlException e)
+							{
+								this.Host.LogErrors(new CompilerErrorCollection(){
+										new CompilerError(structuresPath, item.LineNumber, item.LinePosition,
+										"Unknown type", String.Format("Given type is not fully qualified: '{0}'",
+										unhandled.Value))
+										});
+								continue;
+							}
+							int colonIndex = verified.IndexOf(':');
+							if (colonIndex > -1){
+								verified = verified.Substring(colonIndex + 1);
+							}
+							field.listType = verified;
 							field.isList = true;
 							break;
 						default:
@@ -138,18 +144,91 @@
 				//that is a list
 				field.isList = true;
 			}
-			field.type = item.SchemaTypeName.Name;
+			field.type = NormalizeType(item.SchemaTypeName.Name);
 			field.nullable = item.IsNillable;
-			WriteLine("//Item {0} is of type {1}{2}", field.name, item.SchemaTypeName, field.isDbLazy ? "DbLazy" : "");
 			def.fields.Add(field);
 		}
 	}
-	String foo= "";
+ #>
+using System.Collections.Generic;
+using System.Linq;
 
+namespace Pokerole.Core{
+<#
+	//make the classes!!!
+	foreach	(ClassDef classDef in classes.Values)
+	{
+		StringBuilder constructorArgBuilder = new StringBuilder(classDef.fields.Count * 20);
+		if (classDef.isDataItem)
+		{
+#>	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public partial record <#=classDef.name#> : BaseDataItem
+	{
+<#
+		}
+		else{
+#>	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public record <#=classDef.name#>
+	{
+<#
+		}
+		Write("\t\tpublic {0}(", classDef.name);
+		bool firstParam = true;
+		if (classDef.isDataItem){
+			firstParam = false;
+			Write("DataId dataId");
+		}
+		foreach	(FieldDef field in classDef.fields){
+			if (firstParam){
+				firstParam = false;
+			}
+			else{
+				Write(", ");
+			}
+			Write("{0} {1}", field.GetTypeDeclaration(false), LowercaseInitial(field.name));
+		}
+		Write(")");
+		if (classDef.isDataItem){
+			Write(" : base(dataId)");
+		}
 #>
 
+		{
+<#
+		foreach(FieldDef field in classDef.fields){
+			Write("\t\t\t{0} = {1};\r\n", field.name, LowercaseInitial(field.name));
+		}
+#>
+		}
+<#
+		foreach(FieldDef field in classDef.fields){
+#>
+		/// <summary>
+		/// <#= !String.IsNullOrEmpty(field.documentation) ? field.documentation : "Someone didn't document this item..." #>
+		/// </summary>
+		public <#= field.GetTypeDeclaration(true) #> <#=field.name#> { get; }
+<#		}
 
+
+#>
+	}
+<#}
+
+#>
+}
 <#+
+	String LowercaseInitial(String input){
+		if (String.IsNullOrEmpty(input)){
+			return input;
+		}
+		return char.ToLowerInvariant(input[0]) + input.Substring(1);
+	}
+	String NormalizeType(String input){
+		if (input == "boolean"){
+			return "bool";
+		}
+		return input;
+	}
 	class ClassDef{
 		public bool isDataItem;
 		public String name;
@@ -161,7 +240,6 @@
 		public String documentation;
 		public string name;
 		public String type;
-		public String typeName;
 		public bool referById = false;
 		public bool isDbLazy;
 		public bool isDict;
@@ -169,6 +247,16 @@
 		public String keyType, valueType;
 		public String listType;
 		public bool nullable;
+		public String GetTypeDeclaration(bool readOnly){
+			if (!isList && !isDict){
+				return nullable ? type + "?" : type;
+			}
+			if (isList)
+			{
+				return String.Format(readOnly ? "IReadOnlyList<{0}>" : "List<{0}>", listType);
+			}
+			return "";
+		}
 	}
 
  #>
