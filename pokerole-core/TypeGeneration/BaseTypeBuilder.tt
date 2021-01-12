@@ -1,4 +1,7 @@
 ﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Xml"#>
 <#@ assembly name="System.Xml.Linq"#>
@@ -6,17 +9,90 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Xml.Schema" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.IO" #>
+<#@ import namespace="System.CodeDom.Compiler" #>
 <#@ output extension=".cs" #>
 <# 
+	XmlSchemaSet schemaSet = new XmlSchemaSet();
+	//schemaSet.
+ //XmlSchemaSet.Read(new FileStream(structuresPath, FileMode.Open), null);
 	String structuresPath = this.Host.ResolvePath("Structures.xsd");
-	XmlSchema schema = XmlSchema.Read(new FileStream(structuresPath, FileMode.Open), null);
-	var schemaItems = schema.Items;
+	XmlSchema primarySchema = XmlSchema.Read(new FileStream(structuresPath, FileMode.Open), null);
+	schemaSet.Add(primarySchema);
+	String[] additionalSchemaFiles = {
+		"ExternalTypes.xsd",
+		"MissingTypes.xsd"
+	};
+	foreach (var filename in additionalSchemaFiles){
+		schemaSet.Add(XmlSchema.Read(new FileStream(this.Host.ResolvePath(filename), FileMode.Open), null));
+	}
+	schemaSet.Compile();
+	if (!schemaSet.IsCompiled || !primarySchema.IsCompiled){
+		throw new InvalidOperationException("Schema failed to compile");
+	}
+	var schemaItems = primarySchema.Items;
+
+	Dictionary<String, ClassDef> classes = new Dictionary<String, ClassDef>();
 	foreach	(XmlSchemaObject item in schemaItems){
-		
+		XmlSchemaComplexType typeDef = item as XmlSchemaComplexType;
+		if (typeDef == null){
+			String message = "Handling of type not implemnted: " + item;
+			this.Host.LogErrors(new CompilerErrorCollection(){
+				new CompilerError(this.Host.TemplateFile, item.LineNumber, item.LinePosition, "Unknown type", message)
+			});
+			continue;
+		}
+		XmlSchemaType baseType = typeDef.BaseXmlSchemaType;
+		WriteLine("//Processing {0}...", typeDef.Name);
+		bool isDataItem = baseType.Name == "BaseDataItem";
+		ClassDef def = new ClassDef();
+		def.definition = typeDef;
+		def.isDataItem = isDataItem;
+		def.name = typeDef.Name;
+		classes[def.name] = def;
+	}
+	WriteLine("//Found {0} items", classes.Count);
+	//parse things further since we now know all classes in the template file
+	foreach (var def in classes.Values){
+		WriteLine("//defining {0}...", def.name);
+		XmlSchemaSequence sequence = (XmlSchemaSequence)def.definition.ContentTypeParticle;
+		def.fields = new List<FieldDef>(sequence.Items.Count);
+		foreach	(XmlSchemaElement item in sequence.Items){
+			FieldDef field = new FieldDef();
+			if (item.Annotation != null)
+			{
+				XmlSchemaDocumentation documentation = item.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
+				if (documentation != null){
+					XmlNode node = documentation.Markup.FirstOrDefault();
+					field.documentation = node.InnerText;
+					WriteLine(field.documentation);
+				}
+			}
+		}
+		//foreach(var item in schemaDef.ContentTypeParticle.){
+			////being prepared for more than one, just in case...
+			//
+		//}
 	}
 	String foo= "";
 
 #>
+
+
+<#+
+	class ClassDef{
+		public bool isDataItem;
+		public String name;
+		public XmlSchemaComplexType definition;
+		public List<FieldDef> fields;
+	}
+	class FieldDef{
+		public bool isAttribute;
+		public String documentation;
+	}
+
+ #>
