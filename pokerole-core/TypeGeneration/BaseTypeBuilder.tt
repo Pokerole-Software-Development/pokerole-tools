@@ -98,6 +98,7 @@
 			{
 				foreach (XmlAttribute unhandled in item.UnhandledAttributes)
 				{
+					String type;
 					switch (unhandled.LocalName){
 						case "isDbLazy":
 							field.isDbLazy = XmlConvert.ToBoolean(unhandled.Value);
@@ -106,28 +107,25 @@
 							field.isDict = XmlConvert.ToBoolean(unhandled.Value);
 							break;
 						case "keyType":
-							field.keyType = unhandled.Value;
-							break;
-						case "valueType":
-							field.valueType = unhandled.Value;
-							break;
-						case "listItemType":
-							String verified;
-							try{verified = XmlConvert.VerifyName(unhandled.Value); }
-							catch (XmlException e)
-							{
-								this.Host.LogErrors(new CompilerErrorCollection(){
-										new CompilerError(structuresPath, item.LineNumber, item.LinePosition,
-										"Unknown type", String.Format("Given type is not fully qualified: '{0}'",
-										unhandled.Value))
-										});
+							type = GrabTypeFromAttribute(item, unhandled, structuresPath);
+							if (type == null){
 								continue;
 							}
-							int colonIndex = verified.IndexOf(':');
-							if (colonIndex > -1){
-								verified = verified.Substring(colonIndex + 1);
+							field.keyType = type;
+							break;
+						case "valueType":
+							type = GrabTypeFromAttribute(item, unhandled, structuresPath);
+							if (type == null){
+								continue;
 							}
-							field.listType = verified;
+							field.valueType = type;
+							break;
+						case "listItemType":
+							type = GrabTypeFromAttribute(item, unhandled, structuresPath);
+							if (type == null){
+								continue;
+							}
+							field.listType = type;
 							field.isList = true;
 							break;
 						default:
@@ -138,11 +136,6 @@
 							break;
 					}
 				}
-			}
-			if (item.SchemaType != null)
-			{
-				//that is a list
-				field.isList = true;
 			}
 			field.type = NormalizeType(item.SchemaTypeName.Name);
 			field.nullable = item.IsNillable;
@@ -217,6 +210,25 @@ namespace Pokerole.Core{
 #>
 }
 <#+
+	String GrabTypeFromAttribute(XmlSchemaElement parent, XmlAttribute unhandled, String structuresPath)
+	{
+		String verified;
+		try{verified = XmlConvert.VerifyName(unhandled.Value); }
+		catch (XmlException)
+		{
+			this.Host.LogErrors(new CompilerErrorCollection(){
+					new CompilerError(structuresPath, parent.LineNumber, parent.LinePosition,
+					"Unknown type", String.Format("Given type is not fully qualified: '{0}'",
+					unhandled.Value))
+					});
+			return null;
+		}
+		int colonIndex = verified.IndexOf(':');
+		if (colonIndex > -1){
+			verified = verified.Substring(colonIndex + 1);
+		}
+		return verified;
+	}
 	String LowercaseInitial(String input){
 		if (String.IsNullOrEmpty(input)){
 			return input;
@@ -255,7 +267,8 @@ namespace Pokerole.Core{
 			{
 				return String.Format(readOnly ? "IReadOnlyList<{0}>" : "List<{0}>", listType);
 			}
-			return "";
+			return String.Format(readOnly ? "IReadOnlyDictionary<{0}, {1}>" : "IDictionary<{0}, {1}>",
+				keyType, valueType);
 		}
 	}
 

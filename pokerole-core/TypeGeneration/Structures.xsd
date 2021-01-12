@@ -241,7 +241,7 @@
 							<xs:documentation>Smaller display image of a shiny instance of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Abilities" ex:isDbLazy="true">
+					<xs:element name="Abilities" ex:isDbLazy="true" ex:listItemType="AbilityEntry">
 						<xs:annotation>
 							<xs:documentation>List of possible abilities this Pokémon can have</xs:documentation>
 						</xs:annotation>
