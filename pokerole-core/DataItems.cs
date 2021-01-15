@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace Pokerole.Core
@@ -17,6 +18,14 @@ namespace Pokerole.Core
 	public class ImageRef { }
 	public record Height { }
 	public record Weight { }
+	public record ItemReference<T> where T : BaseDataItem {
+		public ItemReference(DataId id)
+		{
+			DataId = id;
+		}
+
+		public DataId DataId { get; }
+	}
 	class DataItems
 	{
 	}

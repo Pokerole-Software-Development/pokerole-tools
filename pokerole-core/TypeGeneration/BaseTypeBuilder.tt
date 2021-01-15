@@ -138,6 +138,10 @@
 				}
 			}
 			field.type = NormalizeType(item.SchemaTypeName.Name);
+			ClassDef other;
+			if (classes.TryGetValue(field.type, out other) && other.isDataItem){
+				field.type = String.Format("ItemReference<{0}>", field.type);
+			}
 			field.nullable = item.IsNillable;
 			def.fields.Add(field);
 		}
@@ -145,6 +149,7 @@
  #>
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace Pokerole.Core{
 <#
@@ -189,7 +194,7 @@ namespace Pokerole.Core{
 		{
 <#
 		foreach(FieldDef field in classDef.fields){
-			Write("\t\t\t{0} = {1};\r\n", field.name, LowercaseInitial(field.name));
+			Write("\t\t\t{0} = {1};\r\n", field.name, field.GetAssignment(LowercaseInitial(field.name)));
 		}
 #>
 		}
@@ -265,10 +270,22 @@ namespace Pokerole.Core{
 			}
 			if (isList)
 			{
-				return String.Format(readOnly ? "IReadOnlyList<{0}>" : "List<{0}>", listType);
+				return String.Format(readOnly ? "IReadOnlyList<{0}>" : "IList<{0}>", listType);
 			}
 			return String.Format(readOnly ? "IReadOnlyDictionary<{0}, {1}>" : "IDictionary<{0}, {1}>",
 				keyType, valueType);
+		}
+		public String GetAssignment(String incomingValue)
+		{
+			if (!isList && !isDict)
+			{
+				return incomingValue;
+			}
+			if (isList)
+			{
+				return $"new List<{listType}>({incomingValue}).AsReadOnly()";
+			}
+			return $"new ReadOnlyDictionary<{keyType}, {valueType}>(new Dictionary<{keyType}, {valueType}>({incomingValue}))";
 		}
 	}
 
