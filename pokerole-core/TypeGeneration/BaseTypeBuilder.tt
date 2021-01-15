@@ -138,6 +138,7 @@
 				}
 			}
 			field.type = NormalizeType(item.SchemaTypeName.Name);
+			field.isReferenceType = IsReferenceType(schemaSet, item.SchemaTypeName) || field.isList || field.isDict;
 			ClassDef other;
 			if (classes.TryGetValue(field.type, out other) && other.isDataItem){
 				field.type = String.Format("ItemReference<{0}>", field.type);
@@ -147,6 +148,7 @@
 		}
 	}
  #>
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
@@ -183,7 +185,7 @@ namespace Pokerole.Core{
 			else{
 				Write(", ");
 			}
-			Write("{0} {1}", field.GetTypeDeclaration(false), LowercaseInitial(field.name));
+			Write("{0} {1}", field.GetTypeDeclaration(false, false), LowercaseInitial(field.name));
 		}
 		Write(")");
 		if (classDef.isDataItem){
@@ -194,7 +196,7 @@ namespace Pokerole.Core{
 		{
 <#
 		foreach(FieldDef field in classDef.fields){
-			Write("\t\t\t{0} = {1};\r\n", field.name, field.GetAssignment(LowercaseInitial(field.name)));
+			Write("\t\t\t{0} = {1};\r\n", field.name, field.GetAssignment(LowercaseInitial(field.name), true));
 		}
 #>
 		}
@@ -204,17 +206,108 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// <#= !String.IsNullOrEmpty(field.documentation) ? field.documentation : "Someone didn't document this item..." #>
 		/// </summary>
-		public <#= field.GetTypeDeclaration(true) #> <#=field.name#> { get; }
+		public <#= field.GetTypeDeclaration(true, false) #> <#=field.name#> { get; }
 <#		}
-
-
+		if (!classDef.isDataItem)
+		{
+			//finish off the class since the other terminator won't get hit due to continue
+			Write("\t}\r\n");
+			continue;
+		}
+		String lowercaseClassName = LowercaseInitial(classDef.name);
 #>
+		public class Builder
+		{
+			public Builder() { }
+			public Builder(<#=classDef.name#> <#=lowercaseClassName#>)
+			{
+				DataId = <#=lowercaseClassName#>.DataId;
+<#
+		foreach (FieldDef field in classDef.fields){
+			String assignment = field.GetAssignment(String.Format("{0}.{1}", lowercaseClassName, field.name), false);
+			Write("\t\t\t\t{0} = {1};\r\n", field.name, assignment);
+		}
+#>
+			}
+			DataId? DataId {get; set;}
+<#
+		foreach	(FieldDef field in classDef.fields)
+		{#>
+			/// <summary>
+			/// <#= !String.IsNullOrEmpty(field.documentation) ? field.documentation : "Someone didn't document this item..." #>
+			/// </summary>
+			public <#= field.GetTypeDeclaration(false, true) #> <#=field.name#> { get; set; }
+<#		
+		}
+#>
+			public bool IsValid
+			{
+				get
+				{
+					if (DataId is null)
+					{
+						return false;
+					}
+<#
+		foreach(FieldDef field in classDef.fields)
+		{
+			if (field.nullable)
+			{
+				//no check needed
+				continue;
+			}#>
+					if (<#=field.name#> is null)
+					{
+						return false;
+					}
+<#
+		}
+#>
+					return true;
+				}
+			}
+
+			public <#=classDef.name#> Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new <#=classDef.name#>(DataId!.Value<#
+		foreach (FieldDef field in classDef.fields)
+		{
+			if (field.nullable)
+			{
+				Write(", {0}", field.name);
+				continue;
+			}
+			if (!field.isReferenceType)
+			{
+				Write(", {0}!.Value", field.name);
+				continue;
+			}
+			Write(", {0}!", field.name);
+		}
+  #>);
+			}
+		}
 	}
 <#}
 
 #>
 }
 <#+
+	bool IsReferenceType(XmlSchemaSet schemaSet, XmlQualifiedName name)
+	{
+		if (name.Name == "string")
+		{
+			return true;
+		}
+		XmlSchemaObject item = schemaSet.GlobalTypes[name];
+		if (item is XmlSchemaComplexType){
+			return true;
+		}
+		return false;
+	}
 	String GrabTypeFromAttribute(XmlSchemaElement parent, XmlAttribute unhandled, String structuresPath)
 	{
 		String verified;
@@ -264,6 +357,7 @@ namespace Pokerole.Core{
 		public String keyType, valueType;
 		public String listType;
 		public bool nullable;
+		public bool isReferenceType;
 		public String GetTypeDeclaration(bool readOnly){
 			if (!isList && !isDict){
 				return nullable ? type + "?" : type;
@@ -275,7 +369,15 @@ namespace Pokerole.Core{
 			return String.Format(readOnly ? "IReadOnlyDictionary<{0}, {1}>" : "IDictionary<{0}, {1}>",
 				keyType, valueType);
 		}
-		public String GetAssignment(String incomingValue)
+		public String GetTypeDeclaration(bool readOnly, bool forceNullable)
+		{
+			if (nullable || !forceNullable)
+			{
+				return GetTypeDeclaration(readOnly);
+			}
+			return $"{GetTypeDeclaration(readOnly)}?";
+		}
+		public String GetAssignment(String incomingValue, bool readOnly)
 		{
 			if (!isList && !isDict)
 			{
@@ -283,7 +385,15 @@ namespace Pokerole.Core{
 			}
 			if (isList)
 			{
+				if (!readOnly)
+				{
+					return $"new List<{listType}>({incomingValue})";
+				}
 				return $"new List<{listType}>({incomingValue}).AsReadOnly()";
+			}
+			if (!readOnly)
+			{
+				return $"new Dictionary<{keyType}, {valueType}>({incomingValue})";
 			}
 			return $"new ReadOnlyDictionary<{keyType}, {valueType}>(new Dictionary<{keyType}, {valueType}>({incomingValue}))";
 		}
