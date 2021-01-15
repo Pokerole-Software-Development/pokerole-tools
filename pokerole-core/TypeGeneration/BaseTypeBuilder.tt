@@ -183,7 +183,7 @@ namespace Pokerole.Core{
 				firstParam = false;
 			}
 			else{
-				Write(", ");
+				Write(",\r\n\t\t\t");
 			}
 			Write("{0} {1}", field.GetTypeDeclaration(false, false), LowercaseInitial(field.name));
 		}
@@ -275,17 +275,18 @@ namespace Pokerole.Core{
 				return new <#=classDef.name#>(DataId!.Value<#
 		foreach (FieldDef field in classDef.fields)
 		{
+			Write(",\r\n\t\t\t\t\t");
 			if (field.nullable)
 			{
-				Write(", {0}", field.name);
+				Write(field.name);
 				continue;
 			}
 			if (!field.isReferenceType)
 			{
-				Write(", {0}!.Value", field.name);
+				Write("{0}!.Value", field.name);
 				continue;
 			}
-			Write(", {0}!", field.name);
+			Write("{0}!", field.name);
 		}
   #>);
 			}
