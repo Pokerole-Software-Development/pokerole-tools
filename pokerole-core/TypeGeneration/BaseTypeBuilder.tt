@@ -240,6 +240,10 @@ namespace Pokerole.Core{
 <#		
 		}
 #>
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="<#=classDef.name#>"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
 			public bool IsValid
 			{
 				get
@@ -266,7 +270,12 @@ namespace Pokerole.Core{
 					return true;
 				}
 			}
-
+			/// <summary>
+			/// Build and instance of <see cref="<#=classDef.name#>"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="<#=classDef.name#>"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
 			public <#=classDef.name#> Build(){
 				if (!IsValid)
 				{
