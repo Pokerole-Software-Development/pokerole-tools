@@ -409,9 +409,8 @@ namespace Pokerole.Core
 		}
 	}
 	public interface ITypeBuilder { }
-	public interface ITypeDefinition
+	public interface ITypeDefinition : IDataItem
 	{
-		DataId DataId { get; }
 		bool IsBuiltInType { get; }
 		String Name { get; }
 		IReadOnlyList<ITypeDefinition> GetOffensiveEffectiveness(TypeEffectiveness kind);

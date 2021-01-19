@@ -14,6 +14,56 @@
 	<xs:import schemaLocation="MissingTypes.xsd" namespace="http://microsoft.com/wsdl/types"/>
 	<xs:import schemaLocation="ExternalTypes.xsd" namespace="https://www.pokeroleproject.com/schemas/ExternalTypes.xsd"
 			   />
+	<xs:element name="PokeroleData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CustomTypes">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CustomType" type="ex:ITypeDefinition" maxOccurs="unbounded" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Moves">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Move" type="Move" maxOccurs="unbounded" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DexEntries">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DexEntry" type="DexEntry" maxOccurs="unbounded" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Abilities">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Ability" type="Ability" maxOccurs="unbounded" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EvolutionLists">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EvolutionList" type="EvolutionList" maxOccurs="unbounded" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MonInstances">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MonInstance" type="MonInstance" maxOccurs="unbounded" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<!--<xs:element name="DexEntry" type="DexEntry" maxOccurs="unbounded" minOccurs="0"/>-->
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 	<xs:complexType name="Move">
 		<xs:complexContent>
 			<xs:extension base="ex:BaseDataItem">
@@ -38,7 +88,7 @@
 							<xs:documentation>Category of the move</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Type" type="ex:ITypeDefinition" ex:isDbLazy="true">
+					<xs:element name="Type" type="ex:ItemReference"  ex:genericType="ex:ITypeDefinition" ex:isDbLazy="true">
 						<xs:annotation>
 							<xs:documentation>Move Type</xs:documentation>
 						</xs:annotation>
@@ -53,13 +103,13 @@
 							<xs:documentation>Whether or not this move is ranged</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Accuracy" ex:isDbLazy="true" ex:listItemType="ex:ISkill">
+					<xs:element name="Accuracy" ex:isDbLazy="true" ex:listItemType="ex:ItemReference" ex:genericType="ex:ISkill">
 						<xs:annotation>
 							<xs:documentation>Skills used to roll accuracy for this move</xs:documentation>
 						</xs:annotation>
 						<xs:complexType>
 							<xs:sequence>
-								<xs:element name="Skill" maxOccurs="unbounded" type="ex:ISkill" ex:isDbLazy="true" minOccurs="1"/>
+								<xs:element name="Skill" maxOccurs="unbounded" type="ex:ItemReference" ex:genericType="ex:ISkill" ex:isDbLazy="true" minOccurs="1"/>
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
@@ -67,11 +117,13 @@
 						<xs:annotation>
 							<xs:documentation>How many more successes are needed for this attack to hit</xs:documentation>
 						</xs:annotation>
-					</xs:element><xs:element name="DamageSkill" type="ex:ISkill" nillable="true">
+					</xs:element>
+					<xs:element name="DamageSkill" type="ex:ItemReference" ex:genericType="ex:ISkill" nillable="true">
 						<xs:annotation>
 							<xs:documentation>Skill used to roll damage for this move if any</xs:documentation>
 						</xs:annotation>
-					</xs:element><xs:element name="DamageModifier" type="xs:int">
+					</xs:element>
+					<xs:element name="DamageModifier" type="xs:int">
 						<xs:annotation>
 							<xs:documentation>How many more dice to add to the damage roll pool</xs:documentation>
 						</xs:annotation>
@@ -91,13 +143,13 @@
 							<xs:documentation>More information about this move that could not be contained in the other variables</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-				<xs:element name="Effects" ex:isDbLazy="true" ex:listItemType="ex:IEffect">
+				<xs:element name="Effects" ex:isDbLazy="true" ex:listItemType="xs:string">
 					<xs:annotation>
 						<xs:documentation>List of effects this move causes when it hits</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="Effect" type="ex:IEffect" maxOccurs="unbounded"/>
+							<xs:element name="Effect" type="xs:string" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -125,12 +177,12 @@
 	</xs:complexType>
 	<xs:complexType name="MegaEvolutionEntry">
 		<xs:sequence>
-			<xs:element name="Item" type="Item">
+			<xs:element name="Item" type="ex:ItemReference" ex:genericType="Item">
 				<xs:annotation>
 					<xs:documentation>Item the Pokémon must be holding to perform this megaevolution</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="TargetEvolution" type="DexEntry">
+			<xs:element name="TargetEvolution" type="ex:ItemReference" ex:genericType="DexEntry">
 				<xs:annotation>
 					<xs:documentation>DexEntry to use when mega-evolved</xs:documentation>
 				</xs:annotation>
@@ -139,7 +191,7 @@
 	</xs:complexType>
 	<xs:complexType name="MoveEntry">
 		<xs:sequence>
-			<xs:element name="Move" type="Move"/>
+			<xs:element name="Move" type="ex:ItemReference" ex:genericType="Move"/>
 		</xs:sequence>
 		<xs:attribute name="Rank" type="ex:Rank">
 			<xs:annotation>
@@ -149,7 +201,7 @@
 	</xs:complexType>
 	<xs:complexType name="AbilityEntry">
 		<xs:sequence>
-			<xs:element name="Ability" type="Ability"/>
+			<xs:element name="Ability" type="ex:ItemReference" ex:genericType="Ability"/>
 		</xs:sequence>
 		<xs:attribute name="Hidden" type="xs:boolean" default="false">
 			<xs:annotation>
@@ -171,12 +223,12 @@
 							<xs:documentation>Whether or not this Pokémon is recommended as a starter</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="PrimaryType" type="ex:ITypeDefinition">
+					<xs:element name="PrimaryType" type="ex:ItemReference" ex:genericType="ex:ITypeDefinition">
 						<xs:annotation>
 							<xs:documentation>The primary type of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SecondaryType" type="ex:ITypeDefinition" nillable="true">
+					<xs:element name="SecondaryType" type="ex:ItemReference" ex:genericType="ex:ITypeDefinition" nillable="true">
 						<xs:annotation>
 							<xs:documentation>The secondary type of this Pokémon if applicable</xs:documentation>
 						</xs:annotation>
@@ -251,12 +303,12 @@
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
-					<xs:element name="EvolutionList" type="EvolutionList" ex:isDbLazy="true" nillable="true">
+					<xs:element name="EvolutionList" type="ex:ItemReference" ex:genericType="EvolutionList" ex:isDbLazy="true" nillable="true">
 						<xs:annotation>
 							<xs:documentation>Evolution line of this Pokémon if applicable</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="MegaEvolutionBaseEntry" type="DexEntry" nillable="true">
+					<xs:element name="MegaEvolutionBaseEntry" type="ex:ItemReference" ex:genericType="DexEntry" nillable="true">
 						<xs:annotation>
 							<xs:documentation>If this is a mega evolution, then what it evolved from, otherwise null</xs:documentation>
 						</xs:annotation>
@@ -344,7 +396,7 @@
 							<xs:documentation>Picture of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Definition" type="DexEntry">
+					<xs:element name="Definition" type="ex:ItemReference" ex:genericType="DexEntry">
 						<xs:annotation>
 							<xs:documentation>The DexEntry that currently defines this Pokémon</xs:documentation>
 						</xs:annotation>
@@ -354,12 +406,12 @@
 							<xs:documentation>The name of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Ability" type="Ability">
+					<xs:element name="Ability" type="ex:ItemReference" ex:genericType="Ability">
 						<xs:annotation>
 							<xs:documentation>This Pokémon's usual ability</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="OveriddenAblity" type="Ability" nillable="true">
+					<xs:element name="OveriddenAblity" type="ex:ItemReference" ex:genericType="Ability" nillable="true">
 						<xs:annotation>
 							<xs:documentation>This Pokémon's current ability if it isn't the usual ability, such as what happens when one gets hit by simple beam</xs:documentation>
 						</xs:annotation>
@@ -374,12 +426,12 @@
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="HeldItem" type="Item">
+					<xs:element name="HeldItem" type="ex:ItemReference" ex:genericType="Item">
 						<xs:annotation>
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Status" ex:isDbLazy="true" ex:listItemType="xs:MonStatus">
+					<xs:element name="Status" ex:isDbLazy="true" ex:listItemType="ex:MonStatus">
 						<xs:annotation>
 							<xs:documentation></xs:documentation>
 						</xs:annotation>

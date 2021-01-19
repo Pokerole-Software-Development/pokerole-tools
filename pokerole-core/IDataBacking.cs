@@ -54,10 +54,6 @@ namespace Pokerole.Core
 			return $"DbId = {DbId}, Uuid = {Uuid}";
 		}
 	}
-	public interface IDataItem
-	{
-		DataId Id { get; }
-	}
 	public interface IDataBacking<T> where T : class, IDataBackedItem<T>
 	{
 		int ItemId { get; }

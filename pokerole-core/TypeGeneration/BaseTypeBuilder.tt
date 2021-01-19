@@ -1,7 +1,7 @@
-﻿<#@ template debug="true" hostspecific="true" language="C#" #>
-/* This Source Code Form is subject to the terms of the Mozilla Public
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+<#@ include file="BaseTypeBuilder.ttinclude"#>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Xml"#>
 <#@ assembly name="System.Xml.Linq"#>
@@ -38,6 +38,12 @@
 	foreach	(XmlSchemaObject item in schemaItems){
 		XmlSchemaComplexType typeDef = item as XmlSchemaComplexType;
 		if (typeDef == null){
+			XmlSchemaElement element= item as XmlSchemaElement;
+			if (element != null && element.Name == "PokeroleData")
+			{
+				//skip that one
+				continue;
+			}
 			String message = "Handling of type not implemnted: " + item;
 			this.Host.LogErrors(new CompilerErrorCollection(){
 				new CompilerError(structuresPath, item.LineNumber, item.LinePosition, "Unknown type", message)
@@ -128,6 +134,13 @@
 							field.listType = type;
 							field.isList = true;
 							break;
+						case "genericType":
+							type = GrabTypeFromAttribute(item, unhandled, structuresPath);
+							if (type == null){
+								continue;
+							}
+							field.genericType = type;
+							break;
 						default:
 							this.Host.LogErrors(new CompilerErrorCollection(){
 								new CompilerError(structuresPath, item.LineNumber, item.LinePosition,
@@ -152,6 +165,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace Pokerole.Core{
 <#
@@ -208,20 +223,27 @@ namespace Pokerole.Core{
 		/// </summary>
 		public <#= field.GetTypeDeclaration(true, false) #> <#=field.name#> { get; }
 <#		}
-		if (!classDef.isDataItem)
-		{
-			//finish off the class since the other terminator won't get hit due to continue
-			Write("\t}\r\n");
-			continue;
-		}
+		//if (!classDef.isDataItem)
+		//{
+			////finish off the class since the other terminator won't get hit due to continue
+			//Write("\t}\r\n");
+			//continue;
+		//}
 		String lowercaseClassName = LowercaseInitial(classDef.name);
 #>
-		public class Builder
+		public class Builder<#= classDef.isDataItem ? String.Format(" : DataItemBuilder<{0}>", classDef.name) : ""#>
 		{
 			public Builder() { }
 			public Builder(<#=classDef.name#> <#=lowercaseClassName#>)
 			{
+<#
+		if (classDef.isDataItem)
+		{
+#>
 				DataId = <#=lowercaseClassName#>.DataId;
+<#
+		}
+#>
 <#
 		foreach (FieldDef field in classDef.fields){
 			String assignment = field.GetAssignment(String.Format("{0}.{1}", lowercaseClassName, field.name), false);
@@ -229,29 +251,75 @@ namespace Pokerole.Core{
 		}
 #>
 			}
+<#
+  #if false
+		if (classDef.isDataItem)
+		{
+#>
+			[XmlElement(IsNullable = false)]
 			DataId? DataId {get; set;}
 <#
+		}
+  #endif
 		foreach	(FieldDef field in classDef.fields)
 		{#>
 			/// <summary>
 			/// <#= !String.IsNullOrEmpty(field.documentation) ? field.documentation : "Someone didn't document this item..." #>
 			/// </summary>
+			[<#
+			if (field.isAttribute)
+			{
+				Write("XmlAttribute()");
+			}
+			else
+			{
+				Write("XmlElement(IsNullable = {0})", field.nullable ? "true" : "false");
+			}
+#>]
 			public <#= field.GetTypeDeclaration(false, true) #> <#=field.name#> { get; set; }
 <#		
+		}
+		foreach (FieldDef field in classDef.fields)
+		{	
+			ClassDef otherDef;
+			if (field.isList)
+			{
+				if(!classes.TryGetValue(field.listType, out otherDef))
+				{
+					continue;
+				}
+			}
+			else if (field.genericType != null){
+				if (!classes.TryGetValue(field.genericType, out otherDef))
+				{
+					continue;
+				}
+			}
+			
+			//else{
+				//if (!classes.TryGetValue(field.genericType, out otherDef))
+				//{
+					//continue;
+				//}
+			//}
+//
 		}
 #>
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="<#=classDef.name#>"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
-			public bool IsValid
+			public <#=classDef.isDataItem ? "override " : ""#>bool IsValid
 			{
 				get
 				{
+<#		if (classDef.isDataItem)
+		{#>
 					if (DataId is null)
 					{
 						return false;
 					}
+<#		}#>
 <#
 		foreach(FieldDef field in classDef.fields)
 		{
@@ -276,15 +344,29 @@ namespace Pokerole.Core{
 			/// <returns>A new instance of <see cref="<#=classDef.name#>"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public <#=classDef.name#> Build(){
+			public <#=classDef.isDataItem ? "override " : ""#><#=classDef.name#> Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");
 				}
-				return new <#=classDef.name#>(DataId!.Value<#
+				return new <#=classDef.name#>(<#
+		firstParam = true;
+		if (classDef.isDataItem)
+		{
+			firstParam = false;
+			Write("DataId!.Value");
+		}
 		foreach (FieldDef field in classDef.fields)
 		{
-			Write(",\r\n\t\t\t\t\t");
+			if (firstParam)
+			{
+				firstParam = false;
+			}
+			else
+			{
+				Write(",");
+			}
+			Write("\r\n\t\t\t\t\t");
 			if (field.nullable)
 			{
 				Write(field.name);
@@ -305,108 +387,3 @@ namespace Pokerole.Core{
 
 #>
 }
-<#+
-	bool IsReferenceType(XmlSchemaSet schemaSet, XmlQualifiedName name)
-	{
-		if (name.Name == "string")
-		{
-			return true;
-		}
-		XmlSchemaObject item = schemaSet.GlobalTypes[name];
-		if (item is XmlSchemaComplexType){
-			return true;
-		}
-		return false;
-	}
-	String GrabTypeFromAttribute(XmlSchemaElement parent, XmlAttribute unhandled, String structuresPath)
-	{
-		String verified;
-		try{verified = XmlConvert.VerifyName(unhandled.Value); }
-		catch (XmlException)
-		{
-			this.Host.LogErrors(new CompilerErrorCollection(){
-					new CompilerError(structuresPath, parent.LineNumber, parent.LinePosition,
-					"Unknown type", String.Format("Given type is not fully qualified: '{0}'",
-					unhandled.Value))
-					});
-			return null;
-		}
-		int colonIndex = verified.IndexOf(':');
-		if (colonIndex > -1){
-			verified = verified.Substring(colonIndex + 1);
-		}
-		return verified;
-	}
-	String LowercaseInitial(String input){
-		if (String.IsNullOrEmpty(input)){
-			return input;
-		}
-		return char.ToLowerInvariant(input[0]) + input.Substring(1);
-	}
-	String NormalizeType(String input){
-		if (input == "boolean"){
-			return "bool";
-		}
-		return input;
-	}
-	class ClassDef{
-		public bool isDataItem;
-		public String name;
-		public XmlSchemaComplexType definition;
-		public List<FieldDef> fields;
-	}
-	class FieldDef{
-		public bool isAttribute;
-		public String documentation;
-		public string name;
-		public String type;
-		public bool referById = false;
-		public bool isDbLazy;
-		public bool isDict;
-		public bool isList;
-		public String keyType, valueType;
-		public String listType;
-		public bool nullable;
-		public bool isReferenceType;
-		public String GetTypeDeclaration(bool readOnly){
-			if (!isList && !isDict){
-				return nullable ? type + "?" : type;
-			}
-			if (isList)
-			{
-				return String.Format(readOnly ? "IReadOnlyList<{0}>" : "IList<{0}>", listType);
-			}
-			return String.Format(readOnly ? "IReadOnlyDictionary<{0}, {1}>" : "IDictionary<{0}, {1}>",
-				keyType, valueType);
-		}
-		public String GetTypeDeclaration(bool readOnly, bool forceNullable)
-		{
-			if (nullable || !forceNullable)
-			{
-				return GetTypeDeclaration(readOnly);
-			}
-			return $"{GetTypeDeclaration(readOnly)}?";
-		}
-		public String GetAssignment(String incomingValue, bool readOnly)
-		{
-			if (!isList && !isDict)
-			{
-				return incomingValue;
-			}
-			if (isList)
-			{
-				if (!readOnly)
-				{
-					return $"new List<{listType}>({incomingValue})";
-				}
-				return $"new List<{listType}>({incomingValue}).AsReadOnly()";
-			}
-			if (!readOnly)
-			{
-				return $"new Dictionary<{keyType}, {valueType}>({incomingValue})";
-			}
-			return $"new ReadOnlyDictionary<{keyType}, {valueType}>(new Dictionary<{keyType}, {valueType}>({incomingValue}))";
-		}
-	}
-
- #>

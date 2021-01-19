@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace Pokerole.Core{
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
@@ -15,17 +17,17 @@ namespace Pokerole.Core{
 			string description,
 			int power,
 			MoveCategory moveCategory,
-			ITypeDefinition type,
+			ItemReference<ITypeDefinition> type,
 			MoveTarget moveTarget,
 			bool ranged,
-			IList<ISkill> accuracy,
+			IList<ItemReference<ISkill>> accuracy,
 			int reducedAccuracy,
-			ISkill? damageSkill,
+			ItemReference<ISkill>? damageSkill,
 			int damageModifier,
 			bool hasSpecialAccuracyMod,
 			bool hasSpecialDamageMod,
 			string additionalInfo,
-			IList<IEffect> effects) : base(dataId)
+			IList<string> effects) : base(dataId)
 		{
 			Name = name;
 			Description = description;
@@ -34,14 +36,14 @@ namespace Pokerole.Core{
 			Type = type;
 			MoveTarget = moveTarget;
 			Ranged = ranged;
-			Accuracy = new List<ISkill>(accuracy).AsReadOnly();
+			Accuracy = new List<ItemReference<ISkill>>(accuracy).AsReadOnly();
 			ReducedAccuracy = reducedAccuracy;
 			DamageSkill = damageSkill;
 			DamageModifier = damageModifier;
 			HasSpecialAccuracyMod = hasSpecialAccuracyMod;
 			HasSpecialDamageMod = hasSpecialDamageMod;
 			AdditionalInfo = additionalInfo;
-			Effects = new List<IEffect>(effects).AsReadOnly();
+			Effects = new List<string>(effects).AsReadOnly();
 		}
 		/// <summary>
 		/// Name of the move
@@ -62,7 +64,7 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Move Type
 		/// </summary>
-		public ITypeDefinition Type { get; }
+		public ItemReference<ITypeDefinition> Type { get; }
 		/// <summary>
 		/// What this move targets
 		/// </summary>
@@ -74,7 +76,7 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Skills used to roll accuracy for this move
 		/// </summary>
-		public IReadOnlyList<ISkill> Accuracy { get; }
+		public IReadOnlyList<ItemReference<ISkill>> Accuracy { get; }
 		/// <summary>
 		/// How many more successes are needed for this attack to hit
 		/// </summary>
@@ -82,7 +84,7 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Skill used to roll damage for this move if any
 		/// </summary>
-		public ISkill? DamageSkill { get; }
+		public ItemReference<ISkill>? DamageSkill { get; }
 		/// <summary>
 		/// How many more dice to add to the damage roll pool
 		/// </summary>
@@ -102,8 +104,8 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// List of effects this move causes when it hits
 		/// </summary>
-		public IReadOnlyList<IEffect> Effects { get; }
-		public class Builder
+		public IReadOnlyList<string> Effects { get; }
+		public class Builder : DataItemBuilder<Move>
 		{
 			public Builder() { }
 			public Builder(Move move)
@@ -116,81 +118,95 @@ namespace Pokerole.Core{
 				Type = move.Type;
 				MoveTarget = move.MoveTarget;
 				Ranged = move.Ranged;
-				Accuracy = new List<ISkill>(move.Accuracy);
+				Accuracy = new List<ItemReference<ISkill>>(move.Accuracy);
 				ReducedAccuracy = move.ReducedAccuracy;
 				DamageSkill = move.DamageSkill;
 				DamageModifier = move.DamageModifier;
 				HasSpecialAccuracyMod = move.HasSpecialAccuracyMod;
 				HasSpecialDamageMod = move.HasSpecialDamageMod;
 				AdditionalInfo = move.AdditionalInfo;
-				Effects = new List<IEffect>(move.Effects);
+				Effects = new List<string>(move.Effects);
 			}
-			DataId? DataId {get; set;}
 			/// <summary>
 			/// Name of the move
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public string? Name { get; set; }
 			/// <summary>
 			/// Move's description
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public string? Description { get; set; }
 			/// <summary>
 			/// The power of the move
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Power { get; set; }
 			/// <summary>
 			/// Category of the move
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public MoveCategory? MoveCategory { get; set; }
 			/// <summary>
 			/// Move Type
 			/// </summary>
-			public ITypeDefinition? Type { get; set; }
+			[XmlElement(IsNullable = false)]
+			public ItemReference<ITypeDefinition>? Type { get; set; }
 			/// <summary>
 			/// What this move targets
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public MoveTarget? MoveTarget { get; set; }
 			/// <summary>
 			/// Whether or not this move is ranged
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public bool? Ranged { get; set; }
 			/// <summary>
 			/// Skills used to roll accuracy for this move
 			/// </summary>
-			public IList<ISkill>? Accuracy { get; set; }
+			[XmlElement(IsNullable = false)]
+			public IList<ItemReference<ISkill>>? Accuracy { get; set; }
 			/// <summary>
 			/// How many more successes are needed for this attack to hit
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? ReducedAccuracy { get; set; }
 			/// <summary>
 			/// Skill used to roll damage for this move if any
 			/// </summary>
-			public ISkill? DamageSkill { get; set; }
+			[XmlElement(IsNullable = true)]
+			public ItemReference<ISkill>? DamageSkill { get; set; }
 			/// <summary>
 			/// How many more dice to add to the damage roll pool
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? DamageModifier { get; set; }
 			/// <summary>
 			/// Refer to AdditionalInfo if this is true
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public bool? HasSpecialAccuracyMod { get; set; }
 			/// <summary>
 			/// Refer to AdditionalInfo if this is true
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public bool? HasSpecialDamageMod { get; set; }
 			/// <summary>
 			/// More information about this move that could not be contained in the other variables
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public string? AdditionalInfo { get; set; }
 			/// <summary>
 			/// List of effects this move causes when it hits
 			/// </summary>
-			public IList<IEffect>? Effects { get; set; }
+			[XmlElement(IsNullable = false)]
+			public IList<string>? Effects { get; set; }
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Move"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
-			public bool IsValid
+			public override bool IsValid
 			{
 				get
 				{
@@ -263,7 +279,7 @@ namespace Pokerole.Core{
 			/// <returns>A new instance of <see cref="Move"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public Move Build(){
+			public override Move Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");
@@ -305,7 +321,7 @@ namespace Pokerole.Core{
 		/// Item Description
 		/// </summary>
 		public string Description { get; }
-		public class Builder
+		public class Builder : DataItemBuilder<Item>
 		{
 			public Builder() { }
 			public Builder(Item item)
@@ -314,20 +330,21 @@ namespace Pokerole.Core{
 				Name = item.Name;
 				Description = item.Description;
 			}
-			DataId? DataId {get; set;}
 			/// <summary>
 			/// Item Name
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public string? Name { get; set; }
 			/// <summary>
 			/// Item Description
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public string? Description { get; set; }
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Item"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
-			public bool IsValid
+			public override bool IsValid
 			{
 				get
 				{
@@ -352,7 +369,7 @@ namespace Pokerole.Core{
 			/// <returns>A new instance of <see cref="Item"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public Item Build(){
+			public override Item Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");
@@ -380,6 +397,59 @@ namespace Pokerole.Core{
 		/// DexEntry to use when mega-evolved
 		/// </summary>
 		public ItemReference<DexEntry> TargetEvolution { get; }
+		public class Builder
+		{
+			public Builder() { }
+			public Builder(MegaEvolutionEntry megaEvolutionEntry)
+			{
+				Item = megaEvolutionEntry.Item;
+				TargetEvolution = megaEvolutionEntry.TargetEvolution;
+			}
+			/// <summary>
+			/// Item the Pokémon must be holding to perform this megaevolution
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public ItemReference<Item>? Item { get; set; }
+			/// <summary>
+			/// DexEntry to use when mega-evolved
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public ItemReference<DexEntry>? TargetEvolution { get; set; }
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="MegaEvolutionEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public bool IsValid
+			{
+				get
+				{
+					if (Item is null)
+					{
+						return false;
+					}
+					if (TargetEvolution is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="MegaEvolutionEntry"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="MegaEvolutionEntry"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public MegaEvolutionEntry Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new MegaEvolutionEntry(
+					Item!,
+					TargetEvolution!);
+			}
+		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
 	public record MoveEntry
@@ -398,6 +468,59 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public ItemReference<Move> Move { get; }
+		public class Builder
+		{
+			public Builder() { }
+			public Builder(MoveEntry moveEntry)
+			{
+				Rank = moveEntry.Rank;
+				Move = moveEntry.Move;
+			}
+			/// <summary>
+			/// Required rank to learn the given move
+			/// </summary>
+			[XmlAttribute()]
+			public Rank? Rank { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public ItemReference<Move>? Move { get; set; }
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="MoveEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public bool IsValid
+			{
+				get
+				{
+					if (Rank is null)
+					{
+						return false;
+					}
+					if (Move is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="MoveEntry"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="MoveEntry"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public MoveEntry Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new MoveEntry(
+					Rank!.Value,
+					Move!);
+			}
+		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
 	public record AbilityEntry
@@ -416,6 +539,59 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public ItemReference<Ability> Ability { get; }
+		public class Builder
+		{
+			public Builder() { }
+			public Builder(AbilityEntry abilityEntry)
+			{
+				Hidden = abilityEntry.Hidden;
+				Ability = abilityEntry.Ability;
+			}
+			/// <summary>
+			/// Whether or not this is a hidden ability
+			/// </summary>
+			[XmlAttribute()]
+			public bool? Hidden { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public ItemReference<Ability>? Ability { get; set; }
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="AbilityEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public bool IsValid
+			{
+				get
+				{
+					if (Hidden is null)
+					{
+						return false;
+					}
+					if (Ability is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="AbilityEntry"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="AbilityEntry"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public AbilityEntry Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new AbilityEntry(
+					Hidden!.Value,
+					Ability!);
+			}
+		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
 	public partial record DexEntry : BaseDataItem
@@ -423,8 +599,8 @@ namespace Pokerole.Core{
 		public DexEntry(DataId dataId,
 			int dexNum,
 			bool suggestedStarer,
-			ITypeDefinition primaryType,
-			ITypeDefinition? secondaryType,
+			ItemReference<ITypeDefinition> primaryType,
+			ItemReference<ITypeDefinition>? secondaryType,
 			string name,
 			string? variant,
 			Height averageHeight,
@@ -496,11 +672,11 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// The primary type of this Pokémon
 		/// </summary>
-		public ITypeDefinition PrimaryType { get; }
+		public ItemReference<ITypeDefinition> PrimaryType { get; }
 		/// <summary>
 		/// The secondary type of this Pokémon if applicable
 		/// </summary>
-		public ITypeDefinition? SecondaryType { get; }
+		public ItemReference<ITypeDefinition>? SecondaryType { get; }
 		/// <summary>
 		/// The name of this Pokémon
 		/// </summary>
@@ -609,7 +785,7 @@ namespace Pokerole.Core{
 		/// List of moves that this Pokémon can learn
 		/// </summary>
 		public IReadOnlyList<MoveEntry> MoveSet { get; }
-		public class Builder
+		public class Builder : DataItemBuilder<DexEntry>
 		{
 			public Builder() { }
 			public Builder(DexEntry dexEntry)
@@ -647,136 +823,166 @@ namespace Pokerole.Core{
 				StartingInsight = dexEntry.StartingInsight;
 				MoveSet = new List<MoveEntry>(dexEntry.MoveSet);
 			}
-			DataId? DataId {get; set;}
 			/// <summary>
 			/// The international dex number of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? DexNum { get; set; }
 			/// <summary>
 			/// Whether or not this Pokémon is recommended as a starter
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public bool? SuggestedStarer { get; set; }
 			/// <summary>
 			/// The primary type of this Pokémon
 			/// </summary>
-			public ITypeDefinition? PrimaryType { get; set; }
+			[XmlElement(IsNullable = false)]
+			public ItemReference<ITypeDefinition>? PrimaryType { get; set; }
 			/// <summary>
 			/// The secondary type of this Pokémon if applicable
 			/// </summary>
-			public ITypeDefinition? SecondaryType { get; set; }
+			[XmlElement(IsNullable = true)]
+			public ItemReference<ITypeDefinition>? SecondaryType { get; set; }
 			/// <summary>
 			/// The name of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public string? Name { get; set; }
 			/// <summary>
 			/// Regional variant of this Pokémon (if applicable) such as "Galaran"
 			/// </summary>
+			[XmlElement(IsNullable = true)]
 			public string? Variant { get; set; }
 			/// <summary>
 			/// The average height of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public Height? AverageHeight { get; set; }
 			/// <summary>
 			/// The average weight of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public Weight? AverageWeight { get; set; }
 			/// <summary>
 			/// The descriptive category for this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public string? Category { get; set; }
 			/// <summary>
 			/// The description of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public string? DexDescription { get; set; }
 			/// <summary>
 			/// Suggested starting rank of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public Rank? SuggestedRank { get; set; }
 			/// <summary>
 			/// The base hp of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? BaseHp { get; set; }
 			/// <summary>
 			/// Primary display image of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public ImageRef? PrimaryImage { get; set; }
 			/// <summary>
 			/// Smaller display image of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public ImageRef? SmallImage { get; set; }
 			/// <summary>
 			/// Primary display image of a shiny instance of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = true)]
 			public ImageRef? ShinyImage { get; set; }
 			/// <summary>
 			/// Smaller display image of a shiny instance of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = true)]
 			public ImageRef? SmallShinyImage { get; set; }
 			/// <summary>
 			/// List of possible abilities this Pokémon can have
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public IList<AbilityEntry>? Abilities { get; set; }
 			/// <summary>
 			/// Evolution line of this Pokémon if applicable
 			/// </summary>
+			[XmlElement(IsNullable = true)]
 			public ItemReference<EvolutionList>? EvolutionList { get; set; }
 			/// <summary>
 			/// If this is a mega evolution, then what it evolved from, otherwise null
 			/// </summary>
+			[XmlElement(IsNullable = true)]
 			public ItemReference<DexEntry>? MegaEvolutionBaseEntry { get; set; }
 			/// <summary>
 			/// List of possible mega evolutions of this Pokémon and their required items if any
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public IList<MegaEvolutionEntry>? MegaEvolutions { get; set; }
 			/// <summary>
 			/// The maximum strength score this Pokémon can have
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? MaxStrength { get; set; }
 			/// <summary>
 			/// The initial strength score this Pokémon has
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? StartingStrength { get; set; }
 			/// <summary>
 			/// The maximum dexterity score this Pokémon can have
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? MaxDexterity { get; set; }
 			/// <summary>
 			/// The initial dexterity score this Pokémon has
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? StartingDexterity { get; set; }
 			/// <summary>
 			/// The maximum vitality score this Pokémon can have
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? MaxVitality { get; set; }
 			/// <summary>
 			/// The initial vitality score this Pokémon has
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? StartingVitality { get; set; }
 			/// <summary>
 			/// The maximum special score this Pokémon can have
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? MaxSpecial { get; set; }
 			/// <summary>
 			/// The initial special score this Pokémon has
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? StartingSpecial { get; set; }
 			/// <summary>
 			/// The maximum insight score this Pokémon can have
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? MaxInsight { get; set; }
 			/// <summary>
 			/// The initial insight score this Pokémon has
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? StartingInsight { get; set; }
 			/// <summary>
 			/// List of moves that this Pokémon can learn
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public IList<MoveEntry>? MoveSet { get; set; }
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="DexEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
-			public bool IsValid
+			public override bool IsValid
 			{
 				get
 				{
@@ -893,7 +1099,7 @@ namespace Pokerole.Core{
 			/// <returns>A new instance of <see cref="DexEntry"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public DexEntry Build(){
+			public override DexEntry Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");
@@ -1221,7 +1427,7 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public IReadOnlyList<string> Ribbons { get; }
-		public class Builder
+		public class Builder : DataItemBuilder<MonInstance>
 		{
 			public Builder() { }
 			public Builder(MonInstance monInstance)
@@ -1275,200 +1481,246 @@ namespace Pokerole.Core{
 				Accessories = new List<string>(monInstance.Accessories);
 				Ribbons = new List<string>(monInstance.Ribbons);
 			}
-			DataId? DataId {get; set;}
 			/// <summary>
 			/// Picture of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public ImageRef? Picture { get; set; }
 			/// <summary>
 			/// The DexEntry that currently defines this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public ItemReference<DexEntry>? Definition { get; set; }
 			/// <summary>
 			/// The name of this Pokémon
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public string? Name { get; set; }
 			/// <summary>
 			/// This Pokémon's usual ability
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public ItemReference<Ability>? Ability { get; set; }
 			/// <summary>
 			/// This Pokémon's current ability if it isn't the usual ability, such as what happens when one gets hit by simple beam
 			/// </summary>
+			[XmlElement(IsNullable = true)]
 			public ItemReference<Ability>? OveriddenAblity { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? HP { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? WillPoints { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public ItemReference<Item>? HeldItem { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public IList<MonStatus>? Status { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? EvasionDice { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? ClashDice { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Defence { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? SpecialDefence { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public Rank? Rank { get; set; }
 			/// <summary>
 			/// List of moves this Pokémon knows
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public IList<MoveEntry>? Moves { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public Height? Height { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public Weight? Weight { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Strength { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Dexterity { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Vitality { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Special { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Insight { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Brawl { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Channel { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Clash { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Evasion { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Alert { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Athletic { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Nature { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Stealth { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Allure { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Etiquette { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Intimidate { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Perform { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public IDictionary<string, int>? CustomSkills { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Tough { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Cool { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Beauty { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Clever { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Cute { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public Nature? MonNature { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Happiness { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? Loyalty { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? BattleCount { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public int? VicoryCount { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public IList<string>? Accessories { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
+			[XmlElement(IsNullable = false)]
 			public IList<string>? Ribbons { get; set; }
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="MonInstance"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
-			public bool IsValid
+			public override bool IsValid
 			{
 				get
 				{
@@ -1669,7 +1921,7 @@ namespace Pokerole.Core{
 			/// <returns>A new instance of <see cref="MonInstance"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public MonInstance Build(){
+			public override MonInstance Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");
@@ -1731,19 +1983,18 @@ namespace Pokerole.Core{
 		public Ability(DataId dataId) : base(dataId)
 		{
 		}
-		public class Builder
+		public class Builder : DataItemBuilder<Ability>
 		{
 			public Builder() { }
 			public Builder(Ability ability)
 			{
 				DataId = ability.DataId;
 			}
-			DataId? DataId {get; set;}
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Ability"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
-			public bool IsValid
+			public override bool IsValid
 			{
 				get
 				{
@@ -1760,7 +2011,7 @@ namespace Pokerole.Core{
 			/// <returns>A new instance of <see cref="Ability"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public Ability Build(){
+			public override Ability Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");
@@ -1775,19 +2026,18 @@ namespace Pokerole.Core{
 		public EvolutionList(DataId dataId) : base(dataId)
 		{
 		}
-		public class Builder
+		public class Builder : DataItemBuilder<EvolutionList>
 		{
 			public Builder() { }
 			public Builder(EvolutionList evolutionList)
 			{
 				DataId = evolutionList.DataId;
 			}
-			DataId? DataId {get; set;}
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="EvolutionList"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
-			public bool IsValid
+			public override bool IsValid
 			{
 				get
 				{
@@ -1804,7 +2054,7 @@ namespace Pokerole.Core{
 			/// <returns>A new instance of <see cref="EvolutionList"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public EvolutionList Build(){
+			public override EvolutionList Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");

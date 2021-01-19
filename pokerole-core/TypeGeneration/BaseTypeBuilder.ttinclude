@@ -1,0 +1,117 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #><#+
+	bool IsReferenceType(XmlSchemaSet schemaSet, XmlQualifiedName name)
+	{
+		if (name.Name == "string")
+		{
+			return true;
+		}
+		XmlSchemaObject item = schemaSet.GlobalTypes[name];
+		if (item is XmlSchemaComplexType){
+			return true;
+		}
+		return false;
+	}
+	String GrabTypeFromAttribute(XmlSchemaElement parent, XmlAttribute unhandled, String structuresPath)
+	{
+		String verified;
+		try{verified = XmlConvert.VerifyName(unhandled.Value); }
+		catch (XmlException)
+		{
+			this.Host.LogErrors(new CompilerErrorCollection(){
+					new CompilerError(structuresPath, parent.LineNumber, parent.LinePosition,
+					"Unknown type", String.Format("Given type is not fully qualified: '{0}'",
+					unhandled.Value))
+					});
+			return null;
+		}
+		int colonIndex = verified.IndexOf(':');
+		if (colonIndex > -1){
+			verified = verified.Substring(colonIndex + 1);
+		}
+		return verified;
+	}
+	String LowercaseInitial(String input){
+		if (String.IsNullOrEmpty(input)){
+			return input;
+		}
+		return char.ToLowerInvariant(input[0]) + input.Substring(1);
+	}
+	String NormalizeType(String input){
+		if (input == "boolean"){
+			return "bool";
+		}
+		return input;
+	}
+	class ClassDef{
+		public bool isDataItem;
+		public String name;
+		public XmlSchemaComplexType definition;
+		public List<FieldDef> fields;
+	}
+	class FieldDef{
+		public bool isAttribute;
+		public String documentation;
+		public string name;
+		public bool referById = false;
+		public bool isDbLazy;
+		public bool isDict;
+		public bool isList;
+		public String type;
+		public String keyType, valueType;
+		public String listType;
+		public String genericType;
+		public bool nullable;
+		public bool isReferenceType;
+		public static String GetBasicTypeDeclaration(String type, String genericType, bool nullable)
+		{
+			if (!String.IsNullOrEmpty(genericType))
+			{
+				String val = String.Format("{0}<{1}>", type, genericType);
+				return nullable ? val + "?" : val;
+			}
+			return nullable ? type + "?" : type;
+		}
+		public String GetTypeDeclaration(bool readOnly){
+			if (!isList && !isDict){
+				return GetBasicTypeDeclaration(type, genericType, nullable);
+			}
+			if (isList)
+			{
+				String itemType = GetBasicTypeDeclaration(listType, genericType, false);
+				return String.Format(readOnly ? "IReadOnlyList<{0}>" : "IList<{0}>", itemType);
+			}
+			return String.Format(readOnly ? "IReadOnlyDictionary<{0}, {1}>" : "IDictionary<{0}, {1}>",
+				keyType, valueType);
+		}
+		public String GetTypeDeclaration(bool readOnly, bool forceNullable)
+		{
+			if (nullable || !forceNullable)
+			{
+				return GetTypeDeclaration(readOnly);
+			}
+			return $"{GetTypeDeclaration(readOnly)}?";
+		}
+		public String GetAssignment(String incomingValue, bool readOnly)
+		{
+			if (!isList && !isDict)
+			{
+				return incomingValue;
+			}
+			if (isList)
+			{
+				String itemType = GetBasicTypeDeclaration(listType, genericType, false);
+				if (!readOnly)
+				{
+					return $"new List<{itemType}>({incomingValue})";
+				}
+				return $"new List<{itemType}>({incomingValue}).AsReadOnly()";
+			}
+			if (!readOnly)
+			{
+				return $"new Dictionary<{keyType}, {valueType}>({incomingValue})";
+			}
+			return $"new ReadOnlyDictionary<{keyType}, {valueType}>(new Dictionary<{keyType}, {valueType}>({incomingValue}))";
+		}
+	}
+
+ #>

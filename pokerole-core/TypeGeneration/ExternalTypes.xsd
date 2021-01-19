@@ -21,6 +21,7 @@
 		<xs:union memberTypes="xs:int emptyString" />
 	</xs:simpleType>
 	<!--For xsd things-->
+	<xs:attribute name="genericType" type="xs:QName"/>
 	<xs:attribute name="listItemType" type="xs:QName"/>
 	<xs:attribute name="isDbLazy" type="xs:boolean"/>
 	<xs:attribute name="isDict" type="xs:boolean"/>
@@ -37,10 +38,11 @@
 			<xs:element name="DataId" type="DataId"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="DbReference">
+	<xs:complexType name="ItemReference">
 		<xs:sequence>
 			<xs:element name="DataId" type="DataId"/>
 		</xs:sequence>
+		<xs:attribute name="DisplayName" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<!--TODO: Implement-->
 	<xs:complexType name="Height"/>

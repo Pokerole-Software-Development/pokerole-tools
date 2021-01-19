@@ -175,9 +175,8 @@ namespace Pokerole.Core
 	{
 	}
 
-	public interface ISkill
+	public interface ISkill : IDataItem
 	{
-		DataId DataId { get; }
 		String Name { get; }
 		bool IsBuiltInSkill { get; }
 		SkillCategory SkillCategory { get; }
