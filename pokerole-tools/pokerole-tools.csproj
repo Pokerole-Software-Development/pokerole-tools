@@ -3,7 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>pokerole_tools</RootNamespace>
+    <RootNamespace>Pokerole.Tools</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\pokerole-core\pokerole-core.csproj" />
+  </ItemGroup>
 
 </Project>

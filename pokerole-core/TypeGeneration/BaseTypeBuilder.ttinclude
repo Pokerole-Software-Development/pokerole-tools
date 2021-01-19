@@ -78,10 +78,18 @@
 			if (isList)
 			{
 				String itemType = GetBasicTypeDeclaration(listType, genericType, false);
-				return String.Format(readOnly ? "IReadOnlyList<{0}>" : "IList<{0}>", itemType);
+				return String.Format(readOnly ? "IReadOnlyList<{0}>" : "List<{0}>", itemType);
 			}
-			return String.Format(readOnly ? "IReadOnlyDictionary<{0}, {1}>" : "IDictionary<{0}, {1}>",
+			return String.Format(readOnly ? "IReadOnlyDictionary<{0}, {1}>" : "Dictionary<{0}, {1}>",
 				keyType, valueType);
+		}
+		public String GetBuilderTypeDeclaration()
+		{
+			if (!isList)
+			{
+				throw new InvalidOperationException("Type is not a list");
+			}
+			return String.Format("{0}.Builder[]", GetBasicTypeDeclaration(listType, genericType, false));
 		}
 		public String GetTypeDeclaration(bool readOnly, bool forceNullable)
 		{

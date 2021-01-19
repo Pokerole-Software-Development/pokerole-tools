@@ -7,6 +7,8 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using System.Xml;
+using System.Diagnostics;
+using System.ComponentModel;
 
 namespace Pokerole.Core{
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
@@ -20,14 +22,14 @@ namespace Pokerole.Core{
 			ItemReference<ITypeDefinition> type,
 			MoveTarget moveTarget,
 			bool ranged,
-			IList<ItemReference<ISkill>> accuracy,
+			List<ItemReference<ISkill>> accuracy,
 			int reducedAccuracy,
 			ItemReference<ISkill>? damageSkill,
 			int damageModifier,
 			bool hasSpecialAccuracyMod,
 			bool hasSpecialDamageMod,
 			string additionalInfo,
-			IList<string> effects) : base(dataId)
+			List<string> effects) : base(dataId)
 		{
 			Name = name;
 			Description = description;
@@ -166,7 +168,7 @@ namespace Pokerole.Core{
 			/// Skills used to roll accuracy for this move
 			/// </summary>
 			[XmlElement(IsNullable = false)]
-			public IList<ItemReference<ISkill>>? Accuracy { get; set; }
+			public List<ItemReference<ISkill>>? Accuracy { get; set; }
 			/// <summary>
 			/// How many more successes are needed for this attack to hit
 			/// </summary>
@@ -201,7 +203,7 @@ namespace Pokerole.Core{
 			/// List of effects this move causes when it hits
 			/// </summary>
 			[XmlElement(IsNullable = false)]
-			public IList<string>? Effects { get; set; }
+			public List<string>? Effects { get; set; }
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Move"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -397,7 +399,7 @@ namespace Pokerole.Core{
 		/// DexEntry to use when mega-evolved
 		/// </summary>
 		public ItemReference<DexEntry> TargetEvolution { get; }
-		public class Builder
+		public class Builder : ItemBuilder<MegaEvolutionEntry>
 		{
 			public Builder() { }
 			public Builder(MegaEvolutionEntry megaEvolutionEntry)
@@ -419,7 +421,7 @@ namespace Pokerole.Core{
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="MegaEvolutionEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
-			public bool IsValid
+			public override bool IsValid
 			{
 				get
 				{
@@ -440,7 +442,7 @@ namespace Pokerole.Core{
 			/// <returns>A new instance of <see cref="MegaEvolutionEntry"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public MegaEvolutionEntry Build(){
+			public override MegaEvolutionEntry Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");
@@ -468,7 +470,7 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public ItemReference<Move> Move { get; }
-		public class Builder
+		public class Builder : ItemBuilder<MoveEntry>
 		{
 			public Builder() { }
 			public Builder(MoveEntry moveEntry)
@@ -490,7 +492,7 @@ namespace Pokerole.Core{
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="MoveEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
-			public bool IsValid
+			public override bool IsValid
 			{
 				get
 				{
@@ -511,7 +513,7 @@ namespace Pokerole.Core{
 			/// <returns>A new instance of <see cref="MoveEntry"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public MoveEntry Build(){
+			public override MoveEntry Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");
@@ -539,7 +541,7 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public ItemReference<Ability> Ability { get; }
-		public class Builder
+		public class Builder : ItemBuilder<AbilityEntry>
 		{
 			public Builder() { }
 			public Builder(AbilityEntry abilityEntry)
@@ -561,7 +563,7 @@ namespace Pokerole.Core{
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="AbilityEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
-			public bool IsValid
+			public override bool IsValid
 			{
 				get
 				{
@@ -582,7 +584,7 @@ namespace Pokerole.Core{
 			/// <returns>A new instance of <see cref="AbilityEntry"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public AbilityEntry Build(){
+			public override AbilityEntry Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");
@@ -613,10 +615,10 @@ namespace Pokerole.Core{
 			ImageRef smallImage,
 			ImageRef? shinyImage,
 			ImageRef? smallShinyImage,
-			IList<AbilityEntry> abilities,
+			List<AbilityEntry> abilities,
 			ItemReference<EvolutionList>? evolutionList,
 			ItemReference<DexEntry>? megaEvolutionBaseEntry,
-			IList<MegaEvolutionEntry> megaEvolutions,
+			List<MegaEvolutionEntry> megaEvolutions,
 			int maxStrength,
 			int startingStrength,
 			int maxDexterity,
@@ -627,7 +629,7 @@ namespace Pokerole.Core{
 			int startingSpecial,
 			int maxInsight,
 			int startingInsight,
-			IList<MoveEntry> moveSet) : base(dataId)
+			List<MoveEntry> moveSet) : base(dataId)
 		{
 			DexNum = dexNum;
 			SuggestedStarer = suggestedStarer;
@@ -906,8 +908,37 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// List of possible abilities this Pokémon can have
 			/// </summary>
-			[XmlElement(IsNullable = false)]
-			public IList<AbilityEntry>? Abilities { get; set; }
+			[XmlIgnore]
+			public List<AbilityEntry>? Abilities { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("Abilities", IsNullable = false)]
+			[XmlArrayItem("AbilityEntry")]
+			public AbilityEntry.Builder[] AbilitiesBuilder
+			{
+				get
+				{
+					if (Abilities == null)
+					{
+						return Array.Empty<AbilityEntry.Builder>();
+					}
+					return Abilities.Select(item=>new AbilityEntry.Builder(item)).ToArray();
+				}
+				set
+				{
+					Abilities?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (Abilities == null)
+					{
+						Abilities = new List<AbilityEntry>(value.Length);
+					}
+					ItemBuilder<AbilityEntry>.BuildList(value, Abilities);
+				}
+			}
 			/// <summary>
 			/// Evolution line of this Pokémon if applicable
 			/// </summary>
@@ -921,8 +952,37 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// List of possible mega evolutions of this Pokémon and their required items if any
 			/// </summary>
-			[XmlElement(IsNullable = false)]
-			public IList<MegaEvolutionEntry>? MegaEvolutions { get; set; }
+			[XmlIgnore]
+			public List<MegaEvolutionEntry>? MegaEvolutions { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("MegaEvolutions", IsNullable = false)]
+			[XmlArrayItem("MegaEvolutionEntry")]
+			public MegaEvolutionEntry.Builder[] MegaEvolutionsBuilder
+			{
+				get
+				{
+					if (MegaEvolutions == null)
+					{
+						return Array.Empty<MegaEvolutionEntry.Builder>();
+					}
+					return MegaEvolutions.Select(item=>new MegaEvolutionEntry.Builder(item)).ToArray();
+				}
+				set
+				{
+					MegaEvolutions?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (MegaEvolutions == null)
+					{
+						MegaEvolutions = new List<MegaEvolutionEntry>(value.Length);
+					}
+					ItemBuilder<MegaEvolutionEntry>.BuildList(value, MegaEvolutions);
+				}
+			}
 			/// <summary>
 			/// The maximum strength score this Pokémon can have
 			/// </summary>
@@ -976,8 +1036,37 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// List of moves that this Pokémon can learn
 			/// </summary>
-			[XmlElement(IsNullable = false)]
-			public IList<MoveEntry>? MoveSet { get; set; }
+			[XmlIgnore]
+			public List<MoveEntry>? MoveSet { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("MoveSet", IsNullable = false)]
+			[XmlArrayItem("MoveEntry")]
+			public MoveEntry.Builder[] MoveSetBuilder
+			{
+				get
+				{
+					if (MoveSet == null)
+					{
+						return Array.Empty<MoveEntry.Builder>();
+					}
+					return MoveSet.Select(item=>new MoveEntry.Builder(item)).ToArray();
+				}
+				set
+				{
+					MoveSet?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (MoveSet == null)
+					{
+						MoveSet = new List<MoveEntry>(value.Length);
+					}
+					ItemBuilder<MoveEntry>.BuildList(value, MoveSet);
+				}
+			}
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="DexEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -1151,13 +1240,13 @@ namespace Pokerole.Core{
 			int hP,
 			int willPoints,
 			ItemReference<Item> heldItem,
-			IList<MonStatus> status,
+			List<MonStatus> status,
 			int evasionDice,
 			int clashDice,
 			int defence,
 			int specialDefence,
 			Rank rank,
-			IList<MoveEntry> moves,
+			List<MoveEntry> moves,
 			Height height,
 			Weight weight,
 			int strength,
@@ -1177,7 +1266,7 @@ namespace Pokerole.Core{
 			int etiquette,
 			int intimidate,
 			int perform,
-			IDictionary<string, int> customSkills,
+			Dictionary<string, int> customSkills,
 			int tough,
 			int cool,
 			int beauty,
@@ -1188,8 +1277,8 @@ namespace Pokerole.Core{
 			int loyalty,
 			int battleCount,
 			int vicoryCount,
-			IList<string> accessories,
-			IList<string> ribbons) : base(dataId)
+			List<string> accessories,
+			List<string> ribbons) : base(dataId)
 		{
 			Picture = picture;
 			Definition = definition;
@@ -1525,7 +1614,7 @@ namespace Pokerole.Core{
 			/// Someone didn't document this item...
 			/// </summary>
 			[XmlElement(IsNullable = false)]
-			public IList<MonStatus>? Status { get; set; }
+			public List<MonStatus>? Status { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
@@ -1554,8 +1643,37 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// List of moves this Pokémon knows
 			/// </summary>
-			[XmlElement(IsNullable = false)]
-			public IList<MoveEntry>? Moves { get; set; }
+			[XmlIgnore]
+			public List<MoveEntry>? Moves { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("Moves", IsNullable = false)]
+			[XmlArrayItem("MoveEntry")]
+			public MoveEntry.Builder[] MovesBuilder
+			{
+				get
+				{
+					if (Moves == null)
+					{
+						return Array.Empty<MoveEntry.Builder>();
+					}
+					return Moves.Select(item=>new MoveEntry.Builder(item)).ToArray();
+				}
+				set
+				{
+					Moves?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (Moves == null)
+					{
+						Moves = new List<MoveEntry>(value.Length);
+					}
+					ItemBuilder<MoveEntry>.BuildList(value, Moves);
+				}
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
@@ -1655,7 +1773,7 @@ namespace Pokerole.Core{
 			/// Someone didn't document this item...
 			/// </summary>
 			[XmlElement(IsNullable = false)]
-			public IDictionary<string, int>? CustomSkills { get; set; }
+			public Dictionary<string, int>? CustomSkills { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
@@ -1710,12 +1828,12 @@ namespace Pokerole.Core{
 			/// Someone didn't document this item...
 			/// </summary>
 			[XmlElement(IsNullable = false)]
-			public IList<string>? Accessories { get; set; }
+			public List<string>? Accessories { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
 			[XmlElement(IsNullable = false)]
-			public IList<string>? Ribbons { get; set; }
+			public List<string>? Ribbons { get; set; }
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="MonInstance"/>. <see cref="Build"/> will throw an exception if this returns false.

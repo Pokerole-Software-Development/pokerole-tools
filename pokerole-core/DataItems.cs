@@ -21,10 +21,8 @@ namespace Pokerole.Core
 			dataId = id;
 		}
 	}
-	public abstract class DataItemBuilder<T> where T : IDataItem
+	public abstract class ItemBuilder<T>
 	{
-		[XmlElement(IsNullable = false)]
-		public DataId? DataId {get;set; }
 		/// <summary>
 		/// Whether or not all of the required Properites of this instance are set to build a new
 		/// <see cref="T"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -37,10 +35,20 @@ namespace Pokerole.Core
 		/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 		/// have been set</exception>
 		public abstract T Build();
-		public static IList<T> BuildList(IList<DataItemBuilder<T>> list)
+		public static void BuildList(IEnumerable<ItemBuilder<T>> list, List<T> destinationList)
+		{
+			destinationList.AddRange(list.Select(item => item.Build()));
+		}
+		public static List<T> BuildList(IEnumerable<ItemBuilder<T>> list)
 		{
 			return list.Select(item => item.Build()).ToList();
 		}
+
+	}
+	public abstract class DataItemBuilder<T> : ItemBuilder<T> where T : IDataItem
+	{
+		[XmlElement(IsNullable = false)]
+		public DataId? DataId {get;set; }
 	}
 	public interface IEffect { }
 	public class ImageRef { }

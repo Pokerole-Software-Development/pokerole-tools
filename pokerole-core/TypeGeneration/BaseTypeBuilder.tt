@@ -152,10 +152,10 @@
 			}
 			field.type = NormalizeType(item.SchemaTypeName.Name);
 			field.isReferenceType = IsReferenceType(schemaSet, item.SchemaTypeName) || field.isList || field.isDict;
-			ClassDef other;
-			if (classes.TryGetValue(field.type, out other) && other.isDataItem){
-				field.type = String.Format("ItemReference<{0}>", field.type);
-			}
+			//ClassDef other;
+			//if (classes.TryGetValue(field.type, out other) && other.isDataItem){
+				//field.type = String.Format("ItemReference<{0}>", field.type);
+			//}
 			field.nullable = item.IsNillable;
 			def.fields.Add(field);
 		}
@@ -167,6 +167,8 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using System.Xml;
+using System.Diagnostics;
+using System.ComponentModel;
 
 namespace Pokerole.Core{
 <#
@@ -231,7 +233,8 @@ namespace Pokerole.Core{
 		//}
 		String lowercaseClassName = LowercaseInitial(classDef.name);
 #>
-		public class Builder<#= classDef.isDataItem ? String.Format(" : DataItemBuilder<{0}>", classDef.name) : ""#>
+		public class Builder : <#= String.Format(classDef.isDataItem ? "DataItemBuilder<{0}>" : "ItemBuilder<{0}>",
+ classDef.name)#>
 		{
 			public Builder() { }
 			public Builder(<#=classDef.name#> <#=lowercaseClassName#>)
@@ -262,7 +265,15 @@ namespace Pokerole.Core{
 		}
   #endif
 		foreach	(FieldDef field in classDef.fields)
-		{#>
+		{
+			bool needsBuilderEntry = false;
+			ClassDef otherDef = null;
+			if (field.isList && classes.TryGetValue(field.listType, out otherDef))
+			{
+				needsBuilderEntry = true;
+			}
+
+#>
 			/// <summary>
 			/// <#= !String.IsNullOrEmpty(field.documentation) ? field.documentation : "Someone didn't document this item..." #>
 			/// </summary>
@@ -271,45 +282,54 @@ namespace Pokerole.Core{
 			{
 				Write("XmlAttribute()");
 			}
+			else if (needsBuilderEntry)
+			{
+				Write("XmlIgnore");
+			}
 			else
 			{
 				Write("XmlElement(IsNullable = {0})", field.nullable ? "true" : "false");
 			}
 #>]
 			public <#= field.GetTypeDeclaration(false, true) #> <#=field.name#> { get; set; }
-<#		
-		}
-		foreach (FieldDef field in classDef.fields)
-		{	
-			ClassDef otherDef;
-			if (field.isList)
+<#			if (needsBuilderEntry)
+			{#>
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("<#=field.name#>", IsNullable = <#=field.nullable ? "true" : "false"#>)]
+			[XmlArrayItem("<#=otherDef.name#>")]
+			public <#=otherDef.name#>.Builder[] <#=field.name#>Builder
 			{
-				if(!classes.TryGetValue(field.listType, out otherDef))
+				get
 				{
-					continue;
+					if (<#=field.name#> == null)
+					{
+						return Array.Empty<<#=otherDef.name#>.Builder>();
+					}
+					return <#=field.name#>.Select(item=>new <#=otherDef.name#>.Builder(item)).ToArray();
+				}
+				set
+				{
+					<#=field.name#>?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (<#=field.name#> == null)
+					{
+						<#=field.name#> = new List<<#=otherDef.name#>>(value.Length);
+					}
+					ItemBuilder<<#=otherDef.name#>>.BuildList(value, <#=field.name#>);
 				}
 			}
-			else if (field.genericType != null){
-				if (!classes.TryGetValue(field.genericType, out otherDef))
-				{
-					continue;
-				}
-			}
-			
-			//else{
-				//if (!classes.TryGetValue(field.genericType, out otherDef))
-				//{
-					//continue;
-				//}
-			//}
-//
-		}
-#>
+<#			}
+		}#>
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="<#=classDef.name#>"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
-			public <#=classDef.isDataItem ? "override " : ""#>bool IsValid
+			public override bool IsValid
 			{
 				get
 				{
@@ -344,7 +364,7 @@ namespace Pokerole.Core{
 			/// <returns>A new instance of <see cref="<#=classDef.name#>"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public <#=classDef.isDataItem ? "override " : ""#><#=classDef.name#> Build(){
+			public override <#=classDef.name#> Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");
