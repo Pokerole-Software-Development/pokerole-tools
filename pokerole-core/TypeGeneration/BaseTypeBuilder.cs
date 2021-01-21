@@ -107,6 +107,7 @@ namespace Pokerole.Core{
 		/// List of effects this move causes when it hits
 		/// </summary>
 		public IReadOnlyList<string> Effects { get; }
+		[XmlType(nameof(Move), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : DataItemBuilder<Move>
 		{
 			public Builder() { }
@@ -142,28 +143,78 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// The power of the move
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Power { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Power", IsNullable = false)]
+			public int PowerXmlAccessor
+			{
+				get => Power ?? default;
+				set => Power = value;
+
+			}
 			/// <summary>
 			/// Category of the move
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public MoveCategory? MoveCategory { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("MoveCategory", IsNullable = false)]
+			public MoveCategory MoveCategoryXmlAccessor
+			{
+				get => MoveCategory ?? default;
+				set => MoveCategory = value;
+
+			}
 			/// <summary>
 			/// Move Type
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public ItemReference<ITypeDefinition>? Type { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Type", IsNullable = false)]
+			public ItemReference<ITypeDefinition> TypeXmlAccessor
+			{
+				get => Type ?? default;
+				set => Type = value;
+
+			}
 			/// <summary>
 			/// What this move targets
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public MoveTarget? MoveTarget { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("MoveTarget", IsNullable = false)]
+			public MoveTarget MoveTargetXmlAccessor
+			{
+				get => MoveTarget ?? default;
+				set => MoveTarget = value;
+
+			}
 			/// <summary>
 			/// Whether or not this move is ranged
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public bool? Ranged { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Ranged", IsNullable = false)]
+			public bool RangedXmlAccessor
+			{
+				get => Ranged ?? default;
+				set => Ranged = value;
+
+			}
 			/// <summary>
 			/// Skills used to roll accuracy for this move
 			/// </summary>
@@ -172,8 +223,18 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// How many more successes are needed for this attack to hit
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? ReducedAccuracy { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("ReducedAccuracy", IsNullable = false)]
+			public int ReducedAccuracyXmlAccessor
+			{
+				get => ReducedAccuracy ?? default;
+				set => ReducedAccuracy = value;
+
+			}
 			/// <summary>
 			/// Skill used to roll damage for this move if any
 			/// </summary>
@@ -182,18 +243,48 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// How many more dice to add to the damage roll pool
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? DamageModifier { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("DamageModifier", IsNullable = false)]
+			public int DamageModifierXmlAccessor
+			{
+				get => DamageModifier ?? default;
+				set => DamageModifier = value;
+
+			}
 			/// <summary>
 			/// Refer to AdditionalInfo if this is true
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public bool? HasSpecialAccuracyMod { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("HasSpecialAccuracyMod", IsNullable = false)]
+			public bool HasSpecialAccuracyModXmlAccessor
+			{
+				get => HasSpecialAccuracyMod ?? default;
+				set => HasSpecialAccuracyMod = value;
+
+			}
 			/// <summary>
 			/// Refer to AdditionalInfo if this is true
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public bool? HasSpecialDamageMod { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("HasSpecialDamageMod", IsNullable = false)]
+			public bool HasSpecialDamageModXmlAccessor
+			{
+				get => HasSpecialDamageMod ?? default;
+				set => HasSpecialDamageMod = value;
+
+			}
 			/// <summary>
 			/// More information about this move that could not be contained in the other variables
 			/// </summary>
@@ -291,7 +382,7 @@ namespace Pokerole.Core{
 					Description!,
 					Power!.Value,
 					MoveCategory!.Value,
-					Type!,
+					Type!.Value,
 					MoveTarget!.Value,
 					Ranged!.Value,
 					Accuracy!,
@@ -323,6 +414,7 @@ namespace Pokerole.Core{
 		/// Item Description
 		/// </summary>
 		public string Description { get; }
+		[XmlType(nameof(Item), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : DataItemBuilder<Item>
 		{
 			public Builder() { }
@@ -399,6 +491,7 @@ namespace Pokerole.Core{
 		/// DexEntry to use when mega-evolved
 		/// </summary>
 		public ItemReference<DexEntry> TargetEvolution { get; }
+		[XmlType(nameof(MegaEvolutionEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : ItemBuilder<MegaEvolutionEntry>
 		{
 			public Builder() { }
@@ -410,13 +503,33 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Item the Pokémon must be holding to perform this megaevolution
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public ItemReference<Item>? Item { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Item", IsNullable = false)]
+			public ItemReference<Item> ItemXmlAccessor
+			{
+				get => Item ?? default;
+				set => Item = value;
+
+			}
 			/// <summary>
 			/// DexEntry to use when mega-evolved
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public ItemReference<DexEntry>? TargetEvolution { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("TargetEvolution", IsNullable = false)]
+			public ItemReference<DexEntry> TargetEvolutionXmlAccessor
+			{
+				get => TargetEvolution ?? default;
+				set => TargetEvolution = value;
+
+			}
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="MegaEvolutionEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -448,8 +561,8 @@ namespace Pokerole.Core{
 					throw new InvalidOperationException("Not all required fields were set");
 				}
 				return new MegaEvolutionEntry(
-					Item!,
-					TargetEvolution!);
+					Item!.Value,
+					TargetEvolution!.Value);
 			}
 		}
 	}
@@ -470,6 +583,7 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public ItemReference<Move> Move { get; }
+		[XmlType(nameof(MoveEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : ItemBuilder<MoveEntry>
 		{
 			public Builder() { }
@@ -483,11 +597,31 @@ namespace Pokerole.Core{
 			/// </summary>
 			[XmlAttribute()]
 			public Rank? Rank { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Rank", IsNullable = false)]
+			public Rank RankXmlAccessor
+			{
+				get => Rank ?? default;
+				set => Rank = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public ItemReference<Move>? Move { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Move", IsNullable = false)]
+			public ItemReference<Move> MoveXmlAccessor
+			{
+				get => Move ?? default;
+				set => Move = value;
+
+			}
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="MoveEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -520,7 +654,7 @@ namespace Pokerole.Core{
 				}
 				return new MoveEntry(
 					Rank!.Value,
-					Move!);
+					Move!.Value);
 			}
 		}
 	}
@@ -541,6 +675,7 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public ItemReference<Ability> Ability { get; }
+		[XmlType(nameof(AbilityEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : ItemBuilder<AbilityEntry>
 		{
 			public Builder() { }
@@ -554,11 +689,31 @@ namespace Pokerole.Core{
 			/// </summary>
 			[XmlAttribute()]
 			public bool? Hidden { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Hidden", IsNullable = false)]
+			public bool HiddenXmlAccessor
+			{
+				get => Hidden ?? default;
+				set => Hidden = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public ItemReference<Ability>? Ability { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Ability", IsNullable = false)]
+			public ItemReference<Ability> AbilityXmlAccessor
+			{
+				get => Ability ?? default;
+				set => Ability = value;
+
+			}
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="AbilityEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -591,7 +746,7 @@ namespace Pokerole.Core{
 				}
 				return new AbilityEntry(
 					Hidden!.Value,
-					Ability!);
+					Ability!.Value);
 			}
 		}
 	}
@@ -787,6 +942,7 @@ namespace Pokerole.Core{
 		/// List of moves that this Pokémon can learn
 		/// </summary>
 		public IReadOnlyList<MoveEntry> MoveSet { get; }
+		[XmlType(nameof(DexEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : DataItemBuilder<DexEntry>
 		{
 			public Builder() { }
@@ -828,18 +984,48 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// The international dex number of this Pokémon
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? DexNum { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("DexNum", IsNullable = false)]
+			public int DexNumXmlAccessor
+			{
+				get => DexNum ?? default;
+				set => DexNum = value;
+
+			}
 			/// <summary>
 			/// Whether or not this Pokémon is recommended as a starter
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public bool? SuggestedStarer { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("SuggestedStarer", IsNullable = false)]
+			public bool SuggestedStarerXmlAccessor
+			{
+				get => SuggestedStarer ?? default;
+				set => SuggestedStarer = value;
+
+			}
 			/// <summary>
 			/// The primary type of this Pokémon
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public ItemReference<ITypeDefinition>? PrimaryType { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("PrimaryType", IsNullable = false)]
+			public ItemReference<ITypeDefinition> PrimaryTypeXmlAccessor
+			{
+				get => PrimaryType ?? default;
+				set => PrimaryType = value;
+
+			}
 			/// <summary>
 			/// The secondary type of this Pokémon if applicable
 			/// </summary>
@@ -878,13 +1064,33 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Suggested starting rank of this Pokémon
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public Rank? SuggestedRank { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("SuggestedRank", IsNullable = false)]
+			public Rank SuggestedRankXmlAccessor
+			{
+				get => SuggestedRank ?? default;
+				set => SuggestedRank = value;
+
+			}
 			/// <summary>
 			/// The base hp of this Pokémon
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? BaseHp { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("BaseHp", IsNullable = false)]
+			public int BaseHpXmlAccessor
+			{
+				get => BaseHp ?? default;
+				set => BaseHp = value;
+
+			}
 			/// <summary>
 			/// Primary display image of this Pokémon
 			/// </summary>
@@ -986,53 +1192,153 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// The maximum strength score this Pokémon can have
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? MaxStrength { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("MaxStrength", IsNullable = false)]
+			public int MaxStrengthXmlAccessor
+			{
+				get => MaxStrength ?? default;
+				set => MaxStrength = value;
+
+			}
 			/// <summary>
 			/// The initial strength score this Pokémon has
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? StartingStrength { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("StartingStrength", IsNullable = false)]
+			public int StartingStrengthXmlAccessor
+			{
+				get => StartingStrength ?? default;
+				set => StartingStrength = value;
+
+			}
 			/// <summary>
 			/// The maximum dexterity score this Pokémon can have
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? MaxDexterity { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("MaxDexterity", IsNullable = false)]
+			public int MaxDexterityXmlAccessor
+			{
+				get => MaxDexterity ?? default;
+				set => MaxDexterity = value;
+
+			}
 			/// <summary>
 			/// The initial dexterity score this Pokémon has
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? StartingDexterity { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("StartingDexterity", IsNullable = false)]
+			public int StartingDexterityXmlAccessor
+			{
+				get => StartingDexterity ?? default;
+				set => StartingDexterity = value;
+
+			}
 			/// <summary>
 			/// The maximum vitality score this Pokémon can have
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? MaxVitality { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("MaxVitality", IsNullable = false)]
+			public int MaxVitalityXmlAccessor
+			{
+				get => MaxVitality ?? default;
+				set => MaxVitality = value;
+
+			}
 			/// <summary>
 			/// The initial vitality score this Pokémon has
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? StartingVitality { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("StartingVitality", IsNullable = false)]
+			public int StartingVitalityXmlAccessor
+			{
+				get => StartingVitality ?? default;
+				set => StartingVitality = value;
+
+			}
 			/// <summary>
 			/// The maximum special score this Pokémon can have
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? MaxSpecial { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("MaxSpecial", IsNullable = false)]
+			public int MaxSpecialXmlAccessor
+			{
+				get => MaxSpecial ?? default;
+				set => MaxSpecial = value;
+
+			}
 			/// <summary>
 			/// The initial special score this Pokémon has
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? StartingSpecial { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("StartingSpecial", IsNullable = false)]
+			public int StartingSpecialXmlAccessor
+			{
+				get => StartingSpecial ?? default;
+				set => StartingSpecial = value;
+
+			}
 			/// <summary>
 			/// The maximum insight score this Pokémon can have
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? MaxInsight { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("MaxInsight", IsNullable = false)]
+			public int MaxInsightXmlAccessor
+			{
+				get => MaxInsight ?? default;
+				set => MaxInsight = value;
+
+			}
 			/// <summary>
 			/// The initial insight score this Pokémon has
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? StartingInsight { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("StartingInsight", IsNullable = false)]
+			public int StartingInsightXmlAccessor
+			{
+				get => StartingInsight ?? default;
+				set => StartingInsight = value;
+
+			}
 			/// <summary>
 			/// List of moves that this Pokémon can learn
 			/// </summary>
@@ -1196,7 +1502,7 @@ namespace Pokerole.Core{
 				return new DexEntry(DataId!.Value,
 					DexNum!.Value,
 					SuggestedStarer!.Value,
-					PrimaryType!,
+					PrimaryType!.Value,
 					SecondaryType,
 					Name!,
 					Variant,
@@ -1516,6 +1822,7 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public IReadOnlyList<string> Ribbons { get; }
+		[XmlType(nameof(MonInstance), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : DataItemBuilder<MonInstance>
 		{
 			public Builder() { }
@@ -1578,8 +1885,18 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// The DexEntry that currently defines this Pokémon
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public ItemReference<DexEntry>? Definition { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Definition", IsNullable = false)]
+			public ItemReference<DexEntry> DefinitionXmlAccessor
+			{
+				get => Definition ?? default;
+				set => Definition = value;
+
+			}
 			/// <summary>
 			/// The name of this Pokémon
 			/// </summary>
@@ -1588,8 +1905,18 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// This Pokémon's usual ability
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public ItemReference<Ability>? Ability { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Ability", IsNullable = false)]
+			public ItemReference<Ability> AbilityXmlAccessor
+			{
+				get => Ability ?? default;
+				set => Ability = value;
+
+			}
 			/// <summary>
 			/// This Pokémon's current ability if it isn't the usual ability, such as what happens when one gets hit by simple beam
 			/// </summary>
@@ -1598,18 +1925,48 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? HP { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("HP", IsNullable = false)]
+			public int HPXmlAccessor
+			{
+				get => HP ?? default;
+				set => HP = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? WillPoints { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("WillPoints", IsNullable = false)]
+			public int WillPointsXmlAccessor
+			{
+				get => WillPoints ?? default;
+				set => WillPoints = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public ItemReference<Item>? HeldItem { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("HeldItem", IsNullable = false)]
+			public ItemReference<Item> HeldItemXmlAccessor
+			{
+				get => HeldItem ?? default;
+				set => HeldItem = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
@@ -1618,28 +1975,78 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? EvasionDice { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("EvasionDice", IsNullable = false)]
+			public int EvasionDiceXmlAccessor
+			{
+				get => EvasionDice ?? default;
+				set => EvasionDice = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? ClashDice { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("ClashDice", IsNullable = false)]
+			public int ClashDiceXmlAccessor
+			{
+				get => ClashDice ?? default;
+				set => ClashDice = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Defence { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Defence", IsNullable = false)]
+			public int DefenceXmlAccessor
+			{
+				get => Defence ?? default;
+				set => Defence = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? SpecialDefence { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("SpecialDefence", IsNullable = false)]
+			public int SpecialDefenceXmlAccessor
+			{
+				get => SpecialDefence ?? default;
+				set => SpecialDefence = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public Rank? Rank { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Rank", IsNullable = false)]
+			public Rank RankXmlAccessor
+			{
+				get => Rank ?? default;
+				set => Rank = value;
+
+			}
 			/// <summary>
 			/// List of moves this Pokémon knows
 			/// </summary>
@@ -1687,88 +2094,258 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Strength { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Strength", IsNullable = false)]
+			public int StrengthXmlAccessor
+			{
+				get => Strength ?? default;
+				set => Strength = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Dexterity { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Dexterity", IsNullable = false)]
+			public int DexterityXmlAccessor
+			{
+				get => Dexterity ?? default;
+				set => Dexterity = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Vitality { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Vitality", IsNullable = false)]
+			public int VitalityXmlAccessor
+			{
+				get => Vitality ?? default;
+				set => Vitality = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Special { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Special", IsNullable = false)]
+			public int SpecialXmlAccessor
+			{
+				get => Special ?? default;
+				set => Special = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Insight { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Insight", IsNullable = false)]
+			public int InsightXmlAccessor
+			{
+				get => Insight ?? default;
+				set => Insight = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Brawl { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Brawl", IsNullable = false)]
+			public int BrawlXmlAccessor
+			{
+				get => Brawl ?? default;
+				set => Brawl = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Channel { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Channel", IsNullable = false)]
+			public int ChannelXmlAccessor
+			{
+				get => Channel ?? default;
+				set => Channel = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Clash { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Clash", IsNullable = false)]
+			public int ClashXmlAccessor
+			{
+				get => Clash ?? default;
+				set => Clash = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Evasion { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Evasion", IsNullable = false)]
+			public int EvasionXmlAccessor
+			{
+				get => Evasion ?? default;
+				set => Evasion = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Alert { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Alert", IsNullable = false)]
+			public int AlertXmlAccessor
+			{
+				get => Alert ?? default;
+				set => Alert = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Athletic { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Athletic", IsNullable = false)]
+			public int AthleticXmlAccessor
+			{
+				get => Athletic ?? default;
+				set => Athletic = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Nature { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Nature", IsNullable = false)]
+			public int NatureXmlAccessor
+			{
+				get => Nature ?? default;
+				set => Nature = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Stealth { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Stealth", IsNullable = false)]
+			public int StealthXmlAccessor
+			{
+				get => Stealth ?? default;
+				set => Stealth = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Allure { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Allure", IsNullable = false)]
+			public int AllureXmlAccessor
+			{
+				get => Allure ?? default;
+				set => Allure = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Etiquette { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Etiquette", IsNullable = false)]
+			public int EtiquetteXmlAccessor
+			{
+				get => Etiquette ?? default;
+				set => Etiquette = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Intimidate { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Intimidate", IsNullable = false)]
+			public int IntimidateXmlAccessor
+			{
+				get => Intimidate ?? default;
+				set => Intimidate = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Perform { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Perform", IsNullable = false)]
+			public int PerformXmlAccessor
+			{
+				get => Perform ?? default;
+				set => Perform = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
@@ -1777,53 +2354,153 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Tough { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Tough", IsNullable = false)]
+			public int ToughXmlAccessor
+			{
+				get => Tough ?? default;
+				set => Tough = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Cool { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Cool", IsNullable = false)]
+			public int CoolXmlAccessor
+			{
+				get => Cool ?? default;
+				set => Cool = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Beauty { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Beauty", IsNullable = false)]
+			public int BeautyXmlAccessor
+			{
+				get => Beauty ?? default;
+				set => Beauty = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Clever { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Clever", IsNullable = false)]
+			public int CleverXmlAccessor
+			{
+				get => Clever ?? default;
+				set => Clever = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Cute { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Cute", IsNullable = false)]
+			public int CuteXmlAccessor
+			{
+				get => Cute ?? default;
+				set => Cute = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public Nature? MonNature { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("MonNature", IsNullable = false)]
+			public Nature MonNatureXmlAccessor
+			{
+				get => MonNature ?? default;
+				set => MonNature = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Happiness { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Happiness", IsNullable = false)]
+			public int HappinessXmlAccessor
+			{
+				get => Happiness ?? default;
+				set => Happiness = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? Loyalty { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Loyalty", IsNullable = false)]
+			public int LoyaltyXmlAccessor
+			{
+				get => Loyalty ?? default;
+				set => Loyalty = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? BattleCount { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("BattleCount", IsNullable = false)]
+			public int BattleCountXmlAccessor
+			{
+				get => BattleCount ?? default;
+				set => BattleCount = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
-			[XmlElement(IsNullable = false)]
+			[XmlIgnore]
 			public int? VicoryCount { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("VicoryCount", IsNullable = false)]
+			public int VicoryCountXmlAccessor
+			{
+				get => VicoryCount ?? default;
+				set => VicoryCount = value;
+
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
@@ -2046,13 +2723,13 @@ namespace Pokerole.Core{
 				}
 				return new MonInstance(DataId!.Value,
 					Picture!,
-					Definition!,
+					Definition!.Value,
 					Name!,
-					Ability!,
+					Ability!.Value,
 					OveriddenAblity,
 					HP!.Value,
 					WillPoints!.Value,
-					HeldItem!,
+					HeldItem!.Value,
 					Status!,
 					EvasionDice!.Value,
 					ClashDice!.Value,
@@ -2101,6 +2778,7 @@ namespace Pokerole.Core{
 		public Ability(DataId dataId) : base(dataId)
 		{
 		}
+		[XmlType(nameof(Ability), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : DataItemBuilder<Ability>
 		{
 			public Builder() { }
@@ -2144,6 +2822,7 @@ namespace Pokerole.Core{
 		public EvolutionList(DataId dataId) : base(dataId)
 		{
 		}
+		[XmlType(nameof(EvolutionList), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : DataItemBuilder<EvolutionList>
 		{
 			public Builder() { }

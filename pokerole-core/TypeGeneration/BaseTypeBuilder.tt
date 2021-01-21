@@ -233,6 +233,7 @@ namespace Pokerole.Core{
 		//}
 		String lowercaseClassName = LowercaseInitial(classDef.name);
 #>
+		[XmlType(nameof(<#=classDef.name#>), Namespace = "<#=primarySchema.TargetNamespace#>")]
 		public class Builder : <#= String.Format(classDef.isDataItem ? "DataItemBuilder<{0}>" : "ItemBuilder<{0}>",
  classDef.name)#>
 		{
@@ -255,7 +256,8 @@ namespace Pokerole.Core{
 #>
 			}
 <#
-  #if false
+//comment this block out...
+#if false
 		if (classDef.isDataItem)
 		{
 #>
@@ -263,7 +265,7 @@ namespace Pokerole.Core{
 			DataId? DataId {get; set;}
 <#
 		}
-  #endif
+#endif
 		foreach	(FieldDef field in classDef.fields)
 		{
 			bool needsBuilderEntry = false;
@@ -282,7 +284,7 @@ namespace Pokerole.Core{
 			{
 				Write("XmlAttribute()");
 			}
-			else if (needsBuilderEntry)
+			else if (needsBuilderEntry || (!field.isReferenceType && !field.nullable))
 			{
 				Write("XmlIgnore");
 			}
@@ -292,7 +294,28 @@ namespace Pokerole.Core{
 			}
 #>]
 			public <#= field.GetTypeDeclaration(false, true) #> <#=field.name#> { get; set; }
-<#			if (needsBuilderEntry)
+<#			if (!field.isReferenceType && !field.nullable)
+			{
+				//xmlseriralizer will throw a fit if we ask it to make a nullable not nullable, so we need to do magic
+				#>
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("<#=field.name#>", IsNullable = false)]
+			public <#=field.GetTypeDeclaration(false, false)#> <#=field.name#>XmlAccessor
+			{
+				get => <#=field.name#> ?? default;
+				set => <#=field.name#> = value;
+
+			}
+<#
+
+				
+				continue;
+			}
+			
+
+			if (needsBuilderEntry)
 			{#>
 			[Browsable(false)]
 			[DebuggerHidden]

@@ -4,9 +4,10 @@ Features:
 	Parse and/or generate the core rulebook
 	Use "Yes" for Aceus stats?
 	Search 'mon, items, moves, etc.
-Task:
-	Determine programming language and licence...
-		Not too sure about using Java at the moment...
+Projects:
+	Core: contains classes and records needed to read and write pokemon classes
+	Generator: Generates instances of classes and such, including encounters
+	UI: A UI to use the tool and the generators
 
 ? = May be null
 Types and Classes:

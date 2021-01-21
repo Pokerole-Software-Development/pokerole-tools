@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -8,6 +11,86 @@ using System.Xml.Serialization;
 
 namespace Pokerole.Core
 {
+	public readonly struct DataId : IEquatable<DataId>
+	{
+		//This is a nullable int since "0" is a valid db id and we don't want to have to worry about that issue
+		public int? DbId { get; }
+		public Guid Uuid { get; }
+		public DataId(int? dbId, Guid uuid)
+		{
+			DbId = dbId;
+			Uuid = uuid;
+		}
+		[XmlType(nameof(DataId), Namespace = "https://www.pokeroleproject.com/schemas/ExternalTypes.xsd")]
+		public class Builder
+		{
+			public Builder() { }
+			public Builder(DataId id)
+			{
+				DbId = id.DbId;
+				Uuid = id.Uuid;
+			}
+			public int? DbId { get; set; }
+			public Guid Uuid { get; set; }
+			public DataId Build()
+			{
+				return new DataId(DbId, Uuid);
+			}
+		}
+
+		public override bool Equals(object? obj) => obj is DataId id && Equals(id);
+		public bool Equals(DataId other) => DbId == other.DbId && Uuid.Equals(other.Uuid);
+		public override int GetHashCode() => HashCode.Combine(DbId, Uuid);
+
+		public static bool operator ==(DataId left, DataId right)
+		{
+			return left.Equals(right);
+		}
+
+		public static bool operator !=(DataId left, DataId right)
+		{
+			return !(left == right);
+		}
+		public override string? ToString()
+		{
+			return $"DbId = {DbId}, Uuid = {Uuid}";
+		}
+	}
+	public readonly struct ItemReference<T> : IEquatable<ItemReference<T>> where T : IDataItem
+	{
+		public ItemReference(DataId id) : this(id, null) { }
+		public ItemReference(DataId id, String? name)
+		{
+			DataId = id;
+			DisplayName = name;
+		}
+		[XmlAttribute]
+		public String? DisplayName { get; }
+		[XmlElement(IsNullable = false)]
+		public DataId DataId { get; }
+
+		public override bool Equals(object? obj) => obj is ItemReference<T> reference && Equals(reference);
+
+		public bool Equals([AllowNull] ItemReference<T> other) => DataId == other.DataId && DisplayName == other.DisplayName;
+		public override int GetHashCode() => HashCode.Combine(DisplayName, DataId);
+
+		[XmlType(nameof(ItemReference<T>), Namespace = "https://www.pokeroleproject.com/schemas/ExternalTypes.xsd")]
+		public class Builder
+		{
+			public DataId DataId { get; set; }
+			public String? DisplayName { get; set; }
+			public Builder() { }
+			public Builder(ItemReference<T> item)
+			{
+				DataId = item.DataId;
+				DisplayName = item.DisplayName;
+			}
+			public ItemReference<T> Build()
+			{
+				return new ItemReference<T>(DataId, DisplayName);
+			}
+		}
+	}
 	public interface IDataItem
 	{
 		public DataId DataId { get; }
@@ -47,8 +130,29 @@ namespace Pokerole.Core
 	}
 	public abstract class DataItemBuilder<T> : ItemBuilder<T> where T : IDataItem
 	{
-		[XmlElement(IsNullable = false)]
+		[XmlIgnore]
 		public DataId? DataId {get;set; }
+
+
+		[Browsable(false)]
+		[DebuggerHidden]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		[XmlElement("DataId", IsNullable = false)]
+		public DataId.Builder DataIdXmlAccessor
+		{
+			get => new DataId.Builder(DataId ?? default);
+			set => DataId = value.Build();
+		}
+
+		//[Browsable(false)]
+		//[DebuggerHidden]
+		//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		//[XmlElement("DataId", IsNullable = false)]
+		//public DataId DataIdAccessor
+		//{
+		//	get => DataId ?? default;
+		//	set => DataId = value;
+		//}
 	}
 	public interface IEffect { }
 	public class ImageRef { }
@@ -69,19 +173,6 @@ namespace Pokerole.Core
 		}
 		[XmlText]
 		public String Value { get; }
-	}
-	public record ItemReference<T> where T : IDataItem
-	{
-		public ItemReference(DataId id) : this(id, null) { }
-		public ItemReference(DataId id, String? name)
-		{
-			DataId = id;
-			DisplayName = name;
-		}
-		[XmlAttribute]
-		public String? DisplayName { get; }
-		[XmlElement(IsNullable = false)]
-		public DataId DataId { get; }
 	}
 	[XmlRoot("PokeroleData")]
 	public class PokeroleXmlData

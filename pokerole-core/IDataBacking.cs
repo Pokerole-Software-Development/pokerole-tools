@@ -6,54 +6,11 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Pokerole.Core
 {
-	public readonly struct DataId : IEquatable<DataId>
-	{
-		//This is a nullable int since "0" is a valid db id and we don't want to have to worry about that issue
-		public int? DbId { get; }
-		public Guid Uuid { get; }
-		public DataId(int? dbId, Guid uuid)
-		{
-			DbId = dbId;
-			Uuid = uuid;
-		}
-		
-		public class Builder
-		{
-			public Builder() { }
-			public Builder(DataId id)
-			{
-				DbId = id.DbId;
-				Uuid = id.Uuid;
-			}
-			public int? DbId { get; set; }
-			public Guid Uuid { get; set; }
-			public DataId Build()
-			{
-				return new DataId(DbId, Uuid);
-			}
-		}
-
-		public override bool Equals(object? obj) => obj is DataId id && Equals(id);
-		public bool Equals(DataId other) => DbId == other.DbId && Uuid.Equals(other.Uuid);
-		public override int GetHashCode() => HashCode.Combine(DbId, Uuid);
-
-		public static bool operator ==(DataId left, DataId right)
-		{
-			return left.Equals(right);
-		}
-
-		public static bool operator !=(DataId left, DataId right)
-		{
-			return !(left == right);
-		}
-		public override string? ToString()
-		{
-			return $"DbId = {DbId}, Uuid = {Uuid}";
-		}
-	}
+	
 	public interface IDataBacking<T> where T : class, IDataBackedItem<T>
 	{
 		int ItemId { get; }
