@@ -99,6 +99,12 @@ namespace Pokerole.Core
 	{
 		private readonly DataId dataId;
 		public DataId DataId => dataId;
+		/// <summary>
+		/// Whether or not this item is out of date. If true, you should replace this instance with a fresher one from
+		/// wherever you get your data (like a database)
+		/// </summary>
+		public bool OutOfDate { get; private set; }
+		public void MarkOutOfDate() => OutOfDate = true;
 		protected BaseDataItem(DataId id)
 		{
 			dataId = id;
@@ -156,25 +162,7 @@ namespace Pokerole.Core
 	}
 	public interface IEffect { }
 	public class ImageRef { }
-	public record Height
-	{
-		public Height(String value)
-		{
-			Value = value;
-		}
-		[XmlText]
-		public String Value { get; }
-	}
-	public record Weight
-	{
-		public Weight(String value)
-		{
-			Value = value;
-		}
-		[XmlText]
-		public String Value { get; }
-	}
-	[XmlRoot("PokeroleData")]
+	[XmlRoot("PokeroleData", Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 	public class PokeroleXmlData
 	{
 		[XmlAnyAttribute]

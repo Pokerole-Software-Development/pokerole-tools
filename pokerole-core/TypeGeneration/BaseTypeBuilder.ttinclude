@@ -12,7 +12,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.CodeDom.Compiler" #><#+
-	bool IsReferenceType(XmlSchemaSet schemaSet, XmlQualifiedName name)
+	static bool IsReferenceType(XmlSchemaSet schemaSet, XmlQualifiedName name)
 	{
 		if (name.Name == "string")
 		{
@@ -28,7 +28,8 @@
 		}
 		return false;
 	}
-	String GrabTypeFromAttribute(XmlSchemaElement parent, XmlAttribute unhandled, String structuresPath)
+	FieldType GrabTypeFromAttribute(XmlSchemaElement parent, XmlAttribute unhandled, String structuresPath,
+		XmlSchemaSet schemaSet, Dictionary<String, ClassDef> classes)
 	{
 		String verified;
 		try{verified = XmlConvert.VerifyName(unhandled.Value); }
@@ -41,11 +42,22 @@
 					});
 			return null;
 		}
-		int colonIndex = verified.IndexOf(':');
-		if (colonIndex > -1){
-			verified = verified.Substring(colonIndex + 1);
+		XmlQualifiedName name;
+		String[] parts = verified.Split(':');
+		if (parts.Length > 1)
+		{
+			name = new XmlQualifiedName(parts[1], parts[0]);
 		}
-		return verified;
+		else
+		{
+			name = new XmlQualifiedName(verified);
+		}
+		ClassDef def;
+		if (!classes.TryGetValue(name.Name, out def))
+		{
+			def = null;
+		}
+		return new FieldType(NormalizeType(name.Name), IsReferenceType(schemaSet, name), def);
 	}
 	String LowercaseInitial(String input){
 		if (String.IsNullOrEmpty(input)){
@@ -53,7 +65,7 @@
 		}
 		return char.ToLowerInvariant(input[0]) + input.Substring(1);
 	}
-	String NormalizeType(String input){
+	static String NormalizeType(String input){
 		if (input == "boolean"){
 			return "bool";
 		}
@@ -71,14 +83,73 @@
 		public string name;
 		public bool referById = false;
 		public bool isDbLazy;
-		public bool isDict;
-		public bool isList;
-		public String type;
-		public String keyType, valueType;
-		public String listType;
-		public String genericType;
-		public bool nullable;
-		public bool isReferenceType;
+		//public bool isDict;
+		//public bool isList;
+		public FieldType type;
+		//public String keyType, valueType;
+		//public String listType;
+		//public String genericType;
+		//public bool nullable;
+		//public bool isReferenceType;
+	}
+	class FieldType
+	{
+		String plainType;
+		public bool isNullable = false;
+		public bool IsReferenceType { get; }
+		public ClassDef ClassType { get; }
+		private FieldType genericType;
+		public FieldType ListType { get; }
+		public FieldType(String plainType, bool isReferenceType)
+		{
+			this.plainType = plainType;
+			IsReferenceType = isReferenceType;
+		}
+		public FieldType(String plainType, bool isReferenceType, ClassDef classDef)
+		{
+			this.plainType = plainType;
+			IsReferenceType = isReferenceType;
+			ClassType = classDef;
+		}
+		//FieldType(String plainType, FieldType genericType
+		public static FieldType ResolveType(FieldType genericType, FieldType listType,
+			XmlQualifiedName typeName, XmlSchemaSet schemaSet, Dictionary<String, ClassDef> classes)
+		{
+			return new FieldType(genericType, listType, typeName, schemaSet, classes);
+		}
+		FieldType(FieldType genericType, FieldType listType,
+			XmlQualifiedName typeName, XmlSchemaSet schemaSet, Dictionary<String, ClassDef> classes){
+			ClassDef tempDef;
+			IsReferenceType = IsReferenceType(schemaSet, typeName) || listType != null;
+			plainType = NormalizeType(typeName.Name);
+			if(classes.TryGetValue(plainType, out tempDef))
+			{
+				ClassType = tempDef;
+			}
+			this.genericType = genericType;
+			this.ListType = listType;
+		}
+		public bool NeedsXmlBuilder()
+		{
+			if (ClassType != null || plainType == "ItemReference")
+			{
+				return true;
+			}
+			if (ListType != null)
+			{
+				return ListType.NeedsXmlBuilder();
+			}
+			return false;
+		}
+		public static String GetBasicTypeDeclaration(String type, FieldType genericType, bool nullable)
+		{
+			String generic = genericType != null ? genericType.plainType : null;
+			return GetBasicTypeDeclaration(type, generic, nullable);
+		}
+		public static String GetBasicTypeDeclaration(FieldType type, FieldType genericType, bool nullable)
+		{
+			return GetBasicTypeDeclaration(type.plainType, genericType, nullable);
+		}
 		public static String GetBasicTypeDeclaration(String type, String genericType, bool nullable)
 		{
 			if (!String.IsNullOrEmpty(genericType))
@@ -88,29 +159,28 @@
 			}
 			return nullable ? type + "?" : type;
 		}
-		public String GetTypeDeclaration(bool readOnly){
-			if (!isList && !isDict){
-				return GetBasicTypeDeclaration(type, genericType, nullable);
-			}
-			if (isList)
-			{
-				String itemType = GetBasicTypeDeclaration(listType, genericType, false);
-				return String.Format(readOnly ? "IReadOnlyList<{0}>" : "List<{0}>", itemType);
-			}
-			return String.Format(readOnly ? "IReadOnlyDictionary<{0}, {1}>" : "Dictionary<{0}, {1}>",
-				keyType, valueType);
-		}
-		public String GetBuilderTypeDeclaration()
+		public String GetTypeDeclaration(bool readOnly)
 		{
-			if (!isList)
+			if (ListType == null)
 			{
-				throw new InvalidOperationException("Type is not a list");
+				//something "simple"
+				return GetBasicTypeDeclaration(plainType, genericType, isNullable);
 			}
-			return String.Format("{0}.Builder[]", GetBasicTypeDeclaration(listType, genericType, false));
+			//is a list
+			String itemType = GetBasicTypeDeclaration(ListType, genericType, false);
+			return String.Format(readOnly ? "IReadOnlyList<{0}>" : "List<{0}>", itemType);
 		}
+		//public String GetBuilderTypeDeclaration()
+		//{
+			//if (!isList)
+			//{
+				//throw new InvalidOperationException("Type is not a list");
+			//}
+			//return String.Format("{0}.Builder[]", GetBasicTypeDeclaration(listType, genericType, false));
+		//}
 		public String GetTypeDeclaration(bool readOnly, bool forceNullable)
 		{
-			if (nullable || !forceNullable)
+			if (isNullable || !forceNullable || ListType != null)
 			{
 				return GetTypeDeclaration(readOnly);
 			}
@@ -118,24 +188,21 @@
 		}
 		public String GetAssignment(String incomingValue, bool readOnly)
 		{
-			if (!isList && !isDict)
+			if (ListType == null)
 			{
 				return incomingValue;
 			}
-			if (isList)
-			{
-				String itemType = GetBasicTypeDeclaration(listType, genericType, false);
-				if (!readOnly)
-				{
-					return $"new List<{itemType}>({incomingValue})";
-				}
-				return $"new List<{itemType}>({incomingValue}).AsReadOnly()";
-			}
+			String itemType = GetBasicTypeDeclaration(ListType, genericType, false);
 			if (!readOnly)
 			{
-				return $"new Dictionary<{keyType}, {valueType}>({incomingValue})";
+				return $"new List<{itemType}>({incomingValue})";
 			}
-			return $"new ReadOnlyDictionary<{keyType}, {valueType}>(new Dictionary<{keyType}, {valueType}>({incomingValue}))";
+			return $"new List<{itemType}>({incomingValue}).AsReadOnly()";			
+			//if (!readOnly)
+			//{
+				//return $"new Dictionary<{keyType}, {valueType}>({incomingValue})";
+			//}
+			//return $"new ReadOnlyDictionary<{keyType}, {valueType}>(new Dictionary<{keyType}, {valueType}>({incomingValue}))";
 		}
 	}
 

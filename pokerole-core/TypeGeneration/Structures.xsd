@@ -175,6 +175,18 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="Height">
+		<xs:attribute name="Units" type="xs:string"/>
+		<xs:attribute name="Value" type="xs:double"/>
+	</xs:complexType>
+	<xs:complexType name="Weight">
+		<xs:attribute name="Units" type="xs:string"/>
+		<xs:attribute name="Value" type="xs:double"/>
+	</xs:complexType>
+	<xs:complexType name="CustomSkillEntry">
+		<xs:attribute name="Skill" type="xs:string"/>
+		<xs:attribute name="Value" type="xs:int"/>
+	</xs:complexType>
 	<xs:complexType name="MegaEvolutionEntry">
 		<xs:sequence>
 			<xs:element name="Item" type="ex:ItemReference" ex:genericType="Item">
@@ -243,12 +255,12 @@
 							<xs:documentation>Regional variant of this Pokémon (if applicable) such as "Galaran"</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="AverageHeight" type="ex:Height">
+					<xs:element name="AverageHeight" type="Height">
 						<xs:annotation>
 							<xs:documentation>The average height of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="AverageWeight" type="ex:Weight">
+					<xs:element name="AverageWeight" type="Weight">
 						<xs:annotation>
 							<xs:documentation>The average weight of this Pokémon</xs:documentation>
 						</xs:annotation>
@@ -476,12 +488,12 @@
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
-					<xs:element name="Height" type="ex:Height">
+					<xs:element name="Height" type="Height">
 						<xs:annotation>
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Weight" type="ex:Weight">
+					<xs:element name="Weight" type="Weight">
 						<xs:annotation>
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
@@ -577,7 +589,14 @@
 						</xs:annotation>
 					</xs:element>
 					<!--Taken and modified from https://stackoverflow.com/a/6729836/1366594 -->
-					<xs:element name="CustomSkills" ex:isDict="true" ex:keyType="xs:string" ex:valueType="xs:int">
+					<xs:element name="CustomSkills" ex:listItemType="CustomSkillEntry">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="CustomSkillEntry" type="CustomSkillEntry" maxOccurs="unbounded" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<!--<xs:element name="CustomSkills" ex:isDict="true" ex:keyType="xs:string" ex:valueType="xs:int">
 						<xs:complexType>
 							<xs:sequence>
 								<xs:element maxOccurs="unbounded" name="CustomSkill">
@@ -594,7 +613,7 @@
 							<xs:field xpath="@key"/>
 						</xs:unique>
 
-					</xs:element>
+					</xs:element>-->
 					<!--Social Attributes-->
 					<xs:element name="Tough" type="xs:int">
 						<xs:annotation>

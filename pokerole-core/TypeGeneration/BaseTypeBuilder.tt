@@ -61,14 +61,15 @@
 	//parse things further since we now know all classes in the template file
 	foreach (var def in classes.Values){
 		XmlSchemaComplexType typeDef = def.definition;
-		XmlSchemaSequence sequence = (XmlSchemaSequence)def.definition.ContentTypeParticle;
-		def.fields = new List<FieldDef>(sequence.Items.Count + typeDef.Attributes.Count);
+		XmlSchemaSequence sequence = def.definition.ContentTypeParticle as XmlSchemaSequence;
+		def.fields = new List<FieldDef>((sequence == null ? 0 : sequence.Items.Count) + typeDef.Attributes.Count);
 		foreach (XmlSchemaAttribute attr in typeDef.Attributes)
 		{
 			FieldDef field = new FieldDef();
 			field.name = attr.Name;
 			field.isAttribute = true;
-			field.type = NormalizeType(attr.SchemaTypeName.Name);
+			field.type = new FieldType(NormalizeType(attr.SchemaTypeName.Name),
+				IsReferenceType(schemaSet, attr.SchemaTypeName));
 			if (attr.Annotation != null)
 			{
 				XmlSchemaDocumentation documentation = attr.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
@@ -81,7 +82,10 @@
 			}
 			def.fields.Add(field);
 		}
-		
+		if (sequence == null)
+		{
+			continue;
+		}
 		foreach	(XmlSchemaElement item in sequence.Items){
 			if (item.Name == "DataId"){
 				//skip that one. It will be present in the base class
@@ -99,47 +103,27 @@
 					}
 				}
 			}
-
+			FieldType genericType = null;
+			FieldType listType = null;
 			if (item.UnhandledAttributes != null)
 			{
 				foreach (XmlAttribute unhandled in item.UnhandledAttributes)
 				{
-					String type;
 					switch (unhandled.LocalName){
 						case "isDbLazy":
 							field.isDbLazy = XmlConvert.ToBoolean(unhandled.Value);
 							break;
-						case "isDict":
-							field.isDict = XmlConvert.ToBoolean(unhandled.Value);
-							break;
-						case "keyType":
-							type = GrabTypeFromAttribute(item, unhandled, structuresPath);
-							if (type == null){
-								continue;
-							}
-							field.keyType = type;
-							break;
-						case "valueType":
-							type = GrabTypeFromAttribute(item, unhandled, structuresPath);
-							if (type == null){
-								continue;
-							}
-							field.valueType = type;
-							break;
+						//case "keyType":
+							//keyType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
+							//break;
+						//case "valueType":
+							//valueType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
+							//break;
 						case "listItemType":
-							type = GrabTypeFromAttribute(item, unhandled, structuresPath);
-							if (type == null){
-								continue;
-							}
-							field.listType = type;
-							field.isList = true;
+							listType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
 							break;
 						case "genericType":
-							type = GrabTypeFromAttribute(item, unhandled, structuresPath);
-							if (type == null){
-								continue;
-							}
-							field.genericType = type;
+							genericType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
 							break;
 						default:
 							this.Host.LogErrors(new CompilerErrorCollection(){
@@ -150,13 +134,9 @@
 					}
 				}
 			}
-			field.type = NormalizeType(item.SchemaTypeName.Name);
-			field.isReferenceType = IsReferenceType(schemaSet, item.SchemaTypeName) || field.isList || field.isDict;
-			//ClassDef other;
-			//if (classes.TryGetValue(field.type, out other) && other.isDataItem){
-				//field.type = String.Format("ItemReference<{0}>", field.type);
-			//}
-			field.nullable = item.IsNillable;
+			field.type = FieldType.ResolveType(genericType, listType, item.SchemaTypeName,
+				schemaSet, classes);
+			field.type.isNullable = item.IsNillable;
 			def.fields.Add(field);
 		}
 	}
@@ -202,7 +182,7 @@ namespace Pokerole.Core{
 			else{
 				Write(",\r\n\t\t\t");
 			}
-			Write("{0} {1}", field.GetTypeDeclaration(false, false), LowercaseInitial(field.name));
+			Write("{0} {1}", field.type.GetTypeDeclaration(false, false), LowercaseInitial(field.name));
 		}
 		Write(")");
 		if (classDef.isDataItem){
@@ -213,7 +193,7 @@ namespace Pokerole.Core{
 		{
 <#
 		foreach(FieldDef field in classDef.fields){
-			Write("\t\t\t{0} = {1};\r\n", field.name, field.GetAssignment(LowercaseInitial(field.name), true));
+			Write("\t\t\t{0} = {1};\r\n", field.name, field.type.GetAssignment(LowercaseInitial(field.name), true));
 		}
 #>
 		}
@@ -223,7 +203,7 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// <#= !String.IsNullOrEmpty(field.documentation) ? field.documentation : "Someone didn't document this item..." #>
 		/// </summary>
-		public <#= field.GetTypeDeclaration(true, false) #> <#=field.name#> { get; }
+		public <#= field.type.GetTypeDeclaration(true, false) #> <#=field.name#> { get; }
 <#		}
 		//if (!classDef.isDataItem)
 		//{
@@ -237,7 +217,24 @@ namespace Pokerole.Core{
 		public class Builder : <#= String.Format(classDef.isDataItem ? "DataItemBuilder<{0}>" : "ItemBuilder<{0}>",
  classDef.name)#>
 		{
-			public Builder() { }
+			public Builder()
+			{<#
+		bool first = true;
+		foreach (FieldDef field in classDef.fields)
+		{
+			if (field.type.ListType == null)
+			{
+				continue;
+			}
+			if (first)
+			{
+				Write("\r\n");
+				first = false;
+			}
+#>				<#=field.name#> = <#=field.type.GetAssignment("10", false)#>;
+<#
+		}
+#>			}
 			public Builder(<#=classDef.name#> <#=lowercaseClassName#>)
 			{
 <#
@@ -250,30 +247,16 @@ namespace Pokerole.Core{
 #>
 <#
 		foreach (FieldDef field in classDef.fields){
-			String assignment = field.GetAssignment(String.Format("{0}.{1}", lowercaseClassName, field.name), false);
+			String assignment = field.type.GetAssignment(String.Format("{0}.{1}", lowercaseClassName, field.name), false);
 			Write("\t\t\t\t{0} = {1};\r\n", field.name, assignment);
 		}
 #>
 			}
 <#
-//comment this block out...
-#if false
-		if (classDef.isDataItem)
-		{
-#>
-			[XmlElement(IsNullable = false)]
-			DataId? DataId {get; set;}
-<#
-		}
-#endif
 		foreach	(FieldDef field in classDef.fields)
 		{
-			bool needsBuilderEntry = false;
-			ClassDef otherDef = null;
-			if (field.isList && classes.TryGetValue(field.listType, out otherDef))
-			{
-				needsBuilderEntry = true;
-			}
+			//does this need special handling or can we just do this the easy way?
+			bool needsBuilderEntry = field.type.NeedsXmlBuilder();
 
 #>
 			/// <summary>
@@ -284,17 +267,17 @@ namespace Pokerole.Core{
 			{
 				Write("XmlAttribute()");
 			}
-			else if (needsBuilderEntry || (!field.isReferenceType && !field.nullable))
+			else if (needsBuilderEntry || (!field.type.IsReferenceType && !field.type.isNullable))
 			{
 				Write("XmlIgnore");
 			}
 			else
 			{
-				Write("XmlElement(IsNullable = {0})", field.nullable ? "true" : "false");
+				Write("XmlElement(IsNullable = {0})", field.type.isNullable ? "true" : "false");
 			}
 #>]
-			public <#= field.GetTypeDeclaration(false, true) #> <#=field.name#> { get; set; }
-<#			if (!field.isReferenceType && !field.nullable)
+			public <#= field.type.GetTypeDeclaration(false, true) #> <#=field.name#> { get; set; }
+<#			if (!field.type.IsReferenceType && !field.type.isNullable)
 			{
 				//xmlseriralizer will throw a fit if we ask it to make a nullable not nullable, so we need to do magic
 				#>
@@ -302,7 +285,7 @@ namespace Pokerole.Core{
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			[XmlElement("<#=field.name#>", IsNullable = false)]
-			public <#=field.GetTypeDeclaration(false, false)#> <#=field.name#>XmlAccessor
+			public <#=field.type.GetTypeDeclaration(false, false)#> <#=field.name#>NullableXmlAccessor
 			{
 				get => <#=field.name#> ?? default;
 				set => <#=field.name#> = value;
@@ -313,14 +296,35 @@ namespace Pokerole.Core{
 				
 				continue;
 			}
-			
-
-			if (needsBuilderEntry)
-			{#>
+			if (!needsBuilderEntry)
+			{
+				continue;
+			}
+#>			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlArray("<#=field.name#>", IsNullable = <#=field.nullable ? "true" : "false"#>)]
+<#			//ClassDef needsBuilder = 
+
+
+
+
+			ClassDef otherDef = field.type.ClassType;
+			if (otherDef != null)
+			{
+				//non-list custom type
+				Write("bar\r\n");
+
+
+				continue;
+			}
+			otherDef = field.type.ListType.ClassType;
+#>
+
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("<#=field.name#>", IsNullable = <#=field.type.isNullable ? "true" : "false"#>)]
 			[XmlArrayItem("<#=otherDef.name#>")]
 			public <#=otherDef.name#>.Builder[] <#=field.name#>Builder
 			{
@@ -346,7 +350,7 @@ namespace Pokerole.Core{
 					ItemBuilder<<#=otherDef.name#>>.BuildList(value, <#=field.name#>);
 				}
 			}
-<#			}
+<#		
 		}#>
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
@@ -366,7 +370,7 @@ namespace Pokerole.Core{
 <#
 		foreach(FieldDef field in classDef.fields)
 		{
-			if (field.nullable)
+			if (field.type.isNullable)
 			{
 				//no check needed
 				continue;
@@ -410,12 +414,12 @@ namespace Pokerole.Core{
 				Write(",");
 			}
 			Write("\r\n\t\t\t\t\t");
-			if (field.nullable)
+			if (field.type.isNullable)
 			{
 				Write(field.name);
 				continue;
 			}
-			if (!field.isReferenceType)
+			if (!field.type.IsReferenceType)
 			{
 				Write("{0}!.Value", field.name);
 				continue;

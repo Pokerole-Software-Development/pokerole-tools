@@ -24,9 +24,9 @@
 	<xs:attribute name="genericType" type="xs:QName"/>
 	<xs:attribute name="listItemType" type="xs:QName"/>
 	<xs:attribute name="isDbLazy" type="xs:boolean"/>
-	<xs:attribute name="isDict" type="xs:boolean"/>
-	<xs:attribute name="keyType" type="xs:QName"/>
-	<xs:attribute name="valueType" type="xs:QName"/>
+	<!--<xs:attribute name="isDict" type="xs:boolean"/>-->
+	<!--<xs:attribute name="keyType" type="xs:QName"/>
+	<xs:attribute name="valueType" type="xs:QName"/>-->
 	
 
 	<xs:complexType name="DataId">
@@ -45,8 +45,6 @@
 		<xs:attribute name="DisplayName" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<!--TODO: Implement-->
-	<xs:complexType name="Height"/>
-	<xs:complexType name="Weight"/>
 	<xs:complexType name="ImageRef"/>
 	<!--Interfaces-->
 	<xs:complexType name="ITypeDefinition">
