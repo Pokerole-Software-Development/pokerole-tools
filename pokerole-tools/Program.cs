@@ -69,12 +69,12 @@ namespace Pokerole.Tools
 
 				//Accuracy
 				item = fields[6];
-				skill = ParseEnum<BuiltInSkill>(item);
+				skill = String.IsNullOrEmpty(item) ? BuiltInSkill.Undefined : ParseEnum<BuiltInSkill>(item);
 				skillDef = SkillManager.GetBuiltInSkill(skill);
 				builder.Accuracy.Add(new ItemReference<ISkill>(skillDef.DataId, skillDef.Name));
 
 				item = fields[7];
-				skill = ParseEnum<BuiltInSkill>(item);
+				skill = String.IsNullOrEmpty(item) ? BuiltInSkill.Undefined : ParseEnum<BuiltInSkill>(item);
 				skillDef = SkillManager.GetBuiltInSkill(skill);
 				builder.Accuracy.Add(new ItemReference<ISkill>(skillDef.DataId, skillDef.Name));
 
