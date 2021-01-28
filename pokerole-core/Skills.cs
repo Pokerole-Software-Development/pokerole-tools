@@ -53,7 +53,7 @@ namespace Pokerole.Core
 				{ BuiltInSkill.Happiness, Guid.Parse("9d882c06-536a-48ae-b8d4-68cf2175e889") },
 				{ BuiltInSkill.Loyalty, Guid.Parse("e44f6385-7cfc-4169-98ee-499ab945febd") }, 
 				{ BuiltInSkill.Will, Guid.Parse("82fd7a85-126a-4f73-962e-af0a62edf97d") }, 
-				{ BuiltInSkill.Undefined, Guid.Parse("6de5dac7-0b13-4c58-9f6a-892cc71a580c") }, 
+				{ BuiltInSkill.None, Guid.Parse("6de5dac7-0b13-4c58-9f6a-892cc71a580c") }, 
 	#endregion
 			});
 		public static IReadOnlyList<ISkill> RegisteredSkills
@@ -137,8 +137,7 @@ namespace Pokerole.Core
 				BuiltInSkill.Crafts or BuiltInSkill.Lore or BuiltInSkill.Medicine or BuiltInSkill.Science =>
 					SkillCategory.Knowledge,
 				BuiltInSkill.Happiness or BuiltInSkill.Loyalty => SkillCategory.HappinesOrLoyalty,
-				BuiltInSkill.Will => SkillCategory.Will,
-				BuiltInSkill.Undefined => SkillCategory.Undefined,
+				BuiltInSkill.Will or BuiltInSkill.None => SkillCategory.Other,
 				_ => throw new InvalidOperationException($"Unknown base skill: {skill}"),
 			};
 			return new BuiltInSkillImpl(skill, exclusivity, category);
@@ -202,8 +201,7 @@ namespace Pokerole.Core
 		Social,
 		Knowledge,
 		HappinesOrLoyalty,
-		Will,
-		Undefined,
+		Other,
 		Extra
 	}
 	public enum BuiltInSkill
@@ -246,7 +244,7 @@ namespace Pokerole.Core
 		Happiness,
 		Loyalty,
 		Will,
-		Undefined
+		None
 
 	}
 }
