@@ -21,9 +21,17 @@
 		XmlSchemaObject item = schemaSet.GlobalTypes[name];
 		XmlSchemaComplexType type = item as XmlSchemaComplexType;
 		if (type != null){
-			if (type.Name == "ItemReference" || type.Name == "DataId"){
-				return false;
+			switch (type.Name)
+			{
+				case "ItemReference":
+				case "DataId":
+				case "Height":
+				case "Weight":
+					return false;
 			}
+			//if (type.Name == "ItemReference" || type.Name == "DataId"){
+				//return false;
+			//}
 			return true;
 		}
 		return false;
@@ -73,6 +81,7 @@
 	}
 	class ClassDef{
 		public bool isDataItem;
+		public bool isReferenceType;
 		public String name;
 		public XmlSchemaComplexType definition;
 		public List<FieldDef> fields;
@@ -170,14 +179,22 @@
 			String itemType = GetBasicTypeDeclaration(ListType, genericType, false);
 			return String.Format(readOnly ? "IReadOnlyList<{0}>" : "List<{0}>", itemType);
 		}
-		//public String GetBuilderTypeDeclaration()
-		//{
-			//if (!isList)
-			//{
-				//throw new InvalidOperationException("Type is not a list");
-			//}
-			//return String.Format("{0}.Builder[]", GetBasicTypeDeclaration(listType, genericType, false));
-		//}
+		public String GetBuilderTypeDeclaration()
+		{
+			if (ListType == null)
+			{
+				return $"{GetBasicTypeDeclaration(plainType, genericType, false)}.Builder";
+			}
+			return String.Format("{0}.Builder[]", GetBasicTypeDeclaration(ListType, genericType, false));
+		}
+		public String GetListType()
+		{
+			if (ListType == null)
+			{
+				throw new InvalidOperationException("Type is not a list");
+			}
+			return GetBasicTypeDeclaration(ListType, genericType, false);
+		}
 		public String GetTypeDeclaration(bool readOnly, bool forceNullable)
 		{
 			if (isNullable || !forceNullable || ListType != null)

@@ -56,6 +56,7 @@
 		def.definition = typeDef;
 		def.isDataItem = isDataItem;
 		def.name = typeDef.Name;
+		def.isReferenceType = IsReferenceType(schemaSet, typeDef.QualifiedName);
 		classes[def.name] = def;
 	}
 	//parse things further since we now know all classes in the template file
@@ -163,6 +164,12 @@ namespace Pokerole.Core{
 	{
 <#
 		}
+		else if (!classDef.isReferenceType){
+#>	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public struct <#=classDef.name#>
+	{
+<#
+		}
 		else{
 #>	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
 	public record <#=classDef.name#>
@@ -263,13 +270,13 @@ namespace Pokerole.Core{
 			/// <#= !String.IsNullOrEmpty(field.documentation) ? field.documentation : "Someone didn't document this item..." #>
 			/// </summary>
 			[<#
-			if (field.isAttribute)
-			{
-				Write("XmlAttribute()");
-			}
-			else if (needsBuilderEntry || (!field.type.IsReferenceType && !field.type.isNullable))
+			if (needsBuilderEntry || (!field.type.IsReferenceType && !field.type.isNullable))
 			{
 				Write("XmlIgnore");
+			}
+			else if (field.isAttribute)
+			{
+				Write("XmlAttribute()");
 			}
 			else
 			{
@@ -277,19 +284,18 @@ namespace Pokerole.Core{
 			}
 #>]
 			public <#= field.type.GetTypeDeclaration(false, true) #> <#=field.name#> { get; set; }
-<#			if (!field.type.IsReferenceType && !field.type.isNullable)
+<#			if (!needsBuilderEntry && !field.type.IsReferenceType && !field.type.isNullable)
 			{
 				//xmlseriralizer will throw a fit if we ask it to make a nullable not nullable, so we need to do magic
 				#>
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("<#=field.name#>", IsNullable = false)]
+			[<#=field.isAttribute ? "XmlAttribute" : "XmlElement"#>("<#=field.name#>"<#=field.isAttribute ? "" : ", IsNullable = false"#>)]
 			public <#=field.type.GetTypeDeclaration(false, false)#> <#=field.name#>NullableXmlAccessor
 			{
 				get => <#=field.name#> ?? default;
 				set => <#=field.name#> = value;
-
 			}
 <#
 
@@ -304,11 +310,24 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-<#			//ClassDef needsBuilder = 
+<#
+			//if (field.type
 
 
 
+			if (field.type.ListType == null)
+			{
+				//not a list
+#>			public <#=field.type.GetBuilderTypeDeclaration()#>? <#=field.name#>XmlAccessor
+			{
+				get => new <#=field.type.GetBuilderTypeDeclaration()#>(<#=field.name#> ?? default);
+				set => <#=field.name#> = value?.Build();
+			}
 
+<#
+				continue;
+				
+			}
 			ClassDef otherDef = field.type.ClassType;
 			if (otherDef != null)
 			{
@@ -318,23 +337,21 @@ namespace Pokerole.Core{
 
 				continue;
 			}
+			String rawListType = field.type.ListType.GetTypeDeclaration(false);
+			String listType = field.type.GetListType();
 			otherDef = field.type.ListType.ClassType;
 #>
-
-			[Browsable(false)]
-			[DebuggerHidden]
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			[XmlArray("<#=field.name#>", IsNullable = <#=field.type.isNullable ? "true" : "false"#>)]
-			[XmlArrayItem("<#=otherDef.name#>")]
-			public <#=otherDef.name#>.Builder[] <#=field.name#>Builder
+			[XmlArrayItem("<#=rawListType#>")]
+			public <#=listType#>.Builder[] <#=field.name#>Builder
 			{
 				get
 				{
 					if (<#=field.name#> == null)
 					{
-						return Array.Empty<<#=otherDef.name#>.Builder>();
+						return Array.Empty<<#=listType#>.Builder>();
 					}
-					return <#=field.name#>.Select(item=>new <#=otherDef.name#>.Builder(item)).ToArray();
+					return <#=field.name#>.Select(item=>new <#=listType#>.Builder(item)).ToArray();
 				}
 				set
 				{
@@ -345,9 +362,9 @@ namespace Pokerole.Core{
 					}
 					if (<#=field.name#> == null)
 					{
-						<#=field.name#> = new List<<#=otherDef.name#>>(value.Length);
+						<#=field.name#> = new List<<#=listType#>>(value.Length);
 					}
-					ItemBuilder<<#=otherDef.name#>>.BuildList(value, <#=field.name#>);
+					ItemBuilder<<#=listType#>>.BuildList(value, <#=field.name#>);
 				}
 			}
 <#		

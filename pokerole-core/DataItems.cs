@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace Pokerole.Core
@@ -74,10 +75,20 @@ namespace Pokerole.Core
 		public bool Equals([AllowNull] ItemReference<T> other) => DataId == other.DataId && DisplayName == other.DisplayName;
 		public override int GetHashCode() => HashCode.Combine(DisplayName, DataId);
 
-		[XmlType(nameof(ItemReference<T>), Namespace = "https://www.pokeroleproject.com/schemas/ExternalTypes.xsd")]
-		public class Builder
+		//[XmlType(nameof(ItemReference<T>), Namespace = "https://www.pokeroleproject.com/schemas/ExternalTypes.xsd")]
+		//have to implement IXmlSerializable to make things work?
+		public class Builder : ItemBuilder<ItemReference<T>>, IXmlSerializable
 		{
+			[XmlIgnore]
 			public DataId DataId { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			public DataId.Builder DataIdXmlAccessor
+			{
+				get => new DataId.Builder(DataId);
+				set => DataId = value.Build();
+			}
 			public String? DisplayName { get; set; }
 			public Builder() { }
 			public Builder(ItemReference<T> item)
@@ -85,9 +96,32 @@ namespace Pokerole.Core
 				DataId = item.DataId;
 				DisplayName = item.DisplayName;
 			}
-			public ItemReference<T> Build()
+			//an empty instance of this struct is technically valid
+			public override bool IsValid => true;
+			public override ItemReference<T> Build()
 			{
 				return new ItemReference<T>(DataId, DisplayName);
+			}
+
+			public XmlSchema? GetSchema() => null;
+			public void ReadXml(XmlReader reader)
+			{
+				reader.MoveToContent();
+				if (reader.HasAttributes)
+				{
+					DisplayName = reader.GetAttribute(nameof(DisplayName));
+				}
+				DataId.Builder builder = new DataId.Builder();
+				reader.ReadStartElement(nameof(Core.DataId),
+					"https://www.pokeroleproject.com/schemas/ExternalTypes.xsd");
+				throw new NotImplementedException("Implement this!!!");
+
+
+			}
+			public void WriteXml(XmlWriter writer)
+			{
+
+				throw new NotImplementedException();
 			}
 		}
 	}
