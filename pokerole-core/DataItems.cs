@@ -14,6 +14,7 @@ namespace Pokerole.Core
 {
 	public readonly struct DataId : IEquatable<DataId>
 	{
+		internal static readonly XmlSerializer dataIdSerializer = new XmlSerializer(typeof(DataId.Builder));
 		//This is a nullable int since "0" is a valid db id and we don't want to have to worry about that issue
 		public int? DbId { get; }
 		public Guid Uuid { get; }
@@ -79,16 +80,17 @@ namespace Pokerole.Core
 		//have to implement IXmlSerializable to make things work?
 		public class Builder : ItemBuilder<ItemReference<T>>, IXmlSerializable
 		{
+			//private static readonly XmlSerializer dataIdSerializer = new XmlSerializer(typeof(DataId));
 			[XmlIgnore]
 			public DataId DataId { get; set; }
-			[Browsable(false)]
-			[DebuggerHidden]
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			public DataId.Builder DataIdXmlAccessor
-			{
-				get => new DataId.Builder(DataId);
-				set => DataId = value.Build();
-			}
+			//[Browsable(false)]
+			//[DebuggerHidden]
+			//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			//public DataId.Builder DataIdXmlAccessor
+			//{
+			//	get => new DataId.Builder(DataId);
+			//	set => DataId = value.Build();
+			//}
 			public String? DisplayName { get; set; }
 			public Builder() { }
 			public Builder(ItemReference<T> item)
@@ -124,8 +126,7 @@ namespace Pokerole.Core
 				{
 					writer.WriteAttributeString(nameof(DisplayName), DisplayName);
 				}
-
-				throw new NotImplementedException();
+				DataId.dataIdSerializer.Serialize(writer, new DataId.Builder(DataId));
 			}
 		}
 	}

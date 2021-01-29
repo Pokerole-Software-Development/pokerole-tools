@@ -321,7 +321,7 @@ namespace Pokerole.Core{
 #>			[<#=field.isAttribute ? "XmlAttribute" : "XmlElement"#>("<#=field.name#>"<#=field.isAttribute ? "" : ", IsNullable = false"#>)]
 			public <#=field.type.GetBuilderTypeDeclaration()#>? <#=field.name#>XmlAccessor
 			{
-				get => new <#=field.type.GetBuilderTypeDeclaration()#>(<#=field.name#> ?? default);
+				get => <#=field.name#> is null ? null : new <#=field.type.GetBuilderTypeDeclaration()#>(<#=field.name#> ?? default);
 				set => <#=field.name#> = value?.Build();
 			}
 

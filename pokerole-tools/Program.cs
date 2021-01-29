@@ -18,7 +18,15 @@ namespace Pokerole.Tools
 			ReadDexEntries(data);
 
 			XmlSerializer xmlSerializer = new XmlSerializer(typeof(PokeroleXmlData));
-			xmlSerializer.Serialize(Console.Out, data);
+
+			StringWriter writer = new StringWriter();
+			xmlSerializer.Serialize(writer, data);
+			File.WriteAllText("output.xml", writer.ToString());
+			Console.WriteLine(writer.ToString());
+
+			//for the sake of testing
+			PokeroleXmlData data2 = (PokeroleXmlData)xmlSerializer.Deserialize(new StringReader(writer.ToString()));
+
 			//Console.WriteLine("Hello World!");
 		}
 		private static String FetchFileIfNeeded(String file)

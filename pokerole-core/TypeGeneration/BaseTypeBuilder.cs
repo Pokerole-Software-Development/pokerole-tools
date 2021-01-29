@@ -197,7 +197,7 @@ namespace Pokerole.Core{
 			[XmlElement("Type", IsNullable = false)]
 			public ItemReference<ITypeDefinition>.Builder? TypeXmlAccessor
 			{
-				get => new ItemReference<ITypeDefinition>.Builder(Type ?? default);
+				get => Type is null ? null : new ItemReference<ITypeDefinition>.Builder(Type ?? default);
 				set => Type = value?.Build();
 			}
 
@@ -241,7 +241,7 @@ namespace Pokerole.Core{
 			[XmlElement("PrimaryAccuracySkill", IsNullable = false)]
 			public ItemReference<ISkill>.Builder? PrimaryAccuracySkillXmlAccessor
 			{
-				get => new ItemReference<ISkill>.Builder(PrimaryAccuracySkill ?? default);
+				get => PrimaryAccuracySkill is null ? null : new ItemReference<ISkill>.Builder(PrimaryAccuracySkill ?? default);
 				set => PrimaryAccuracySkill = value?.Build();
 			}
 
@@ -271,7 +271,7 @@ namespace Pokerole.Core{
 			[XmlElement("SecondaryAccuracySkill", IsNullable = false)]
 			public ItemReference<ISkill>.Builder? SecondaryAccuracySkillXmlAccessor
 			{
-				get => new ItemReference<ISkill>.Builder(SecondaryAccuracySkill ?? default);
+				get => SecondaryAccuracySkill is null ? null : new ItemReference<ISkill>.Builder(SecondaryAccuracySkill ?? default);
 				set => SecondaryAccuracySkill = value?.Build();
 			}
 
@@ -301,7 +301,7 @@ namespace Pokerole.Core{
 			[XmlElement("DamageSkill", IsNullable = false)]
 			public ItemReference<ISkill>.Builder? DamageSkillXmlAccessor
 			{
-				get => new ItemReference<ISkill>.Builder(DamageSkill ?? default);
+				get => DamageSkill is null ? null : new ItemReference<ISkill>.Builder(DamageSkill ?? default);
 				set => DamageSkill = value?.Build();
 			}
 
@@ -832,7 +832,7 @@ namespace Pokerole.Core{
 			[XmlElement("Item", IsNullable = false)]
 			public ItemReference<Item>.Builder? ItemXmlAccessor
 			{
-				get => new ItemReference<Item>.Builder(Item ?? default);
+				get => Item is null ? null : new ItemReference<Item>.Builder(Item ?? default);
 				set => Item = value?.Build();
 			}
 
@@ -848,7 +848,7 @@ namespace Pokerole.Core{
 			[XmlElement("TargetEvolution", IsNullable = false)]
 			public ItemReference<DexEntry>.Builder? TargetEvolutionXmlAccessor
 			{
-				get => new ItemReference<DexEntry>.Builder(TargetEvolution ?? default);
+				get => TargetEvolution is null ? null : new ItemReference<DexEntry>.Builder(TargetEvolution ?? default);
 				set => TargetEvolution = value?.Build();
 			}
 
@@ -941,7 +941,7 @@ namespace Pokerole.Core{
 			[XmlElement("Move", IsNullable = false)]
 			public ItemReference<Move>.Builder? MoveXmlAccessor
 			{
-				get => new ItemReference<Move>.Builder(Move ?? default);
+				get => Move is null ? null : new ItemReference<Move>.Builder(Move ?? default);
 				set => Move = value?.Build();
 			}
 
@@ -1034,7 +1034,7 @@ namespace Pokerole.Core{
 			[XmlElement("Ability", IsNullable = false)]
 			public ItemReference<Ability>.Builder? AbilityXmlAccessor
 			{
-				get => new ItemReference<Ability>.Builder(Ability ?? default);
+				get => Ability is null ? null : new ItemReference<Ability>.Builder(Ability ?? default);
 				set => Ability = value?.Build();
 			}
 
@@ -1350,7 +1350,7 @@ namespace Pokerole.Core{
 			[XmlElement("PrimaryType", IsNullable = false)]
 			public ItemReference<ITypeDefinition>.Builder? PrimaryTypeXmlAccessor
 			{
-				get => new ItemReference<ITypeDefinition>.Builder(PrimaryType ?? default);
+				get => PrimaryType is null ? null : new ItemReference<ITypeDefinition>.Builder(PrimaryType ?? default);
 				set => PrimaryType = value?.Build();
 			}
 
@@ -1366,7 +1366,7 @@ namespace Pokerole.Core{
 			[XmlElement("SecondaryType", IsNullable = false)]
 			public ItemReference<ITypeDefinition>.Builder? SecondaryTypeXmlAccessor
 			{
-				get => new ItemReference<ITypeDefinition>.Builder(SecondaryType ?? default);
+				get => SecondaryType is null ? null : new ItemReference<ITypeDefinition>.Builder(SecondaryType ?? default);
 				set => SecondaryType = value?.Build();
 			}
 
@@ -1392,7 +1392,7 @@ namespace Pokerole.Core{
 			[XmlElement("AverageHeight", IsNullable = false)]
 			public Height.Builder? AverageHeightXmlAccessor
 			{
-				get => new Height.Builder(AverageHeight ?? default);
+				get => AverageHeight is null ? null : new Height.Builder(AverageHeight ?? default);
 				set => AverageHeight = value?.Build();
 			}
 
@@ -1408,7 +1408,7 @@ namespace Pokerole.Core{
 			[XmlElement("AverageWeight", IsNullable = false)]
 			public Weight.Builder? AverageWeightXmlAccessor
 			{
-				get => new Weight.Builder(AverageWeight ?? default);
+				get => AverageWeight is null ? null : new Weight.Builder(AverageWeight ?? default);
 				set => AverageWeight = value?.Build();
 			}
 
@@ -1517,7 +1517,7 @@ namespace Pokerole.Core{
 			[XmlElement("EvolutionList", IsNullable = false)]
 			public ItemReference<EvolutionList>.Builder? EvolutionListXmlAccessor
 			{
-				get => new ItemReference<EvolutionList>.Builder(EvolutionList ?? default);
+				get => EvolutionList is null ? null : new ItemReference<EvolutionList>.Builder(EvolutionList ?? default);
 				set => EvolutionList = value?.Build();
 			}
 
@@ -1533,7 +1533,7 @@ namespace Pokerole.Core{
 			[XmlElement("MegaEvolutionBaseEntry", IsNullable = false)]
 			public ItemReference<DexEntry>.Builder? MegaEvolutionBaseEntryXmlAccessor
 			{
-				get => new ItemReference<DexEntry>.Builder(MegaEvolutionBaseEntry ?? default);
+				get => MegaEvolutionBaseEntry is null ? null : new ItemReference<DexEntry>.Builder(MegaEvolutionBaseEntry ?? default);
 				set => MegaEvolutionBaseEntry = value?.Build();
 			}
 
@@ -2296,7 +2296,7 @@ namespace Pokerole.Core{
 			[XmlElement("Definition", IsNullable = false)]
 			public ItemReference<DexEntry>.Builder? DefinitionXmlAccessor
 			{
-				get => new ItemReference<DexEntry>.Builder(Definition ?? default);
+				get => Definition is null ? null : new ItemReference<DexEntry>.Builder(Definition ?? default);
 				set => Definition = value?.Build();
 			}
 
@@ -2317,7 +2317,7 @@ namespace Pokerole.Core{
 			[XmlElement("Ability", IsNullable = false)]
 			public ItemReference<Ability>.Builder? AbilityXmlAccessor
 			{
-				get => new ItemReference<Ability>.Builder(Ability ?? default);
+				get => Ability is null ? null : new ItemReference<Ability>.Builder(Ability ?? default);
 				set => Ability = value?.Build();
 			}
 
@@ -2333,7 +2333,7 @@ namespace Pokerole.Core{
 			[XmlElement("OveriddenAblity", IsNullable = false)]
 			public ItemReference<Ability>.Builder? OveriddenAblityXmlAccessor
 			{
-				get => new ItemReference<Ability>.Builder(OveriddenAblity ?? default);
+				get => OveriddenAblity is null ? null : new ItemReference<Ability>.Builder(OveriddenAblity ?? default);
 				set => OveriddenAblity = value?.Build();
 			}
 
@@ -2349,7 +2349,7 @@ namespace Pokerole.Core{
 			[XmlElement("OverridenType1", IsNullable = false)]
 			public ItemReference<ITypeDefinition>.Builder? OverridenType1XmlAccessor
 			{
-				get => new ItemReference<ITypeDefinition>.Builder(OverridenType1 ?? default);
+				get => OverridenType1 is null ? null : new ItemReference<ITypeDefinition>.Builder(OverridenType1 ?? default);
 				set => OverridenType1 = value?.Build();
 			}
 
@@ -2365,7 +2365,7 @@ namespace Pokerole.Core{
 			[XmlElement("OverridenType2", IsNullable = false)]
 			public ItemReference<ITypeDefinition>.Builder? OverridenType2XmlAccessor
 			{
-				get => new ItemReference<ITypeDefinition>.Builder(OverridenType2 ?? default);
+				get => OverridenType2 is null ? null : new ItemReference<ITypeDefinition>.Builder(OverridenType2 ?? default);
 				set => OverridenType2 = value?.Build();
 			}
 
@@ -2381,7 +2381,7 @@ namespace Pokerole.Core{
 			[XmlElement("OverridenType3", IsNullable = false)]
 			public ItemReference<ITypeDefinition>.Builder? OverridenType3XmlAccessor
 			{
-				get => new ItemReference<ITypeDefinition>.Builder(OverridenType3 ?? default);
+				get => OverridenType3 is null ? null : new ItemReference<ITypeDefinition>.Builder(OverridenType3 ?? default);
 				set => OverridenType3 = value?.Build();
 			}
 
@@ -2425,7 +2425,7 @@ namespace Pokerole.Core{
 			[XmlElement("HeldItem", IsNullable = false)]
 			public ItemReference<Item>.Builder? HeldItemXmlAccessor
 			{
-				get => new ItemReference<Item>.Builder(HeldItem ?? default);
+				get => HeldItem is null ? null : new ItemReference<Item>.Builder(HeldItem ?? default);
 				set => HeldItem = value?.Build();
 			}
 
@@ -2551,7 +2551,7 @@ namespace Pokerole.Core{
 			[XmlElement("Height", IsNullable = false)]
 			public Height.Builder? HeightXmlAccessor
 			{
-				get => new Height.Builder(Height ?? default);
+				get => Height is null ? null : new Height.Builder(Height ?? default);
 				set => Height = value?.Build();
 			}
 
@@ -2567,7 +2567,7 @@ namespace Pokerole.Core{
 			[XmlElement("Weight", IsNullable = false)]
 			public Weight.Builder? WeightXmlAccessor
 			{
-				get => new Weight.Builder(Weight ?? default);
+				get => Weight is null ? null : new Weight.Builder(Weight ?? default);
 				set => Weight = value?.Build();
 			}
 
