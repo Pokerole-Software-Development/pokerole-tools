@@ -113,12 +113,9 @@ namespace Pokerole.Core
 				{
 					DisplayName = reader.GetAttribute(nameof(DisplayName));
 				}
-				DataId.Builder builder = new DataId.Builder();
-				reader.ReadStartElement(nameof(Core.DataId),
-					"https://www.pokeroleproject.com/schemas/ExternalTypes.xsd");
-				throw new NotImplementedException("Implement this!!!");
-
-
+				reader.ReadStartElement();
+				DataId = ((DataId.Builder)DataId.dataIdSerializer.Deserialize(reader)).Build();
+				reader.ReadEndElement();
 			}
 			public void WriteXml(XmlWriter writer)
 			{
