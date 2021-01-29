@@ -103,7 +103,24 @@
 							<xs:documentation>Whether or not this move is ranged</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Accuracy" ex:isDbLazy="true" ex:listItemType="ex:ItemReference" ex:genericType="ex:ISkill">
+					<xs:element name="PrimaryAccuracySkill" type="ex:ItemReference" ex:genericType="ex:ISkill"
+								ex:isDbLazy="true">
+						<xs:annotation>
+							<xs:documentation>Primary skill used for rolling accuracy</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PrimaryAccuracyIsNegative" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>If true, points missing in the primary skill are used for accuracy</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SecondaryAccuracySkill" type="ex:ItemReference" ex:genericType="ex:ISkill"
+								ex:isDbLazy="true">
+						<xs:annotation>
+							<xs:documentation>Secondary skill used for rolling accuracy</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<!--<xs:element name="Accuracy" ex:isDbLazy="true" ex:listItemType="ex:ItemReference" ex:genericType="ex:ISkill">
 						<xs:annotation>
 							<xs:documentation>Skills used to roll accuracy for this move</xs:documentation>
 						</xs:annotation>
@@ -112,7 +129,7 @@
 								<xs:element name="Skill" maxOccurs="unbounded" type="ex:ItemReference" ex:genericType="ex:ISkill" ex:isDbLazy="true" minOccurs="1"/>
 							</xs:sequence>
 						</xs:complexType>
-					</xs:element>
+					</xs:element>-->
 					<xs:element name="ReducedAccuracy" type="xs:int">
 						<xs:annotation>
 							<xs:documentation>How many more successes are needed for this attack to hit</xs:documentation>
@@ -426,6 +443,24 @@
 					<xs:element name="OveriddenAblity" type="ex:ItemReference" ex:genericType="Ability" nillable="true">
 						<xs:annotation>
 							<xs:documentation>This Pokémon's current ability if it isn't the usual ability, such as what happens when one gets hit by simple beam</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OverridenType1" type="ex:ItemReference" ex:genericType="ex:ITypeDefinition"
+								nillable="true">
+						<xs:annotation>
+							<xs:documentation>Override of this Mon's first type if applicable</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OverridenType2" type="ex:ItemReference" ex:genericType="ex:ITypeDefinition"
+								nillable="true">
+						<xs:annotation>
+							<xs:documentation>Override of this Mon's second type if applicable</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OverridenType3" type="ex:ItemReference" ex:genericType="ex:ITypeDefinition"
+								nillable="true">
+						<xs:annotation>
+							<xs:documentation>Additional type added to this mon such as by Trick-Or-Treat</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="HP" type="xs:int">

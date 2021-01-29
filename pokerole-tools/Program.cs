@@ -47,11 +47,31 @@ namespace Pokerole.Tools
 				string[] fields = line.Split(new char[] { ',' }, 10);
 				builder.Name = fields[0];
 				String item = fields[1];
-				BuiltInType type = (BuiltInType)Enum.Parse(typeof(BuiltInType), item, true);
+				BuiltInType type;
+				if (item == "any")
+				{
+					//"Any Move" support...
+					type = BuiltInType.Normal;
+				}
+				else
+				{
+					type = (BuiltInType)Enum.Parse(typeof(BuiltInType), item, true);
+				}
 				ITypeDefinition typeDef = TypeManager.GetBuiltInType(type);
 				builder.Type = new ItemReference<ITypeDefinition>(typeDef.DataId, typeDef.Name);
 
-				builder.MoveCategory = ParseEnum<MoveCategory>(fields[2]);
+				item = fields[2];
+				MoveCategory category;
+				if (item == "???")
+				{
+					//"Any Move" support
+					category = MoveCategory.Physical | MoveCategory.Special | MoveCategory.Support;
+				}
+				else
+				{
+					category = ParseEnum<MoveCategory>(item);
+				}
+				builder.MoveCategory = category;
 				builder.Power = int.Parse(fields[3]);
 
 				//damage skill. Can be empty
@@ -69,17 +89,34 @@ namespace Pokerole.Tools
 
 				//Accuracy
 				item = fields[6];
+				bool negative = item.Contains("missing", StringComparison.OrdinalIgnoreCase);
+				if (negative)
+				{
+					item = item.Replace("missing", "", StringComparison.OrdinalIgnoreCase);
+				}
 				skill = String.IsNullOrEmpty(item) ? BuiltInSkill.None : ParseEnum<BuiltInSkill>(item);
 				skillDef = SkillManager.GetBuiltInSkill(skill);
-				builder.Accuracy.Add(new ItemReference<ISkill>(skillDef.DataId, skillDef.Name));
+				builder.PrimaryAccuracySkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
+				builder.PrimaryAccuracyIsNegative = negative;
 
 				item = fields[7];
 				skill = String.IsNullOrEmpty(item) ? BuiltInSkill.None : ParseEnum<BuiltInSkill>(item);
 				skillDef = SkillManager.GetBuiltInSkill(skill);
-				builder.Accuracy.Add(new ItemReference<ISkill>(skillDef.DataId, skillDef.Name));
+				builder.SecondaryAccuracySkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
 
 				//target
-				builder.MoveTarget = ParseEnum<MoveTarget>(fields[8]);
+				item = fields[8];
+				MoveTarget target;
+				if (item == "Any")
+				{
+					//"Any Move" support
+					target = MoveTarget.Battlefield;
+				}
+				else
+				{
+					target = ParseEnum<MoveTarget>(item);
+				}
+				builder.MoveTarget = target;
 
 				item = fields[9];
 				if (!String.IsNullOrEmpty(item) && "-" != item)

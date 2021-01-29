@@ -43,6 +43,7 @@ namespace Pokerole.Core
 				{ BuiltInSkill.Nature, Guid.Parse("c953af2a-e106-4b55-aeb8-6e8644b7ab70") },
 				{ BuiltInSkill.Stealth, Guid.Parse("bf82a4f2-45ce-45df-ad24-afeb691d1378") },
 				{ BuiltInSkill.Allure, Guid.Parse("157395de-ae48-43f7-8581-dc6159a161ac") },
+				{ BuiltInSkill.Empathy, Guid.Parse("861971d9-7707-4a4c-8117-4d5e42c16289") },
 				{ BuiltInSkill.Etiquette, Guid.Parse("84d5d104-b042-4df0-b910-4ddfddc9ed32") },
 				{ BuiltInSkill.Intimidate, Guid.Parse("c2edd061-c645-4f45-83df-29a92c3a101c") },
 				{ BuiltInSkill.Perform, Guid.Parse("7ec5ccfd-cc2f-4b39-8d69-dca877d65ec9") },
@@ -132,8 +133,8 @@ namespace Pokerole.Core
 					BuiltInSkill.Throw or BuiltInSkill.Weapons => SkillCategory.Fight,
 				BuiltInSkill.Alert or BuiltInSkill.Athletic or BuiltInSkill.Nature or BuiltInSkill.Stealth =>
 					SkillCategory.Survival,
-				BuiltInSkill.Allure or BuiltInSkill.Etiquette or BuiltInSkill.Intimidate or BuiltInSkill.Perform =>
-					SkillCategory.Social,
+				BuiltInSkill.Allure or BuiltInSkill.Empathy or BuiltInSkill.Etiquette or BuiltInSkill.Intimidate or
+					BuiltInSkill.Perform => SkillCategory.Contest,
 				BuiltInSkill.Crafts or BuiltInSkill.Lore or BuiltInSkill.Medicine or BuiltInSkill.Science =>
 					SkillCategory.Knowledge,
 				BuiltInSkill.Happiness or BuiltInSkill.Loyalty => SkillCategory.HappinesOrLoyalty,
@@ -198,7 +199,7 @@ namespace Pokerole.Core
 		SocialAttribute,
 		Fight,
 		Survival,
-		Social,
+		Contest,
 		Knowledge,
 		HappinesOrLoyalty,
 		Other,
@@ -230,8 +231,9 @@ namespace Pokerole.Core
 		Athletic,
 		Nature,
 		Stealth,
-		//Social
+		//Contest Skills
 		Allure,
+		Empathy,//apparently this exists but doesn't?
 		Etiquette,
 		Intimidate,
 		Perform,

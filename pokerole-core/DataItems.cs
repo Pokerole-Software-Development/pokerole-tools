@@ -120,6 +120,10 @@ namespace Pokerole.Core
 			}
 			public void WriteXml(XmlWriter writer)
 			{
+				if (!String.IsNullOrEmpty(DisplayName))
+				{
+					writer.WriteAttributeString(nameof(DisplayName), DisplayName);
+				}
 
 				throw new NotImplementedException();
 			}

@@ -22,7 +22,9 @@ namespace Pokerole.Core{
 			ItemReference<ITypeDefinition> type,
 			MoveTarget moveTarget,
 			bool ranged,
-			List<ItemReference<ISkill>> accuracy,
+			ItemReference<ISkill> primaryAccuracySkill,
+			bool primaryAccuracyIsNegative,
+			ItemReference<ISkill> secondaryAccuracySkill,
 			int reducedAccuracy,
 			ItemReference<ISkill>? damageSkill,
 			int damageModifier,
@@ -38,7 +40,9 @@ namespace Pokerole.Core{
 			Type = type;
 			MoveTarget = moveTarget;
 			Ranged = ranged;
-			Accuracy = new List<ItemReference<ISkill>>(accuracy).AsReadOnly();
+			PrimaryAccuracySkill = primaryAccuracySkill;
+			PrimaryAccuracyIsNegative = primaryAccuracyIsNegative;
+			SecondaryAccuracySkill = secondaryAccuracySkill;
 			ReducedAccuracy = reducedAccuracy;
 			DamageSkill = damageSkill;
 			DamageModifier = damageModifier;
@@ -76,9 +80,17 @@ namespace Pokerole.Core{
 		/// </summary>
 		public bool Ranged { get; }
 		/// <summary>
-		/// Skills used to roll accuracy for this move
+		/// Primary skill used for rolling accuracy
 		/// </summary>
-		public IReadOnlyList<ItemReference<ISkill>> Accuracy { get; }
+		public ItemReference<ISkill> PrimaryAccuracySkill { get; }
+		/// <summary>
+		/// If true, points missing in the primary skill are used for accuracy
+		/// </summary>
+		public bool PrimaryAccuracyIsNegative { get; }
+		/// <summary>
+		/// Secondary skill used for rolling accuracy
+		/// </summary>
+		public ItemReference<ISkill> SecondaryAccuracySkill { get; }
 		/// <summary>
 		/// How many more successes are needed for this attack to hit
 		/// </summary>
@@ -112,7 +124,6 @@ namespace Pokerole.Core{
 		{
 			public Builder()
 			{
-				Accuracy = new List<ItemReference<ISkill>>(10);
 				Effects = new List<string>(10);
 			}
 			public Builder(Move move)
@@ -125,7 +136,9 @@ namespace Pokerole.Core{
 				Type = move.Type;
 				MoveTarget = move.MoveTarget;
 				Ranged = move.Ranged;
-				Accuracy = new List<ItemReference<ISkill>>(move.Accuracy);
+				PrimaryAccuracySkill = move.PrimaryAccuracySkill;
+				PrimaryAccuracyIsNegative = move.PrimaryAccuracyIsNegative;
+				SecondaryAccuracySkill = move.SecondaryAccuracySkill;
 				ReducedAccuracy = move.ReducedAccuracy;
 				DamageSkill = move.DamageSkill;
 				DamageModifier = move.DamageModifier;
@@ -181,6 +194,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Type", IsNullable = false)]
 			public ItemReference<ITypeDefinition>.Builder? TypeXmlAccessor
 			{
 				get => new ItemReference<ITypeDefinition>.Builder(Type ?? default);
@@ -216,40 +230,51 @@ namespace Pokerole.Core{
 				set => Ranged = value;
 			}
 			/// <summary>
-			/// Skills used to roll accuracy for this move
+			/// Primary skill used for rolling accuracy
 			/// </summary>
 			[XmlIgnore]
-			public List<ItemReference<ISkill>> Accuracy { get; set; }
+			public ItemReference<ISkill>? PrimaryAccuracySkill { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlArray("Accuracy", IsNullable = false)]
-			[XmlArrayItem("ItemReference")]
-			public ItemReference<ISkill>.Builder[] AccuracyBuilder
+			[XmlElement("PrimaryAccuracySkill", IsNullable = false)]
+			public ItemReference<ISkill>.Builder? PrimaryAccuracySkillXmlAccessor
 			{
-				get
-				{
-					if (Accuracy == null)
-					{
-						return Array.Empty<ItemReference<ISkill>.Builder>();
-					}
-					return Accuracy.Select(item=>new ItemReference<ISkill>.Builder(item)).ToArray();
-				}
-				set
-				{
-					Accuracy?.Clear();
-					if (value == null)
-					{
-						return;
-					}
-					if (Accuracy == null)
-					{
-						Accuracy = new List<ItemReference<ISkill>>(value.Length);
-					}
-					ItemBuilder<ItemReference<ISkill>>.BuildList(value, Accuracy);
-				}
+				get => new ItemReference<ISkill>.Builder(PrimaryAccuracySkill ?? default);
+				set => PrimaryAccuracySkill = value?.Build();
 			}
+
+			/// <summary>
+			/// If true, points missing in the primary skill are used for accuracy
+			/// </summary>
+			[XmlIgnore]
+			public bool? PrimaryAccuracyIsNegative { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("PrimaryAccuracyIsNegative", IsNullable = false)]
+			public bool PrimaryAccuracyIsNegativeNullableXmlAccessor
+			{
+				get => PrimaryAccuracyIsNegative ?? default;
+				set => PrimaryAccuracyIsNegative = value;
+			}
+			/// <summary>
+			/// Secondary skill used for rolling accuracy
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<ISkill>? SecondaryAccuracySkill { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("SecondaryAccuracySkill", IsNullable = false)]
+			public ItemReference<ISkill>.Builder? SecondaryAccuracySkillXmlAccessor
+			{
+				get => new ItemReference<ISkill>.Builder(SecondaryAccuracySkill ?? default);
+				set => SecondaryAccuracySkill = value?.Build();
+			}
+
 			/// <summary>
 			/// How many more successes are needed for this attack to hit
 			/// </summary>
@@ -273,6 +298,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("DamageSkill", IsNullable = false)]
 			public ItemReference<ISkill>.Builder? DamageSkillXmlAccessor
 			{
 				get => new ItemReference<ISkill>.Builder(DamageSkill ?? default);
@@ -371,7 +397,15 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
-					if (Accuracy is null)
+					if (PrimaryAccuracySkill is null)
+					{
+						return false;
+					}
+					if (PrimaryAccuracyIsNegative is null)
+					{
+						return false;
+					}
+					if (SecondaryAccuracySkill is null)
 					{
 						return false;
 					}
@@ -421,7 +455,9 @@ namespace Pokerole.Core{
 					Type!.Value,
 					MoveTarget!.Value,
 					Ranged!.Value,
-					Accuracy!,
+					PrimaryAccuracySkill!.Value,
+					PrimaryAccuracyIsNegative!.Value,
+					SecondaryAccuracySkill!.Value,
 					ReducedAccuracy!.Value,
 					DamageSkill,
 					DamageModifier!.Value,
@@ -793,6 +829,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Item", IsNullable = false)]
 			public ItemReference<Item>.Builder? ItemXmlAccessor
 			{
 				get => new ItemReference<Item>.Builder(Item ?? default);
@@ -808,6 +845,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("TargetEvolution", IsNullable = false)]
 			public ItemReference<DexEntry>.Builder? TargetEvolutionXmlAccessor
 			{
 				get => new ItemReference<DexEntry>.Builder(TargetEvolution ?? default);
@@ -900,6 +938,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Move", IsNullable = false)]
 			public ItemReference<Move>.Builder? MoveXmlAccessor
 			{
 				get => new ItemReference<Move>.Builder(Move ?? default);
@@ -992,6 +1031,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Ability", IsNullable = false)]
 			public ItemReference<Ability>.Builder? AbilityXmlAccessor
 			{
 				get => new ItemReference<Ability>.Builder(Ability ?? default);
@@ -1307,6 +1347,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("PrimaryType", IsNullable = false)]
 			public ItemReference<ITypeDefinition>.Builder? PrimaryTypeXmlAccessor
 			{
 				get => new ItemReference<ITypeDefinition>.Builder(PrimaryType ?? default);
@@ -1322,6 +1363,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("SecondaryType", IsNullable = false)]
 			public ItemReference<ITypeDefinition>.Builder? SecondaryTypeXmlAccessor
 			{
 				get => new ItemReference<ITypeDefinition>.Builder(SecondaryType ?? default);
@@ -1347,6 +1389,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("AverageHeight", IsNullable = false)]
 			public Height.Builder? AverageHeightXmlAccessor
 			{
 				get => new Height.Builder(AverageHeight ?? default);
@@ -1362,6 +1405,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("AverageWeight", IsNullable = false)]
 			public Weight.Builder? AverageWeightXmlAccessor
 			{
 				get => new Weight.Builder(AverageWeight ?? default);
@@ -1470,6 +1514,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("EvolutionList", IsNullable = false)]
 			public ItemReference<EvolutionList>.Builder? EvolutionListXmlAccessor
 			{
 				get => new ItemReference<EvolutionList>.Builder(EvolutionList ?? default);
@@ -1485,6 +1530,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("MegaEvolutionBaseEntry", IsNullable = false)]
 			public ItemReference<DexEntry>.Builder? MegaEvolutionBaseEntryXmlAccessor
 			{
 				get => new ItemReference<DexEntry>.Builder(MegaEvolutionBaseEntry ?? default);
@@ -1871,6 +1917,9 @@ namespace Pokerole.Core{
 			string name,
 			ItemReference<Ability> ability,
 			ItemReference<Ability>? overiddenAblity,
+			ItemReference<ITypeDefinition>? overridenType1,
+			ItemReference<ITypeDefinition>? overridenType2,
+			ItemReference<ITypeDefinition>? overridenType3,
 			int hP,
 			int willPoints,
 			ItemReference<Item> heldItem,
@@ -1919,6 +1968,9 @@ namespace Pokerole.Core{
 			Name = name;
 			Ability = ability;
 			OveriddenAblity = overiddenAblity;
+			OverridenType1 = overridenType1;
+			OverridenType2 = overridenType2;
+			OverridenType3 = overridenType3;
 			HP = hP;
 			WillPoints = willPoints;
 			HeldItem = heldItem;
@@ -1982,6 +2034,18 @@ namespace Pokerole.Core{
 		/// This Pokémon's current ability if it isn't the usual ability, such as what happens when one gets hit by simple beam
 		/// </summary>
 		public ItemReference<Ability>? OveriddenAblity { get; }
+		/// <summary>
+		/// Override of this Mon's first type if applicable
+		/// </summary>
+		public ItemReference<ITypeDefinition>? OverridenType1 { get; }
+		/// <summary>
+		/// Override of this Mon's second type if applicable
+		/// </summary>
+		public ItemReference<ITypeDefinition>? OverridenType2 { get; }
+		/// <summary>
+		/// Additional type added to this mon such as by Trick-Or-Treat
+		/// </summary>
+		public ItemReference<ITypeDefinition>? OverridenType3 { get; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
@@ -2169,6 +2233,9 @@ namespace Pokerole.Core{
 				Name = monInstance.Name;
 				Ability = monInstance.Ability;
 				OveriddenAblity = monInstance.OveriddenAblity;
+				OverridenType1 = monInstance.OverridenType1;
+				OverridenType2 = monInstance.OverridenType2;
+				OverridenType3 = monInstance.OverridenType3;
 				HP = monInstance.HP;
 				WillPoints = monInstance.WillPoints;
 				HeldItem = monInstance.HeldItem;
@@ -2226,6 +2293,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Definition", IsNullable = false)]
 			public ItemReference<DexEntry>.Builder? DefinitionXmlAccessor
 			{
 				get => new ItemReference<DexEntry>.Builder(Definition ?? default);
@@ -2246,6 +2314,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Ability", IsNullable = false)]
 			public ItemReference<Ability>.Builder? AbilityXmlAccessor
 			{
 				get => new ItemReference<Ability>.Builder(Ability ?? default);
@@ -2261,10 +2330,59 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("OveriddenAblity", IsNullable = false)]
 			public ItemReference<Ability>.Builder? OveriddenAblityXmlAccessor
 			{
 				get => new ItemReference<Ability>.Builder(OveriddenAblity ?? default);
 				set => OveriddenAblity = value?.Build();
+			}
+
+			/// <summary>
+			/// Override of this Mon's first type if applicable
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<ITypeDefinition>? OverridenType1 { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("OverridenType1", IsNullable = false)]
+			public ItemReference<ITypeDefinition>.Builder? OverridenType1XmlAccessor
+			{
+				get => new ItemReference<ITypeDefinition>.Builder(OverridenType1 ?? default);
+				set => OverridenType1 = value?.Build();
+			}
+
+			/// <summary>
+			/// Override of this Mon's second type if applicable
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<ITypeDefinition>? OverridenType2 { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("OverridenType2", IsNullable = false)]
+			public ItemReference<ITypeDefinition>.Builder? OverridenType2XmlAccessor
+			{
+				get => new ItemReference<ITypeDefinition>.Builder(OverridenType2 ?? default);
+				set => OverridenType2 = value?.Build();
+			}
+
+			/// <summary>
+			/// Additional type added to this mon such as by Trick-Or-Treat
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<ITypeDefinition>? OverridenType3 { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("OverridenType3", IsNullable = false)]
+			public ItemReference<ITypeDefinition>.Builder? OverridenType3XmlAccessor
+			{
+				get => new ItemReference<ITypeDefinition>.Builder(OverridenType3 ?? default);
+				set => OverridenType3 = value?.Build();
 			}
 
 			/// <summary>
@@ -2304,6 +2422,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("HeldItem", IsNullable = false)]
 			public ItemReference<Item>.Builder? HeldItemXmlAccessor
 			{
 				get => new ItemReference<Item>.Builder(HeldItem ?? default);
@@ -2429,6 +2548,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Height", IsNullable = false)]
 			public Height.Builder? HeightXmlAccessor
 			{
 				get => new Height.Builder(Height ?? default);
@@ -2444,6 +2564,7 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Weight", IsNullable = false)]
 			public Weight.Builder? WeightXmlAccessor
 			{
 				get => new Weight.Builder(Weight ?? default);
@@ -3089,6 +3210,9 @@ namespace Pokerole.Core{
 					Name!,
 					Ability!.Value,
 					OveriddenAblity,
+					OverridenType1,
+					OverridenType2,
+					OverridenType3,
 					HP!.Value,
 					WillPoints!.Value,
 					HeldItem!.Value,
