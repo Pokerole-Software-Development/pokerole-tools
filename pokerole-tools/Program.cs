@@ -19,9 +19,10 @@ namespace Pokerole.Tools
 		{
 			PokeroleXmlData data = new PokeroleXmlData();
 			//read them datas!!!
-			ReadMoves(data);
-			ReadDexEntries(data);
+			var movesByName = ReadMoves(data);
+			var monByName = ReadDexEntries(data);
 			ReadAbilities(data);
+			ReadMoveLists(data, monByName, movesByName);
 
 			XmlSerializer xmlSerializer = new XmlSerializer(typeof(PokeroleXmlData));
 
@@ -87,8 +88,9 @@ namespace Pokerole.Tools
 			ItemReference<Ability> reference = new ItemReference<Ability>(default, val);
 			return new AbilityEntry(hidden, reference);
 		}
-		private static void ReadMoves(PokeroleXmlData data)
+		private static Dictionary<String, Move.Builder> ReadMoves(PokeroleXmlData data)
 		{
+			Dictionary<String, Move.Builder> moves = new Dictionary<string, Move.Builder>();
 			String file = FetchFileIfNeeded("pokeMoveSorted.csv");
 			foreach (var line in File.ReadAllLines(file))
 			{
@@ -174,10 +176,13 @@ namespace Pokerole.Tools
 					builder.Effects.Add(item);
 				}
 				data.Moves.Add(builder);
+				moves.Add(builder.Name, builder);
 			}
+			return moves;
 		}
-		private static void ReadDexEntries(PokeroleXmlData data)
+		private static Dictionary<String, DexEntry.Builder> ReadDexEntries(PokeroleXmlData data)
 		{
+			Dictionary<String, DexEntry.Builder> monByName = new Dictionary<string, DexEntry.Builder>();
 			String file = FetchFileIfNeeded("PokeroleStats.csv");
 			bool first = true;
 			Regex dexRegex = new Regex("^#?(D)?([0-9]+)(.*)$");
@@ -265,8 +270,14 @@ namespace Pokerole.Tools
 					_ => GenderType.Default,
 				};
 				data.DexEntries.Add(builder);
+				String name = builder.Name;
+				//if (!String.IsNullOrEmpty(builder.Variant))
+				//{
+				//	name = variant + " " + name;
+				//}
+				monByName.Add(name, builder);
 			}
-
+			return monByName;
 		}
 
 		private static void ReadAbilities(PokeroleXmlData data)
@@ -286,9 +297,44 @@ namespace Pokerole.Tools
 						first = false;
 						continue;
 					}
-
+					Ability.Builder builder = new Ability.Builder();
+					builder.DataId = new DataId(null, Guid.NewGuid());
+					builder.Name = fields[0];
+					builder.Effect = fields[1];
+					data.Abilities.Add(builder);
 				}
 			}
 		}
+
+		private static void ReadMoveLists(PokeroleXmlData data, Dictionary<String, DexEntry.Builder> monByName,
+			Dictionary<String, Move.Builder> moveList)
+		{
+			String file = FetchFileIfNeeded("PokeLearnMovesFull.csv");
+			foreach (var line in File.ReadLines(file))
+			{
+				String[] fields = line.Split(",");
+				String[] id = fields[0].Split(new char[] { ' ' }, 2);
+				DexEntry.Builder? builder;
+				if (!monByName.TryGetValue(id[1], out builder))
+				{
+					throw new InvalidOperationException($"Could not find moves for {id[1]}");
+				}
+				for (int i = 0; i < fields.Length - 1; i += 2)
+				{
+					String moveName = fields[i + 1];
+					String rawRank = fields[i + 2];
+					Rank rank = ParseEnum<Rank>(rawRank);
+					Move.Builder? move;
+					if (!moveList.TryGetValue(moveName, out move))
+					{
+						throw new InvalidOperationException($"Could not find a move called \"{moveName}\"");
+					}
+
+					MoveEntry entry = new MoveEntry(rank, new ItemReference<Move>(move.DataId!.Value, moveName));
+					builder.MoveSet.Add(entry);
+				}
+			}
+		}
+
 	}
 }

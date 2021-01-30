@@ -727,6 +727,10 @@
 	<xs:complexType name="Ability">
 		<xs:complexContent>
 			<xs:extension base="ex:BaseDataItem">
+				<xs:sequence>
+					<xs:element name="Name" type="xs:string"/>
+					<xs:element name="Effect" type="xs:string"/>
+				</xs:sequence>
 				<!--TODO: Implement-->
 			</xs:extension>
 		</xs:complexContent>

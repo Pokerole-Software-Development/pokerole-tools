@@ -3287,9 +3287,21 @@ namespace Pokerole.Core{
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
 	public partial record Ability : BaseDataItem
 	{
-		public Ability(DataId dataId) : base(dataId)
+		public Ability(DataId dataId,
+			string name,
+			string effect) : base(dataId)
 		{
+			Name = name;
+			Effect = effect;
 		}
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string Name { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string Effect { get; }
 		[XmlType(nameof(Ability), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : DataItemBuilder<Ability>
 		{
@@ -3298,7 +3310,19 @@ namespace Pokerole.Core{
 			public Builder(Ability ability)
 			{
 				DataId = ability.DataId;
+				Name = ability.Name;
+				Effect = ability.Effect;
 			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Name { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Effect { get; set; }
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Ability"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -3308,6 +3332,14 @@ namespace Pokerole.Core{
 				get
 				{
 					if (DataId is null)
+					{
+						return false;
+					}
+					if (Name is null)
+					{
+						return false;
+					}
+					if (Effect is null)
 					{
 						return false;
 					}
@@ -3325,7 +3357,9 @@ namespace Pokerole.Core{
 				{
 					throw new InvalidOperationException("Not all required fields were set");
 				}
-				return new Ability(DataId!.Value);
+				return new Ability(DataId!.Value,
+					Name!,
+					Effect!);
 			}
 		}
 	}
