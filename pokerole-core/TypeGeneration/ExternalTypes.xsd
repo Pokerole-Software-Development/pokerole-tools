@@ -162,4 +162,12 @@
 			<xs:enumeration value="Infatuated"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="GenderType" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Default"/>
+			<xs:enumeration value="None"/>
+			<xs:enumeration value="MaleOnly"/>
+			<xs:enumeration value="FemaleOnly"/>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

@@ -402,6 +402,11 @@
 							<xs:documentation>The initial insight score this Pokémon has</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="GenderType" type="ex:GenderType">
+						<xs:annotation>
+							<xs:documentation>Oficially avaliable genders for this kind of pokémon</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="MoveSet" ex:isDbLazy="true" ex:listItemType="MoveEntry">
 						<xs:annotation>
 							<xs:documentation>List of moves that this Pokémon can learn</xs:documentation>

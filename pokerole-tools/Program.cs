@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using Pokerole.Core;
+using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Pokerole.Tools
 {
 	class Program
 	{
 		private const String csvFetchUrl = "https://raw.githubusercontent.com/XShadeSlayerXx/PokeRole-Discord.py-Base/master/";
+		private static readonly HashSet<Guid> unevolvedEntries = new HashSet<Guid>();
+		private static readonly HashSet<Guid> hasMegaEvolution = new HashSet<Guid>();
 		static void Main(string[] args)
 		{
 			PokeroleXmlData data = new PokeroleXmlData();
 			//read them datas!!!
 			ReadMoves(data);
 			ReadDexEntries(data);
+			ReadAbilities(data);
 
 			XmlSerializer xmlSerializer = new XmlSerializer(typeof(PokeroleXmlData));
 
@@ -29,21 +35,57 @@ namespace Pokerole.Tools
 
 			//Console.WriteLine("Hello World!");
 		}
+
 		private static String FetchFileIfNeeded(String file)
 		{
 			String path = Path.Combine(Directory.GetCurrentDirectory(), file);
 			if (!File.Exists(path))
 			{
 				//download it!
-				using (var client = new WebClient())
-				{
-					client.DownloadFile(csvFetchUrl + file, path);
-				}
+				using var client = new WebClient();
+				client.DownloadFile(csvFetchUrl + file, path);
 			}
 			return path;
 		}
 		private static T ParseEnum<T>(string val) where T : Enum{
 			return (T)Enum.Parse(typeof(T), val.Replace(" ", ""), true);
+		}
+		private static ItemReference<ITypeDefinition>? ReadType(string val)
+		{
+			if (String.IsNullOrEmpty(val))
+			{
+				return null;
+			}
+			BuiltInType type;
+			if (val == "any")
+			{
+				//"Any Move" support
+				type = BuiltInType.Normal;
+			}
+			else
+			{
+				type = ParseEnum<BuiltInType>(val);
+			}
+			ITypeDefinition def = TypeManager.GetBuiltInType(type);
+			return new ItemReference<ITypeDefinition>(def.DataId, def.Name);
+
+		}
+		private static int? ReadInt(String val)
+		{
+			if (String.IsNullOrEmpty(val))
+			{
+				return null;
+			}
+			return int.Parse(val);
+		}
+		private static AbilityEntry? ReadAbility(String val, bool hidden)
+		{
+			if (String.IsNullOrEmpty(val))
+			{
+				return null;
+			}
+			ItemReference<Ability> reference = new ItemReference<Ability>(default, val);
+			return new AbilityEntry(hidden, reference);
 		}
 		private static void ReadMoves(PokeroleXmlData data)
 		{
@@ -55,18 +97,18 @@ namespace Pokerole.Tools
 				string[] fields = line.Split(new char[] { ',' }, 10);
 				builder.Name = fields[0];
 				String item = fields[1];
-				BuiltInType type;
-				if (item == "any")
-				{
-					//"Any Move" support...
-					type = BuiltInType.Normal;
-				}
-				else
-				{
-					type = (BuiltInType)Enum.Parse(typeof(BuiltInType), item, true);
-				}
-				ITypeDefinition typeDef = TypeManager.GetBuiltInType(type);
-				builder.Type = new ItemReference<ITypeDefinition>(typeDef.DataId, typeDef.Name);
+				//BuiltInType type;
+				//if (item == "any")
+				//{
+				//	//"Any Move" support...
+				//	type = BuiltInType.Normal;
+				//}
+				//else
+				//{
+				//	type = (BuiltInType)Enum.Parse(typeof(BuiltInType), item, true);
+				//}
+				//ITypeDefinition typeDef = TypeManager.GetBuiltInType(type);
+				builder.Type = ReadType(item);// new ItemReference<ITypeDefinition>(typeDef.DataId, typeDef.Name);
 
 				item = fields[2];
 				MoveCategory category;
@@ -136,7 +178,117 @@ namespace Pokerole.Tools
 		}
 		private static void ReadDexEntries(PokeroleXmlData data)
 		{
-			FetchFileIfNeeded("PokeroleStats.csv");
+			String file = FetchFileIfNeeded("PokeroleStats.csv");
+			bool first = true;
+			Regex dexRegex = new Regex("^#?(D)?([0-9]+)(.*)$");
+			foreach (var line in File.ReadAllLines(file))
+			{
+				if (first)
+				{
+					//skip over the header
+					first = false;
+					continue;
+				}
+				String[] items = line.Split(',');
+				DexEntry.Builder builder = new DexEntry.Builder();
+				builder.DataId = new DataId(null, Guid.NewGuid());
+
+				String rawDex = items[0];
+				Match m = dexRegex.Match(rawDex);
+				if (!m.Success)
+				{
+					//wat???
+					throw new InvalidOperationException("Invalid dex num!");
+				}
+				int dexNum = int.Parse(m.Groups[2].Value);
+				String regonalVariant = m.Groups[3].Value;
+				String variant = (regonalVariant) switch
+				{
+					"A" => "Alolan",
+					"G" => "Galarian",
+					"B" => "BBF",
+					"" => "",
+					_ => ""//separate case for breakpoints
+				};
+				if (m.Groups[1].Success)
+				{
+					variant = "Delta";
+				}
+				builder.Variant = variant;
+				builder.DexNum = dexNum;
+
+				builder.Name = items[1];
+
+				builder.PrimaryType = ReadType(items[2]);
+				builder.SecondaryType = ReadType(items[3]);
+
+				builder.BaseHp = ReadInt(items[4]);
+				builder.StartingStrength = ReadInt(items[5]);
+				builder.MaxStrength = ReadInt(items[6]);
+				builder.StartingDexterity = ReadInt(items[7]);
+				builder.MaxDexterity = ReadInt(items[8]);
+				builder.StartingVitality = ReadInt(items[9]);
+				builder.MaxVitality = ReadInt(items[10]);
+				builder.StartingSpecial = ReadInt(items[11]);
+				builder.MaxSpecial = ReadInt(items[12]);
+				builder.StartingInsight = ReadInt(items[13]);
+				builder.MaxInsight = ReadInt(items[14]);
+
+				for (int i = 0; i < 4; i++)
+				{
+					//0&1 = primary+secondary ability
+					//2 = hidden ability
+					//3 = event ability. Treating as a hidden ability
+					var entry = ReadAbility(items[15 + i], i > 1);
+					if (entry != null)
+					{
+						builder.Abilities.Add(entry);
+					}
+				}
+				//next index is 19
+				if (!String.IsNullOrEmpty(items[19]))
+				{
+					unevolvedEntries.Add(builder.DataId.Value.Uuid);
+				}
+				if (!String.IsNullOrEmpty(items[20]))
+				{
+					hasMegaEvolution.Add(builder.DataId.Value.Uuid);
+				}
+				builder.SuggestedRank = ParseEnum<Rank>(items[21]);
+
+				String genderKind = items[22];
+				builder.GenderType = (genderKind.ToLowerInvariant()) switch
+				{
+					"f" => GenderType.FemaleOnly,
+					"m" => GenderType.MaleOnly,
+					"n" => GenderType.None,
+					_ => GenderType.Default,
+				};
+				data.DexEntries.Add(builder);
+			}
+
+		}
+
+		private static void ReadAbilities(PokeroleXmlData data)
+		{
+			String file = FetchFileIfNeeded("PokeRoleAbilities.csv");
+			using (TextFieldParser csvParser = new TextFieldParser(file))
+			{
+				csvParser.SetDelimiters(new string[] { "," });
+				csvParser.HasFieldsEnclosedInQuotes = true;
+				bool first = true;
+				while (!csvParser.EndOfData)
+				{
+					String[] fields = csvParser.ReadFields();
+					if (first)
+					{
+						//skip headers
+						first = false;
+						continue;
+					}
+
+				}
+			}
 		}
 	}
 }

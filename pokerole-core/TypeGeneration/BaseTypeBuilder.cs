@@ -1108,6 +1108,7 @@ namespace Pokerole.Core{
 			int startingSpecial,
 			int maxInsight,
 			int startingInsight,
+			GenderType genderType,
 			List<MoveEntry> moveSet) : base(dataId)
 		{
 			DexNum = dexNum;
@@ -1140,6 +1141,7 @@ namespace Pokerole.Core{
 			StartingSpecial = startingSpecial;
 			MaxInsight = maxInsight;
 			StartingInsight = startingInsight;
+			GenderType = genderType;
 			MoveSet = new List<MoveEntry>(moveSet).AsReadOnly();
 		}
 		/// <summary>
@@ -1263,6 +1265,10 @@ namespace Pokerole.Core{
 		/// </summary>
 		public int StartingInsight { get; }
 		/// <summary>
+		/// Oficially avaliable genders for this kind of pokémon
+		/// </summary>
+		public GenderType GenderType { get; }
+		/// <summary>
 		/// List of moves that this Pokémon can learn
 		/// </summary>
 		public IReadOnlyList<MoveEntry> MoveSet { get; }
@@ -1308,6 +1314,7 @@ namespace Pokerole.Core{
 				StartingSpecial = dexEntry.StartingSpecial;
 				MaxInsight = dexEntry.MaxInsight;
 				StartingInsight = dexEntry.StartingInsight;
+				GenderType = dexEntry.GenderType;
 				MoveSet = new List<MoveEntry>(dexEntry.MoveSet);
 			}
 			/// <summary>
@@ -1713,6 +1720,20 @@ namespace Pokerole.Core{
 				set => StartingInsight = value;
 			}
 			/// <summary>
+			/// Oficially avaliable genders for this kind of pokémon
+			/// </summary>
+			[XmlIgnore]
+			public GenderType? GenderType { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("GenderType", IsNullable = false)]
+			public GenderType GenderTypeNullableXmlAccessor
+			{
+				get => GenderType ?? default;
+				set => GenderType = value;
+			}
+			/// <summary>
 			/// List of moves that this Pokémon can learn
 			/// </summary>
 			[XmlIgnore]
@@ -1855,6 +1876,10 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
+					if (GenderType is null)
+					{
+						return false;
+					}
 					if (MoveSet is null)
 					{
 						return false;
@@ -1904,6 +1929,7 @@ namespace Pokerole.Core{
 					StartingSpecial!.Value,
 					MaxInsight!.Value,
 					StartingInsight!.Value,
+					GenderType!.Value,
 					MoveSet!);
 			}
 		}
