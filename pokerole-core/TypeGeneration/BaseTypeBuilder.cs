@@ -51,6 +51,9 @@ namespace Pokerole.Core{
 			AdditionalInfo = additionalInfo;
 			Effects = new List<string>(effects).AsReadOnly();
 		}
+
+		public ItemReference<Move> ItemReference => new ItemReference<Move>(DataId, Name);
+
 		/// <summary>
 		/// Name of the move
 		/// </summary>
@@ -147,6 +150,10 @@ namespace Pokerole.Core{
 				AdditionalInfo = move.AdditionalInfo;
 				Effects = new List<string>(move.Effects);
 			}
+
+			public ItemReference<Move>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<Move>(DataId.Value, Name);
+
 			/// <summary>
 			/// Name of the move
 			/// </summary>
@@ -478,6 +485,9 @@ namespace Pokerole.Core{
 			Name = name;
 			Description = description;
 		}
+
+		public ItemReference<Item> ItemReference => new ItemReference<Item>(DataId, Name);
+
 		/// <summary>
 		/// Item Name
 		/// </summary>
@@ -497,6 +507,10 @@ namespace Pokerole.Core{
 				Name = item.Name;
 				Description = item.Description;
 			}
+
+			public ItemReference<Item>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<Item>(DataId.Value, Name);
+
 			/// <summary>
 			/// Item Name
 			/// </summary>
@@ -1144,6 +1158,9 @@ namespace Pokerole.Core{
 			GenderType = genderType;
 			MoveSet = new List<MoveEntry>(moveSet).AsReadOnly();
 		}
+
+		public ItemReference<DexEntry> ItemReference => new ItemReference<DexEntry>(DataId, Name);
+
 		/// <summary>
 		/// The international dex number of this Pokémon
 		/// </summary>
@@ -1317,6 +1334,10 @@ namespace Pokerole.Core{
 				GenderType = dexEntry.GenderType;
 				MoveSet = new List<MoveEntry>(dexEntry.MoveSet);
 			}
+
+			public ItemReference<DexEntry>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<DexEntry>(DataId.Value, Name);
+
 			/// <summary>
 			/// The international dex number of this Pokémon
 			/// </summary>
@@ -2040,6 +2061,9 @@ namespace Pokerole.Core{
 			Accessories = new List<string>(accessories).AsReadOnly();
 			Ribbons = new List<string>(ribbons).AsReadOnly();
 		}
+
+		public ItemReference<MonInstance> ItemReference => new ItemReference<MonInstance>(DataId, Name);
+
 		/// <summary>
 		/// Picture of this Pokémon
 		/// </summary>
@@ -2305,6 +2329,10 @@ namespace Pokerole.Core{
 				Accessories = new List<string>(monInstance.Accessories);
 				Ribbons = new List<string>(monInstance.Ribbons);
 			}
+
+			public ItemReference<MonInstance>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<MonInstance>(DataId.Value, Name);
+
 			/// <summary>
 			/// Picture of this Pokémon
 			/// </summary>
@@ -3294,6 +3322,9 @@ namespace Pokerole.Core{
 			Name = name;
 			Effect = effect;
 		}
+
+		public ItemReference<Ability> ItemReference => new ItemReference<Ability>(DataId, Name);
+
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
@@ -3313,6 +3344,10 @@ namespace Pokerole.Core{
 				Name = ability.Name;
 				Effect = ability.Effect;
 			}
+
+			public ItemReference<Ability>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<Ability>(DataId.Value, Name);
+
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
@@ -3369,6 +3404,9 @@ namespace Pokerole.Core{
 		public EvolutionList(DataId dataId) : base(dataId)
 		{
 		}
+
+		public ItemReference<EvolutionList> ItemReference => new ItemReference<EvolutionList>(DataId);
+
 		[XmlType(nameof(EvolutionList), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : DataItemBuilder<EvolutionList>
 		{
@@ -3378,6 +3416,10 @@ namespace Pokerole.Core{
 			{
 				DataId = evolutionList.DataId;
 			}
+
+			public ItemReference<EvolutionList>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<EvolutionList>(DataId.Value);
+
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="EvolutionList"/>. <see cref="Build"/> will throw an exception if this returns false.

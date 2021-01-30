@@ -308,6 +308,8 @@ namespace Pokerole.Core
 			public abstract string Name { get; }
 			public abstract Color? BackgroundColor { get; }
 
+			public ItemReference<ITypeDefinition> ItemReference => new ItemReference<ITypeDefinition>(DataId, Name);
+
 			private IReadOnlyList<ITypeDefinition> GetEffectiveness(TypeEffectiveness kind,
 				Dictionary<TypeEffectiveness, EffectivenessCache> cache, bool offensive)
 			{
@@ -416,6 +418,7 @@ namespace Pokerole.Core
 		IReadOnlyList<ITypeDefinition> GetOffensiveEffectiveness(TypeEffectiveness kind);
 		IReadOnlyList<ITypeDefinition> GetDefensiveEffectiveness(TypeEffectiveness kind);
 		Color? BackgroundColor { get; }
+		ItemReference<ITypeDefinition> ItemReference { get; }
 	}
 	public enum TypeEffectiveness
 	{

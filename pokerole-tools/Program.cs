@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using Pokerole.Core;
 using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.FileIO;
+using System.Diagnostics;
 
 namespace Pokerole.Tools
 {
@@ -21,8 +22,10 @@ namespace Pokerole.Tools
 			//read them datas!!!
 			var movesByName = ReadMoves(data);
 			var monByName = ReadDexEntries(data);
-			ReadAbilities(data);
+			var abilitiesByName = ReadAbilities(data);
 			ReadMoveLists(data, monByName, movesByName);
+			LinkAbilities(abilitiesByName, monByName);
+
 
 			XmlSerializer xmlSerializer = new XmlSerializer(typeof(PokeroleXmlData));
 
@@ -178,6 +181,36 @@ namespace Pokerole.Tools
 				data.Moves.Add(builder);
 				moves.Add(builder.Name, builder);
 			}
+			//these moves should exist, but don't, so create dummy entries for them
+			String[] missingMoves =
+			{
+				"Poltergeist",
+				"Behemoth Blade",
+				"Behemoth Bash"
+			};
+			ISkill noneSkill = SkillManager.GetBuiltInSkill(BuiltInSkill.None);
+			ITypeDefinition normalType = TypeManager.GetBuiltInType(BuiltInType.Normal);
+			foreach (var moveName in missingMoves)
+			{
+				if (moves.ContainsKey(moveName))
+				{
+					continue;
+				}
+
+				Move.Builder builder = new Move.Builder()
+				{
+					DataId = new DataId(null, Guid.NewGuid()),
+					Name = moveName,
+					Type = normalType.ItemReference,
+					Description = "This move is missing",
+					MoveCategory = MoveCategory.Invalid,
+					PrimaryAccuracySkill = noneSkill.ItemReference,
+					SecondaryAccuracySkill = noneSkill.ItemReference,
+					
+				};
+				data.Moves.Add(builder);
+				moves.Add(moveName, builder);
+			}
 			return moves;
 		}
 		private static Dictionary<String, DexEntry.Builder> ReadDexEntries(PokeroleXmlData data)
@@ -280,8 +313,9 @@ namespace Pokerole.Tools
 			return monByName;
 		}
 
-		private static void ReadAbilities(PokeroleXmlData data)
+		private static Dictionary<String, Ability.Builder> ReadAbilities(PokeroleXmlData data)
 		{
+			Dictionary<String, Ability.Builder> abilities = new Dictionary<string, Ability.Builder>();
 			String file = FetchFileIfNeeded("PokeRoleAbilities.csv");
 			using (TextFieldParser csvParser = new TextFieldParser(file))
 			{
@@ -297,13 +331,17 @@ namespace Pokerole.Tools
 						first = false;
 						continue;
 					}
-					Ability.Builder builder = new Ability.Builder();
-					builder.DataId = new DataId(null, Guid.NewGuid());
-					builder.Name = fields[0];
-					builder.Effect = fields[1];
+					Ability.Builder builder = new Ability.Builder
+					{
+						DataId = new DataId(null, Guid.NewGuid()),
+						Name = fields[0],
+						Effect = fields[1]
+					};
 					data.Abilities.Add(builder);
+					abilities.Add(builder.Name, builder);
 				}
 			}
+			return abilities;
 		}
 
 		private static void ReadMoveLists(PokeroleXmlData data, Dictionary<String, DexEntry.Builder> monByName,
@@ -314,8 +352,7 @@ namespace Pokerole.Tools
 			{
 				String[] fields = line.Split(",");
 				String[] id = fields[0].Split(new char[] { ' ' }, 2);
-				DexEntry.Builder? builder;
-				if (!monByName.TryGetValue(id[1], out builder))
+				if (!monByName.TryGetValue(id[1], out DexEntry.Builder? builder))
 				{
 					throw new InvalidOperationException($"Could not find moves for {id[1]}");
 				}
@@ -324,16 +361,41 @@ namespace Pokerole.Tools
 					String moveName = fields[i + 1];
 					String rawRank = fields[i + 2];
 					Rank rank = ParseEnum<Rank>(rawRank);
-					Move.Builder? move;
-					if (!moveList.TryGetValue(moveName, out move))
+					if (!moveList.TryGetValue(moveName, out Move.Builder? move))
 					{
 						throw new InvalidOperationException($"Could not find a move called \"{moveName}\"");
 					}
 
-					MoveEntry entry = new MoveEntry(rank, new ItemReference<Move>(move.DataId!.Value, moveName));
+					MoveEntry entry = new MoveEntry(rank, move.ItemReference!.Value);
 					builder.MoveSet.Add(entry);
 				}
 			}
+		}
+		private static void LinkAbilities(Dictionary<string, Ability.Builder> abilitiesByName, Dictionary<string, DexEntry.Builder> monByName)
+		{
+			List<String> missingAbilities = new List<string>(10);
+			foreach (var entry in monByName.Values)
+			{
+				List<AbilityEntry> newEntries = new List<AbilityEntry>(entry.Abilities.Count);
+				foreach (var ability in entry.Abilities)
+				{
+					//lookup the ability
+					if (!abilitiesByName.TryGetValue(ability.Ability.DisplayName!, out Ability.Builder? abilityBuilder))
+					{
+						throw new InvalidOperationException($"Unknown ability: {ability.Ability.DisplayName}");
+						//missingAbilities.Add(ability.Ability.DisplayName!);
+						//newEntries.Add(ability);
+						//continue;
+					}
+					newEntries.Add(new AbilityEntry(ability.Hidden, abilityBuilder.ItemReference!.Value));
+				}
+				entry.Abilities = newEntries;
+			}
+			if (missingAbilities.Count > 0)
+			{
+				Debugger.Break();
+			}
+
 		}
 
 	}

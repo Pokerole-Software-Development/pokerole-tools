@@ -172,6 +172,7 @@ namespace Pokerole.Core
 			public abstract bool IsBuiltInSkill { get; }
 			public SkillCategory SkillCategory => category;
 			public SkillExclusivity SkillExclusivity => exclusivity;
+			public ItemReference<ISkill> ItemReference => new ItemReference<ISkill>(DataId, Name);
 		}
 	}
 
@@ -185,6 +186,7 @@ namespace Pokerole.Core
 		bool IsBuiltInSkill { get; }
 		SkillCategory SkillCategory { get; }
 		SkillExclusivity SkillExclusivity { get; }
+		ItemReference<ISkill> ItemReference { get; }
 	}
 	public enum SkillExclusivity
 	{

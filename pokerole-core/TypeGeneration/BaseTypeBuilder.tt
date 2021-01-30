@@ -205,6 +205,14 @@ namespace Pokerole.Core{
 #>
 		}
 <#
+		if (classDef.isDataItem)
+		{
+			String nameAppend = classDef.fields.FirstOrDefault(field=>field.name == "Name") != null ? ", Name" : "";
+#>
+
+		public ItemReference<<#=classDef.name#>> ItemReference => new ItemReference<<#=classDef.name#>>(DataId<#=nameAppend#>);
+
+<#}
 		foreach(FieldDef field in classDef.fields){
 #>
 		/// <summary>
@@ -260,6 +268,16 @@ namespace Pokerole.Core{
 #>
 			}
 <#
+		if (classDef.isDataItem)
+		{
+			String nameAppend = classDef.fields.FirstOrDefault(field=>field.name == "Name") != null ? ", Name" : "";
+#>
+
+			public ItemReference<<#=classDef.name#>>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<<#=classDef.name#>>(DataId.Value<#=nameAppend#>);
+
+<#}
+
 		foreach	(FieldDef field in classDef.fields)
 		{
 			//does this need special handling or can we just do this the easy way?
