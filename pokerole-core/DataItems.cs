@@ -210,6 +210,9 @@ namespace Pokerole.Core
 		[XmlArrayItem("Move")]
 		public List<Move.Builder> Moves { get; set; } = new List<Move.Builder>();
 		[XmlArray]
+		[XmlArrayItem("Item")]
+		public List<Item.Builder> Items { get; set; } = new List<Item.Builder>();
+		[XmlArray]
 		[XmlArrayItem("DexEntry")]
 		public List<DexEntry.Builder> DexEntries { get; set; } = new List<DexEntry.Builder>();
 		[XmlArray]
