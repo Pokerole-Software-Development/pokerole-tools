@@ -11,4 +11,16 @@ namespace Pokerole.Core
 		MaleOnly,
 		FemaleOnly
 	}
+	public enum ReviveType
+	{
+		None,
+		Minimum,
+		Maximum
+	}
+	public enum Rarity
+	{
+		Common,
+		Uncommon,
+		Rare
+	}
 }

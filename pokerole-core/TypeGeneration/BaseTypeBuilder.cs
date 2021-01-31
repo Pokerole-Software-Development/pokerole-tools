@@ -480,10 +480,42 @@ namespace Pokerole.Core{
 	{
 		public Item(DataId dataId,
 			string name,
-			string description) : base(dataId)
+			string description,
+			List<ItemReference<ITypeDefinition>> typeBonus,
+			int? typeBonusValue,
+			int? strengthBoost,
+			int? dexterityBoost,
+			int? vitalityBoost,
+			int? specialBoost,
+			int? insightBoost,
+			int? defenseBoost,
+			int? specialBoost,
+			int? defenseBoost,
+			int? evasionBoost,
+			int? accuracyBoost,
+			List<ItemReference<DexEntry>> specificPokemon,
+			int? healAmount,
+			List<ItemReference<DexEntry>> healedStatusConditions,
+			ReviveType? reviveType) : base(dataId)
 		{
 			Name = name;
 			Description = description;
+			TypeBonus = new List<ItemReference<ITypeDefinition>>(typeBonus).AsReadOnly();
+			TypeBonusValue = typeBonusValue;
+			StrengthBoost = strengthBoost;
+			DexterityBoost = dexterityBoost;
+			VitalityBoost = vitalityBoost;
+			SpecialBoost = specialBoost;
+			InsightBoost = insightBoost;
+			DefenseBoost = defenseBoost;
+			SpecialBoost = specialBoost;
+			DefenseBoost = defenseBoost;
+			EvasionBoost = evasionBoost;
+			AccuracyBoost = accuracyBoost;
+			SpecificPokemon = new List<ItemReference<DexEntry>>(specificPokemon).AsReadOnly();
+			HealAmount = healAmount;
+			HealedStatusConditions = new List<ItemReference<DexEntry>>(healedStatusConditions).AsReadOnly();
+			ReviveType = reviveType;
 		}
 
 		public ItemReference<Item> ItemReference => new ItemReference<Item>(DataId, Name);
@@ -496,16 +528,100 @@ namespace Pokerole.Core{
 		/// Item Description
 		/// </summary>
 		public string Description { get; }
+		/// <summary>
+		/// Types this item gives bonus damage to, if any
+		/// </summary>
+		public IReadOnlyList<ItemReference<ITypeDefinition>> TypeBonus { get; }
+		/// <summary>
+		/// Bonus damage this item grants for the given type(s) if any
+		/// </summary>
+		public int? TypeBonusValue { get; }
+		/// <summary>
+		/// The boost this item confers upone the Strength stat if any
+		/// </summary>
+		public int? StrengthBoost { get; }
+		/// <summary>
+		/// The boost this item confers upone the Dexterity stat if any
+		/// </summary>
+		public int? DexterityBoost { get; }
+		/// <summary>
+		/// The boost this item confers upone the Vitality stat if any
+		/// </summary>
+		public int? VitalityBoost { get; }
+		/// <summary>
+		/// The boost this item confers upone the Special stat if any
+		/// </summary>
+		public int? SpecialBoost { get; }
+		/// <summary>
+		/// The boost this item confers upone the Insight stat if any
+		/// </summary>
+		public int? InsightBoost { get; }
+		/// <summary>
+		/// The boost this item confers upone the Defense stat if any
+		/// </summary>
+		public int? DefenseBoost { get; }
+		/// <summary>
+		/// The boost this item confers upone the Special stat if any
+		/// </summary>
+		public int? SpecialBoost { get; }
+		/// <summary>
+		/// The boost this item confers upone the Defense stat if any
+		/// </summary>
+		public int? DefenseBoost { get; }
+		/// <summary>
+		/// The boost this item confers upone the Evasion stat if any
+		/// </summary>
+		public int? EvasionBoost { get; }
+		/// <summary>
+		/// The boost this item confers upone the Accuracy stat if any
+		/// </summary>
+		public int? AccuracyBoost { get; }
+		/// <summary>
+		/// List of pokemon this item is exclusive to if any
+		/// </summary>
+		public IReadOnlyList<ItemReference<DexEntry>> SpecificPokemon { get; }
+		/// <summary>
+		/// Hitpoints this item heals if any
+		/// </summary>
+		public int? HealAmount { get; }
+		/// <summary>
+		/// List of pokemon this item is exclusive to if any
+		/// </summary>
+		public IReadOnlyList<ItemReference<DexEntry>> HealedStatusConditions { get; }
+		/// <summary>
+		/// Kind of revive this item is if it is one
+		/// </summary>
+		public ReviveType? ReviveType { get; }
 		[XmlType(nameof(Item), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : DataItemBuilder<Item>
 		{
 			public Builder()
-			{			}
+			{
+				TypeBonus = new List<ItemReference<ITypeDefinition>>(10);
+				SpecificPokemon = new List<ItemReference<DexEntry>>(10);
+				HealedStatusConditions = new List<ItemReference<DexEntry>>(10);
+			}
 			public Builder(Item item)
 			{
 				DataId = item.DataId;
 				Name = item.Name;
 				Description = item.Description;
+				TypeBonus = new List<ItemReference<ITypeDefinition>>(item.TypeBonus);
+				TypeBonusValue = item.TypeBonusValue;
+				StrengthBoost = item.StrengthBoost;
+				DexterityBoost = item.DexterityBoost;
+				VitalityBoost = item.VitalityBoost;
+				SpecialBoost = item.SpecialBoost;
+				InsightBoost = item.InsightBoost;
+				DefenseBoost = item.DefenseBoost;
+				SpecialBoost = item.SpecialBoost;
+				DefenseBoost = item.DefenseBoost;
+				EvasionBoost = item.EvasionBoost;
+				AccuracyBoost = item.AccuracyBoost;
+				SpecificPokemon = new List<ItemReference<DexEntry>>(item.SpecificPokemon);
+				HealAmount = item.HealAmount;
+				HealedStatusConditions = new List<ItemReference<DexEntry>>(item.HealedStatusConditions);
+				ReviveType = item.ReviveType;
 			}
 
 			public ItemReference<Item>? ItemReference => !DataId.HasValue ? null :
@@ -521,6 +637,176 @@ namespace Pokerole.Core{
 			/// </summary>
 			[XmlElement(IsNullable = false)]
 			public string? Description { get; set; }
+			/// <summary>
+			/// Types this item gives bonus damage to, if any
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<ITypeDefinition>> TypeBonus { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("TypeBonus", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<ITypeDefinition>.Builder[] TypeBonusBuilder
+			{
+				get
+				{
+					if (TypeBonus == null)
+					{
+						return Array.Empty<ItemReference<ITypeDefinition>.Builder>();
+					}
+					return TypeBonus.Select(item=>new ItemReference<ITypeDefinition>.Builder(item)).ToArray();
+				}
+				set
+				{
+					TypeBonus?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (TypeBonus == null)
+					{
+						TypeBonus = new List<ItemReference<ITypeDefinition>>(value.Length);
+					}
+					ItemBuilder<ItemReference<ITypeDefinition>>.BuildList(value, TypeBonus);
+				}
+			}
+			/// <summary>
+			/// Bonus damage this item grants for the given type(s) if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public int? TypeBonusValue { get; set; }
+			/// <summary>
+			/// The boost this item confers upone the Strength stat if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public int? StrengthBoost { get; set; }
+			/// <summary>
+			/// The boost this item confers upone the Dexterity stat if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public int? DexterityBoost { get; set; }
+			/// <summary>
+			/// The boost this item confers upone the Vitality stat if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public int? VitalityBoost { get; set; }
+			/// <summary>
+			/// The boost this item confers upone the Special stat if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public int? SpecialBoost { get; set; }
+			/// <summary>
+			/// The boost this item confers upone the Insight stat if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public int? InsightBoost { get; set; }
+			/// <summary>
+			/// The boost this item confers upone the Defense stat if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public int? DefenseBoost { get; set; }
+			/// <summary>
+			/// The boost this item confers upone the Special stat if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public int? SpecialBoost { get; set; }
+			/// <summary>
+			/// The boost this item confers upone the Defense stat if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public int? DefenseBoost { get; set; }
+			/// <summary>
+			/// The boost this item confers upone the Evasion stat if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public int? EvasionBoost { get; set; }
+			/// <summary>
+			/// The boost this item confers upone the Accuracy stat if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public int? AccuracyBoost { get; set; }
+			/// <summary>
+			/// List of pokemon this item is exclusive to if any
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<DexEntry>> SpecificPokemon { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("SpecificPokemon", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<DexEntry>.Builder[] SpecificPokemonBuilder
+			{
+				get
+				{
+					if (SpecificPokemon == null)
+					{
+						return Array.Empty<ItemReference<DexEntry>.Builder>();
+					}
+					return SpecificPokemon.Select(item=>new ItemReference<DexEntry>.Builder(item)).ToArray();
+				}
+				set
+				{
+					SpecificPokemon?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (SpecificPokemon == null)
+					{
+						SpecificPokemon = new List<ItemReference<DexEntry>>(value.Length);
+					}
+					ItemBuilder<ItemReference<DexEntry>>.BuildList(value, SpecificPokemon);
+				}
+			}
+			/// <summary>
+			/// Hitpoints this item heals if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public int? HealAmount { get; set; }
+			/// <summary>
+			/// List of pokemon this item is exclusive to if any
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<DexEntry>> HealedStatusConditions { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("HealedStatusConditions", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<DexEntry>.Builder[] HealedStatusConditionsBuilder
+			{
+				get
+				{
+					if (HealedStatusConditions == null)
+					{
+						return Array.Empty<ItemReference<DexEntry>.Builder>();
+					}
+					return HealedStatusConditions.Select(item=>new ItemReference<DexEntry>.Builder(item)).ToArray();
+				}
+				set
+				{
+					HealedStatusConditions?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (HealedStatusConditions == null)
+					{
+						HealedStatusConditions = new List<ItemReference<DexEntry>>(value.Length);
+					}
+					ItemBuilder<ItemReference<DexEntry>>.BuildList(value, HealedStatusConditions);
+				}
+			}
+			/// <summary>
+			/// Kind of revive this item is if it is one
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public ReviveType? ReviveType { get; set; }
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Item"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -541,6 +827,18 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
+					if (TypeBonus is null)
+					{
+						return false;
+					}
+					if (SpecificPokemon is null)
+					{
+						return false;
+					}
+					if (HealedStatusConditions is null)
+					{
+						return false;
+					}
 					return true;
 				}
 			}
@@ -557,7 +855,23 @@ namespace Pokerole.Core{
 				}
 				return new Item(DataId!.Value,
 					Name!,
-					Description!);
+					Description!,
+					TypeBonus!,
+					TypeBonusValue,
+					StrengthBoost,
+					DexterityBoost,
+					VitalityBoost,
+					SpecialBoost,
+					InsightBoost,
+					DefenseBoost,
+					SpecialBoost,
+					DefenseBoost,
+					EvasionBoost,
+					AccuracyBoost,
+					SpecificPokemon!,
+					HealAmount,
+					HealedStatusConditions!,
+					ReviveType);
 			}
 		}
 	}

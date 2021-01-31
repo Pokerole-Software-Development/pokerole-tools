@@ -30,7 +30,9 @@ namespace Pokerole.Core
 	public enum MonStatus
 	{
 		None,
-		Burned,
+		Burn1,
+		Burn2,
+		Burn3,
 		Poisoned,
 		Paralyzed,
 		Frozen,
@@ -38,6 +40,10 @@ namespace Pokerole.Core
 		Confused,
 		Disabled,
 		Flinched,
-		Infatuated
+		Infatuated,
+		/// <summary>
+		/// Special value representing all status conditions. Used for healing items
+		/// </summary>
+		All
 	}
 }

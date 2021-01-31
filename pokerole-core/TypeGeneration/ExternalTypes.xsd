@@ -151,7 +151,9 @@
 	<xs:simpleType name="MonStatus" final="restriction">
 		<xs:restriction base="xs:NMTOKEN">
 			<xs:enumeration value="None"/>
-			<xs:enumeration value="Burned"/>
+			<xs:enumeration value="Burn1"/>
+			<xs:enumeration value="Burn2"/>
+			<xs:enumeration value="Burn3"/>
 			<xs:enumeration value="Poisoned"/>
 			<xs:enumeration value="Paralyzed"/>
 			<xs:enumeration value="Frozen"/>
@@ -160,6 +162,7 @@
 			<xs:enumeration value="Disabled"/>
 			<xs:enumeration value="Flinched"/>
 			<xs:enumeration value="Infatuated"/>
+			<xs:enumeration value="All"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="GenderType" final="restriction">
@@ -168,6 +171,20 @@
 			<xs:enumeration value="None"/>
 			<xs:enumeration value="MaleOnly"/>
 			<xs:enumeration value="FemaleOnly"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ReviveType" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="None"/>
+			<xs:enumeration value="Minimum"/>
+			<xs:enumeration value="Maximum"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Rarity" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Common"/>
+			<xs:enumeration value="Uncommon"/>
+			<xs:enumeration value="Rare"/>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

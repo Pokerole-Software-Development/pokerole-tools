@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,6 +19,10 @@ namespace Pokerole.Tools
 		private readonly HashSet<Guid> hasMegaEvolution = new HashSet<Guid>();
 		private PokeroleXmlData data;
 		private XmlSerializer xmlSerializer = new XmlSerializer(typeof(PokeroleXmlData));
+		private readonly Dictionary<String, Move.Builder> movesByName = new Dictionary<string, Move.Builder>();
+		private readonly Dictionary<String, Item.Builder> itemsByName = new Dictionary<string, Item.Builder>();
+		private readonly Dictionary<String, DexEntry.Builder> monByName = new Dictionary<string, DexEntry.Builder>();
+		private readonly Dictionary<String, Ability.Builder> abilitiesByName = new Dictionary<string, Ability.Builder>();
 		public InitialDataImporter()
 		{
 			String previousOutput;
@@ -25,6 +30,11 @@ namespace Pokerole.Tools
 			{
 				previousOutput = File.ReadAllText("output.xml");
 				data = (PokeroleXmlData)xmlSerializer.Deserialize(new StringReader(previousOutput));
+				//populate dicts
+				movesByName = data.Moves.ToDictionary(move => move.Name!);
+				itemsByName = data.Items.ToDictionary(item => item.Name!);
+				monByName = data.DexEntries.ToDictionary(entry => entry.Name!);
+				abilitiesByName = data.Abilities.ToDictionary(ability => ability.Name!);
 			}
 			if (data == null)
 			{
@@ -35,11 +45,12 @@ namespace Pokerole.Tools
 		{
 
 			//read them datas!!!
-			var movesByName = ReadMoves();
-			var monByName = ReadDexEntries();
-			var abilitiesByName = ReadAbilities();
-			ReadMoveLists(monByName, movesByName);
-			LinkAbilities(abilitiesByName, monByName);
+			ReadMoves();
+			ReadItems();
+			ReadDexEntries();
+			ReadAbilities();
+			ReadMoveLists();
+			LinkAbilities();
 
 
 
@@ -53,6 +64,7 @@ namespace Pokerole.Tools
 
 			//Console.WriteLine("Hello World!");
 		}
+
 		private String FetchFileIfNeeded(String file)
 		{
 			String path = Path.Combine(Directory.GetCurrentDirectory(), file);
@@ -111,9 +123,24 @@ namespace Pokerole.Tools
 			String file = FetchFileIfNeeded("pokeMoveSorted.csv");
 			foreach (var line in File.ReadAllLines(file))
 			{
-				Move.Builder builder = new Move.Builder();
-				builder.DataId = new DataId(null, Guid.NewGuid());
 				string[] fields = line.Split(new char[] { ',' }, 10);
+				Guid guid = Guid.Empty;
+				if (movesByName.TryGetValue(fields[0], out Move.Builder? prevEntry))
+				{
+					if (prevEntry.Description != "This move is missing")
+					{
+						//we already have that one
+						continue;
+					}
+					//use existing id to avoid issues
+					guid = prevEntry.DataId!.Value.Uuid;
+				}
+				if (guid == Guid.Empty)
+				{
+					guid = Guid.NewGuid();
+				}
+				Move.Builder builder = new Move.Builder();
+				builder.DataId = new DataId(null, guid);
 				builder.Name = fields[0];
 				String item = fields[1];
 				//BuiltInType type;
@@ -227,9 +254,15 @@ namespace Pokerole.Tools
 			}
 			return moves;
 		}
+
+
+		private object ReadItems()
+		{
+			String file = FetchFileIfNeeded("PokeRoleItems.csv");
+			throw new NotImplementedException();
+		}
 		private Dictionary<String, DexEntry.Builder> ReadDexEntries()
 		{
-			Dictionary<String, DexEntry.Builder> monByName = new Dictionary<string, DexEntry.Builder>();
 			String file = FetchFileIfNeeded("PokeroleStats.csv");
 			bool first = true;
 			Regex dexRegex = new Regex("^#?(D)?([0-9]+)(.*)$");
@@ -242,6 +275,11 @@ namespace Pokerole.Tools
 					continue;
 				}
 				String[] items = line.Split(',');
+				if (monByName.ContainsKey(items[1]))
+				{
+					//already imported
+					continue;
+				}
 				DexEntry.Builder builder = new DexEntry.Builder();
 				builder.DataId = new DataId(null, Guid.NewGuid());
 
@@ -329,7 +367,6 @@ namespace Pokerole.Tools
 
 		private Dictionary<String, Ability.Builder> ReadAbilities()
 		{
-			Dictionary<String, Ability.Builder> abilities = new Dictionary<string, Ability.Builder>();
 			string file = FetchFileIfNeeded("PokeRoleAbilities.csv");
 			using (TextFieldParser csvParser = new TextFieldParser(file))
 			{
@@ -345,6 +382,11 @@ namespace Pokerole.Tools
 						first = false;
 						continue;
 					}
+					if (abilitiesByName.ContainsKey(fields[0]))
+					{
+						//we already have that one
+						continue;
+					}
 					Ability.Builder builder = new Ability.Builder
 					{
 						DataId = new DataId(null, Guid.NewGuid()),
@@ -352,13 +394,13 @@ namespace Pokerole.Tools
 						Effect = fields[1]
 					};
 					data.Abilities.Add(builder);
-					abilities.Add(builder.Name, builder);
+					abilitiesByName.Add(builder.Name, builder);
 				}
 			}
-			return abilities;
+			return abilitiesByName;
 		}
 
-		private void ReadMoveLists(Dictionary<String, DexEntry.Builder> monByName, Dictionary<String, Move.Builder> moveList)
+		private void ReadMoveLists()
 		{
 			String file = FetchFileIfNeeded("PokeLearnMovesFull.csv");
 			foreach (var line in File.ReadLines(file))
@@ -369,12 +411,18 @@ namespace Pokerole.Tools
 				{
 					throw new InvalidOperationException($"Could not find moves for {id[1]}");
 				}
+				if (builder.MoveSet.Count > 0)
+				{
+					//already populated
+					continue;
+				}
+
 				for (int i = 0; i < fields.Length - 1; i += 2)
 				{
 					String moveName = fields[i + 1];
 					String rawRank = fields[i + 2];
 					Rank rank = ParseEnum<Rank>(rawRank);
-					if (!moveList.TryGetValue(moveName, out Move.Builder? move))
+					if (!movesByName.TryGetValue(moveName, out Move.Builder? move))
 					{
 						throw new InvalidOperationException($"Could not find a move called \"{moveName}\"");
 					}
@@ -384,7 +432,7 @@ namespace Pokerole.Tools
 				}
 			}
 		}
-		private static void LinkAbilities(Dictionary<string, Ability.Builder> abilitiesByName, Dictionary<string, DexEntry.Builder> monByName)
+		private void LinkAbilities()
 		{
 			List<String> missingAbilities = new List<string>(10);
 			foreach (var entry in monByName.Values)
