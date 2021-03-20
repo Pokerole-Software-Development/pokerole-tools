@@ -195,7 +195,7 @@
 							<xs:documentation>Item Description</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="TypeBonus" ex:genericType="ex:ITypeDefinition" ex:listItemType="ex:ItemReference">
+					<!--<xs:element name="TypeBonus" ex:genericType="ex:ITypeDefinition" ex:listItemType="ex:ItemReference">
 						<xs:annotation>
 							<xs:documentation>Types this item gives bonus damage to, if any</xs:documentation>
 						</xs:annotation>
@@ -233,16 +233,6 @@
 					<xs:element name="InsightBoost" nillable="true" type="xs:int">
 						<xs:annotation>
 							<xs:documentation>The boost this item confers upone the Insight stat if any</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="DefenseBoost" nillable="true" type="xs:int">
-						<xs:annotation>
-							<xs:documentation>The boost this item confers upone the Defense stat if any</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="SpecialBoost" nillable="true" type="xs:int">
-						<xs:annotation>
-							<xs:documentation>The boost this item confers upone the Special stat if any</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DefenseBoost" nillable="true" type="xs:int">
@@ -289,7 +279,8 @@
 						<xs:annotation>
 							<xs:documentation>Kind of revive this item is if it is one</xs:documentation>
 						</xs:annotation>
-					</xs:element>
+					</xs:element>-->
+					
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

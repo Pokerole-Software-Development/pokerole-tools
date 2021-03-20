@@ -23,4 +23,11 @@ namespace Pokerole.Core
 		Uncommon,
 		Rare
 	}
+	public enum ItemKind
+	{
+		Unknown,
+		IncreasedTypeDamage,
+		StatBoost,
+		TypeChange,
+	}
 }
