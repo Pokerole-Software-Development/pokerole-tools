@@ -30,4 +30,8 @@ namespace Pokerole.Core
 		StatBoost,
 		TypeChange,
 	}
+	public enum EvolutionKind
+	{
+		Invalid
+	}
 }

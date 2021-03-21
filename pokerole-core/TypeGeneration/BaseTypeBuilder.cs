@@ -1109,6 +1109,7 @@ namespace Pokerole.Core{
 			ImageRef? shinyImage,
 			ImageRef? smallShinyImage,
 			List<AbilityEntry> abilities,
+			ItemReference<DexEntry>? baseEvolution,
 			ItemReference<EvolutionList>? evolutionList,
 			ItemReference<DexEntry>? megaEvolutionBaseEntry,
 			List<MegaEvolutionEntry> megaEvolutions,
@@ -1142,6 +1143,7 @@ namespace Pokerole.Core{
 			ShinyImage = shinyImage;
 			SmallShinyImage = smallShinyImage;
 			Abilities = new List<AbilityEntry>(abilities).AsReadOnly();
+			BaseEvolution = baseEvolution;
 			EvolutionList = evolutionList;
 			MegaEvolutionBaseEntry = megaEvolutionBaseEntry;
 			MegaEvolutions = new List<MegaEvolutionEntry>(megaEvolutions).AsReadOnly();
@@ -1229,6 +1231,10 @@ namespace Pokerole.Core{
 		/// List of possible abilities this Pokémon can have
 		/// </summary>
 		public IReadOnlyList<AbilityEntry> Abilities { get; }
+		/// <summary>
+		/// Base evolution of this Dex Entry. If this entry is the base evolution, it should point to itself. If this entry does not evolve, then this is null
+		/// </summary>
+		public ItemReference<DexEntry>? BaseEvolution { get; }
 		/// <summary>
 		/// Evolution line of this Pokémon if applicable
 		/// </summary>
@@ -1318,6 +1324,7 @@ namespace Pokerole.Core{
 				ShinyImage = dexEntry.ShinyImage;
 				SmallShinyImage = dexEntry.SmallShinyImage;
 				Abilities = new List<AbilityEntry>(dexEntry.Abilities);
+				BaseEvolution = dexEntry.BaseEvolution;
 				EvolutionList = dexEntry.EvolutionList;
 				MegaEvolutionBaseEntry = dexEntry.MegaEvolutionBaseEntry;
 				MegaEvolutions = new List<MegaEvolutionEntry>(dexEntry.MegaEvolutions);
@@ -1533,6 +1540,22 @@ namespace Pokerole.Core{
 					ItemBuilder<AbilityEntry>.BuildList(value, Abilities);
 				}
 			}
+			/// <summary>
+			/// Base evolution of this Dex Entry. If this entry is the base evolution, it should point to itself. If this entry does not evolve, then this is null
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<DexEntry>? BaseEvolution { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("BaseEvolution", IsNullable = false)]
+			public ItemReference<DexEntry>.Builder? BaseEvolutionXmlAccessor
+			{
+				get => BaseEvolution is null ? null : new ItemReference<DexEntry>.Builder(BaseEvolution ?? default);
+				set => BaseEvolution = value?.Build();
+			}
+
 			/// <summary>
 			/// Evolution line of this Pokémon if applicable
 			/// </summary>
@@ -1937,6 +1960,7 @@ namespace Pokerole.Core{
 					ShinyImage,
 					SmallShinyImage,
 					Abilities!,
+					BaseEvolution,
 					EvolutionList,
 					MegaEvolutionBaseEntry,
 					MegaEvolutions!,
@@ -3395,6 +3419,172 @@ namespace Pokerole.Core{
 				return new Ability(DataId!.Value,
 					Name!,
 					Effect!);
+			}
+		}
+	}
+	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public record EvolutionEntry
+	{
+		public EvolutionEntry(ItemReference<DexEntry> baseEvolution,
+			ItemReference<DexEntry> from,
+			ItemReference<DexEntry> to,
+			EvolutionKind kind,
+			string details)
+		{
+			BaseEvolution = baseEvolution;
+			From = from;
+			To = to;
+			Kind = kind;
+			Details = details;
+		}
+		/// <summary>
+		/// The lowest form of this evolution chain
+		/// </summary>
+		public ItemReference<DexEntry> BaseEvolution { get; }
+		/// <summary>
+		/// What it is being evolved from
+		/// </summary>
+		public ItemReference<DexEntry> From { get; }
+		/// <summary>
+		/// What it is being evolved to
+		/// </summary>
+		public ItemReference<DexEntry> To { get; }
+		/// <summary>
+		/// Type of evolution (for quick filtering)
+		/// </summary>
+		public EvolutionKind Kind { get; }
+		/// <summary>
+		/// Further details about how the evolution works. This could be a level number, name of an item, or just about anything really...
+		/// </summary>
+		public string Details { get; }
+		[XmlType(nameof(EvolutionEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		public class Builder : ItemBuilder<EvolutionEntry>
+		{
+			public Builder()
+			{			}
+			public Builder(EvolutionEntry evolutionEntry)
+			{
+				BaseEvolution = evolutionEntry.BaseEvolution;
+				From = evolutionEntry.From;
+				To = evolutionEntry.To;
+				Kind = evolutionEntry.Kind;
+				Details = evolutionEntry.Details;
+			}
+			/// <summary>
+			/// The lowest form of this evolution chain
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<DexEntry>? BaseEvolution { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("BaseEvolution", IsNullable = false)]
+			public ItemReference<DexEntry>.Builder? BaseEvolutionXmlAccessor
+			{
+				get => BaseEvolution is null ? null : new ItemReference<DexEntry>.Builder(BaseEvolution ?? default);
+				set => BaseEvolution = value?.Build();
+			}
+
+			/// <summary>
+			/// What it is being evolved from
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<DexEntry>? From { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("From", IsNullable = false)]
+			public ItemReference<DexEntry>.Builder? FromXmlAccessor
+			{
+				get => From is null ? null : new ItemReference<DexEntry>.Builder(From ?? default);
+				set => From = value?.Build();
+			}
+
+			/// <summary>
+			/// What it is being evolved to
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<DexEntry>? To { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("To", IsNullable = false)]
+			public ItemReference<DexEntry>.Builder? ToXmlAccessor
+			{
+				get => To is null ? null : new ItemReference<DexEntry>.Builder(To ?? default);
+				set => To = value?.Build();
+			}
+
+			/// <summary>
+			/// Type of evolution (for quick filtering)
+			/// </summary>
+			[XmlIgnore]
+			public EvolutionKind? Kind { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Kind", IsNullable = false)]
+			public EvolutionKind KindNullableXmlAccessor
+			{
+				get => Kind ?? default;
+				set => Kind = value;
+			}
+			/// <summary>
+			/// Further details about how the evolution works. This could be a level number, name of an item, or just about anything really...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Details { get; set; }
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="EvolutionEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public override bool IsValid
+			{
+				get
+				{
+					if (BaseEvolution is null)
+					{
+						return false;
+					}
+					if (From is null)
+					{
+						return false;
+					}
+					if (To is null)
+					{
+						return false;
+					}
+					if (Kind is null)
+					{
+						return false;
+					}
+					if (Details is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="EvolutionEntry"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="EvolutionEntry"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public override EvolutionEntry Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new EvolutionEntry(
+					BaseEvolution!.Value,
+					From!.Value,
+					To!.Value,
+					Kind!.Value,
+					Details!);
 			}
 		}
 	}

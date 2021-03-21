@@ -8,6 +8,7 @@ using Pokerole.Core;
 using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.FileIO;
 using System.Diagnostics;
+using PdfHandler;
 
 namespace Pokerole.Tools
 {
@@ -15,6 +16,9 @@ namespace Pokerole.Tools
 	{
 		static void Main(string[] args)
 		{
+			//String filename = "";
+			//var values = PdfParser.ParsePdf(filename);
+
 			InitialDataImporter importer = new InitialDataImporter();
 			importer.DoImport();
 		}

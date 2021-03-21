@@ -187,4 +187,11 @@
 			<xs:enumeration value="Rare"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="EvolutionKind" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Invalid"/>
+			<!--<xs:enumeration value="Uncommon"/>
+			<xs:enumeration value="Rare"/>-->
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

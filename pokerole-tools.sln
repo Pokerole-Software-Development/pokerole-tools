@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		pokerole-tools.sln.licenseheader = pokerole-tools.sln.licenseheader
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfHandler", "PdfHandler\PdfHandler.csproj", "{C3EA453C-4CA0-40B2-A038-CCCBE785094F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{D680FC67-904C-43C6-94B9-C34AB36F7D11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D680FC67-904C-43C6-94B9-C34AB36F7D11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D680FC67-904C-43C6-94B9-C34AB36F7D11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3EA453C-4CA0-40B2-A038-CCCBE785094F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3EA453C-4CA0-40B2-A038-CCCBE785094F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3EA453C-4CA0-40B2-A038-CCCBE785094F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3EA453C-4CA0-40B2-A038-CCCBE785094F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

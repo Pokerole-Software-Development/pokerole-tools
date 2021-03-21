@@ -52,10 +52,10 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="EvolutionLists">
+				<xs:element name="EvolutionEntries">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="EvolutionList" type="EvolutionList" maxOccurs="unbounded" minOccurs="0"/>
+							<xs:element name="Entry" type="EvolutionEntry" maxOccurs="unbounded" minOccurs="0"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -425,6 +425,12 @@
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
+					<xs:element name="BaseEvolution" type="ex:ItemReference" ex:genericType="DexEntry" nillable="true" ex:isDbLazy="true">
+						<xs:annotation>
+							<xs:documentation>Base evolution of this Dex Entry. If this entry is the base evolution, it should point to itself. If this entry does not evolve, then this is null</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+						
 					<xs:element name="EvolutionList" type="ex:ItemReference" ex:genericType="EvolutionList" ex:isDbLazy="true" nillable="true">
 						<xs:annotation>
 							<xs:documentation>Evolution line of this Pokémon if applicable</xs:documentation>
@@ -828,6 +834,45 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="EvolutionEntry">
+		<xs:sequence>
+			<xs:element name="BaseEvolution" type="ex:ItemReference" ex:genericType="DexEntry">
+				<xs:annotation>
+					<xs:documentation>The lowest form of this evolution chain</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="From" type="ex:ItemReference" ex:genericType="DexEntry">
+				<xs:annotation>
+					<xs:documentation>What it is being evolved from</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="To" type="ex:ItemReference" ex:genericType="DexEntry">
+				<xs:annotation>
+					<xs:documentation>What it is being evolved to</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Kind" type="ex:EvolutionKind">
+				<xs:annotation>
+					<xs:documentation>Type of evolution (for quick filtering)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Details" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Further details about how the evolution works. This could be a level number, name of an item, or just about anything really...</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Trainer">
+		<xs:complexContent>
+			<xs:extension base="ex:BaseDataItem">
+				<xs:sequence>
+				</xs:sequence>
+				<!--TODO: Implement-->
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
 	<xs:complexType name="EvolutionList">
 		<xs:complexContent>
 			<xs:extension base="ex:BaseDataItem">
