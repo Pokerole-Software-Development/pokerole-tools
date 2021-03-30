@@ -1057,8 +1057,53 @@
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="Achievements" ex:listItemType="xs:string">
+						<xs:annotation>
+							<xs:documentation>Achivements this trainer has accomplished</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="String" type="xs:string"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="MonSeen" type="xs:int"/>
+					<xs:element name="MonCaught" type="xs:int"/>
+					<xs:element name="Backpack" type="ex:ItemReference" ex:genericType="Backpack"/>
 				</xs:sequence>
-				<!--TODO: Implement-->
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Backpack">
+		<xs:complexContent>
+			<xs:extension base="ex:BaseDataItem">
+				<xs:sequence>
+					<xs:element name="PotionCount" type="xs:int"/>
+					<xs:element name="SuperPotionCount" type="xs:int"/>
+					<xs:element name="HyperPotionCount" type="xs:int"/>
+					<xs:element name="BattleItems" ex:listItemType="ex:ItemReference" ex:genericType="Item">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="OtherItems" ex:listItemType="ex:ItemReference" ex:genericType="Item">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<!--String for now...-->
+					<xs:element name="Badges" ex:listItemType="xs:string">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="String" type="xs:string" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

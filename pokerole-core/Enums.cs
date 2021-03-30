@@ -34,4 +34,21 @@ namespace Pokerole.Core
 	{
 		Invalid
 	}
+	public enum RivalBackground
+	{
+		Hax0rus,
+		/// <summary>
+		/// Rule of Tenta-Cool
+		/// </summary>
+		Tentacool,
+		/// <summary>
+		/// Cursed with Awesome
+		/// </summary>
+		AwesomeCurse,
+		Richboy,
+		TeamMember,
+		DisabledOrphan,
+		AntiHero,
+		TyrantMentor,
+	}
 }

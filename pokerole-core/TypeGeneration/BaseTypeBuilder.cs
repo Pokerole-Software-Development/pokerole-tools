@@ -3824,7 +3824,11 @@ namespace Pokerole.Core{
 			int crafts,
 			int lore,
 			int medicine,
-			int science) : base(dataId)
+			int science,
+			List<string> achievements,
+			int monSeen,
+			int monCaught,
+			ItemReference<Backpack> backpack) : base(dataId)
 		{
 			CharacterName = characterName;
 			PlayerName = playerName;
@@ -3861,6 +3865,10 @@ namespace Pokerole.Core{
 			Lore = lore;
 			Medicine = medicine;
 			Science = science;
+			Achievements = new List<string>(achievements).AsReadOnly();
+			MonSeen = monSeen;
+			MonCaught = monCaught;
+			Backpack = backpack;
 		}
 
 		public ItemReference<Trainer> ItemReference => new ItemReference<Trainer>(DataId);
@@ -4005,12 +4013,29 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public int Science { get; }
+		/// <summary>
+		/// Achivements this trainer has accomplished
+		/// </summary>
+		public IReadOnlyList<string> Achievements { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int MonSeen { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int MonCaught { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public ItemReference<Backpack> Backpack { get; }
 		[XmlType(nameof(Trainer), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		public class Builder : DataItemBuilder<Trainer>
 		{
 			public Builder()
 			{
 				Party = new List<ItemReference<MonInstance>>(10);
+				Achievements = new List<string>(10);
 			}
 			public Builder(Trainer trainer)
 			{
@@ -4050,6 +4075,10 @@ namespace Pokerole.Core{
 				Lore = trainer.Lore;
 				Medicine = trainer.Medicine;
 				Science = trainer.Science;
+				Achievements = new List<string>(trainer.Achievements);
+				MonSeen = trainer.MonSeen;
+				MonCaught = trainer.MonCaught;
+				Backpack = trainer.Backpack;
 			}
 
 			public ItemReference<Trainer>? ItemReference => !DataId.HasValue ? null :
@@ -4522,6 +4551,55 @@ namespace Pokerole.Core{
 				set => Science = value;
 			}
 			/// <summary>
+			/// Achivements this trainer has accomplished
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public List<string> Achievements { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? MonSeen { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("MonSeen", IsNullable = false)]
+			public int MonSeenNullableXmlAccessor
+			{
+				get => MonSeen ?? default;
+				set => MonSeen = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? MonCaught { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("MonCaught", IsNullable = false)]
+			public int MonCaughtNullableXmlAccessor
+			{
+				get => MonCaught ?? default;
+				set => MonCaught = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<Backpack>? Backpack { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Backpack", IsNullable = false)]
+			public ItemReference<Backpack>.Builder? BackpackXmlAccessor
+			{
+				get => Backpack is null ? null : new ItemReference<Backpack>.Builder(Backpack ?? default);
+				set => Backpack = value?.Build();
+			}
+
+			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Trainer"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
@@ -4673,6 +4751,22 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
+					if (Achievements is null)
+					{
+						return false;
+					}
+					if (MonSeen is null)
+					{
+						return false;
+					}
+					if (MonCaught is null)
+					{
+						return false;
+					}
+					if (Backpack is null)
+					{
+						return false;
+					}
 					return true;
 				}
 			}
@@ -4722,7 +4816,256 @@ namespace Pokerole.Core{
 					Crafts!.Value,
 					Lore!.Value,
 					Medicine!.Value,
-					Science!.Value);
+					Science!.Value,
+					Achievements!,
+					MonSeen!.Value,
+					MonCaught!.Value,
+					Backpack!.Value);
+			}
+		}
+	}
+	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public partial record Backpack : BaseDataItem
+	{
+		public Backpack(DataId dataId,
+			int potionCount,
+			int superPotionCount,
+			int hyperPotionCount,
+			List<ItemReference<Item>> battleItems,
+			List<ItemReference<Item>> otherItems,
+			List<string> badges) : base(dataId)
+		{
+			PotionCount = potionCount;
+			SuperPotionCount = superPotionCount;
+			HyperPotionCount = hyperPotionCount;
+			BattleItems = new List<ItemReference<Item>>(battleItems).AsReadOnly();
+			OtherItems = new List<ItemReference<Item>>(otherItems).AsReadOnly();
+			Badges = new List<string>(badges).AsReadOnly();
+		}
+
+		public ItemReference<Backpack> ItemReference => new ItemReference<Backpack>(DataId);
+
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int PotionCount { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int SuperPotionCount { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int HyperPotionCount { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public IReadOnlyList<ItemReference<Item>> BattleItems { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public IReadOnlyList<ItemReference<Item>> OtherItems { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public IReadOnlyList<string> Badges { get; }
+		[XmlType(nameof(Backpack), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		public class Builder : DataItemBuilder<Backpack>
+		{
+			public Builder()
+			{
+				BattleItems = new List<ItemReference<Item>>(10);
+				OtherItems = new List<ItemReference<Item>>(10);
+				Badges = new List<string>(10);
+			}
+			public Builder(Backpack backpack)
+			{
+				DataId = backpack.DataId;
+				PotionCount = backpack.PotionCount;
+				SuperPotionCount = backpack.SuperPotionCount;
+				HyperPotionCount = backpack.HyperPotionCount;
+				BattleItems = new List<ItemReference<Item>>(backpack.BattleItems);
+				OtherItems = new List<ItemReference<Item>>(backpack.OtherItems);
+				Badges = new List<string>(backpack.Badges);
+			}
+
+			public ItemReference<Backpack>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<Backpack>(DataId.Value);
+
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? PotionCount { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("PotionCount", IsNullable = false)]
+			public int PotionCountNullableXmlAccessor
+			{
+				get => PotionCount ?? default;
+				set => PotionCount = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? SuperPotionCount { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("SuperPotionCount", IsNullable = false)]
+			public int SuperPotionCountNullableXmlAccessor
+			{
+				get => SuperPotionCount ?? default;
+				set => SuperPotionCount = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? HyperPotionCount { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("HyperPotionCount", IsNullable = false)]
+			public int HyperPotionCountNullableXmlAccessor
+			{
+				get => HyperPotionCount ?? default;
+				set => HyperPotionCount = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<Item>> BattleItems { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("BattleItems", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<Item>.Builder[] BattleItemsBuilder
+			{
+				get
+				{
+					if (BattleItems == null)
+					{
+						return Array.Empty<ItemReference<Item>.Builder>();
+					}
+					return BattleItems.Select(item=>new ItemReference<Item>.Builder(item)).ToArray();
+				}
+				set
+				{
+					BattleItems?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (BattleItems == null)
+					{
+						BattleItems = new List<ItemReference<Item>>(value.Length);
+					}
+					ItemBuilder<ItemReference<Item>>.BuildList(value, BattleItems);
+				}
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<Item>> OtherItems { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("OtherItems", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<Item>.Builder[] OtherItemsBuilder
+			{
+				get
+				{
+					if (OtherItems == null)
+					{
+						return Array.Empty<ItemReference<Item>.Builder>();
+					}
+					return OtherItems.Select(item=>new ItemReference<Item>.Builder(item)).ToArray();
+				}
+				set
+				{
+					OtherItems?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (OtherItems == null)
+					{
+						OtherItems = new List<ItemReference<Item>>(value.Length);
+					}
+					ItemBuilder<ItemReference<Item>>.BuildList(value, OtherItems);
+				}
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public List<string> Badges { get; set; }
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="Backpack"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public override bool IsValid
+			{
+				get
+				{
+					if (DataId is null)
+					{
+						return false;
+					}
+					if (PotionCount is null)
+					{
+						return false;
+					}
+					if (SuperPotionCount is null)
+					{
+						return false;
+					}
+					if (HyperPotionCount is null)
+					{
+						return false;
+					}
+					if (BattleItems is null)
+					{
+						return false;
+					}
+					if (OtherItems is null)
+					{
+						return false;
+					}
+					if (Badges is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="Backpack"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="Backpack"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public override Backpack Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new Backpack(DataId!.Value,
+					PotionCount!.Value,
+					SuperPotionCount!.Value,
+					HyperPotionCount!.Value,
+					BattleItems!,
+					OtherItems!,
+					Badges!);
 			}
 		}
 	}

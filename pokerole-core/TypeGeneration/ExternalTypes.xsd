@@ -194,4 +194,16 @@
 			<xs:enumeration value="Rare"/>-->
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="RivalBackground" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Hax0rus"/>
+			<xs:enumeration value="Tentacool"/>
+			<xs:enumeration value="AwesomeCurse"/>
+			<xs:enumeration value="Richboy"/>
+			<xs:enumeration value="TeamMember"/>
+			<xs:enumeration value="DisabledOrphan"/>
+			<xs:enumeration value="AntiHero"/>
+			<xs:enumeration value="TyrantMentor"/>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>
