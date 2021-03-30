@@ -808,6 +808,101 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public partial record ImageRef : BaseDataItem
+	{
+		public ImageRef(DataId dataId,
+			string filename,
+			byte[]? data,
+			string? filePath) : base(dataId)
+		{
+			Filename = filename;
+			Data = data;
+			FilePath = filePath;
+		}
+
+		public ItemReference<ImageRef> ItemReference => new ItemReference<ImageRef>(DataId, Filename);
+
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string Filename { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public byte[]? Data { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string? FilePath { get; }
+		[XmlType(nameof(ImageRef), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		public class Builder : DataItemBuilder<ImageRef>
+		{
+			public Builder()
+			{			}
+			public Builder(ImageRef imageRef)
+			{
+				DataId = imageRef.DataId;
+				Filename = imageRef.Filename;
+				Data = imageRef.Data;
+				FilePath = imageRef.FilePath;
+			}
+
+			public ItemReference<ImageRef>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<ImageRef>(DataId.Value, Filename);
+
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Filename { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public byte[]? Data { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public string? FilePath { get; set; }
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="ImageRef"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public override bool IsValid
+			{
+				get
+				{
+					if (DataId is null)
+					{
+						return false;
+					}
+					if (Filename is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="ImageRef"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="ImageRef"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public override ImageRef Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new ImageRef(DataId!.Value,
+					Filename!,
+					Data,
+					FilePath);
+			}
+		}
+	}
+	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
 	public record MegaEvolutionEntry
 	{
 		public MegaEvolutionEntry(ItemReference<Item> item,
@@ -1104,10 +1199,11 @@ namespace Pokerole.Core{
 			string dexDescription,
 			Rank suggestedRank,
 			int baseHp,
-			ImageRef primaryImage,
-			ImageRef smallImage,
-			ImageRef? shinyImage,
-			ImageRef? smallShinyImage,
+			ItemReference<ImageRef> primaryImage,
+			List<ItemReference<ImageRef>> additionalImages,
+			ItemReference<ImageRef> smallImage,
+			ItemReference<ImageRef>? shinyImage,
+			ItemReference<ImageRef>? smallShinyImage,
 			List<AbilityEntry> abilities,
 			ItemReference<DexEntry>? baseEvolution,
 			ItemReference<EvolutionList>? evolutionList,
@@ -1139,6 +1235,7 @@ namespace Pokerole.Core{
 			SuggestedRank = suggestedRank;
 			BaseHp = baseHp;
 			PrimaryImage = primaryImage;
+			AdditionalImages = new List<ItemReference<ImageRef>>(additionalImages).AsReadOnly();
 			SmallImage = smallImage;
 			ShinyImage = shinyImage;
 			SmallShinyImage = smallShinyImage;
@@ -1214,19 +1311,23 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Primary display image of this Pokémon
 		/// </summary>
-		public ImageRef PrimaryImage { get; }
+		public ItemReference<ImageRef> PrimaryImage { get; }
+		/// <summary>
+		/// Additional images of this pokemon
+		/// </summary>
+		public IReadOnlyList<ItemReference<ImageRef>> AdditionalImages { get; }
 		/// <summary>
 		/// Smaller display image of this Pokémon
 		/// </summary>
-		public ImageRef SmallImage { get; }
+		public ItemReference<ImageRef> SmallImage { get; }
 		/// <summary>
 		/// Primary display image of a shiny instance of this Pokémon
 		/// </summary>
-		public ImageRef? ShinyImage { get; }
+		public ItemReference<ImageRef>? ShinyImage { get; }
 		/// <summary>
 		/// Smaller display image of a shiny instance of this Pokémon
 		/// </summary>
-		public ImageRef? SmallShinyImage { get; }
+		public ItemReference<ImageRef>? SmallShinyImage { get; }
 		/// <summary>
 		/// List of possible abilities this Pokémon can have
 		/// </summary>
@@ -1300,6 +1401,7 @@ namespace Pokerole.Core{
 		{
 			public Builder()
 			{
+				AdditionalImages = new List<ItemReference<ImageRef>>(10);
 				Abilities = new List<AbilityEntry>(10);
 				MegaEvolutions = new List<MegaEvolutionEntry>(10);
 				MoveSet = new List<MoveEntry>(10);
@@ -1320,6 +1422,7 @@ namespace Pokerole.Core{
 				SuggestedRank = dexEntry.SuggestedRank;
 				BaseHp = dexEntry.BaseHp;
 				PrimaryImage = dexEntry.PrimaryImage;
+				AdditionalImages = new List<ItemReference<ImageRef>>(dexEntry.AdditionalImages);
 				SmallImage = dexEntry.SmallImage;
 				ShinyImage = dexEntry.ShinyImage;
 				SmallShinyImage = dexEntry.SmallShinyImage;
@@ -1488,23 +1591,102 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Primary display image of this Pokémon
 			/// </summary>
-			[XmlElement(IsNullable = false)]
-			public ImageRef? PrimaryImage { get; set; }
+			[XmlIgnore]
+			public ItemReference<ImageRef>? PrimaryImage { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("PrimaryImage", IsNullable = false)]
+			public ItemReference<ImageRef>.Builder? PrimaryImageXmlAccessor
+			{
+				get => PrimaryImage is null ? null : new ItemReference<ImageRef>.Builder(PrimaryImage ?? default);
+				set => PrimaryImage = value?.Build();
+			}
+
+			/// <summary>
+			/// Additional images of this pokemon
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<ImageRef>> AdditionalImages { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("AdditionalImages", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<ImageRef>.Builder[] AdditionalImagesBuilder
+			{
+				get
+				{
+					if (AdditionalImages == null)
+					{
+						return Array.Empty<ItemReference<ImageRef>.Builder>();
+					}
+					return AdditionalImages.Select(item=>new ItemReference<ImageRef>.Builder(item)).ToArray();
+				}
+				set
+				{
+					AdditionalImages?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (AdditionalImages == null)
+					{
+						AdditionalImages = new List<ItemReference<ImageRef>>(value.Length);
+					}
+					ItemBuilder<ItemReference<ImageRef>>.BuildList(value, AdditionalImages);
+				}
+			}
 			/// <summary>
 			/// Smaller display image of this Pokémon
 			/// </summary>
-			[XmlElement(IsNullable = false)]
-			public ImageRef? SmallImage { get; set; }
+			[XmlIgnore]
+			public ItemReference<ImageRef>? SmallImage { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("SmallImage", IsNullable = false)]
+			public ItemReference<ImageRef>.Builder? SmallImageXmlAccessor
+			{
+				get => SmallImage is null ? null : new ItemReference<ImageRef>.Builder(SmallImage ?? default);
+				set => SmallImage = value?.Build();
+			}
+
 			/// <summary>
 			/// Primary display image of a shiny instance of this Pokémon
 			/// </summary>
-			[XmlElement(IsNullable = true)]
-			public ImageRef? ShinyImage { get; set; }
+			[XmlIgnore]
+			public ItemReference<ImageRef>? ShinyImage { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("ShinyImage", IsNullable = false)]
+			public ItemReference<ImageRef>.Builder? ShinyImageXmlAccessor
+			{
+				get => ShinyImage is null ? null : new ItemReference<ImageRef>.Builder(ShinyImage ?? default);
+				set => ShinyImage = value?.Build();
+			}
+
 			/// <summary>
 			/// Smaller display image of a shiny instance of this Pokémon
 			/// </summary>
-			[XmlElement(IsNullable = true)]
-			public ImageRef? SmallShinyImage { get; set; }
+			[XmlIgnore]
+			public ItemReference<ImageRef>? SmallShinyImage { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("SmallShinyImage", IsNullable = false)]
+			public ItemReference<ImageRef>.Builder? SmallShinyImageXmlAccessor
+			{
+				get => SmallShinyImage is null ? null : new ItemReference<ImageRef>.Builder(SmallShinyImage ?? default);
+				set => SmallShinyImage = value?.Build();
+			}
+
 			/// <summary>
 			/// List of possible abilities this Pokémon can have
 			/// </summary>
@@ -1868,6 +2050,10 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
+					if (AdditionalImages is null)
+					{
+						return false;
+					}
 					if (SmallImage is null)
 					{
 						return false;
@@ -1955,8 +2141,9 @@ namespace Pokerole.Core{
 					DexDescription!,
 					SuggestedRank!.Value,
 					BaseHp!.Value,
-					PrimaryImage!,
-					SmallImage!,
+					PrimaryImage!.Value,
+					AdditionalImages!,
+					SmallImage!.Value,
 					ShinyImage,
 					SmallShinyImage,
 					Abilities!,
@@ -1983,7 +2170,7 @@ namespace Pokerole.Core{
 	public partial record MonInstance : BaseDataItem
 	{
 		public MonInstance(DataId dataId,
-			ImageRef picture,
+			ItemReference<ImageRef> picture,
 			ItemReference<DexEntry> definition,
 			string name,
 			ItemReference<Ability> ability,
@@ -2091,7 +2278,7 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Picture of this Pokémon
 		/// </summary>
-		public ImageRef Picture { get; }
+		public ItemReference<ImageRef> Picture { get; }
 		/// <summary>
 		/// The DexEntry that currently defines this Pokémon
 		/// </summary>
@@ -2360,8 +2547,19 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Picture of this Pokémon
 			/// </summary>
-			[XmlElement(IsNullable = false)]
-			public ImageRef? Picture { get; set; }
+			[XmlIgnore]
+			public ItemReference<ImageRef>? Picture { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Picture", IsNullable = false)]
+			public ItemReference<ImageRef>.Builder? PictureXmlAccessor
+			{
+				get => Picture is null ? null : new ItemReference<ImageRef>.Builder(Picture ?? default);
+				set => Picture = value?.Build();
+			}
+
 			/// <summary>
 			/// The DexEntry that currently defines this Pokémon
 			/// </summary>
@@ -3283,7 +3481,7 @@ namespace Pokerole.Core{
 					throw new InvalidOperationException("Not all required fields were set");
 				}
 				return new MonInstance(DataId!.Value,
-					Picture!,
+					Picture!.Value,
 					Definition!.Value,
 					Name!,
 					Ability!.Value,
@@ -3585,6 +3783,946 @@ namespace Pokerole.Core{
 					To!.Value,
 					Kind!.Value,
 					Details!);
+			}
+		}
+	}
+	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public partial record Trainer : BaseDataItem
+	{
+		public Trainer(DataId dataId,
+			string characterName,
+			string playerName,
+			Rank rank,
+			string age,
+			string concept,
+			Nature trainerNature,
+			string money,
+			int hP,
+			int willPoints,
+			List<ItemReference<MonInstance>> party,
+			int strength,
+			int dexterity,
+			int vitality,
+			int insight,
+			int tough,
+			int cool,
+			int beauty,
+			int clever,
+			int cute,
+			int brawl,
+			int @throw,
+			int evasion,
+			int weapons,
+			int alert,
+			int athletic,
+			int nature,
+			int stealth,
+			int allure,
+			int etiquette,
+			int intimidate,
+			int perform,
+			int crafts,
+			int lore,
+			int medicine,
+			int science) : base(dataId)
+		{
+			CharacterName = characterName;
+			PlayerName = playerName;
+			Rank = rank;
+			Age = age;
+			Concept = concept;
+			TrainerNature = trainerNature;
+			Money = money;
+			HP = hP;
+			WillPoints = willPoints;
+			Party = new List<ItemReference<MonInstance>>(party).AsReadOnly();
+			Strength = strength;
+			Dexterity = dexterity;
+			Vitality = vitality;
+			Insight = insight;
+			Tough = tough;
+			Cool = cool;
+			Beauty = beauty;
+			Clever = clever;
+			Cute = cute;
+			Brawl = brawl;
+			Throw = @throw;
+			Evasion = evasion;
+			Weapons = weapons;
+			Alert = alert;
+			Athletic = athletic;
+			Nature = nature;
+			Stealth = stealth;
+			Allure = allure;
+			Etiquette = etiquette;
+			Intimidate = intimidate;
+			Perform = perform;
+			Crafts = crafts;
+			Lore = lore;
+			Medicine = medicine;
+			Science = science;
+		}
+
+		public ItemReference<Trainer> ItemReference => new ItemReference<Trainer>(DataId);
+
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string CharacterName { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string PlayerName { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public Rank Rank { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string Age { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string Concept { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public Nature TrainerNature { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string Money { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int HP { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int WillPoints { get; }
+		/// <summary>
+		/// Pokemon in this trainer's party
+		/// </summary>
+		public IReadOnlyList<ItemReference<MonInstance>> Party { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Strength { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Dexterity { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Vitality { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Insight { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Tough { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Cool { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Beauty { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Clever { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Cute { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Brawl { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Throw { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Evasion { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Weapons { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Alert { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Athletic { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Nature { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Stealth { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Allure { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Etiquette { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Intimidate { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Perform { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Crafts { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Lore { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Medicine { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public int Science { get; }
+		[XmlType(nameof(Trainer), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		public class Builder : DataItemBuilder<Trainer>
+		{
+			public Builder()
+			{
+				Party = new List<ItemReference<MonInstance>>(10);
+			}
+			public Builder(Trainer trainer)
+			{
+				DataId = trainer.DataId;
+				CharacterName = trainer.CharacterName;
+				PlayerName = trainer.PlayerName;
+				Rank = trainer.Rank;
+				Age = trainer.Age;
+				Concept = trainer.Concept;
+				TrainerNature = trainer.TrainerNature;
+				Money = trainer.Money;
+				HP = trainer.HP;
+				WillPoints = trainer.WillPoints;
+				Party = new List<ItemReference<MonInstance>>(trainer.Party);
+				Strength = trainer.Strength;
+				Dexterity = trainer.Dexterity;
+				Vitality = trainer.Vitality;
+				Insight = trainer.Insight;
+				Tough = trainer.Tough;
+				Cool = trainer.Cool;
+				Beauty = trainer.Beauty;
+				Clever = trainer.Clever;
+				Cute = trainer.Cute;
+				Brawl = trainer.Brawl;
+				Throw = trainer.Throw;
+				Evasion = trainer.Evasion;
+				Weapons = trainer.Weapons;
+				Alert = trainer.Alert;
+				Athletic = trainer.Athletic;
+				Nature = trainer.Nature;
+				Stealth = trainer.Stealth;
+				Allure = trainer.Allure;
+				Etiquette = trainer.Etiquette;
+				Intimidate = trainer.Intimidate;
+				Perform = trainer.Perform;
+				Crafts = trainer.Crafts;
+				Lore = trainer.Lore;
+				Medicine = trainer.Medicine;
+				Science = trainer.Science;
+			}
+
+			public ItemReference<Trainer>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<Trainer>(DataId.Value);
+
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? CharacterName { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? PlayerName { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public Rank? Rank { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Rank", IsNullable = false)]
+			public Rank RankNullableXmlAccessor
+			{
+				get => Rank ?? default;
+				set => Rank = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Age { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Concept { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public Nature? TrainerNature { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("TrainerNature", IsNullable = false)]
+			public Nature TrainerNatureNullableXmlAccessor
+			{
+				get => TrainerNature ?? default;
+				set => TrainerNature = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Money { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? HP { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("HP", IsNullable = false)]
+			public int HPNullableXmlAccessor
+			{
+				get => HP ?? default;
+				set => HP = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? WillPoints { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("WillPoints", IsNullable = false)]
+			public int WillPointsNullableXmlAccessor
+			{
+				get => WillPoints ?? default;
+				set => WillPoints = value;
+			}
+			/// <summary>
+			/// Pokemon in this trainer's party
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<MonInstance>> Party { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("Party", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<MonInstance>.Builder[] PartyBuilder
+			{
+				get
+				{
+					if (Party == null)
+					{
+						return Array.Empty<ItemReference<MonInstance>.Builder>();
+					}
+					return Party.Select(item=>new ItemReference<MonInstance>.Builder(item)).ToArray();
+				}
+				set
+				{
+					Party?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (Party == null)
+					{
+						Party = new List<ItemReference<MonInstance>>(value.Length);
+					}
+					ItemBuilder<ItemReference<MonInstance>>.BuildList(value, Party);
+				}
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Strength { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Strength", IsNullable = false)]
+			public int StrengthNullableXmlAccessor
+			{
+				get => Strength ?? default;
+				set => Strength = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Dexterity { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Dexterity", IsNullable = false)]
+			public int DexterityNullableXmlAccessor
+			{
+				get => Dexterity ?? default;
+				set => Dexterity = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Vitality { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Vitality", IsNullable = false)]
+			public int VitalityNullableXmlAccessor
+			{
+				get => Vitality ?? default;
+				set => Vitality = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Insight { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Insight", IsNullable = false)]
+			public int InsightNullableXmlAccessor
+			{
+				get => Insight ?? default;
+				set => Insight = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Tough { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Tough", IsNullable = false)]
+			public int ToughNullableXmlAccessor
+			{
+				get => Tough ?? default;
+				set => Tough = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Cool { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Cool", IsNullable = false)]
+			public int CoolNullableXmlAccessor
+			{
+				get => Cool ?? default;
+				set => Cool = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Beauty { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Beauty", IsNullable = false)]
+			public int BeautyNullableXmlAccessor
+			{
+				get => Beauty ?? default;
+				set => Beauty = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Clever { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Clever", IsNullable = false)]
+			public int CleverNullableXmlAccessor
+			{
+				get => Clever ?? default;
+				set => Clever = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Cute { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Cute", IsNullable = false)]
+			public int CuteNullableXmlAccessor
+			{
+				get => Cute ?? default;
+				set => Cute = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Brawl { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Brawl", IsNullable = false)]
+			public int BrawlNullableXmlAccessor
+			{
+				get => Brawl ?? default;
+				set => Brawl = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Throw { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Throw", IsNullable = false)]
+			public int ThrowNullableXmlAccessor
+			{
+				get => Throw ?? default;
+				set => Throw = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Evasion { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Evasion", IsNullable = false)]
+			public int EvasionNullableXmlAccessor
+			{
+				get => Evasion ?? default;
+				set => Evasion = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Weapons { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Weapons", IsNullable = false)]
+			public int WeaponsNullableXmlAccessor
+			{
+				get => Weapons ?? default;
+				set => Weapons = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Alert { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Alert", IsNullable = false)]
+			public int AlertNullableXmlAccessor
+			{
+				get => Alert ?? default;
+				set => Alert = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Athletic { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Athletic", IsNullable = false)]
+			public int AthleticNullableXmlAccessor
+			{
+				get => Athletic ?? default;
+				set => Athletic = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Nature { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Nature", IsNullable = false)]
+			public int NatureNullableXmlAccessor
+			{
+				get => Nature ?? default;
+				set => Nature = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Stealth { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Stealth", IsNullable = false)]
+			public int StealthNullableXmlAccessor
+			{
+				get => Stealth ?? default;
+				set => Stealth = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Allure { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Allure", IsNullable = false)]
+			public int AllureNullableXmlAccessor
+			{
+				get => Allure ?? default;
+				set => Allure = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Etiquette { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Etiquette", IsNullable = false)]
+			public int EtiquetteNullableXmlAccessor
+			{
+				get => Etiquette ?? default;
+				set => Etiquette = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Intimidate { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Intimidate", IsNullable = false)]
+			public int IntimidateNullableXmlAccessor
+			{
+				get => Intimidate ?? default;
+				set => Intimidate = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Perform { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Perform", IsNullable = false)]
+			public int PerformNullableXmlAccessor
+			{
+				get => Perform ?? default;
+				set => Perform = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Crafts { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Crafts", IsNullable = false)]
+			public int CraftsNullableXmlAccessor
+			{
+				get => Crafts ?? default;
+				set => Crafts = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Lore { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Lore", IsNullable = false)]
+			public int LoreNullableXmlAccessor
+			{
+				get => Lore ?? default;
+				set => Lore = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Medicine { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Medicine", IsNullable = false)]
+			public int MedicineNullableXmlAccessor
+			{
+				get => Medicine ?? default;
+				set => Medicine = value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public int? Science { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Science", IsNullable = false)]
+			public int ScienceNullableXmlAccessor
+			{
+				get => Science ?? default;
+				set => Science = value;
+			}
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="Trainer"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public override bool IsValid
+			{
+				get
+				{
+					if (DataId is null)
+					{
+						return false;
+					}
+					if (CharacterName is null)
+					{
+						return false;
+					}
+					if (PlayerName is null)
+					{
+						return false;
+					}
+					if (Rank is null)
+					{
+						return false;
+					}
+					if (Age is null)
+					{
+						return false;
+					}
+					if (Concept is null)
+					{
+						return false;
+					}
+					if (TrainerNature is null)
+					{
+						return false;
+					}
+					if (Money is null)
+					{
+						return false;
+					}
+					if (HP is null)
+					{
+						return false;
+					}
+					if (WillPoints is null)
+					{
+						return false;
+					}
+					if (Party is null)
+					{
+						return false;
+					}
+					if (Strength is null)
+					{
+						return false;
+					}
+					if (Dexterity is null)
+					{
+						return false;
+					}
+					if (Vitality is null)
+					{
+						return false;
+					}
+					if (Insight is null)
+					{
+						return false;
+					}
+					if (Tough is null)
+					{
+						return false;
+					}
+					if (Cool is null)
+					{
+						return false;
+					}
+					if (Beauty is null)
+					{
+						return false;
+					}
+					if (Clever is null)
+					{
+						return false;
+					}
+					if (Cute is null)
+					{
+						return false;
+					}
+					if (Brawl is null)
+					{
+						return false;
+					}
+					if (Throw is null)
+					{
+						return false;
+					}
+					if (Evasion is null)
+					{
+						return false;
+					}
+					if (Weapons is null)
+					{
+						return false;
+					}
+					if (Alert is null)
+					{
+						return false;
+					}
+					if (Athletic is null)
+					{
+						return false;
+					}
+					if (Nature is null)
+					{
+						return false;
+					}
+					if (Stealth is null)
+					{
+						return false;
+					}
+					if (Allure is null)
+					{
+						return false;
+					}
+					if (Etiquette is null)
+					{
+						return false;
+					}
+					if (Intimidate is null)
+					{
+						return false;
+					}
+					if (Perform is null)
+					{
+						return false;
+					}
+					if (Crafts is null)
+					{
+						return false;
+					}
+					if (Lore is null)
+					{
+						return false;
+					}
+					if (Medicine is null)
+					{
+						return false;
+					}
+					if (Science is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="Trainer"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="Trainer"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public override Trainer Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new Trainer(DataId!.Value,
+					CharacterName!,
+					PlayerName!,
+					Rank!.Value,
+					Age!,
+					Concept!,
+					TrainerNature!.Value,
+					Money!,
+					HP!.Value,
+					WillPoints!.Value,
+					Party!,
+					Strength!.Value,
+					Dexterity!.Value,
+					Vitality!.Value,
+					Insight!.Value,
+					Tough!.Value,
+					Cool!.Value,
+					Beauty!.Value,
+					Clever!.Value,
+					Cute!.Value,
+					Brawl!.Value,
+					Throw!.Value,
+					Evasion!.Value,
+					Weapons!.Value,
+					Alert!.Value,
+					Athletic!.Value,
+					Nature!.Value,
+					Stealth!.Value,
+					Allure!.Value,
+					Etiquette!.Value,
+					Intimidate!.Value,
+					Perform!.Value,
+					Crafts!.Value,
+					Lore!.Value,
+					Medicine!.Value,
+					Science!.Value);
 			}
 		}
 	}

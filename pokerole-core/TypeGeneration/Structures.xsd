@@ -31,6 +31,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="Images">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ImageRef" type="ImageRef" maxOccurs="unbounded" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 				<xs:element name="Items">
 					<xs:complexType>
 						<xs:sequence>
@@ -297,6 +304,17 @@
 		<xs:attribute name="Skill" type="xs:string"/>
 		<xs:attribute name="Value" type="xs:int"/>
 	</xs:complexType>
+	<xs:complexType name="ImageRef">
+		<xs:complexContent>
+			<xs:extension base="ex:BaseDataItem">
+				<xs:sequence>
+					<xs:element name="Filename" type="xs:string"/>
+					<xs:element name="Data" type="xs:base64Binary" nillable="true"/>
+					<xs:element name="FilePath" type="xs:string" nillable="true"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:complexType name="MegaEvolutionEntry">
 		<xs:sequence>
 			<xs:element name="Item" type="ex:ItemReference" ex:genericType="Item">
@@ -395,22 +413,33 @@
 							<xs:documentation>The base hp of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="PrimaryImage" type="ex:ImageRef">
+					<xs:element name="PrimaryImage" type="ex:ItemReference" ex:genericType="ImageRef">
 						<xs:annotation>
 							<xs:documentation>Primary display image of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SmallImage" type="ex:ImageRef">
+					<xs:element name="AdditionalImages" ex:isDbLazy="true" ex:listItemType="ItemReference"
+								ex:genericType="ImageRef">
+						<xs:annotation>
+							<xs:documentation>Additional images of this pokemon</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="SmallImage" type="ex:ItemReference" ex:genericType="ImageRef">
 						<xs:annotation>
 							<xs:documentation>Smaller display image of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ShinyImage" type="ex:ImageRef" nillable="true">
+					<xs:element name="ShinyImage" type="ex:ItemReference" ex:genericType="ImageRef" nillable="true">
 						<xs:annotation>
 							<xs:documentation>Primary display image of a shiny instance of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SmallShinyImage" type="ex:ImageRef" nillable="true">
+					<xs:element name="SmallShinyImage" type="ex:ItemReference" ex:genericType="ImageRef" nillable="true">
 						<xs:annotation>
 							<xs:documentation>Smaller display image of a shiny instance of this Pokémon</xs:documentation>
 						</xs:annotation>
@@ -524,7 +553,7 @@
 		<xs:complexContent>
 			<xs:extension base="ex:BaseDataItem">
 				<xs:sequence>
-					<xs:element name="Picture" type="ex:ImageRef">
+					<xs:element name="Picture" type="ex:ItemReference" ex:genericType="ImageRef">
 						<xs:annotation>
 							<xs:documentation>Picture of this Pokémon</xs:documentation>
 						</xs:annotation>
@@ -867,6 +896,167 @@
 		<xs:complexContent>
 			<xs:extension base="ex:BaseDataItem">
 				<xs:sequence>
+					<xs:element name="CharacterName" type="xs:string" />
+					<xs:element name="PlayerName" type="xs:string" />
+					<xs:element name="Rank" type="ex:Rank"/>
+					<!--Storing as a string for now-->
+					<xs:element name="Age" type="xs:string"/>
+					<xs:element name="Concept" type="xs:string">
+						<xs:annotation>
+							<!--add documentaion when a sufficiently short description can be made-->
+						</xs:annotation>
+					</xs:element>
+					<!--confidence is determined by nature, so we don't need to store it-->
+					<xs:element name="TrainerNature" type="ex:Nature"/>
+					<!--String for now-->
+					<xs:element name="Money" type="xs:string"/>
+					<!--Max hp can be calculated-->
+					<xs:element name="HP" type="xs:int"/>
+					<!--Max willpoints can be calucated, currently....-->
+					<xs:element name="WillPoints" type="xs:int"/>
+					<xs:element name="Party" ex:isDbLazy="true" ex:listItemType="ex:ItemReference" ex:genericType="MonInstance">
+						<xs:annotation>
+							<xs:documentation>Pokemon in this trainer's party</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" ex:genericType="MonInstance"
+											maxOccurs="6" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<!--Attributes-->
+					<xs:element name="Strength" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Dexterity" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Vitality" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Insight" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<!--Social Attributes-->
+					<xs:element name="Tough" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Cool" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Beauty" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Clever" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Cute" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<!--Skills-->
+					<!--Fight-->
+					<xs:element name="Brawl" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Throw" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Evasion" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Weapons" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<!--Survival-->
+					<xs:element name="Alert" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Athletic" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Nature" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Stealth" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<!--Social-->
+					<xs:element name="Allure" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Etiquette" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Intimidate" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Perform" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<!--Knowledge-->
+					<xs:element name="Crafts" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Lore" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Medicine" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Science" type="xs:int">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 				<!--TODO: Implement-->
 			</xs:extension>

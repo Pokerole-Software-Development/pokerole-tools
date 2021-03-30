@@ -197,7 +197,10 @@ namespace Pokerole.Core
 		//}
 	}
 	public interface IEffect { }
-	public class ImageRef { }
+	//public class ImageRef {
+	//	public String ImagePath { get; }
+	//	//public 
+	//}
 	[XmlRoot("PokeroleData", Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 	public class PokeroleXmlData
 	{
@@ -209,6 +212,9 @@ namespace Pokerole.Core
 		[XmlArray]
 		[XmlArrayItem("Move")]
 		public List<Move.Builder> Moves { get; set; } = new List<Move.Builder>();
+		[XmlArray]
+		[XmlArrayItem("ImageRef")]
+		public List<ImageRef.Builder> Images { get; set; } = new List<ImageRef.Builder>();
 		[XmlArray]
 		[XmlArrayItem("Item")]
 		public List<Item.Builder> Items { get; set; } = new List<Item.Builder>();

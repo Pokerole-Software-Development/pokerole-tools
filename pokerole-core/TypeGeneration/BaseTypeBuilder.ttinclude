@@ -15,11 +15,14 @@
 // * This Source Code Form is subject to the terms of the Mozilla Public
 // * License, v. 2.0. If a copy of the MPL was not distributed with this
 // * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 	static bool IsReferenceType(XmlSchemaSet schemaSet, XmlQualifiedName name)
 	{
-		if (name.Name == "string")
-		{
-			return true;
+		switch (name.Name){
+			case "string":
+			case "byte[]":
+			case"base64Binary":
+				return true;
 		}
 		XmlSchemaObject item = schemaSet.GlobalTypes[name];
 		XmlSchemaComplexType type = item as XmlSchemaComplexType;
@@ -74,11 +77,18 @@
 		if (String.IsNullOrEmpty(input)){
 			return input;
 		}
-		return char.ToLowerInvariant(input[0]) + input.Substring(1);
+		String result = char.ToLowerInvariant(input[0]) + input.Substring(1);
+		if (result == "throw"){
+			return "@throw";
+		}
+		return result;
 	}
 	static String NormalizeType(String input){
 		if (input == "boolean"){
 			return "bool";
+		}
+		if (input == "base64Binary"){
+			return "byte[]";
 		}
 		return input;
 	}
@@ -103,6 +113,9 @@
 		//public String genericType;
 		//public bool nullable;
 		//public bool isReferenceType;
+		public String NonNullReference(){
+			return type.IsReferenceType ? $"{name}!" : $"{name} ?? default";
+		}
 	}
 	class FieldType
 	{

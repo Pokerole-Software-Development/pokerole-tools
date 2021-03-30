@@ -207,7 +207,8 @@ namespace Pokerole.Core{
 <#
 		if (classDef.isDataItem)
 		{
-			String nameAppend = classDef.fields.FirstOrDefault(field=>field.name == "Name") != null ? ", Name" : "";
+			var nameField = classDef.fields.FirstOrDefault(field=>field.name == "Name" || field.name == "Filename");
+			String nameAppend = nameField != null ? $", {nameField.name}" : "";
 #>
 
 		public ItemReference<<#=classDef.name#>> ItemReference => new ItemReference<<#=classDef.name#>>(DataId<#=nameAppend#>);
@@ -270,7 +271,8 @@ namespace Pokerole.Core{
 <#
 		if (classDef.isDataItem)
 		{
-			String nameAppend = classDef.fields.FirstOrDefault(field=>field.name == "Name") != null ? ", Name" : "";
+			var nameField = classDef.fields.FirstOrDefault(field=>field.name == "Name" || field.name == "Filename");
+			String nameAppend = nameField != null ? $", {nameField.name}" : "";
 #>
 
 			public ItemReference<<#=classDef.name#>>? ItemReference => !DataId.HasValue ? null :
@@ -339,7 +341,7 @@ namespace Pokerole.Core{
 #>			[<#=field.isAttribute ? "XmlAttribute" : "XmlElement"#>("<#=field.name#>"<#=field.isAttribute ? "" : ", IsNullable = false"#>)]
 			public <#=field.type.GetBuilderTypeDeclaration()#>? <#=field.name#>XmlAccessor
 			{
-				get => <#=field.name#> is null ? null : new <#=field.type.GetBuilderTypeDeclaration()#>(<#=field.name#> ?? default);
+				get => <#=field.name#> is null ? null : new <#=field.type.GetBuilderTypeDeclaration()#>(<#=field.NonNullReference()#>);
 				set => <#=field.name#> = value?.Build();
 			}
 

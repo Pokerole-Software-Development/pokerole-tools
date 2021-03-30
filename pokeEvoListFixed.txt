@@ -1,0 +1,453 @@
+#001 Bulbasaur,#001 Bulbasaur,"Level 16",#002 Ivysaur
+#001 Bulbasaur,#002 Ivysaur,"Level 32",#003 Venusaur
+#004 Charmander,#004 Charmander,"Level 16",#005 Charmeleon
+#004 Charmander,#005 Charmeleon,"Level 36",#006 Charizard
+#007 Squirtle,#007 Squirtle,"Level 16",#008 Wartortle
+#007 Squirtle,#008 Wartortle,"Level 36",#009 Blastoise
+#010 Caterpie,#010 Caterpie,"Level 7",#011 Metapod
+#010 Caterpie,#011 Metapod,"Level 10",#012 Butterfree
+#013 Weedle,#013 Weedle,"Level 7",#014 Kakuna
+#013 Weedle,#014 Kakuna,"Level 10",#015 Beedrill
+#016 Pidgey,#016 Pidgey,"Level 18",#017 Pidgeotto
+#016 Pidgey,#017 Pidgeotto,"Level 36",#018 Pidgeot
+#019 Rattata,#019 Rattata,"Level 20",#020 Raticate
+#019 Alolan Rattata,#019 Alolan Rattata,"Level 20, Nighttime",#020 Alolan Raticate
+#021 Spearow,#021 Spearow,"Level 20",#022 Fearow
+#023 Ekans,#023 Ekans,"Level 22",#024 Arbok
+#172 Pichu,#172 Pichu,"high Friendship",#025 Pikachu
+#172 Pichu,#025 Pikachu,"use Thunder Stone, outside Alola",#026 Raichu
+#172 Pichu,#025 Pikachu,"use Thunder Stone, in Alola",#026 Alolan Raichu
+#027 Sandshrew,#027 Sandshrew,"Level 22",#028 Sandslash
+#027 Alolan Sandshrew,#027 Alolan Sandshrew,"use Ice Stone",#028 Alolan Sandslash
+#029 Nidoran♀,#029 Nidoran♀,"Level 16",#030 Nidorina
+#029 Nidoran♀,#030 Nidorina,"use Moon Stone",#031 Nidoqueen
+#032 Nidoran♂,#032 Nidoran♂,"Level 16",#033 Nidorino
+#032 Nidoran♂,#033 Nidorino,"use Moon Stone",#034 Nidoking
+#173 Cleffa,#173 Cleffa,"high Friendship",#035 Clefairy
+#173 Cleffa,#035 Clefairy,"use Moon Stone",#036 Clefable
+#037 Vulpix,#037 Vulpix,"use Fire Stone",#038 Ninetales
+#037 Alolan Vulpix,#037 Alolan Vulpix,"use Ice Stone",#038 Alolan Ninetales
+#174 Igglybuff,#174 Igglybuff,"high Friendship",#039 Jigglypuff
+#174 Igglybuff,#039 Jigglypuff,"use Moon Stone",#040 Wigglytuff
+#041 Zubat,#041 Zubat,"Level 22",#042 Golbat
+#041 Zubat,#042 Golbat,"high Friendship",#169 Crobat
+#043 Oddish,#043 Oddish,"Level 21",#044 Gloom
+#043 Oddish,#044 Gloom,"use Leaf Stone",#045 Vileplume
+#043 Oddish,#044 Gloom,"use Sun Stone",#182 Bellossom
+#046 Paras,#046 Paras,"Level 24",#047 Parasect
+#048 Venonat,#048 Venonat,"Level 31",#049 Venomoth
+#050 Diglett,#050 Diglett,"Level 26",#051 Dugtrio
+#050 Alolan Diglett,#050 Alolan Diglett,"Level 26",#051 Alolan Dugtrio
+#052 Meowth,#052 Meowth,"Level 28",#053 Persian
+#052 Alolan Meowth,#052 Alolan Meowth,"high Friendship",#053 Alolan Persian
+#052 Galarian Meowth,#052 Galarian Meowth,"Level 28",#863 Perrserker
+#054 Psyduck,#054 Psyduck,"Level 33",#055 Golduck
+#056 Mankey,#056 Mankey,"Level 28",#057 Primeape
+#058 Growlithe,#058 Growlithe,"use Fire Stone",#059 Arcanine
+#060 Poliwag,#060 Poliwag,"Level 25",#061 Poliwhirl
+#060 Poliwag,#061 Poliwhirl,"use Water Stone",#062 Poliwrath
+#060 Poliwag,#061 Poliwhirl,"trade holding Kings Rock",#186 Politoed
+#063 Abra,#063 Abra,"Level 16",#064 Kadabra
+#063 Abra,#064 Kadabra,"Trade",#065 Alakazam
+#066 Machop,#066 Machop,"Level 28",#067 Machoke
+#066 Machop,#067 Machoke,"Trade",#068 Machamp
+#069 Bellsprout,#069 Bellsprout,"Level 21",#070 Weepinbell
+#069 Bellsprout,#070 Weepinbell,"use Leaf Stone",#071 Victreebel
+#072 Tentacool,#072 Tentacool,"Level 30",#073 Tentacruel
+#074 Geodude,#074 Geodude,"Level 25",#075 Graveler
+#074 Geodude,#075 Graveler,"Trade",#076 Golem
+#074 Alolan Geodude,#074 Alolan Geodude,"Level 25",#075 Alolan Graveler
+#074 Alolan Geodude,#075 Alolan Graveler,"Trade",#076 Alolan Golem
+#077 Ponyta,#077 Ponyta,"Level 40",#078 Rapidash
+#077 Galarian Ponyta,#077 Galarian Ponyta,"Level 40",#078 Galarian Rapidash
+#079 Slowpoke,#079 Slowpoke,"Level 37",#080 Slowbro
+#079 Slowpoke,#079 Slowpoke,"trade holding Kings Rock",#199 Slowking
+#079 Galarian Slowpoke,#079 Galarian Slowpoke,"use Galarica Cuff",#080 Galarian Slowbro
+#079 Galarian Slowpoke,#079 Galarian Slowpoke,"use Galarica Wreath",#199 Galarian Slowking
+#081 Magnemite,#081 Magnemite,"Level 30",#082 Magneton
+#081 Magnemite,#082 Magneton,"level up in a Magnetic Field area",#462 Magnezone
+#084 Doduo,#084 Doduo,"Level 31",#085 Dodrio
+#086 Seel,#086 Seel,"Level 34",#087 Dewgong
+#088 Grimer,#088 Grimer,"Level 38",#089 Muk
+#088 Alolan Grimer,#088 Alolan Grimer,"Level 38",#089 Alolan Muk
+#090 Shellder,#090 Shellder,"use Water Stone",#091 Cloyster
+#092 Gastly,#092 Gastly,"Level 25",#093 Haunter
+#092 Gastly,#093 Haunter,"Trade",#094 Gengar
+#095 Onix,#095 Onix,"trade holding Metal Coat",#208 Steelix
+#096 Drowzee,#096 Drowzee,"Level 26",#097 Hypno
+#098 Krabby,#098 Krabby,"Level 28",#099 Kingler
+#100 Voltorb,#100 Voltorb,"Level 30",#101 Electrode
+#102 Exeggcute,#102 Exeggcute,"use Leaf Stone, outside Alola",#103 Exeggutor
+#102 Exeggcute,#102 Exeggcute,"use Leaf Stone, in Alola",#103 Alolan Exeggutor
+#104 Cubone,#104 Cubone,"Level 28, outside Alola",#105 Marowak
+#104 Cubone,#104 Cubone,"Level 28, Nighttime, in Alola",#105 Alolan Marowak
+#236 Tyrogue,#236 Tyrogue,"Level 20, Attack > Defense",#106 Hitmonlee
+#236 Tyrogue,#236 Tyrogue,"Level 20, Attack < Defense",#107 Hitmonchan
+#236 Tyrogue,#236 Tyrogue,"Level 20, Attack = Defense",#237 Hitmontop
+#108 Lickitung,#108 Lickitung,"after Rollout learned",#463 Lickilicky
+#109 Koffing,#109 Koffing,"Level 35",#110 Weezing
+#109 Koffing,#109 Koffing,"Level 35, in Galar",#110 Galarian Weezing
+#111 Rhyhorn,#111 Rhyhorn,"Level 42",#112 Rhydon
+#111 Rhyhorn,#112 Rhydon,"trade holding Protector",#464 Rhyperior
+#440 Happiny,#440 Happiny,"hold Oval Stone, Daytime",#113 Chansey
+#440 Happiny,#113 Chansey,"high Friendship",#242 Blissey
+#114 Tangela,#114 Tangela,"after Ancient Power learned",#465 Tangrowth
+#116 Horsea,#116 Horsea,"Level 32",#117 Seadra
+#116 Horsea,#117 Seadra,"trade holding Dragon Scale",#230 Kingdra
+#118 Goldeen,#118 Goldeen,"Level 33",#119 Seaking
+#120 Staryu,#120 Staryu,"use Water Stone",#121 Starmie
+#439 Mime Jr.,#439 Mime Jr.,"after Mimic learned",#122 Mr. Mime
+#122 Mr. Mime Galarian Mr. Mime,#122 Mr. Mime Galarian Mr. Mime,"Level 42",#866 Mr. Rime
+#123 Scyther,#123 Scyther,"trade holding Metal Coat",#212 Scizor
+#238 Smoochum,#238 Smoochum,"Level 30",#124 Jynx
+#239 Elekid,#239 Elekid,"Level 30",#125 Electabuzz
+#239 Elekid,#125 Electabuzz,"trade holding Electirizer",#466 Electivire
+#240 Magby,#240 Magby,"Level 30",#126 Magmar
+#240 Magby,#126 Magmar,"trade holding Magmarizer",#467 Magmortar
+#129 Magikarp,#129 Magikarp,"Level 20",#130 Gyarados
+#133 Eevee,#133 Eevee,"use Water Stone",#134 Vaporeon
+#133 Eevee,#133 Eevee,"use Thunder Stone",#135 Jolteon
+#133 Eevee,#133 Eevee,"use Fire Stone",#136 Flareon
+#133 Eevee,#133 Eevee,"high Friendship, Daytime",#196 Espeon
+#133 Eevee,#133 Eevee,"high Friendship, Nighttime",#197 Umbreon
+#133 Eevee,#133 Eevee,"level up near a Mossy Rock",#470 Leafeon
+#133 Eevee,#133 Eevee,"level up near an Icy Rock",#471 Glaceon
+#133 Eevee,#133 Eevee,"♥♥ Affection in Pokémon Amie, knowing Fairy move",#700 Sylveon
+#137 Porygon,#137 Porygon,"trade holding Upgrade",#233 Porygon2
+#137 Porygon,#233 Porygon2,"trade holding Dubious Disc",#474 Porygon-Z
+#138 Omanyte,#138 Omanyte,"Level 40",#139 Omastar
+#140 Kabuto,#140 Kabuto,"Level 40",#141 Kabutops
+#446 Munchlax,#446 Munchlax,"high Friendship",#143 Snorlax
+#147 Dratini,#147 Dratini,"Level 30",#148 Dragonair
+#147 Dratini,#148 Dragonair,"Level 55",#149 Dragonite
+#152 Chikorita,#152 Chikorita,"Level 16",#153 Bayleef
+#152 Chikorita,#153 Bayleef,"Level 32",#154 Meganium
+#155 Cyndaquil,#155 Cyndaquil,"Level 14",#156 Quilava
+#155 Cyndaquil,#156 Quilava,"Level 36",#157 Typhlosion
+#158 Totodile,#158 Totodile,"Level 18",#159 Croconaw
+#158 Totodile,#159 Croconaw,"Level 30",#160 Feraligatr
+#161 Sentret,#161 Sentret,"Level 15",#162 Furret
+#163 Hoothoot,#163 Hoothoot,"Level 20",#164 Noctowl
+#165 Ledyba,#165 Ledyba,"Level 18",#166 Ledian
+#167 Spinarak,#167 Spinarak,"Level 22",#168 Ariados
+#170 Chinchou,#170 Chinchou,"Level 27",#171 Lanturn
+#175 Togepi,#175 Togepi,"high Friendship",#176 Togetic
+#175 Togepi,#176 Togetic,"use Shiny Stone",#468 Togekiss
+#177 Natu,#177 Natu,"Level 25",#178 Xatu
+#179 Mareep,#179 Mareep,"Level 15",#180 Flaaffy
+#179 Mareep,#180 Flaaffy,"Level 30",#181 Ampharos
+#298 Azurill,#298 Azurill,"high Friendship",#183 Marill
+#298 Azurill,#183 Marill,"Level 18",#184 Azumarill
+#438 Bonsly,#438 Bonsly,"after Mimic learned",#185 Sudowoodo
+#187 Hoppip,#187 Hoppip,"Level 18",#188 Skiploom
+#187 Hoppip,#188 Skiploom,"Level 27",#189 Jumpluff
+#190 Aipom,#190 Aipom,"after Double Hit learned",#424 Ambipom
+#191 Sunkern,#191 Sunkern,"use Sun Stone",#192 Sunflora
+#193 Yanma,#193 Yanma,"after Ancient Power learned",#469 Yanmega
+#194 Wooper,#194 Wooper,"Level 20",#195 Quagsire
+#198 Murkrow,#198 Murkrow,"use Dusk Stone",#430 Honchkrow
+#200 Misdreavus,#200 Misdreavus,"use Dusk Stone",#429 Mismagius
+#360 Wynaut,#360 Wynaut,"Level 15",#202 Wobbuffet
+#204 Pineco,#204 Pineco,"Level 31",#205 Forretress
+#207 Gligar,#207 Gligar,"hold Razor Fang, Nighttime",#472 Gliscor
+#209 Snubbull,#209 Snubbull,"Level 23",#210 Granbull
+#215 Sneasel,#215 Sneasel,"hold Razor Claw, Nighttime",#461 Weavile
+#216 Teddiursa,#216 Teddiursa,"Level 30",#217 Ursaring
+#218 Slugma,#218 Slugma,"Level 38",#219 Magcargo
+#220 Swinub,#220 Swinub,"Level 33",#221 Piloswine
+#220 Swinub,#221 Piloswine,"after Ancient Power learned",#473 Mamoswine
+#223 Remoraid,#223 Remoraid,"Level 25",#224 Octillery
+#458 Mantyke,#458 Mantyke,"with Remoraid in party",#226 Mantine
+#228 Houndour,#228 Houndour,"Level 24",#229 Houndoom
+#231 Phanpy,#231 Phanpy,"Level 25",#232 Donphan
+#246 Larvitar,#246 Larvitar,"Level 30",#247 Pupitar
+#246 Larvitar,#247 Pupitar,"Level 55",#248 Tyranitar
+#252 Treecko,#252 Treecko,"Level 16",#253 Grovyle
+#252 Treecko,#253 Grovyle,"Level 36",#254 Sceptile
+#255 Torchic,#255 Torchic,"Level 16",#256 Combusken
+#255 Torchic,#256 Combusken,"Level 36",#257 Blaziken
+#258 Mudkip,#258 Mudkip,"Level 16",#259 Marshtomp
+#258 Mudkip,#259 Marshtomp,"Level 36",#260 Swampert
+#261 Poochyena,#261 Poochyena,"Level 18",#262 Mightyena
+#263 Zigzagoon,#263 Zigzagoon,"Level 20",#264 Linoone
+#263 Galarian Zigzagoon,#263 Galarian Zigzagoon,"Level 20",#264 Galarian Linoone
+#263 Galarian Zigzagoon,#264 Galarian Linoone,"Level 35, Nighttime",#862 Obstagoon
+#265 Wurmple,#265 Wurmple,"Level 7, random based on personality",#266 Silcoon
+#265 Wurmple,#266 Silcoon,"Level 10",#267 Beautifly
+#265 Wurmple,#265 Wurmple,"Level 7, random based on personality",#268 Cascoon
+#265 Wurmple,#268 Cascoon,"Level 10",#269 Dustox
+#270 Lotad,#270 Lotad,"Level 14",#271 Lombre
+#270 Lotad,#271 Lombre,"use Water Stone",#272 Ludicolo
+#273 Seedot,#273 Seedot,"Level 14",#274 Nuzleaf
+#273 Seedot,#274 Nuzleaf,"use Leaf Stone",#275 Shiftry
+#276 Taillow,#276 Taillow,"Level 22",#277 Swellow
+#278 Wingull,#278 Wingull,"Level 25",#279 Pelipper
+#280 Ralts,#280 Ralts,"Level 20",#281 Kirlia
+#280 Ralts,#281 Kirlia,"Level 30",#282 Gardevoir
+#280 Ralts,#281 Kirlia,"use Dawn Stone, Male",#475 Gallade
+#283 Surskit,#283 Surskit,"Level 22",#284 Masquerain
+#285 Shroomish,#285 Shroomish,"Level 23",#286 Breloom
+#287 Slakoth,#287 Slakoth,"Level 18",#288 Vigoroth
+#287 Slakoth,#288 Vigoroth,"Level 36",#289 Slaking
+#290 Nincada,#290 Nincada,"Level 20",#291 Ninjask
+#290 Nincada,#290 Nincada,"Level 20, empty spot in party, Pokéball in bag",#292 Shedinja
+#293 Whismur,#293 Whismur,"Level 20",#294 Loudred
+#293 Whismur,#294 Loudred,"Level 40",#295 Exploud
+#296 Makuhita,#296 Makuhita,"Level 24",#297 Hariyama
+#299 Nosepass,#299 Nosepass,"level up in a Magnetic Field area",#476 Probopass
+#300 Skitty,#300 Skitty,"use Moon Stone",#301 Delcatty
+#304 Aron,#304 Aron,"Level 32",#305 Lairon
+#304 Aron,#305 Lairon,"Level 42",#306 Aggron
+#307 Meditite,#307 Meditite,"Level 37",#308 Medicham
+#309 Electrike,#309 Electrike,"Level 26",#310 Manectric
+#406 Budew,#406 Budew,"high Friendship, Daytime",#315 Roselia
+#406 Budew,#315 Roselia,"use Shiny Stone",#407 Roserade
+#316 Gulpin,#316 Gulpin,"Level 26",#317 Swalot
+#318 Carvanha,#318 Carvanha,"Level 30",#319 Sharpedo
+#320 Wailmer,#320 Wailmer,"Level 40",#321 Wailord
+#322 Numel,#322 Numel,"Level 33",#323 Camerupt
+#325 Spoink,#325 Spoink,"Level 32",#326 Grumpig
+#328 Trapinch,#328 Trapinch,"Level 35",#329 Vibrava
+#328 Trapinch,#329 Vibrava,"Level 45",#330 Flygon
+#331 Cacnea,#331 Cacnea,"Level 32",#332 Cacturne
+#333 Swablu,#333 Swablu,"Level 35",#334 Altaria
+#339 Barboach,#339 Barboach,"Level 30",#340 Whiscash
+#341 Corphish,#341 Corphish,"Level 30",#342 Crawdaunt
+#343 Baltoy,#343 Baltoy,"Level 36",#344 Claydol
+#345 Lileep,#345 Lileep,"Level 40",#346 Cradily
+#347 Anorith,#347 Anorith,"Level 40",#348 Armaldo
+#349 Feebas,#349 Feebas,"trade holding Prism Scale, or level up with max Beauty",#350 Milotic
+#353 Shuppet,#353 Shuppet,"Level 37",#354 Banette
+#355 Duskull,#355 Duskull,"Level 37",#356 Dusclops
+#355 Duskull,#356 Dusclops,"trade holding Reaper Cloth",#477 Dusknoir
+#433 Chingling,#433 Chingling,"high Friendship, Nighttime",#358 Chimecho
+#361 Snorunt,#361 Snorunt,"Level 42",#362 Glalie
+#361 Snorunt,#361 Snorunt,"use Dawn Stone, Female",#478 Froslass
+#363 Spheal,#363 Spheal,"Level 32",#364 Sealeo
+#363 Spheal,#364 Sealeo,"Level 44",#365 Walrein
+#366 Clamperl,#366 Clamperl,"trade holding Deep Sea Tooth",#367 Huntail
+#366 Clamperl,#366 Clamperl,"trade holding Deep Sea Scale",#368 Gorebyss
+#371 Bagon,#371 Bagon,"Level 30",#372 Shelgon
+#371 Bagon,#372 Shelgon,"Level 50",#373 Salamence
+#374 Beldum,#374 Beldum,"Level 20",#375 Metang
+#374 Beldum,#375 Metang,"Level 45",#376 Metagross
+#387 Turtwig,#387 Turtwig,"Level 18",#388 Grotle
+#387 Turtwig,#388 Grotle,"Level 32",#389 Torterra
+#390 Chimchar,#390 Chimchar,"Level 14",#391 Monferno
+#390 Chimchar,#391 Monferno,"Level 36",#392 Infernape
+#393 Piplup,#393 Piplup,"Level 16",#394 Prinplup
+#393 Piplup,#394 Prinplup,"Level 36",#395 Empoleon
+#396 Starly,#396 Starly,"Level 14",#397 Staravia
+#396 Starly,#397 Staravia,"Level 34",#398 Staraptor
+#399 Bidoof,#399 Bidoof,"Level 15",#400 Bibarel
+#401 Kricketot,#401 Kricketot,"Level 10",#402 Kricketune
+#403 Shinx,#403 Shinx,"Level 15",#404 Luxio
+#403 Shinx,#404 Luxio,"Level 30",#405 Luxray
+#408 Cranidos,#408 Cranidos,"Level 30",#409 Rampardos
+#410 Shieldon,#410 Shieldon,"Level 30",#411 Bastiodon
+#412 Burmy,#412 Burmy,"Level 20, Male",#414 Mothim
+#412 Burmy,#412 Burmy,"Level 20, Female, in grass",#413 Wormadam Plant Cloak
+#412 Burmy,#412 Burmy,"Level 20, Female, in caves",#413 Wormadam Sandy Cloak
+#412 Burmy,#412 Burmy,"Level 20, Female, in buildings",#413 Wormadam Trash Cloak
+#415 Combee,#415 Combee,"Level 21, Female",#416 Vespiquen
+#418 Buizel,#418 Buizel,"Level 26",#419 Floatzel
+#420 Cherubi,#420 Cherubi,"Level 25",#421 Cherrim
+#422 Shellos,#422 Shellos,"Level 30",#423 Gastrodon
+#425 Drifloon,#425 Drifloon,"Level 28",#426 Drifblim
+#427 Buneary,#427 Buneary,"high Friendship",#428 Lopunny
+#431 Glameow,#431 Glameow,"Level 38",#432 Purugly
+#434 Stunky,#434 Stunky,"Level 34",#435 Skuntank
+#436 Bronzor,#436 Bronzor,"Level 33",#437 Bronzong
+#443 Gible,#443 Gible,"Level 24",#444 Gabite
+#443 Gible,#444 Gabite,"Level 48",#445 Garchomp
+#447 Riolu,#447 Riolu,"high Friendship, Daytime",#448 Lucario
+#449 Hippopotas,#449 Hippopotas,"Level 34",#450 Hippowdon
+#451 Skorupi,#451 Skorupi,"Level 40",#452 Drapion
+#453 Croagunk,#453 Croagunk,"Level 37",#454 Toxicroak
+#456 Finneon,#456 Finneon,"Level 31",#457 Lumineon
+#459 Snover,#459 Snover,"Level 40",#460 Abomasnow
+#495 Snivy,#495 Snivy,"Level 17",#496 Servine
+#495 Snivy,#496 Servine,"Level 36",#497 Serperior
+#498 Tepig,#498 Tepig,"Level 17",#499 Pignite
+#498 Tepig,#499 Pignite,"Level 36",#500 Emboar
+#501 Oshawott,#501 Oshawott,"Level 17",#502 Dewott
+#501 Oshawott,#502 Dewott,"Level 36",#503 Samurott
+#504 Patrat,#504 Patrat,"Level 20",#505 Watchog
+#506 Lillipup,#506 Lillipup,"Level 16",#507 Herdier
+#506 Lillipup,#507 Herdier,"Level 32",#508 Stoutland
+#509 Purrloin,#509 Purrloin,"Level 20",#510 Liepard
+#511 Pansage,#511 Pansage,"use Leaf Stone",#512 Simisage
+#513 Pansear,#513 Pansear,"use Fire Stone",#514 Simisear
+#515 Panpour,#515 Panpour,"use Water Stone",#516 Simipour
+#517 Munna,#517 Munna,"use Moon Stone",#518 Musharna
+#519 Pidove,#519 Pidove,"Level 21",#520 Tranquill
+#519 Pidove,#520 Tranquill,"Level 32",#521 Unfezant
+#522 Blitzle,#522 Blitzle,"Level 27",#523 Zebstrika
+#524 Roggenrola,#524 Roggenrola,"Level 25",#525 Boldore
+#524 Roggenrola,#525 Boldore,"Trade",#526 Gigalith
+#527 Woobat,#527 Woobat,"high Friendship",#528 Swoobat
+#529 Drilbur,#529 Drilbur,"Level 31",#530 Excadrill
+#532 Timburr,#532 Timburr,"Level 25",#533 Gurdurr
+#532 Timburr,#533 Gurdurr,"Trade",#534 Conkeldurr
+#535 Tympole,#535 Tympole,"Level 25",#536 Palpitoad
+#535 Tympole,#536 Palpitoad,"Level 36",#537 Seismitoad
+#540 Sewaddle,#540 Sewaddle,"Level 20",#541 Swadloon
+#540 Sewaddle,#541 Swadloon,"high Friendship",#542 Leavanny
+#543 Venipede,#543 Venipede,"Level 22",#544 Whirlipede
+#543 Venipede,#544 Whirlipede,"Level 30",#545 Scolipede
+#546 Cottonee,#546 Cottonee,"use Sun Stone",#547 Whimsicott
+#548 Petilil,#548 Petilil,"use Sun Stone",#549 Lilligant
+#551 Sandile,#551 Sandile,"Level 29",#552 Krokorok
+#551 Sandile,#552 Krokorok,"Level 40",#553 Krookodile
+#554 Darumaka,#554 Darumaka,"Level 35",#555 Darmanitan Standard Mode
+#554 Galarian Darumaka,#554 Galarian Darumaka,"use Ice Stone",#555 Darmanitan Galarian Standard Mode
+#557 Dwebble,#557 Dwebble,"Level 34",#558 Crustle
+#559 Scraggy,#559 Scraggy,"Level 39",#560 Scrafty
+#562 Yamask,#562 Yamask,"Level 34",#563 Cofagrigus
+#562 Galarian Yamask,#562 Galarian Yamask,"near Dusty Bowl",#867 Runerigus
+#564 Tirtouga,#564 Tirtouga,"Level 37",#565 Carracosta
+#566 Archen,#566 Archen,"Level 37",#567 Archeops
+#568 Trubbish,#568 Trubbish,"Level 36",#569 Garbodor
+#570 Zorua,#570 Zorua,"Level 30",#571 Zoroark
+#572 Minccino,#572 Minccino,"use Shiny Stone",#573 Cinccino
+#574 Gothita,#574 Gothita,"Level 32",#575 Gothorita
+#574 Gothita,#575 Gothorita,"Level 41",#576 Gothitelle
+#577 Solosis,#577 Solosis,"Level 32",#578 Duosion
+#577 Solosis,#578 Duosion,"Level 41",#579 Reuniclus
+#580 Ducklett,#580 Ducklett,"Level 35",#581 Swanna
+#582 Vanillite,#582 Vanillite,"Level 35",#583 Vanillish
+#582 Vanillite,#583 Vanillish,"Level 47",#584 Vanilluxe
+#585 Deerling,#585 Deerling,"Level 34",#586 Sawsbuck
+#588 Karrablast,#588 Karrablast,"Trade with Shelmet",#589 Escavalier
+#590 Foongus,#590 Foongus,"Level 39",#591 Amoonguss
+#592 Frillish,#592 Frillish,"Level 40",#593 Jellicent
+#595 Joltik,#595 Joltik,"Level 36",#596 Galvantula
+#597 Ferroseed,#597 Ferroseed,"Level 40",#598 Ferrothorn
+#599 Klink,#599 Klink,"Level 38",#600 Klang
+#599 Klink,#600 Klang,"Level 49",#601 Klinklang
+#602 Tynamo,#602 Tynamo,"Level 39",#603 Eelektrik
+#602 Tynamo,#603 Eelektrik,"use Thunder Stone",#604 Eelektross
+#605 Elgyem,#605 Elgyem,"Level 42",#606 Beheeyem
+#607 Litwick,#607 Litwick,"Level 41",#608 Lampent
+#607 Litwick,#608 Lampent,"use Dusk Stone",#609 Chandelure
+#610 Axew,#610 Axew,"Level 38",#611 Fraxure
+#610 Axew,#611 Fraxure,"Level 48",#612 Haxorus
+#613 Cubchoo,#613 Cubchoo,"Level 37",#614 Beartic
+#616 Shelmet,#616 Shelmet,"Trade with Karrablast",#617 Accelgor
+#619 Mienfoo,#619 Mienfoo,"Level 50",#620 Mienshao
+#622 Golett,#622 Golett,"Level 43",#623 Golurk
+#624 Pawniard,#624 Pawniard,"Level 52",#625 Bisharp
+#627 Rufflet,#627 Rufflet,"Level 54",#628 Braviary
+#629 Vullaby,#629 Vullaby,"Level 54",#630 Mandibuzz
+#633 Deino,#633 Deino,"Level 50",#634 Zweilous
+#633 Deino,#634 Zweilous,"Level 64",#635 Hydreigon
+#636 Larvesta,#636 Larvesta,"Level 59",#637 Volcarona
+#650 Chespin,#650 Chespin,"Level 16",#651 Quilladin
+#650 Chespin,#651 Quilladin,"Level 36",#652 Chesnaught
+#653 Fennekin,#653 Fennekin,"Level 16",#654 Braixen
+#653 Fennekin,#654 Braixen,"Level 36",#655 Delphox
+#656 Froakie,#656 Froakie,"Level 16",#657 Frogadier
+#656 Froakie,#657 Frogadier,"Level 36",#658 Greninja
+#659 Bunnelby,#659 Bunnelby,"Level 20",#660 Diggersby
+#661 Fletchling,#661 Fletchling,"Level 17",#662 Fletchinder
+#661 Fletchling,#662 Fletchinder,"Level 35",#663 Talonflame
+#664 Scatterbug,#664 Scatterbug,"Level 9",#665 Spewpa
+#664 Scatterbug,#665 Spewpa,"Level 12",#666 Vivillon
+#667 Litleo,#667 Litleo,"Level 35",#668 Pyroar
+#669 Flabébé,#669 Flabébé,"Level 19",#670 Floette
+#669 Flabébé,#670 Floette,"use Shiny Stone",#671 Florges
+#672 Skiddo,#672 Skiddo,"Level 32",#673 Gogoat
+#674 Pancham,#674 Pancham,"Level 32, Dark type Pokémon in party",#675 Pangoro
+#677 Espurr,#677 Espurr,"Level 25",#678 Meowstic Male
+#679 Honedge,#679 Honedge,"Level 35",#680 Doublade
+#679 Honedge,#680 Doublade,"use Dusk Stone",#681 Aegislash Shield Forme
+#682 Spritzee,#682 Spritzee,"trade holding Sachet",#683 Aromatisse
+#684 Swirlix,#684 Swirlix,"trade holding Whipped Dream",#685 Slurpuff
+#686 Inkay,#686 Inkay,"Level 30, holding console upside down",#687 Malamar
+#688 Binacle,#688 Binacle,"Level 39",#689 Barbaracle
+#690 Skrelp,#690 Skrelp,"Level 48",#691 Dragalge
+#692 Clauncher,#692 Clauncher,"Level 37",#693 Clawitzer
+#694 Helioptile,#694 Helioptile,"use Sun Stone",#695 Heliolisk
+#696 Tyrunt,#696 Tyrunt,"Level 39, Daytime",#697 Tyrantrum
+#698 Amaura,#698 Amaura,"Level 39, Nighttime",#699 Aurorus
+#704 Goomy,#704 Goomy,"Level 40",#705 Sliggoo
+#704 Goomy,#705 Sliggoo,"Level 50, during rain",#706 Goodra
+#708 Phantump,#708 Phantump,"Trade",#709 Trevenant
+#710 Pumpkaboo Average Size,#710 Pumpkaboo Average Size,"Trade",#711 Gourgeist Average Size
+#712 Bergmite,#712 Bergmite,"Level 37",#713 Avalugg
+#714 Noibat,#714 Noibat,"Level 48",#715 Noivern
+#722 Rowlet,#722 Rowlet,"Level 17",#723 Dartrix
+#722 Rowlet,#723 Dartrix,"Level 34",#724 Decidueye
+#725 Litten,#725 Litten,"Level 17",#726 Torracat
+#725 Litten,#726 Torracat,"Level 34",#727 Incineroar
+#728 Popplio,#728 Popplio,"Level 17",#729 Brionne
+#728 Popplio,#729 Brionne,"Level 34",#730 Primarina
+#731 Pikipek,#731 Pikipek,"Level 14",#732 Trumbeak
+#731 Pikipek,#732 Trumbeak,"Level 28",#733 Toucannon
+#734 Yungoos,#734 Yungoos,"Level 20, Daytime",#735 Gumshoos
+#736 Grubbin,#736 Grubbin,"Level 20",#737 Charjabug
+#736 Grubbin,#737 Charjabug,"use Thunder Stone, in Gen 8, or level up in a Magnetic Field area",#738 Vikavolt
+#739 Crabrawler,#739 Crabrawler,"at Mount Lanakila",#740 Crabominable
+#742 Cutiefly,#742 Cutiefly,"Level 25",#743 Ribombee
+#744 Rockruff,#744 Rockruff,"Level 25, Daytime, in Pokémon Sun or Ultra Sun",#745 Lycanroc Midday Form
+#744 Rockruff,#744 Rockruff,"Level 25, Nighttime, in Pokémon Moon or Ultra Moon",#745 Lycanroc Midnight Form
+#744 Rockruff Own Tempo Rockruff,#744 Rockruff Own Tempo Rockruff,"Level 25, Dusk 5-6pm, in Ultra Sun/Moon",#745 Lycanroc Dusk Form
+#747 Mareanie,#747 Mareanie,"Level 38",#748 Toxapex
+#749 Mudbray,#749 Mudbray,"Level 30",#750 Mudsdale
+#751 Dewpider,#751 Dewpider,"Level 22",#752 Araquanid
+#753 Fomantis,#753 Fomantis,"Level 34, Daytime",#754 Lurantis
+#755 Morelull,#755 Morelull,"Level 24",#756 Shiinotic
+#757 Salandit,#757 Salandit,"Level 33, Female",#758 Salazzle
+#759 Stufful,#759 Stufful,"Level 27",#760 Bewear
+#761 Bounsweet,#761 Bounsweet,"Level 18",#762 Steenee
+#761 Bounsweet,#762 Steenee,"after Stomp learned",#763 Tsareena
+#767 Wimpod,#767 Wimpod,"Level 30",#768 Golisopod
+#769 Sandygast,#769 Sandygast,"Level 42",#770 Palossand
+#772 Type: Null,#772 Type: Null,"high Friendship",#773 Silvally
+#782 Jangmo-o,#782 Jangmo-o,"Level 35",#783 Hakamo-o
+#782 Jangmo-o,#783 Hakamo-o,"Level 45",#784 Kommo-o
+#789 Cosmog,#789 Cosmog,"Level 43",#790 Cosmoem
+#789 Cosmog,#790 Cosmoem,"Level 53, in Pokémon Sun or Ultra Sun",#791 Solgaleo
+#789 Cosmog,#791 Solgaleo,"Level 53, in Pokémon Moon or Ultra Moon",#792 Lunala
+#803 Poipole,#803 Poipole,"after Dragon Pulse learned",#804 Naganadel
+#808 Meltan,#808 Meltan,"Pokémon GO only, 400 Meltan Candies",#809 Melmetal
+#810 Grookey,#810 Grookey,"Level 16",#811 Thwackey
+#810 Grookey,#811 Thwackey,"Level 35",#812 Rillaboom
+#813 Scorbunny,#813 Scorbunny,"Level 16",#814 Raboot
+#813 Scorbunny,#814 Raboot,"Level 35",#815 Cinderace
+#816 Sobble,#816 Sobble,"Level 16",#817 Drizzile
+#816 Sobble,#817 Drizzile,"Level 35",#818 Inteleon
+#824 Blipbug,#824 Blipbug,"Level 10",#825 Dottler
+#824 Blipbug,#825 Dottler,"Level 30",#826 Orbeetle
+#821 Rookidee,#821 Rookidee,"Level 18",#822 Corvisquire
+#821 Rookidee,#822 Corvisquire,"Level 38",#823 Corviknight
+#819 Skwovet,#819 Skwovet,"Level 24",#820 Greedent
+#827 Nickit,#827 Nickit,"Level 18",#828 Thievul
+#831 Wooloo,#831 Wooloo,"Level 24",#832 Dubwool
+#833 Chewtle,#833 Chewtle,"Level 22",#834 Drednaw
+#835 Yamper,#835 Yamper,"Level 25",#836 Boltund
+#829 Gossifleur,#829 Gossifleur,"Level 20",#830 Eldegoss
+#850 Sizzlipede,#850 Sizzlipede,"Level 28",#851 Centiskorch
+#837 Rolycoly,#837 Rolycoly,"Level 18",#838 Carkol
+#837 Rolycoly,#838 Carkol,"Level 34",#839 Coalossal
+#846 Arrokuda,#846 Arrokuda,"Level 26",#847 Barraskewda
+#868 Milcery,#868 Milcery,"spin around holding Sweet",#869 Alcremie
+#840 Applin,#840 Applin,"use Tart Apple",#841 Flapple
+#840 Applin,#840 Applin,"use Sweet Apple",#842 Appletun
+#083 Farfetch'd Galarian Farfetch'd,#083 Farfetch'd Galarian Farfetch'd,"achieve 3 critical hits in one battle",#865 Sirfetch'd
+#222 Galarian Corsola,#222 Galarian Corsola,"Level 38",#864 Cursola
+#859 Impidimp,#859 Impidimp,"Level 32",#860 Morgrem
+#859 Impidimp,#860 Morgrem,"Level 42",#861 Grimmsnarl
+#856 Hatenna,#856 Hatenna,"Level 32",#857 Hattrem
+#856 Hatenna,#857 Hattrem,"Level 42",#858 Hatterene
+#878 Cufant,#878 Cufant,"Level 34",#879 Copperajah
+#848 Toxel,#848 Toxel,"Level 30, with a low key Nature",#849 Toxtricity Low Key Form
+#848 Toxel,#848 Toxel,"Level 30, with an amped Nature",#849 Toxtricity Amped Form
+#843 Silicobra,#843 Silicobra,"Level 36",#844 Sandaconda
+#854 Sinistea,#854 Sinistea,"use Cracked Pot",#855 Polteageist
+#872 Snom,#872 Snom,"high Friendship, Nighttime",#873 Frosmoth
+#852 Clobbopus,#852 Clobbopus,"after Taunt learned",#853 Grapploct
+#885 Dreepy,#885 Dreepy,"Level 50",#886 Drakloak
+#885 Dreepy,#886 Drakloak,"Level 60",#887 Dragapult
+#891 Kubfu,#891 Kubfu,"in Tower of Darkness",#892 Urshifu Single Strike Style
+#891 Kubfu,#891 Kubfu,"in Tower of Water",#892 Urshifu Rapid Strike Style

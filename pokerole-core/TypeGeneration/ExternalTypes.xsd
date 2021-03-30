@@ -45,7 +45,7 @@
 		<xs:attribute name="DisplayName" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<!--TODO: Implement-->
-	<xs:complexType name="ImageRef"/>
+	<!--<xs:complexType name="ImageRef"/>-->
 	<!--Interfaces-->
 	<xs:complexType name="ITypeDefinition">
 		<xs:sequence>
