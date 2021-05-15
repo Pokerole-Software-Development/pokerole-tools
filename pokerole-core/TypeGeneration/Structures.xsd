@@ -1107,6 +1107,113 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="UnlikeAbility">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="Name" type="xs:string">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Rival">
+		<xs:complexContent>
+			<xs:extension base="ex:BaseDataItem">
+				<xs:sequence>
+					<xs:element name="Picture" type="ImageRef">
+						<xs:annotation>
+							<xs:documentation>Your Rival's better looking picture</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Rank" type="ex:Rank">
+						<xs:annotation>
+							<xs:documentation>Your Rival's Higher rank</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Name" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Your Rival's Famous Name</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Age" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Your Rival's Believed Age</xs:documentation>
+							</xs:annotation>
+					</xs:element>
+					<xs:element name="Concept" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Your Rival's Cooler Concept</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<!--note: Confidence can be derived from nature, so we don't need to store that-->
+					<xs:element name="Nature" type="ex:Nature">
+						<xs:annotation>
+							<xs:documentation>Your Rival's Awesome Nature</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Money" type="xs:string">
+						<!--String for now-->
+						<xs:annotation>
+							<xs:documentation>Your Rival's Money (loaded btw)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="HP" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>Your Rival's untouchable hit points</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="WillPoints" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>Your Rival's seemingly endless willpoints</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Party" ex:isDbLazy="true" ex:listItemType="ex:ItemReference" ex:genericType="MonInstance">
+						<xs:annotation>
+							<xs:documentation>Your Rival's elite Pokemon party</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" ex:genericType="MonInstance"
+											maxOccurs="6" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Relationship" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Your relationship with your rival</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Backgrounds" ex:listItemType="ex:RivalBackground">
+						<xs:annotation>
+							<xs:documentation>Your Rival's Backgrounds</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="RivalBackground" type ="ex:RivalBackground" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Attitude" type="ex:RivalAttitudes">
+						<xs:annotation>
+							<xs:documentation>Your Rival's Attitude towards you</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<xs:element name="UnlilkeAbilities" ex:listItemType="UnlikeAbility">
+						<xs:annotation>
+							<xs:documentation>Your Rival's Unlike-Abilities</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="UnlikeAbility" type="UnlikeAbility" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	
 	<xs:complexType name="EvolutionList">
 		<xs:complexContent>
