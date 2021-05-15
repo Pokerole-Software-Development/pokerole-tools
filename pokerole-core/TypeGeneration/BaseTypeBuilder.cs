@@ -5070,6 +5070,489 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public record UnlikeAbility
+	{
+		public UnlikeAbility(string name,
+			string description)
+		{
+			Name = name;
+			Description = description;
+		}
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string Name { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string Description { get; }
+		[XmlType(nameof(UnlikeAbility), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		public class Builder : ItemBuilder<UnlikeAbility>
+		{
+			public Builder()
+			{			}
+			public Builder(UnlikeAbility unlikeAbility)
+			{
+				Name = unlikeAbility.Name;
+				Description = unlikeAbility.Description;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlAttribute()]
+			public string? Name { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Description { get; set; }
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="UnlikeAbility"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public override bool IsValid
+			{
+				get
+				{
+					if (Name is null)
+					{
+						return false;
+					}
+					if (Description is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="UnlikeAbility"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="UnlikeAbility"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public override UnlikeAbility Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new UnlikeAbility(
+					Name!,
+					Description!);
+			}
+		}
+	}
+	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public partial record Rival : BaseDataItem
+	{
+		public Rival(DataId dataId,
+			ImageRef picture,
+			Rank rank,
+			string name,
+			string age,
+			string concept,
+			Nature nature,
+			string money,
+			int hP,
+			int willPoints,
+			List<ItemReference<MonInstance>> party,
+			string relationship,
+			List<RivalBackground> backgrounds,
+			RivalAttitudes attitude,
+			List<UnlikeAbility> unlilkeAbilities) : base(dataId)
+		{
+			Picture = picture;
+			Rank = rank;
+			Name = name;
+			Age = age;
+			Concept = concept;
+			Nature = nature;
+			Money = money;
+			HP = hP;
+			WillPoints = willPoints;
+			Party = new List<ItemReference<MonInstance>>(party).AsReadOnly();
+			Relationship = relationship;
+			Backgrounds = new List<RivalBackground>(backgrounds).AsReadOnly();
+			Attitude = attitude;
+			UnlilkeAbilities = new List<UnlikeAbility>(unlilkeAbilities).AsReadOnly();
+		}
+
+		public ItemReference<Rival> ItemReference => new ItemReference<Rival>(DataId, Name);
+
+		/// <summary>
+		/// Your Rival's better looking picture
+		/// </summary>
+		public ImageRef Picture { get; }
+		/// <summary>
+		/// Your Rival's Higher rank
+		/// </summary>
+		public Rank Rank { get; }
+		/// <summary>
+		/// Your Rival's Famous Name
+		/// </summary>
+		public string Name { get; }
+		/// <summary>
+		/// Your Rival's Believed Age
+		/// </summary>
+		public string Age { get; }
+		/// <summary>
+		/// Your Rival's Cooler Concept
+		/// </summary>
+		public string Concept { get; }
+		/// <summary>
+		/// Your Rival's Awesome Nature
+		/// </summary>
+		public Nature Nature { get; }
+		/// <summary>
+		/// Your Rival's Money (loaded btw)
+		/// </summary>
+		public string Money { get; }
+		/// <summary>
+		/// Your Rival's untouchable hit points
+		/// </summary>
+		public int HP { get; }
+		/// <summary>
+		/// Your Rival's seemingly endless willpoints
+		/// </summary>
+		public int WillPoints { get; }
+		/// <summary>
+		/// Your Rival's elite Pokemon party
+		/// </summary>
+		public IReadOnlyList<ItemReference<MonInstance>> Party { get; }
+		/// <summary>
+		/// Your relationship with your rival
+		/// </summary>
+		public string Relationship { get; }
+		/// <summary>
+		/// Your Rival's Backgrounds
+		/// </summary>
+		public IReadOnlyList<RivalBackground> Backgrounds { get; }
+		/// <summary>
+		/// Your Rival's Attitude towards you
+		/// </summary>
+		public RivalAttitudes Attitude { get; }
+		/// <summary>
+		/// Your Rival's Unlike-Abilities
+		/// </summary>
+		public IReadOnlyList<UnlikeAbility> UnlilkeAbilities { get; }
+		[XmlType(nameof(Rival), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		public class Builder : DataItemBuilder<Rival>
+		{
+			public Builder()
+			{
+				Party = new List<ItemReference<MonInstance>>(10);
+				Backgrounds = new List<RivalBackground>(10);
+				UnlilkeAbilities = new List<UnlikeAbility>(10);
+			}
+			public Builder(Rival rival)
+			{
+				DataId = rival.DataId;
+				Picture = rival.Picture;
+				Rank = rival.Rank;
+				Name = rival.Name;
+				Age = rival.Age;
+				Concept = rival.Concept;
+				Nature = rival.Nature;
+				Money = rival.Money;
+				HP = rival.HP;
+				WillPoints = rival.WillPoints;
+				Party = new List<ItemReference<MonInstance>>(rival.Party);
+				Relationship = rival.Relationship;
+				Backgrounds = new List<RivalBackground>(rival.Backgrounds);
+				Attitude = rival.Attitude;
+				UnlilkeAbilities = new List<UnlikeAbility>(rival.UnlilkeAbilities);
+			}
+
+			public ItemReference<Rival>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<Rival>(DataId.Value, Name);
+
+			/// <summary>
+			/// Your Rival's better looking picture
+			/// </summary>
+			[XmlIgnore]
+			public ImageRef? Picture { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Picture", IsNullable = false)]
+			public ImageRef.Builder? PictureXmlAccessor
+			{
+				get => Picture is null ? null : new ImageRef.Builder(Picture!);
+				set => Picture = value?.Build();
+			}
+
+			/// <summary>
+			/// Your Rival's Higher rank
+			/// </summary>
+			[XmlIgnore]
+			public Rank? Rank { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Rank", IsNullable = false)]
+			public Rank RankNullableXmlAccessor
+			{
+				get => Rank ?? default;
+				set => Rank = value;
+			}
+			/// <summary>
+			/// Your Rival's Famous Name
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Name { get; set; }
+			/// <summary>
+			/// Your Rival's Believed Age
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Age { get; set; }
+			/// <summary>
+			/// Your Rival's Cooler Concept
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Concept { get; set; }
+			/// <summary>
+			/// Your Rival's Awesome Nature
+			/// </summary>
+			[XmlIgnore]
+			public Nature? Nature { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Nature", IsNullable = false)]
+			public Nature NatureNullableXmlAccessor
+			{
+				get => Nature ?? default;
+				set => Nature = value;
+			}
+			/// <summary>
+			/// Your Rival's Money (loaded btw)
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Money { get; set; }
+			/// <summary>
+			/// Your Rival's untouchable hit points
+			/// </summary>
+			[XmlIgnore]
+			public int? HP { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("HP", IsNullable = false)]
+			public int HPNullableXmlAccessor
+			{
+				get => HP ?? default;
+				set => HP = value;
+			}
+			/// <summary>
+			/// Your Rival's seemingly endless willpoints
+			/// </summary>
+			[XmlIgnore]
+			public int? WillPoints { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("WillPoints", IsNullable = false)]
+			public int WillPointsNullableXmlAccessor
+			{
+				get => WillPoints ?? default;
+				set => WillPoints = value;
+			}
+			/// <summary>
+			/// Your Rival's elite Pokemon party
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<MonInstance>> Party { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("Party", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<MonInstance>.Builder[] PartyBuilder
+			{
+				get
+				{
+					if (Party == null)
+					{
+						return Array.Empty<ItemReference<MonInstance>.Builder>();
+					}
+					return Party.Select(item=>new ItemReference<MonInstance>.Builder(item)).ToArray();
+				}
+				set
+				{
+					Party?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (Party == null)
+					{
+						Party = new List<ItemReference<MonInstance>>(value.Length);
+					}
+					ItemBuilder<ItemReference<MonInstance>>.BuildList(value, Party);
+				}
+			}
+			/// <summary>
+			/// Your relationship with your rival
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Relationship { get; set; }
+			/// <summary>
+			/// Your Rival's Backgrounds
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public List<RivalBackground> Backgrounds { get; set; }
+			/// <summary>
+			/// Your Rival's Attitude towards you
+			/// </summary>
+			[XmlIgnore]
+			public RivalAttitudes? Attitude { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Attitude", IsNullable = false)]
+			public RivalAttitudes AttitudeNullableXmlAccessor
+			{
+				get => Attitude ?? default;
+				set => Attitude = value;
+			}
+			/// <summary>
+			/// Your Rival's Unlike-Abilities
+			/// </summary>
+			[XmlIgnore]
+			public List<UnlikeAbility> UnlilkeAbilities { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("UnlilkeAbilities", IsNullable = false)]
+			[XmlArrayItem("UnlikeAbility")]
+			public UnlikeAbility.Builder[] UnlilkeAbilitiesBuilder
+			{
+				get
+				{
+					if (UnlilkeAbilities == null)
+					{
+						return Array.Empty<UnlikeAbility.Builder>();
+					}
+					return UnlilkeAbilities.Select(item=>new UnlikeAbility.Builder(item)).ToArray();
+				}
+				set
+				{
+					UnlilkeAbilities?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (UnlilkeAbilities == null)
+					{
+						UnlilkeAbilities = new List<UnlikeAbility>(value.Length);
+					}
+					ItemBuilder<UnlikeAbility>.BuildList(value, UnlilkeAbilities);
+				}
+			}
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="Rival"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public override bool IsValid
+			{
+				get
+				{
+					if (DataId is null)
+					{
+						return false;
+					}
+					if (Picture is null)
+					{
+						return false;
+					}
+					if (Rank is null)
+					{
+						return false;
+					}
+					if (Name is null)
+					{
+						return false;
+					}
+					if (Age is null)
+					{
+						return false;
+					}
+					if (Concept is null)
+					{
+						return false;
+					}
+					if (Nature is null)
+					{
+						return false;
+					}
+					if (Money is null)
+					{
+						return false;
+					}
+					if (HP is null)
+					{
+						return false;
+					}
+					if (WillPoints is null)
+					{
+						return false;
+					}
+					if (Party is null)
+					{
+						return false;
+					}
+					if (Relationship is null)
+					{
+						return false;
+					}
+					if (Backgrounds is null)
+					{
+						return false;
+					}
+					if (Attitude is null)
+					{
+						return false;
+					}
+					if (UnlilkeAbilities is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="Rival"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="Rival"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public override Rival Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new Rival(DataId!.Value,
+					Picture!,
+					Rank!.Value,
+					Name!,
+					Age!,
+					Concept!,
+					Nature!.Value,
+					Money!,
+					HP!.Value,
+					WillPoints!.Value,
+					Party!,
+					Relationship!,
+					Backgrounds!,
+					Attitude!.Value,
+					UnlilkeAbilities!);
+			}
+		}
+	}
+	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
 	public partial record EvolutionList : BaseDataItem
 	{
 		public EvolutionList(DataId dataId) : base(dataId)

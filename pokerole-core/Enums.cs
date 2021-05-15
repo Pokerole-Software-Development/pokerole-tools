@@ -51,4 +51,13 @@ namespace Pokerole.Core
 		AntiHero,
 		TyrantMentor,
 	}
+	public enum RivalAttitudes
+	{
+		Virtuous,
+		Jerk,
+		Deceitful,
+		Envious,
+		Evil
+	}
+
 }

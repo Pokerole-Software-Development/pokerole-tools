@@ -206,4 +206,13 @@
 			<xs:enumeration value="TyrantMentor"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="RivalAttitudes" final="restriction">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Virtuous"/>
+			<xs:enumeration value="Jerk"/>
+			<xs:enumeration value="Deceitful"/>
+			<xs:enumeration value="Envious"/>
+			<xs:enumeration value="Evil"/>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>
