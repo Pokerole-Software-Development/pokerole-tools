@@ -640,18 +640,20 @@ namespace Pokerole.Tools
 		private void ReadPrimaryImages()
 		{
 			//build dex notation dict
-			var monByDexNotation = data.DexEntries.ToLookup(item =>
+			//skip "Egg"
+			var monByDexNotation = data.DexEntries.Where(item=>item.DexNum != 0).ToLookup(item =>
 			{
 				//foreach (var item in data.DexEntries)
 				//{
 				int dexNum = item.DexNum!.Value;
 				StringBuilder builder = new StringBuilder(20);
-				builder.Append(dexNum);
+				builder.Append(dexNum.ToString("D3"));
 				char c = (item.Variant) switch
 				{
 					"Alolan" => 'A',
 					"Galarian" => 'G',
 					"BBF" => 'B',
+					"Delta" => 'D',
 					_ => '\0'
 				};
 				if (c != 0)
@@ -687,31 +689,152 @@ namespace Pokerole.Tools
 				String[] parts = working.Split('_');
 				String key = parts[0];
 				string last = parts[^1];
-				if (last.Length == 1) //X or Y
+				if (last == "X" || last == "Y") //X or Y
 				{
-					key += last;
+					if (parts[1] != "Unown")
+					{
+						key += last;
+					}
 				}
 				else if (last == "Primal")
 				{
 					key += "P";
 				}
+				else if (last == "Ash")
+				{
+					key += "B";
+				}
 				return key;
 			});
-			HashSet<String> remaining = new HashSet<string>();
+			HashSet<String> remainingMon = new HashSet<string>();
+			HashSet<String> remainingFiles = new HashSet<string>();
 			foreach (var item in monByDexNotation)
 			{
-				remaining.Add(item.Key);
+				remainingMon.Add(item.Key);
 			}
 			foreach (var item in filesByDexNotation)
 			{
-				remaining.Add(item.Key);
+				remainingFiles.Add(item.Key);
 			}
+			HashSet<String> missing = new HashSet<string>();
 			foreach (var pairing in monByDexNotation)
 			{
+				if (pairing.Count() > 1)
+				{
+					//handle that later...
+					continue;
+				}
+				DexEntry.Builder entry = pairing.First();
+				if (entry.PrimaryImage.HasValue)
+				{
+					//already done
+					remainingMon.Remove(pairing.Key);
+					remainingFiles.Remove(pairing.Key);
+					continue;
+				}
+				if (!filesByDexNotation.Contains(pairing.Key))
+				{
+					missing.Add(pairing.Key);
+					remainingMon.Remove(pairing.Key);
+					remainingFiles.Remove(pairing.Key);
+					continue;
+					throw new InvalidOperationException($"Could not find images for {pairing.Key}");
+				}
+				var files = filesByDexNotation[pairing.Key];
+				if (files.Count() == 1)
+				{
+					//that was easy
+					String path = files.First();
+					ImageRef.Builder imageBuilder = new ImageRef.Builder
+					{
+						Filename = Path.GetFileName(path),
+						Data = File.ReadAllBytes(path),
+						DataId = new DataId(null, Guid.NewGuid())
+					};
+					data.Images.Add(imageBuilder);
+					entry.PrimaryImage = imageBuilder.ItemReference;
+					remainingMon.Remove(pairing.Key);
+					remainingFiles.Remove(pairing.Key);
+					continue;
+				}
+				//we need to figure out what is the primary image
 
-
+				String? primary = (entry.Name)switch
+				{
+					//we shall make 'F' the primary image for now
+					"Unown" => "201_Unown_F_Dream",
+					"Castform" => "351_Castform_Normal_Dream",
+					//umm... we will go with plant for now
+					"Burmy" => "412_Burmy_Plant_Cloak_Dream",
+					"Wormadam" => "413_Wormadam_Plant_Cloak_Dream",
+					//east?
+					"Shellos" => "422_Shellos_East_Sea_Dream",
+					"Gastrodon" => "423_Gastrodon_East_Sea_Dream",
+					//you only see othe other form on a sunny day
+					"Cherrim" => "421_Cherrim_Overcast_Form_Dream",
+					"Arceus" => "493_Arceus_Normal_Dream",
+					//apparently that one has two?
+					"Pansage" => "511_Pansage_Dream",
+					"Basculin" => "550_Basculin_Blue_Stripe_Form_Dream",
+					"Deerling" => "585_Deerling_Autumn_Form_Dream",
+					"Sawsbuck" => "586_Sawsbuck_Autumn_Form_Dream",
+					//chosen by google coin flip
+					"Frillish" => "592_Frillish_Male_Dream",
+					//other one
+					"Jellicent" => "593_Jellicent_Female_Dream",
+					"Genesect" => "649_Genesect_Dream",
+					"Vivillon" => "666_Vivillon_Dream",
+					//red is my favorite color
+					"Flabebe" => "669_Flabébé_Red_Flower_Dream",
+					"Floette" => "670_Floette_Red_Flower_Dream",
+					"Florges" => "671_Florges_Red_Flower_Dream",
+					"Furfrou" => "676_Furfrou_Dream",
+					"Aegislash" => "681_Aegislash_Dream",
+					//coin flip chose male last time... So doing female this time
+					"Meowstic" => "678_Meowstic_Female_Dream",
+					"Silvally" => "773_Silvally_Normal_Dream",
+					"Mimikyu" => "778_Mimikyu_Dream",
+					_ => null
+				};
+				if (primary == null)
+				{
+					Debugger.Break();
+				}
+				else
+				{
+					primary = files.First(itemPath => Path.GetFileNameWithoutExtension(itemPath) == primary);
+					ImageRef.Builder imageBuilder = new ImageRef.Builder
+					{
+						Filename = Path.GetFileName(primary),
+						Data = File.ReadAllBytes(primary),
+						DataId = new DataId(null, Guid.NewGuid())
+					};
+					data.Images.Add(imageBuilder);
+					entry.PrimaryImage = imageBuilder.ItemReference;
+					foreach (var item in files)
+					{
+						if (item == primary)
+						{
+							continue;
+						}
+						imageBuilder = new ImageRef.Builder
+						{
+							Filename = Path.GetFileName(primary),
+							Data = File.ReadAllBytes(primary),
+							DataId = new DataId(null, Guid.NewGuid())
+						};
+						data.Images.Add(imageBuilder);
+						entry.AdditionalImages.Add(imageBuilder.ItemReference!.Value);
+					}
+					remainingMon.Remove(pairing.Key);
+					remainingFiles.Remove(pairing.Key);
+				}
 			}
-			throw new NotImplementedException();
+			if (remainingMon.Count > 0 || remainingFiles.Count > 0)
+			{
+				//not fully implemented
+				Debugger.Break();
+			}
 		}
 
 
