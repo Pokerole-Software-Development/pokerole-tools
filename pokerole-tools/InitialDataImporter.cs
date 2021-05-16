@@ -50,9 +50,11 @@ namespace Pokerole.Tools
 			AddEntries(movesByName, ReadMoves());
 			AddEntries(itemsByName, ReadItems());
 			AddEntries(monByName, ReadDexEntries());
+			LinkMegaEvolves();
 			AddEntries(abilitiesByName, ReadAbilities());
 			ReadMoveLists();
 			LinkAbilities();
+			ReadPrimaryImages();
 
 
 
@@ -67,6 +69,7 @@ namespace Pokerole.Tools
 
 			//Console.WriteLine("Hello World!");
 		}
+
 		private void AddEntries<K, V>(Dictionary<K, V> destination, Dictionary<K, V> toAdd) where
 			K : notnull
 		{
@@ -201,7 +204,7 @@ namespace Pokerole.Tools
 			ITypeDefinition normalType = TypeManager.GetBuiltInType(BuiltInType.Normal);
 			foreach (var moveName in missingMoves)
 			{
-				if (moves.ContainsKey(moveName))
+				if (moves.ContainsKey(moveName) || movesByName.ContainsKey(moveName))
 				{
 					continue;
 				}
@@ -352,7 +355,8 @@ namespace Pokerole.Tools
 					Item.Builder builder = new Item.Builder
 					{
 						Name = fields[0],
-						Description = fields[1]
+						Description = fields[1],
+						DataId = new DataId(null, Guid.NewGuid())
 					};
 					items.Add(builder.Name, builder);
 					data.Items.Add(builder);
@@ -557,6 +561,159 @@ namespace Pokerole.Tools
 			}
 
 		}
+		private void LinkMegaEvolves()
+		{
+			List<Item.Builder> megastones = (from keyPair in itemsByName
+											 where keyPair.Key.EndsWith("ite") || keyPair.Key.EndsWith("ite X") ||
+											 keyPair.Key.EndsWith("ite Y")
+											 select
+											 keyPair.Value).ToList();
+			foreach (var builder in data.DexEntries)
+			{
+				if (!builder.Name!.StartsWith("Mega-"))
+				{
+					continue;
+				}
+				String sansMega = builder.Name!.Substring("Mega-".Length);
+				string kind = "";
+				if (!monByName.TryGetValue(sansMega, out DexEntry.Builder? baseEntry))
+				{
+					//probably charizard or Mewtwo
+					kind = "" + sansMega[^1];
+					//chop off the " X" or " Y"
+					sansMega = sansMega[0..^2];
+					if (!monByName.TryGetValue(sansMega, out baseEntry))
+					{
+						throw new InvalidOperationException($"Could not find base entry for {builder.Name}!");
+					}
+				}
+				//has this been found already?
+				bool found = false;
+				foreach (var item in baseEntry.MegaEvolutions)
+				{
+					if (item.TargetEvolution.DataId.Uuid == builder.ItemReference!.Value.DataId.Uuid)
+					{
+						found = true;
+					}
+				}
+				if (found)
+				{
+					continue;
+				}
+				//find the item for this mega evolve
+				String prefix = sansMega[0..^3];
+				Item.Builder? evolveItem = null;
+				if (baseEntry.Name == "Rayquaza")
+				{
+					//doesn't need an item, but giving no item is not an option, so we are giving it a pokeball
+					//since that is nonsense anyway
+					evolveItem = itemsByName["Pokeball"];
+				}
+				else
+				{
+					foreach (var item in megastones)
+					{
+						if (item.Name!.StartsWith(prefix))
+						{
+							if (kind == "")
+							{
+								evolveItem = item;
+								break;
+							}
+							if (item.Name!.EndsWith(kind))
+							{
+								evolveItem = item;
+								break;
+							}
+						}
+					}
+				}
+				if (evolveItem == null)
+				{
+					throw new InvalidOperationException($"Could not find mega item for {sansMega}");
+				}
+				builder.MegaEvolutionBaseEntry = baseEntry.ItemReference;
+				baseEntry.MegaEvolutions.Add(new MegaEvolutionEntry(evolveItem.ItemReference!.Value,
+					builder.ItemReference!.Value));
+			}
+		}
+		private void ReadPrimaryImages()
+		{
+			//build dex notation dict
+			var monByDexNotation = data.DexEntries.ToLookup(item =>
+			{
+				//foreach (var item in data.DexEntries)
+				//{
+				int dexNum = item.DexNum!.Value;
+				StringBuilder builder = new StringBuilder(20);
+				builder.Append(dexNum);
+				char c = (item.Variant) switch
+				{
+					"Alolan" => 'A',
+					"Galarian" => 'G',
+					"BBF" => 'B',
+					_ => '\0'
+				};
+				if (c != 0)
+				{
+					builder.Append(c);
+				}
+				String name = item.Name!;
+				if (item.MegaEvolutionBaseEntry.HasValue)
+				{
+					builder.Append('M');
+					if (name.Contains("Charizard") || name.Contains("Mewtwo"))
+					{
+						builder.Append(name[^1]);
+					}
+				}
+				if (name.StartsWith("Primal"))
+				{
+					builder.Append('P');
+				}
+				return builder.ToString();
+			});
+			//this may not be fully portable... Oh well
+			//path to pokerole-companion
+			const String pokeroleCompanionDir = "../../../../../Pokerole-Companion";
+			const String primaryImageDir = "PokeroleUI2/Graphics/Sprites/Tinified";
+			String imagePath = Path.Combine(Directory.GetCurrentDirectory(), pokeroleCompanionDir,
+				primaryImageDir);
+			var filenames = Directory.GetFiles(imagePath);
+			var filesByDexNotation = filenames.ToLookup(path =>
+			{
+				String working = Path.GetFileName(path);
+				working = working.Replace("_Dream.png", "");
+				String[] parts = working.Split('_');
+				String key = parts[0];
+				string last = parts[^1];
+				if (last.Length == 1) //X or Y
+				{
+					key += last;
+				}
+				else if (last == "Primal")
+				{
+					key += "P";
+				}
+				return key;
+			});
+			HashSet<String> remaining = new HashSet<string>();
+			foreach (var item in monByDexNotation)
+			{
+				remaining.Add(item.Key);
+			}
+			foreach (var item in filesByDexNotation)
+			{
+				remaining.Add(item.Key);
+			}
+			foreach (var pairing in monByDexNotation)
+			{
+
+
+			}
+			throw new NotImplementedException();
+		}
+
 
 	}
 }
