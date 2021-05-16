@@ -15,6 +15,7 @@ namespace Pokerole.Core
 			new ReadOnlyDictionary<BuiltInType, Guid>(new Dictionary<BuiltInType, Guid>
 			{
 				{ BuiltInType.Normal, Guid.Parse("710bfdd6-99e7-46fe-b70b-8974198027d6") },
+				{ BuiltInType.Typeless, Guid.Parse("c684acad-7bc7-48d9-8794-9747ce2fd369") },
 				{ BuiltInType.Fire, Guid.Parse("2639b94f-8e09-4677-b8cf-cf582c0c7cf6") },
 				{ BuiltInType.Fighting, Guid.Parse("f648ba4f-c048-4cde-9213-af66fd0846dd") },
 				{ BuiltInType.Water, Guid.Parse("72b046c4-6656-4b78-964e-bd901eb2cd21") },
@@ -52,6 +53,7 @@ namespace Pokerole.Core
 			public override Color? BackgroundColor => type switch
 			{
 				BuiltInType.Normal => Color.FromArgb(0x9b, 0x90, 0x74),
+				BuiltInType.Typeless => Color.FromArgb(0x76, 0x72, 0x66),
 				BuiltInType.Fire => Color.FromArgb(0xe4, 0x56, 0x33),
 				BuiltInType.Fighting => Color.FromArgb(0x9a, 0x4e, 0x34),
 				BuiltInType.Water => Color.FromArgb(0x49, 0x7e, 0x97),

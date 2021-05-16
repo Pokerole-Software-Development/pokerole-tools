@@ -429,6 +429,7 @@ namespace Pokerole.Core
 	}
 	public enum BuiltInType {
 		Normal,//normal is first so it will be the default
+		Typeless,
 		Fire,
 		Fighting,
 		Water,

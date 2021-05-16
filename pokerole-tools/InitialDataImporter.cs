@@ -14,7 +14,9 @@ namespace Pokerole.Tools
 {
 	class InitialDataImporter
 	{
-		private const String csvFetchUrl = "https://raw.githubusercontent.com/XShadeSlayerXx/PokeRole-Discord.py-Base/master/";
+		//private const String csvFetchUrl = "https://raw.githubusercontent.com/XShadeSlayerXx/PokeRole-Discord.py-Base/master/";
+		private const String csvFetchUrl = "https://raw.githubusercontent.com/SirIntellegence/PokeRole-Discord.py-Base/typofix3/";
+		private const string MOVE_MISSING_DESCRIP = "This move is missing";
 		private readonly HashSet<Guid> unevolvedEntries = new HashSet<Guid>();
 		private readonly HashSet<Guid> hasMegaEvolution = new HashSet<Guid>();
 		private PokeroleXmlData data;
@@ -45,12 +47,13 @@ namespace Pokerole.Tools
 		{
 
 			//read them datas!!!
-			ReadMoves();
-			ReadItems();
-			ReadDexEntries();
-			ReadAbilities();
+			AddEntries(movesByName, ReadMoves());
+			AddEntries(itemsByName, ReadItems());
+			AddEntries(monByName, ReadDexEntries());
+			AddEntries(abilitiesByName, ReadAbilities());
 			ReadMoveLists();
 			LinkAbilities();
+
 
 
 
@@ -63,6 +66,18 @@ namespace Pokerole.Tools
 			PokeroleXmlData data2 = (PokeroleXmlData)xmlSerializer.Deserialize(new StringReader(writer.ToString()));
 
 			//Console.WriteLine("Hello World!");
+		}
+		private void AddEntries<K, V>(Dictionary<K, V> destination, Dictionary<K, V> toAdd) where
+			K : notnull
+		{
+			if (destination == toAdd)
+			{
+				return;
+			}
+			foreach (var item in toAdd)
+			{
+				destination.Add(item.Key, item.Value);
+			}
 		}
 
 		private String FetchFileIfNeeded(String file)
@@ -123,104 +138,57 @@ namespace Pokerole.Tools
 			String file = FetchFileIfNeeded("pokeMoveSorted.csv");
 			foreach (var line in File.ReadAllLines(file))
 			{
+				Move.Builder? builder;
 				string[] fields = line.Split(new char[] { ',' }, 10);
-				Guid guid = Guid.Empty;
-				if (movesByName.TryGetValue(fields[0], out Move.Builder? prevEntry))
+				if (fields[0] == "Struggle")
 				{
-					if (prevEntry.Description != "This move is missing")
+					//read a physical and special variant
+					String[] physical, special;
+					physical = new String[fields.Length];
+					special = new String[fields.Length];
+					for (int i = 0; i < fields.Length; i++)
 					{
-						//we already have that one
-						continue;
+						String item = fields[i];
+						if (item.Contains("/"))
+						{
+							String[] halves = item.Split('/');
+							physical[i] = halves[0];
+							special[i] = halves[1];
+						}
+						else
+						{
+							physical[i] = item;
+							special[i] = item;
+						}
 					}
-					//use existing id to avoid issues
-					guid = prevEntry.DataId!.Value.Uuid;
+					physical[0] = "Struggle (Physical)";
+					special[0] = "Struggle (Special)";
+					builder = ReadMove(physical);
+					if (builder != null)
+					{
+						data.Moves.Add(builder);
+						moves.Add(builder.Name!, builder);
+					}
+					builder = ReadMove(special);
+					if (builder != null)
+					{
+						data.Moves.Add(builder);
+						moves.Add(builder.Name!, builder);
+					}
+					continue;
 				}
-				if (guid == Guid.Empty)
+				builder = ReadMove(fields);
+				if (builder == null)
 				{
-					guid = Guid.NewGuid();
-				}
-				Move.Builder builder = new Move.Builder();
-				builder.DataId = new DataId(null, guid);
-				builder.Name = fields[0];
-				String item = fields[1];
-				//BuiltInType type;
-				//if (item == "any")
-				//{
-				//	//"Any Move" support...
-				//	type = BuiltInType.Normal;
-				//}
-				//else
-				//{
-				//	type = (BuiltInType)Enum.Parse(typeof(BuiltInType), item, true);
-				//}
-				//ITypeDefinition typeDef = TypeManager.GetBuiltInType(type);
-				builder.Type = ReadType(item);// new ItemReference<ITypeDefinition>(typeDef.DataId, typeDef.Name);
-
-				item = fields[2];
-				MoveCategory category;
-				if (item == "???")
-				{
-					//"Any Move" support
-					category = MoveCategory.Physical | MoveCategory.Special | MoveCategory.Support;
-				}
-				else
-				{
-					category = ParseEnum<MoveCategory>(item);
-				}
-				builder.MoveCategory = category;
-				builder.Power = int.Parse(fields[3]);
-
-				//damage skill. Can be empty
-				item = fields[4];
-				BuiltInSkill skill;
-				ISkill skillDef;
-				if (!String.IsNullOrEmpty(item))
-				{
-					skill = ParseEnum<BuiltInSkill>(item);
-					skillDef = SkillManager.GetBuiltInSkill(skill);
-					builder.DamageSkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
-				}
-				//currently cannot handle field 6.
-				//TODO: Implement handling field 6... Whatever that is....
-
-				//Accuracy
-				item = fields[6];
-				bool negative = item.Contains("missing", StringComparison.OrdinalIgnoreCase);
-				if (negative)
-				{
-					item = item.Replace("missing", "", StringComparison.OrdinalIgnoreCase);
-				}
-				skill = String.IsNullOrEmpty(item) ? BuiltInSkill.None : ParseEnum<BuiltInSkill>(item);
-				skillDef = SkillManager.GetBuiltInSkill(skill);
-				builder.PrimaryAccuracySkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
-				builder.PrimaryAccuracyIsNegative = negative;
-
-				item = fields[7];
-				skill = String.IsNullOrEmpty(item) ? BuiltInSkill.None : ParseEnum<BuiltInSkill>(item);
-				skillDef = SkillManager.GetBuiltInSkill(skill);
-				builder.SecondaryAccuracySkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
-
-				//target
-				item = fields[8];
-				MoveTarget target;
-				if (item == "Any")
-				{
-					//"Any Move" support
-					target = MoveTarget.Battlefield;
-				}
-				else
-				{
-					target = ParseEnum<MoveTarget>(item);
-				}
-				builder.MoveTarget = target;
-
-				item = fields[9];
-				if (!String.IsNullOrEmpty(item) && "-" != item)
-				{
-					builder.Effects.Add(item);
+					continue;
 				}
 				data.Moves.Add(builder);
-				moves.Add(builder.Name, builder);
+				String? name = builder.Name;
+				if (name == null)
+				{
+					throw new InvalidOperationException("Move name missing");
+				}
+				moves.Add(name, builder);
 			}
 			//these moves should exist, but don't, so create dummy entries for them
 			String[] missingMoves =
@@ -243,7 +211,7 @@ namespace Pokerole.Tools
 					DataId = new DataId(null, Guid.NewGuid()),
 					Name = moveName,
 					Type = normalType.ItemReference,
-					Description = "This move is missing",
+					Description = MOVE_MISSING_DESCRIP,
 					MoveCategory = MoveCategory.Invalid,
 					PrimaryAccuracySkill = noneSkill.ItemReference,
 					SecondaryAccuracySkill = noneSkill.ItemReference,
@@ -255,11 +223,142 @@ namespace Pokerole.Tools
 			return moves;
 		}
 
+		private Move.Builder? ReadMove(string[] fields)
+		{
+			Guid guid = Guid.Empty;
+			//someone mispelled something...
+			String moveName = fields[0].Replace("Behemot ", "Behemoth ");
+			if (movesByName.TryGetValue(moveName, out Move.Builder? prevEntry))
+			{
+				if (prevEntry.Description != MOVE_MISSING_DESCRIP)
+				{
+					//we already have that one
+					return null;
+				}
+				//use existing id to avoid issues
+				guid = prevEntry.DataId!.Value.Uuid;
+			}
+			Move.Builder builder = new Move.Builder();
+			if (guid == Guid.Empty)
+			{
+				guid = Guid.NewGuid();
+			}
+			builder.DataId = new DataId(null, guid);
+			builder.Name = moveName;
+			String item = fields[1];
+			//BuiltInType type;
+			//if (item == "any")
+			//{
+			//	//"Any Move" support...
+			//	type = BuiltInType.Normal;
+			//}
+			//else
+			//{
+			//	type = (BuiltInType)Enum.Parse(typeof(BuiltInType), item, true);
+			//}
+			//ITypeDefinition typeDef = TypeManager.GetBuiltInType(type);
+			builder.Type = ReadType(item);// new ItemReference<ITypeDefinition>(typeDef.DataId, typeDef.Name);
 
-		private object ReadItems()
+			item = fields[2];
+			MoveCategory category;
+			if (item == "???")
+			{
+				//"Any Move" support
+				category = MoveCategory.Physical | MoveCategory.Special | MoveCategory.Support;
+			}
+			else
+			{
+				category = ParseEnum<MoveCategory>(item);
+			}
+			builder.MoveCategory = category;
+			builder.Power = int.Parse(fields[3]);
+
+			//damage skill. Can be empty
+			item = fields[4];
+			BuiltInSkill skill;
+			ISkill skillDef;
+			if (!String.IsNullOrEmpty(item))
+			{
+				skill = ParseEnum<BuiltInSkill>(item);
+				skillDef = SkillManager.GetBuiltInSkill(skill);
+				builder.DamageSkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
+			}
+			//currently cannot handle field 6.
+			//TODO: Implement handling field 6... Whatever that is....
+
+			//Accuracy
+			item = fields[6];
+			bool negative = item.Contains("missing", StringComparison.OrdinalIgnoreCase);
+			if (negative)
+			{
+				item = item.Replace("missing", "", StringComparison.OrdinalIgnoreCase);
+			}
+			skill = String.IsNullOrEmpty(item) ? BuiltInSkill.None : ParseEnum<BuiltInSkill>(item);
+			skillDef = SkillManager.GetBuiltInSkill(skill);
+			builder.PrimaryAccuracySkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
+			builder.PrimaryAccuracyIsNegative = negative;
+
+			item = fields[7];
+			skill = String.IsNullOrEmpty(item) ? BuiltInSkill.None : ParseEnum<BuiltInSkill>(item);
+			skillDef = SkillManager.GetBuiltInSkill(skill);
+			builder.SecondaryAccuracySkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
+
+			//target
+			item = fields[8];
+			MoveTarget target;
+			if (item == "Any")
+			{
+				//"Any Move" support
+				target = MoveTarget.Battlefield;
+			}
+			else
+			{
+				target = ParseEnum<MoveTarget>(item);
+			}
+			builder.MoveTarget = target;
+
+			item = fields[9];
+			if (!String.IsNullOrEmpty(item) && "-" != item)
+			{
+				builder.Effects.Add(item);
+			}
+
+			return builder;
+		}
+
+		private Dictionary<String, Item.Builder> ReadItems()
 		{
 			String file = FetchFileIfNeeded("PokeRoleItems.csv");
-			throw new NotImplementedException();
+			Dictionary<String, Item.Builder> items = new Dictionary<string, Item.Builder>(200);
+			using (TextFieldParser csvParser = new TextFieldParser(file))
+			{
+				csvParser.SetDelimiters(new string[] { "," });
+				csvParser.HasFieldsEnclosedInQuotes = true;
+				//name+descrip only for now
+				while (!csvParser.EndOfData)
+				{
+					String[] fields = csvParser.ReadFields();
+					if (String.IsNullOrEmpty(fields[1]))
+					{
+						//delimiter. Ignore
+						continue;
+					}
+					String name = fields[0];
+					if (itemsByName.ContainsKey(name))
+					{
+						//already imported
+						continue;
+					}
+					Item.Builder builder = new Item.Builder
+					{
+						Name = fields[0],
+						Description = fields[1]
+					};
+					items.Add(builder.Name, builder);
+					data.Items.Add(builder);
+				}
+			}
+			return items;
 		}
 		private Dictionary<String, DexEntry.Builder> ReadDexEntries()
 		{
