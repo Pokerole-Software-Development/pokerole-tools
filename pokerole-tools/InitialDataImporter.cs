@@ -677,6 +677,13 @@ namespace Pokerole.Tools
 			});
 			//this may not be fully portable... Oh well
 			//path to pokerole-companion
+			//if you don't have it, git clone it (https://github.com/paxwort/Pokerole-Companion.git) and have
+			//the copy in the same directory as this git repo instance
+			//                      pokerole-tools (root)-|
+			//                      pokerole-tools------| |
+			//                                bin ----| | |
+			//                                Debug-| | | |
+			// netcoreapp3.1 ---------------------V V V V V
 			const String pokeroleCompanionDir = "../../../../../Pokerole-Companion";
 			const String primaryImageDir = "PokeroleUI2/Graphics/Sprites/Tinified";
 			String imagePath = Path.Combine(Directory.GetCurrentDirectory(), pokeroleCompanionDir,
@@ -828,6 +835,163 @@ namespace Pokerole.Tools
 					}
 					remainingMon.Remove(pairing.Key);
 					remainingFiles.Remove(pairing.Key);
+				}
+			}
+			foreach (var key in remainingMon)
+			{
+				var grouping = monByDexNotation[key];
+				var files = filesByDexNotation[key];
+				if (files.Count() < 1)
+				{
+					//missing
+					continue;
+				}
+				Dictionary<String, String> formeDict;
+				ImageRef.Builder imageBuilder;
+				bool isDone = false;
+				//check done state
+				foreach (var item in grouping)
+				{
+					if (item.PrimaryImage.HasValue)
+					{
+						//they should all be done
+						isDone = true;
+						break;
+					}
+				}
+				if (isDone)
+				{
+					remainingFiles.Remove(key);
+					remainingMon.Remove(key);
+					continue;
+				}
+				HashSet<DexEntry.Builder> remainingEntries = new HashSet<DexEntry.Builder>(grouping);
+				Regex extractRegex;
+				String baseMonName;
+				String? emptyStringForme;
+				Dictionary<String, String> formeNameMapping = new Dictionary<string, string>(10);
+				switch (key)
+				{
+					case "386": //Deoxys
+						extractRegex = new Regex("386_Deoxys_(\\w+?)_Forme_Dream");
+						baseMonName = "Deoxys";
+						emptyStringForme = "Normal";
+						break;
+					case "413":
+						extractRegex = new Regex("413_Wormadam_(\\w+?)_Cloak_Dream");
+						baseMonName = "Wormadam";
+						formeNameMapping.Add("Plant", "Grass");
+						formeNameMapping.Add("Sandy", "Ground");
+						formeNameMapping.Add("Trash", "Steel");
+						emptyStringForme = null;
+						break;
+					case "479":
+						extractRegex = new Regex("479_Rotom_(\\w+?)_(?:Rotom|Forme)_Dream");
+						baseMonName = "Rotom";
+						emptyStringForme = "Normal";
+						break;
+					case "487":
+						extractRegex = new Regex("487_Giratina_(\\w+?)_Forme_Dream");
+						baseMonName = "Giratina";
+						emptyStringForme = "Altered";
+						break;
+					case "492":
+						extractRegex = new Regex("492_Shaymin_(\\w+?)_Forme_Dream");
+						baseMonName = "Shaymin";
+						emptyStringForme = "Land";
+						break;
+					case "555":
+					case "555G":
+						extractRegex = new Regex("555_Darmanitan(?:_(\\w+?))?_Dream");
+						baseMonName = "Darmanitan";
+						emptyStringForme = "";
+						formeNameMapping.Add("Zen Mode", "Zen");
+						formeNameMapping.Add("", "");
+						break;
+					case "641":
+						extractRegex = new Regex("641_Tornadus(_T)?_Dream");
+						baseMonName = "Tornadus";
+						emptyStringForme = "";
+						formeNameMapping.Add("", "");
+						formeNameMapping.Add(" T", "Form");
+						break;
+					case "642":
+						extractRegex = new Regex("642_Thundurus(_T)?_Dream");
+						baseMonName = "Thundurus";
+						emptyStringForme = "";
+						formeNameMapping.Add("", "");
+						formeNameMapping.Add(" T", "Form");
+						break;
+					case "645":
+						extractRegex = new Regex("645_Landorus(_T)?_Dream");
+						baseMonName = "Landorus";
+						emptyStringForme = "";
+						formeNameMapping.Add("", "");
+						formeNameMapping.Add(" T", "Form");
+						break;
+					case "646":
+						extractRegex = new Regex("646_(?:(Black|White)_)?Kyurem_Dream");
+						baseMonName = "Kyurem";
+						emptyStringForme = "";
+						break;
+					case "647":
+						extractRegex = new Regex("647_Keldeo(_R)?_Dream");
+						baseMonName = "Keldeo";
+						emptyStringForme = "";
+						formeNameMapping.Add("", "");
+						formeNameMapping.Add(" R", "Form");
+						break;
+					case "648":
+						extractRegex = new Regex("648_Meloetta(_P)?_Dream");
+						baseMonName = "Meloetta";
+						emptyStringForme = "";
+						formeNameMapping.Add("", "");
+						formeNameMapping.Add(" P", "Form");
+						break;
+					case "681":
+						extractRegex = new Regex("681_Aegislash_(Blade|Shield)_Forme_Dream");
+						baseMonName = "Aegislash";
+						emptyStringForme = "";
+						formeNameMapping.Add("Blade", "");
+						formeNameMapping.Add("Shield", "Form");
+						//It would take too long to figure out how to do that nicely... Maybe do it by hand later?
+						formeNameMapping.Add("", "Ignored");
+						break;
+					default:
+						continue;
+
+				}
+				formeDict = files.ToDictionary(path => extractRegex.Match(Path.GetFileNameWithoutExtension(
+					path)).Groups[1].Value.Replace("_", " "));
+				if (formeNameMapping.Count > 0)
+				{
+					//expecting a 1:1 mapping
+					Debug.Assert(formeNameMapping.Count == formeDict.Count);
+					formeDict = formeDict.ToDictionary(pair => formeNameMapping[pair.Key], pair => pair.Value);
+				}
+				foreach (var entry in grouping)
+				{
+					String forme = entry.Name!.Replace(baseMonName, "").Trim();
+					if (forme == "")
+					{
+						forme = emptyStringForme ??
+							throw new InvalidOperationException("Was not expecting an non-forme mon!");
+					}
+					String file = formeDict[forme];
+					imageBuilder = new ImageRef.Builder
+					{
+						Filename = Path.GetFileName(file),
+						Data = File.ReadAllBytes(file),
+						DataId = new DataId(null, Guid.NewGuid())
+					};
+					entry.PrimaryImage = imageBuilder.ItemReference;
+					data.Images.Add(imageBuilder);
+					remainingEntries.Remove(entry);
+				}
+				if (remainingEntries.Count > 0)
+				{
+					//item was missed
+					Debugger.Break();
 				}
 			}
 			if (remainingMon.Count > 0 || remainingFiles.Count > 0)
