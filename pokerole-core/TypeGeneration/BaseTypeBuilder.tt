@@ -230,7 +230,7 @@ namespace Pokerole.Core{
 		String lowercaseClassName = LowercaseInitial(classDef.name);
 #>
 		[XmlType(nameof(<#=classDef.name#>), Namespace = "<#=primarySchema.TargetNamespace#>")]
-		public class Builder : <#= String.Format(classDef.isDataItem ? "DataItemBuilder<{0}>" : "ItemBuilder<{0}>",
+		public partial class Builder : <#= String.Format(classDef.isDataItem ? "DataItemBuilder<{0}>" : "ItemBuilder<{0}>",
  classDef.name)#>
 		{
 			public Builder()

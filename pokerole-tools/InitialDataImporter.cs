@@ -848,28 +848,12 @@ namespace Pokerole.Tools
 				}
 				Dictionary<String, String> formeDict;
 				ImageRef.Builder imageBuilder;
-				bool isDone = false;
-				//check done state
-				foreach (var item in grouping)
-				{
-					if (item.PrimaryImage.HasValue)
-					{
-						//they should all be done
-						isDone = true;
-						break;
-					}
-				}
-				if (isDone)
-				{
-					remainingFiles.Remove(key);
-					remainingMon.Remove(key);
-					continue;
-				}
 				HashSet<DexEntry.Builder> remainingEntries = new HashSet<DexEntry.Builder>(grouping);
 				Regex extractRegex;
 				String baseMonName;
 				String? emptyStringForme;
 				Dictionary<String, String> formeNameMapping = new Dictionary<string, string>(10);
+				List<String> nullEntries = new List<string>(4);
 				switch (key)
 				{
 					case "386": //Deoxys
@@ -957,12 +941,32 @@ namespace Pokerole.Tools
 						//It would take too long to figure out how to do that nicely... Maybe do it by hand later?
 						formeNameMapping.Add("", "Ignored");
 						break;
+					case "718":
+						//I don't want to spend the time to get an image done for that...
+						nullEntries.Add("Cell");
+						extractRegex = new Regex("718_Zygarde(?:_(\\w+))_Dream");
+						baseMonName = "Zygarde";
+						formeNameMapping.Add("Cell", "Cell");
+						formeNameMapping.Add("Complete", "100%");
+						formeNameMapping.Add("", "50%");
+						formeNameMapping.Add("10 Percent", "10%");
+						emptyStringForme = "50%";
+						break;
+					case "720":
+						extractRegex = new Regex("720_Hoopa-(Confined|Unbound)_Dream");
+						baseMonName = "Hoopa";
+						emptyStringForme = "Confined";
+						break;
 					default:
 						continue;
 
 				}
 				formeDict = files.ToDictionary(path => extractRegex.Match(Path.GetFileNameWithoutExtension(
 					path)).Groups[1].Value.Replace("_", " "));
+				foreach (var item in nullEntries)
+				{
+					formeDict.Add(item, "null");
+				}
 				if (formeNameMapping.Count > 0)
 				{
 					//expecting a 1:1 mapping
@@ -971,6 +975,12 @@ namespace Pokerole.Tools
 				}
 				foreach (var entry in grouping)
 				{
+					if (entry.PrimaryImage.HasValue)
+					{
+						//done
+						remainingEntries.Remove(entry);
+						continue;
+					}
 					String forme = entry.Name!.Replace(baseMonName, "").Trim();
 					if (forme == "")
 					{
@@ -978,6 +988,12 @@ namespace Pokerole.Tools
 							throw new InvalidOperationException("Was not expecting an non-forme mon!");
 					}
 					String file = formeDict[forme];
+					if (file == "null")
+					{
+						//we don't have an iamge for that one
+						remainingEntries.Remove(entry);
+						continue;
+					}
 					imageBuilder = new ImageRef.Builder
 					{
 						Filename = Path.GetFileName(file),

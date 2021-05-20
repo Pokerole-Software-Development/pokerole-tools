@@ -197,6 +197,16 @@ namespace Pokerole.Core
 		//}
 	}
 	public interface IEffect { }
+	public partial record DexEntry
+	{
+		public partial class Builder
+		{
+			public override string ToString()
+			{
+				return $"Dex number: {DexNum} Name: {Name}";
+			}
+		}
+	}
 	//public class ImageRef {
 	//	public String ImagePath { get; }
 	//	//public 

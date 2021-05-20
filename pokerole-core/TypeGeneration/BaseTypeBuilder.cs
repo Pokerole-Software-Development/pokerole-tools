@@ -123,7 +123,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public IReadOnlyList<string> Effects { get; }
 		[XmlType(nameof(Move), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : DataItemBuilder<Move>
+		public partial class Builder : DataItemBuilder<Move>
 		{
 			public Builder()
 			{
@@ -497,7 +497,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public string Description { get; }
 		[XmlType(nameof(Item), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : DataItemBuilder<Item>
+		public partial class Builder : DataItemBuilder<Item>
 		{
 			public Builder()
 			{			}
@@ -579,7 +579,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public double Value { get; }
 		[XmlType(nameof(Height), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : ItemBuilder<Height>
+		public partial class Builder : ItemBuilder<Height>
 		{
 			public Builder()
 			{			}
@@ -661,7 +661,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public double Value { get; }
 		[XmlType(nameof(Weight), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : ItemBuilder<Weight>
+		public partial class Builder : ItemBuilder<Weight>
 		{
 			public Builder()
 			{			}
@@ -743,7 +743,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public int Value { get; }
 		[XmlType(nameof(CustomSkillEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : ItemBuilder<CustomSkillEntry>
+		public partial class Builder : ItemBuilder<CustomSkillEntry>
 		{
 			public Builder()
 			{			}
@@ -835,7 +835,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public string? FilePath { get; }
 		[XmlType(nameof(ImageRef), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : DataItemBuilder<ImageRef>
+		public partial class Builder : DataItemBuilder<ImageRef>
 		{
 			public Builder()
 			{			}
@@ -920,7 +920,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public ItemReference<DexEntry> TargetEvolution { get; }
 		[XmlType(nameof(MegaEvolutionEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : ItemBuilder<MegaEvolutionEntry>
+		public partial class Builder : ItemBuilder<MegaEvolutionEntry>
 		{
 			public Builder()
 			{			}
@@ -1015,7 +1015,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public ItemReference<Move> Move { get; }
 		[XmlType(nameof(MoveEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : ItemBuilder<MoveEntry>
+		public partial class Builder : ItemBuilder<MoveEntry>
 		{
 			public Builder()
 			{			}
@@ -1108,7 +1108,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public ItemReference<Ability> Ability { get; }
 		[XmlType(nameof(AbilityEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : ItemBuilder<AbilityEntry>
+		public partial class Builder : ItemBuilder<AbilityEntry>
 		{
 			public Builder()
 			{			}
@@ -1397,7 +1397,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public IReadOnlyList<MoveEntry> MoveSet { get; }
 		[XmlType(nameof(DexEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : DataItemBuilder<DexEntry>
+		public partial class Builder : DataItemBuilder<DexEntry>
 		{
 			public Builder()
 			{
@@ -2476,7 +2476,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public IReadOnlyList<string> Ribbons { get; }
 		[XmlType(nameof(MonInstance), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : DataItemBuilder<MonInstance>
+		public partial class Builder : DataItemBuilder<MonInstance>
 		{
 			public Builder()
 			{
@@ -3556,7 +3556,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public string Effect { get; }
 		[XmlType(nameof(Ability), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : DataItemBuilder<Ability>
+		public partial class Builder : DataItemBuilder<Ability>
 		{
 			public Builder()
 			{			}
@@ -3656,7 +3656,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public string Details { get; }
 		[XmlType(nameof(EvolutionEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : ItemBuilder<EvolutionEntry>
+		public partial class Builder : ItemBuilder<EvolutionEntry>
 		{
 			public Builder()
 			{			}
@@ -4030,7 +4030,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public ItemReference<Backpack> Backpack { get; }
 		[XmlType(nameof(Trainer), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : DataItemBuilder<Trainer>
+		public partial class Builder : DataItemBuilder<Trainer>
 		{
 			public Builder()
 			{
@@ -4870,7 +4870,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public IReadOnlyList<string> Badges { get; }
 		[XmlType(nameof(Backpack), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : DataItemBuilder<Backpack>
+		public partial class Builder : DataItemBuilder<Backpack>
 		{
 			public Builder()
 			{
@@ -5087,7 +5087,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public string Description { get; }
 		[XmlType(nameof(UnlikeAbility), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : ItemBuilder<UnlikeAbility>
+		public partial class Builder : ItemBuilder<UnlikeAbility>
 		{
 			public Builder()
 			{			}
@@ -5236,7 +5236,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public IReadOnlyList<UnlikeAbility> UnlilkeAbilities { get; }
 		[XmlType(nameof(Rival), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : DataItemBuilder<Rival>
+		public partial class Builder : DataItemBuilder<Rival>
 		{
 			public Builder()
 			{
@@ -5562,7 +5562,7 @@ namespace Pokerole.Core{
 		public ItemReference<EvolutionList> ItemReference => new ItemReference<EvolutionList>(DataId);
 
 		[XmlType(nameof(EvolutionList), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public class Builder : DataItemBuilder<EvolutionList>
+		public partial class Builder : DataItemBuilder<EvolutionList>
 		{
 			public Builder()
 			{			}
