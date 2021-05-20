@@ -957,6 +957,27 @@ namespace Pokerole.Tools
 						baseMonName = "Hoopa";
 						emptyStringForme = "Confined";
 						break;
+					case "741":
+						extractRegex = new Regex("741_Oricorio_(.+)_Dream");
+						baseMonName = "Oricorio";
+						emptyStringForme = null;
+						formeNameMapping.Add("Baile", "Fire");
+						formeNameMapping.Add("Pom-Pom", "Electric");
+						formeNameMapping.Add("Pau", "Psychic");
+						formeNameMapping.Add("Sensu", "Ghost");
+						break;
+					case "745":
+						extractRegex = new Regex("745_Lycanroc_(.+)_Dream");
+						baseMonName = "Lycanroc";
+						emptyStringForme = null;
+						break;
+					case "746":
+						extractRegex = new Regex("746_Wishiwashi_(.+)_Dream");
+						baseMonName = "Wishiwashi";
+						emptyStringForme = "";
+						formeNameMapping.Add("Solo", "");
+						formeNameMapping.Add("School", "Swarm");
+						break;
 					default:
 						continue;
 
