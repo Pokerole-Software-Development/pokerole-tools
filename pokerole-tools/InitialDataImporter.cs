@@ -230,7 +230,8 @@ namespace Pokerole.Tools
 		{
 			Guid guid = Guid.Empty;
 			//someone mispelled something...
-			String moveName = fields[0].Replace("Behemot ", "Behemoth ");
+			String moveName = NameErrata(fields[0]);
+			//String moveName = fields[0].Replace("Behemot ", "Behemoth ");
 			if (movesByName.TryGetValue(moveName, out Move.Builder? prevEntry))
 			{
 				if (prevEntry.Description != MOVE_MISSING_DESCRIP)
@@ -378,7 +379,7 @@ namespace Pokerole.Tools
 					continue;
 				}
 				String[] items = line.Split(',');
-				if (monByName.ContainsKey(items[1]))
+				if (monByName.ContainsKey(NameErrata(items[1])))
 				{
 					//already imported
 					continue;
@@ -411,6 +412,7 @@ namespace Pokerole.Tools
 				builder.DexNum = dexNum;
 
 				builder.Name = items[1];
+				builder.Name = NameErrata(builder.Name);
 
 				builder.PrimaryType = ReadType(items[2]);
 				builder.SecondaryType = ReadType(items[3]);
@@ -468,6 +470,19 @@ namespace Pokerole.Tools
 			return monByName;
 		}
 
+		private string NameErrata(string name)
+		{
+			return name switch
+			{
+				"Necrozma Dark Wings" => "Necrozma Dawn Wings",
+				"Behemot Blade" => "Behemoth Blade",
+				"Behemot Bash" => "Behomoth Bash",
+				"Roar of Time" => "Roar Of Time",
+				"Light of Ruin" => "Light Of Ruin",
+				_ => name,
+			};
+		}
+
 		private Dictionary<String, Ability.Builder> ReadAbilities()
 		{
 			string file = FetchFileIfNeeded("PokeRoleAbilities.csv");
@@ -510,7 +525,7 @@ namespace Pokerole.Tools
 			{
 				String[] fields = line.Split(",");
 				String[] id = fields[0].Split(new char[] { ' ' }, 2);
-				if (!monByName.TryGetValue(id[1], out DexEntry.Builder? builder))
+				if (!monByName.TryGetValue(NameErrata(id[1]), out DexEntry.Builder? builder))
 				{
 					throw new InvalidOperationException($"Could not find moves for {id[1]}");
 				}
@@ -525,7 +540,7 @@ namespace Pokerole.Tools
 					String moveName = fields[i + 1];
 					String rawRank = fields[i + 2];
 					Rank rank = ParseEnum<Rank>(rawRank);
-					if (!movesByName.TryGetValue(moveName, out Move.Builder? move))
+					if (!movesByName.TryGetValue(NameErrata(moveName), out Move.Builder? move))
 					{
 						throw new InvalidOperationException($"Could not find a move called \"{moveName}\"");
 					}
@@ -755,7 +770,7 @@ namespace Pokerole.Tools
 					ImageRef.Builder imageBuilder = new ImageRef.Builder
 					{
 						Filename = Path.GetFileName(path),
-						Data = File.ReadAllBytes(path),
+						Data = ReadImage(path),
 						DataId = new DataId(null, Guid.NewGuid())
 					};
 					data.Images.Add(imageBuilder);
@@ -813,7 +828,7 @@ namespace Pokerole.Tools
 					ImageRef.Builder imageBuilder = new ImageRef.Builder
 					{
 						Filename = Path.GetFileName(primary),
-						Data = File.ReadAllBytes(primary),
+						Data = ReadImage(primary),
 						DataId = new DataId(null, Guid.NewGuid())
 					};
 					data.Images.Add(imageBuilder);
@@ -827,7 +842,7 @@ namespace Pokerole.Tools
 						imageBuilder = new ImageRef.Builder
 						{
 							Filename = Path.GetFileName(primary),
-							Data = File.ReadAllBytes(primary),
+							Data = ReadImage(primary),
 							DataId = new DataId(null, Guid.NewGuid())
 						};
 						data.Images.Add(imageBuilder);
@@ -849,11 +864,15 @@ namespace Pokerole.Tools
 				Dictionary<String, String> formeDict;
 				ImageRef.Builder imageBuilder;
 				HashSet<DexEntry.Builder> remainingEntries = new HashSet<DexEntry.Builder>(grouping);
+				HashSet<String> remainingEntryFiles = new HashSet<string>(files);
 				Regex extractRegex;
 				String baseMonName;
 				String? emptyStringForme;
 				Dictionary<String, String> formeNameMapping = new Dictionary<string, string>(10);
 				List<String> nullEntries = new List<string>(4);
+				String? extraImageTarget = null;
+				String? extraImageDefault = null;
+				int? expectedCount = null;
 				switch (key)
 				{
 					case "386": //Deoxys
@@ -933,13 +952,14 @@ namespace Pokerole.Tools
 						formeNameMapping.Add(" P", "Form");
 						break;
 					case "681":
-						extractRegex = new Regex("681_Aegislash_(Blade|Shield)_Forme_Dream");
+						extractRegex = new Regex("681_Aegislash(?:_(Blade|Shield))?_Forme_Dream");
 						baseMonName = "Aegislash";
 						emptyStringForme = "";
-						formeNameMapping.Add("Blade", "");
+						extraImageDefault = "";
+						extraImageTarget = "";
+						formeNameMapping.Add("", "");
+						formeNameMapping.Add("Blade", "Blade");
 						formeNameMapping.Add("Shield", "Form");
-						//It would take too long to figure out how to do that nicely... Maybe do it by hand later?
-						formeNameMapping.Add("", "Ignored");
 						break;
 					case "718":
 						//I don't want to spend the time to get an image done for that...
@@ -978,6 +998,57 @@ namespace Pokerole.Tools
 						formeNameMapping.Add("Solo", "");
 						formeNameMapping.Add("School", "Swarm");
 						break;
+					case "774":
+						extractRegex = new Regex("774_Minior(?:_(\\w+))?_Dream");
+						baseMonName = "Minior";
+						emptyStringForme = "";
+						expectedCount = 8;
+						extraImageTarget = "Core";
+						extraImageDefault = "Red";//fav color is red
+						break;
+					case "800":
+						extractRegex = new Regex("800_Necrozma(?:_(\\w+))?_Dream");
+						baseMonName = "Necrozma";
+						emptyStringForme = "";
+						formeNameMapping.Add("", "");
+						formeNameMapping.Add("Dawn Wings", "Dawn Wings");
+						formeNameMapping.Add("Dusk Mane", "Dusk Mane");
+						formeNameMapping.Add("Ultra", "Ultra Burst");
+						break;
+					case "849":
+						//as of 5/22/2021, there is no image for Lowkey Toxtricity
+						extractRegex = new Regex("849_Toxtricity_Dream");
+						baseMonName = "Toxtricity";
+						emptyStringForme = null;
+						nullEntries.Add("Low Key");
+						formeNameMapping.Add("", "Amped");
+						formeNameMapping.Add("Low Key", "Low Key");
+						break;
+					case "875":
+						//as of 5/22/2021, there is no image for Eiscue without the ice head
+						extractRegex = new Regex("875_Eiscue_Dream");
+						baseMonName = "Eiscue";
+						emptyStringForme = "";
+						nullEntries.Add("Form");
+						break;
+
+					//as of 5/22/2021, there are no images for "Hero of Many Battles" Zacian and Zamazenta
+					case "888":
+						extractRegex = new Regex("888_Zacian_Dream");
+						baseMonName = "Zacian";
+						emptyStringForme = "";
+						nullEntries.Add("Hero of Many Battles");
+						formeNameMapping.Add("", "Form");
+						formeNameMapping.Add("Hero of Many Battles", "");
+						break;
+					case "889":
+						extractRegex = new Regex("889_Zamazenta_Dream");
+						baseMonName = "Zamazenta";
+						emptyStringForme = "";
+						nullEntries.Add("Hero of Many Battles");
+						formeNameMapping.Add("", "Form");
+						formeNameMapping.Add("Hero of Many Battles", "");
+						break;
 					default:
 						continue;
 
@@ -988,42 +1059,85 @@ namespace Pokerole.Tools
 				{
 					formeDict.Add(item, "null");
 				}
+				if (expectedCount.HasValue)
+				{
+					Debug.Assert(formeDict.Count == expectedCount.Value);
+				}
 				if (formeNameMapping.Count > 0)
 				{
+					Debug.Assert(!expectedCount.HasValue);
 					//expecting a 1:1 mapping
 					Debug.Assert(formeNameMapping.Count == formeDict.Count);
 					formeDict = formeDict.ToDictionary(pair => formeNameMapping[pair.Key], pair => pair.Value);
 				}
+				DexEntry.Builder? extraImageEntry = null;
 				foreach (var entry in grouping)
 				{
-					if (entry.PrimaryImage.HasValue)
-					{
-						//done
-						remainingEntries.Remove(entry);
-						continue;
-					}
 					String forme = entry.Name!.Replace(baseMonName, "").Trim();
 					if (forme == "")
 					{
 						forme = emptyStringForme ??
 							throw new InvalidOperationException("Was not expecting an non-forme mon!");
 					}
-					String file = formeDict[forme];
+					if (forme == extraImageTarget)
+					{
+						extraImageEntry = entry;
+					}
+					if (entry.PrimaryImage.HasValue)
+					{
+						//done
+						remainingEntries.Remove(entry);
+						continue;
+					}
+					if (!formeDict.TryGetValue(forme, out String? file))
+					{
+						if (extraImageEntry != entry)
+						{
+							throw new InvalidOperationException($"Failed to find an image entry for {baseMonName} " +
+								$"Forme: {forme}");
+						}
+						if (extraImageDefault == null)
+						{
+							throw new InvalidOperationException($"No default image found for {baseMonName} forme: " +
+								$"{forme}");
+						}
+						file = formeDict[extraImageDefault];
+					}
 					if (file == "null")
 					{
-						//we don't have an iamge for that one
+						//we don't have an image for that one
 						remainingEntries.Remove(entry);
 						continue;
 					}
 					imageBuilder = new ImageRef.Builder
 					{
 						Filename = Path.GetFileName(file),
-						Data = File.ReadAllBytes(file),
+						Data = ReadImage(file),
 						DataId = new DataId(null, Guid.NewGuid())
 					};
 					entry.PrimaryImage = imageBuilder.ItemReference;
 					data.Images.Add(imageBuilder);
 					remainingEntries.Remove(entry);
+					remainingEntryFiles.Remove(file);
+				}
+				if (remainingEntryFiles.Count > 0)
+				{
+					if (extraImageEntry == null)
+					{
+						throw new InvalidOperationException("Orphaned Images");
+					}
+					foreach (var item in remainingEntryFiles)
+					{
+						imageBuilder = new ImageRef.Builder
+						{
+							Filename = Path.GetFileName(item),
+							Data = ReadImage(item),
+							DataId = new DataId(null, Guid.NewGuid())
+						};
+						data.Images.Add(imageBuilder);
+						extraImageEntry.AdditionalImages.Add(imageBuilder.ItemReference!.Value);
+					}
+					remainingEntryFiles.Clear();
 				}
 				if (remainingEntries.Count > 0)
 				{
@@ -1037,7 +1151,17 @@ namespace Pokerole.Tools
 				Debugger.Break();
 			}
 		}
-
+		private byte[]? ReadImage(String path)
+		{
+#pragma warning disable CS0162 // Unreachable code detected
+			const bool readImages = false; //set to true to have the importer include image data in the export
+			if (readImages)
+			{
+				return File.ReadAllBytes(path);
+			}
+			return null;
+#pragma warning restore CS0162 // Unreachable code detected
+		}
 
 	}
 }
