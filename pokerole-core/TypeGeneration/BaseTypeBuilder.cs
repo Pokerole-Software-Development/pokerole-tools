@@ -1204,6 +1204,11 @@ namespace Pokerole.Core{
 			ItemReference<ImageRef> smallImage,
 			ItemReference<ImageRef>? shinyImage,
 			ItemReference<ImageRef>? smallShinyImage,
+			ItemReference<ImageRef>? primaryFemaleImage,
+			List<ItemReference<ImageRef>> additionalFemaleImages,
+			ItemReference<ImageRef>? smallFemaleImage,
+			ItemReference<ImageRef>? shinyFemaleImage,
+			ItemReference<ImageRef>? smallShinyFemaleImage,
 			List<AbilityEntry> abilities,
 			ItemReference<DexEntry>? baseEvolution,
 			ItemReference<EvolutionList>? evolutionList,
@@ -1239,6 +1244,11 @@ namespace Pokerole.Core{
 			SmallImage = smallImage;
 			ShinyImage = shinyImage;
 			SmallShinyImage = smallShinyImage;
+			PrimaryFemaleImage = primaryFemaleImage;
+			AdditionalFemaleImages = new List<ItemReference<ImageRef>>(additionalFemaleImages).AsReadOnly();
+			SmallFemaleImage = smallFemaleImage;
+			ShinyFemaleImage = shinyFemaleImage;
+			SmallShinyFemaleImage = smallShinyFemaleImage;
 			Abilities = new List<AbilityEntry>(abilities).AsReadOnly();
 			BaseEvolution = baseEvolution;
 			EvolutionList = evolutionList;
@@ -1329,6 +1339,26 @@ namespace Pokerole.Core{
 		/// </summary>
 		public ItemReference<ImageRef>? SmallShinyImage { get; }
 		/// <summary>
+		/// Primary female display image of this Pokémon
+		/// </summary>
+		public ItemReference<ImageRef>? PrimaryFemaleImage { get; }
+		/// <summary>
+		/// Additional female images of this pokemon
+		/// </summary>
+		public IReadOnlyList<ItemReference<ImageRef>> AdditionalFemaleImages { get; }
+		/// <summary>
+		/// Smaller female display image of this Pokémon
+		/// </summary>
+		public ItemReference<ImageRef>? SmallFemaleImage { get; }
+		/// <summary>
+		/// Primary female display image of a shiny instance of this Pokémon
+		/// </summary>
+		public ItemReference<ImageRef>? ShinyFemaleImage { get; }
+		/// <summary>
+		/// Smaller female display image of a shiny instance of this Pokémon
+		/// </summary>
+		public ItemReference<ImageRef>? SmallShinyFemaleImage { get; }
+		/// <summary>
 		/// List of possible abilities this Pokémon can have
 		/// </summary>
 		public IReadOnlyList<AbilityEntry> Abilities { get; }
@@ -1402,6 +1432,7 @@ namespace Pokerole.Core{
 			public Builder()
 			{
 				AdditionalImages = new List<ItemReference<ImageRef>>(10);
+				AdditionalFemaleImages = new List<ItemReference<ImageRef>>(10);
 				Abilities = new List<AbilityEntry>(10);
 				MegaEvolutions = new List<MegaEvolutionEntry>(10);
 				MoveSet = new List<MoveEntry>(10);
@@ -1426,6 +1457,11 @@ namespace Pokerole.Core{
 				SmallImage = dexEntry.SmallImage;
 				ShinyImage = dexEntry.ShinyImage;
 				SmallShinyImage = dexEntry.SmallShinyImage;
+				PrimaryFemaleImage = dexEntry.PrimaryFemaleImage;
+				AdditionalFemaleImages = new List<ItemReference<ImageRef>>(dexEntry.AdditionalFemaleImages);
+				SmallFemaleImage = dexEntry.SmallFemaleImage;
+				ShinyFemaleImage = dexEntry.ShinyFemaleImage;
+				SmallShinyFemaleImage = dexEntry.SmallShinyFemaleImage;
 				Abilities = new List<AbilityEntry>(dexEntry.Abilities);
 				BaseEvolution = dexEntry.BaseEvolution;
 				EvolutionList = dexEntry.EvolutionList;
@@ -1685,6 +1721,105 @@ namespace Pokerole.Core{
 			{
 				get => SmallShinyImage is null ? null : new ItemReference<ImageRef>.Builder(SmallShinyImage ?? default);
 				set => SmallShinyImage = value?.Build();
+			}
+
+			/// <summary>
+			/// Primary female display image of this Pokémon
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<ImageRef>? PrimaryFemaleImage { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("PrimaryFemaleImage", IsNullable = false)]
+			public ItemReference<ImageRef>.Builder? PrimaryFemaleImageXmlAccessor
+			{
+				get => PrimaryFemaleImage is null ? null : new ItemReference<ImageRef>.Builder(PrimaryFemaleImage ?? default);
+				set => PrimaryFemaleImage = value?.Build();
+			}
+
+			/// <summary>
+			/// Additional female images of this pokemon
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<ImageRef>> AdditionalFemaleImages { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("AdditionalFemaleImages", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<ImageRef>.Builder[] AdditionalFemaleImagesBuilder
+			{
+				get
+				{
+					if (AdditionalFemaleImages == null)
+					{
+						return Array.Empty<ItemReference<ImageRef>.Builder>();
+					}
+					return AdditionalFemaleImages.Select(item=>new ItemReference<ImageRef>.Builder(item)).ToArray();
+				}
+				set
+				{
+					AdditionalFemaleImages?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (AdditionalFemaleImages == null)
+					{
+						AdditionalFemaleImages = new List<ItemReference<ImageRef>>(value.Length);
+					}
+					ItemBuilder<ItemReference<ImageRef>>.BuildList(value, AdditionalFemaleImages);
+				}
+			}
+			/// <summary>
+			/// Smaller female display image of this Pokémon
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<ImageRef>? SmallFemaleImage { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("SmallFemaleImage", IsNullable = false)]
+			public ItemReference<ImageRef>.Builder? SmallFemaleImageXmlAccessor
+			{
+				get => SmallFemaleImage is null ? null : new ItemReference<ImageRef>.Builder(SmallFemaleImage ?? default);
+				set => SmallFemaleImage = value?.Build();
+			}
+
+			/// <summary>
+			/// Primary female display image of a shiny instance of this Pokémon
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<ImageRef>? ShinyFemaleImage { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("ShinyFemaleImage", IsNullable = false)]
+			public ItemReference<ImageRef>.Builder? ShinyFemaleImageXmlAccessor
+			{
+				get => ShinyFemaleImage is null ? null : new ItemReference<ImageRef>.Builder(ShinyFemaleImage ?? default);
+				set => ShinyFemaleImage = value?.Build();
+			}
+
+			/// <summary>
+			/// Smaller female display image of a shiny instance of this Pokémon
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<ImageRef>? SmallShinyFemaleImage { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("SmallShinyFemaleImage", IsNullable = false)]
+			public ItemReference<ImageRef>.Builder? SmallShinyFemaleImageXmlAccessor
+			{
+				get => SmallShinyFemaleImage is null ? null : new ItemReference<ImageRef>.Builder(SmallShinyFemaleImage ?? default);
+				set => SmallShinyFemaleImage = value?.Build();
 			}
 
 			/// <summary>
@@ -2058,6 +2193,10 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
+					if (AdditionalFemaleImages is null)
+					{
+						return false;
+					}
 					if (Abilities is null)
 					{
 						return false;
@@ -2146,6 +2285,11 @@ namespace Pokerole.Core{
 					SmallImage!.Value,
 					ShinyImage,
 					SmallShinyImage,
+					PrimaryFemaleImage,
+					AdditionalFemaleImages!,
+					SmallFemaleImage,
+					ShinyFemaleImage,
+					SmallShinyFemaleImage,
 					Abilities!,
 					BaseEvolution,
 					EvolutionList,

@@ -16,11 +16,13 @@ namespace Pokerole.Tools
 	{
 		static void Main(string[] args)
 		{
+			ImageFetcher fetcher = new ImageFetcher();
+			fetcher.FetchImages();
 			//String filename = "";
 			//var values = PdfParser.ParsePdf(filename);
 
-			InitialDataImporter importer = new InitialDataImporter();
-			importer.DoImport();
+			//InitialDataImporter importer = new InitialDataImporter();
+			//importer.DoImport();
 		}
 
 	}
