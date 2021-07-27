@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using System.Xml.XPath;
 using HtmlAgilityPack;
+using System.Linq;
 
 namespace Pokerole.Tools
 {
@@ -18,8 +20,15 @@ namespace Pokerole.Tools
 			destDirectory = Path.GetFullPath(".");
 			destDirectory = Path.Combine(destDirectory, "Images");
 			Directory.CreateDirectory(destDirectory);
-
-			Parallel.ForEach(IteratePages, ProcessImage);
+			ParallelOptions opts = new ParallelOptions
+			{
+				MaxDegreeOfParallelism = 5
+			};
+			var toDownload = IteratePages().AsParallel().Select(SelectImage).ToList();///*.Distinct()*/.ForAll(ProcessImage);
+			toDownload.Sort();
+			//now we has list...
+			toDownload.AsParallel().ForAll(ProcessImage);
+			//Parallel.ForEach(IteratePages().Select(), ProcessImage);
 
 		}
 		private IEnumerable<String> IteratePages()
@@ -32,20 +41,38 @@ namespace Pokerole.Tools
 				{
 					yield return item;
 				}
-
-
-			} while (doc != null);
+				String? next = null;
+				foreach (var node in doc.DocumentNode.SelectNodes("//a"))
+				{
+					if (node.InnerText == "next page")
+					{
+						next = node.GetAttributeValue("href", null);
+						if (next == null)
+						{
+							Debugger.Break();
+						}
+						next = "https://archives.bulbagarden.net" + next;
+						break;
+					}
+				}
+				if (next == null)
+				{
+					break;
+				}
+				next = WebUtility.HtmlDecode(next);
+				doc = pageFetcher.Load(next);
+			} while (true);
 		}
 		private IEnumerable<String> IteratePage(HtmlDocument page)
 		{
-			var items = page.DocumentNode.SelectNodes("//li");
+			var items = page.DocumentNode.SelectNodes("//li[@class=\"gallerybox\"]");
 			foreach(var item in items)
 			{
 				if (item.GetAttributeValue("class", "") != "gallerybox")
 				{
 					Debugger.Break();
 				}
-				var link = item.SelectSingleNode("//a");
+				var link = item.SelectSingleNode(".//a");
 				String href = link.GetAttributeValue("href", null);
 				if (href == null)
 				{
@@ -54,9 +81,27 @@ namespace Pokerole.Tools
 				yield return "https://archives.bulbagarden.net" + href;
 			}
 		}
-		private void ProcessImage(String url)
+		private String SelectImage(String url)
 		{
-			throw new NotImplementedException();
+			HtmlWeb web = new HtmlWeb();
+			HtmlDocument doc = web.Load(url);
+			HtmlNode fullImage = doc.DocumentNode.SelectSingleNode("//div[@id=\"file\"]");
+			HtmlNode link = fullImage.FirstChild;
+			//luckily for us, this is a full url!
+			String imageUrl = link.GetAttributeValue("href", null);
+			if (imageUrl == null)
+			{
+				Debugger.Break();
+				throw new InvalidOperationException();
+			}
+			return imageUrl;
+		}
+		private void ProcessImage(String url) { 
+			//Download!
+			using (WebClient client = new WebClient())
+			{
+				client.DownloadFile(url, Path.Combine(destDirectory, Path.GetFileName(url).Replace("File:", "")));
+			}
 		}
 	}
 }
