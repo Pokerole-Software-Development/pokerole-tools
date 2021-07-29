@@ -12,18 +12,27 @@ namespace Pokerole.Tools
 {
 	internal class ImageFetcher
 	{
-		const string RootURL = "https://archives.bulbagarden.net/wiki/Category:HOME_artwork";
-		private string destDirectory = "";
+		//const string RootURL = "https://archives.bulbagarden.net/wiki/Category:HOME_artwork";
+		private string categoryUrl;
+		private string destDir;
+
+		public ImageFetcher(string categoryUrl, string destDir)
+		{
+			this.categoryUrl = categoryUrl;
+			this.destDir = destDir;
+		}
+
 
 		public void FetchImages()
 		{
-			destDirectory = Path.GetFullPath(".");
-			destDirectory = Path.Combine(destDirectory, "Images");
-			Directory.CreateDirectory(destDirectory);
-			ParallelOptions opts = new ParallelOptions
-			{
-				MaxDegreeOfParallelism = 5
-			};
+			destDir = Path.GetFullPath(destDir);
+			//destDirectory = Path.GetFullPath(".");
+			//destDirectory = Path.Combine(destDirectory, "Images");
+			Directory.CreateDirectory(destDir);
+			//ParallelOptions opts = new ParallelOptions
+			//{
+			//	MaxDegreeOfParallelism = 5
+			//};
 			var toDownload = IteratePages().AsParallel().Select(SelectImage).ToList();///*.Distinct()*/.ForAll(ProcessImage);
 			toDownload.Sort();
 			//now we has list...
@@ -34,7 +43,7 @@ namespace Pokerole.Tools
 		private IEnumerable<String> IteratePages()
 		{
 			HtmlWeb pageFetcher = new HtmlWeb();
-			HtmlDocument doc = pageFetcher.Load(RootURL);
+			HtmlDocument doc = pageFetcher.Load(categoryUrl);
 			do
 			{
 				foreach (var item in IteratePage(doc))
@@ -100,8 +109,14 @@ namespace Pokerole.Tools
 			//Download!
 			using (WebClient client = new WebClient())
 			{
-				client.DownloadFile(url, Path.Combine(destDirectory, Path.GetFileName(url).Replace("File:", "")));
+				client.DownloadFile(url, Path.Combine(destDir, Path.GetFileName(url).Replace("File:", "")));
 			}
+		}
+		public static void DownloadWikiCategoryImages(String categoryUrl, String destDir)
+		{
+			ImageFetcher fetcher = new ImageFetcher(categoryUrl, destDir);
+
+			fetcher.FetchImages();
 		}
 	}
 }

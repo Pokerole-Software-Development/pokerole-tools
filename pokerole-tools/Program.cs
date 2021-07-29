@@ -16,6 +16,7 @@ namespace Pokerole.Tools
 	{
 		static void Main(string[] args)
 		{
+
 			//ImageFetcher fetcher = new ImageFetcher();
 			//fetcher.FetchImages();
 			//String filename = "";
