@@ -1,0 +1,3 @@
+[submodule "ProjectReference/pokesprite"]
+	path = ProjectReference/pokesprite
+	url = https://github.com/msikma/pokesprite.git

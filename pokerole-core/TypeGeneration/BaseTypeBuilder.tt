@@ -16,7 +16,8 @@
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.CodeDom.Compiler" #>
 <#@ output extension=".cs" #>
-<# 
+<#
+	//Note: this file's license header gets copied to the output
 	XmlSchemaSet schemaSet = new XmlSchemaSet();
 	String structuresPath = this.Host.ResolvePath("Structures.xsd");
 	XmlSchema primarySchema = XmlSchema.Read(new FileStream(structuresPath, FileMode.Open), null);

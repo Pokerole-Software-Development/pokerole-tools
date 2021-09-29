@@ -1,0 +1,47 @@
+Venusaurite	Makes Venusaur Mega-evolve into Mega-Venusaur
+Charizardite X	Makes Charizard Mega-Evolve into Mega-Charizard X
+Charizardite Y	Makes Charizard Mega-Evolve into Mega-Charizard Y
+Blastoisinite	Makes Blastoise Mega-evolve into Mega-Blastoise
+Alakazite	Makes Alakazam Mega-evolve into Mega-Alakazam
+Gengarite	Makes Gengar Mega-evolve into Mega-Gengar
+Kangaskhanite	Makes Kangaskhan Mega-evolve into Mega-Kangaskhan
+Pinsirite	Makes Pinsir Mega-evolve into Mega-Pinsir
+Gyaradosite	Makes Gyarados Mega-evolve into Mega-Gyarados
+Aerodactylite	Makes Aerodactyl Mega-evolve into Mega-Aerodactyl
+Mewtwonite X	Makes Mewtwo Mega-Evolve into Mega-Mewtwo X
+Mewtwonite Y	Makes Mewtwo Mega-Evolve into Mega-Mewtwo Y
+Ampharosite	Makes Ampharos Mega-evolve into Mega-Ampharos
+Scizorite	Makes Scizor Mega-evolve into Mega-Scizor
+Heracronite	Makes Heracross Mega-evolve into Mega-Heracross
+Houndoominite	Makes Houndoom Mega-evolve into Mega-Houndoom
+Tyranitarite	Makes Tyranitar Mega-evolve into Mega-Tyranitar
+Blazikenite	Makes Blaziken Mega-evolve into Mega-Blaziken
+Gardevoirite	Makes Gardevoir Mega-evolve into Mega-Gardevoir
+Mawilite	Makes Mawile Mega-evolve into Mega-Mawile
+Aggronite	Makes Aggron Mega-evolve into Mega-Aggron
+Medichamite	Makes Medicham Mega-evolve into Mega-Medicham
+Manectite	Makes Manectric Mega-evolve into Mega-Manectric
+Banettite	Makes Banette Mega-evolve into Mega-Banette
+Absolite	Makes Absol Mega-evolve into Mega-Absol
+Latiasite	Makes Latias Mega-evolve into Mega-Latias
+Latiosite	Makes Latios Mega-evolve into Mega-Latios
+Garchompite	Makes Garchomp Mega-evolve into Mega-Garchomp
+Lucarionite	Makes Lucario Mega-evolve into Mega-Lucario
+Abomasite	Makes Abomasnow Mega-evolve into Mega-Abomasnow
+Beedrillite	Makes Beedrill Mega-evolve into Mega-Beedrill
+Pidgeotite	Makes Pidgeot Mega-evolve into Mega-Pidgeot
+Slowbronite	Makes Slowbro Mega-evolve into Mega-Slowbro
+Steelixite	Makes Steelix Mega-evolve into Mega-Steelix
+Sceptilite	Makes Sceptile Mega-evolve into Mega-Sceptile
+Swampertite	Makes Swampert Mega-evolve into Mega-Swampert
+Sablenite	Makes Sableye Mega-evolve into Mega-Sableye
+Sharpedonite	Makes Sharpedo Mega-evolve into Mega-Sharpedo
+Cameruptite	Makes Camerupt Mega-evolve into Mega-Camerupt
+Altarianite	Makes Altaria Mega-evolve into Mega-Altaria
+Glalitite	Makes Glalie Mega-evolve into Mega-Glalie
+Salamencite	Makes Salamence Mega-evolve into Mega-Salamence
+Metagrossite	Makes Metagross Mega-evolve into Mega-Metagross
+Lopunnite	Makes Lopunny Mega-evolve into Mega-Lopunny
+Galladite	Makes Gallade Mega-evolve into Mega-Gallade
+Audinite	Makes Audino Mega-evolve into Mega-Audino
+Diancite	Makes Diancie Mega-evolve into Mega-Diancie

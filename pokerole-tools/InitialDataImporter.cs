@@ -1,4 +1,7 @@
-﻿using System;
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -43,6 +46,7 @@ namespace Pokerole.Tools
 				data = new PokeroleXmlData();
 			}
 		}
+
 		public void DoImport()
 		{
 
@@ -654,6 +658,45 @@ namespace Pokerole.Tools
 		}
 		private void ReadPrimaryImages()
 		{
+
+			var monByDexNotation = data.DexEntries.Where(item => item.DexNum != 0).ToLookup(item =>
+			{
+				//foreach (var item in data.DexEntries)
+				//{
+				int dexNum = item.DexNum!.Value;
+				StringBuilder builder = new StringBuilder(20);
+				builder.Append(dexNum.ToString("D3"));
+				char c = (item.Variant) switch
+				{
+					"Alolan" => 'A',
+					"Galarian" => 'G',
+					"BBF" => 'B',
+					"Delta" => 'D',
+					_ => '\0'
+				};
+				if (c != 0)
+				{
+					builder.Append(c);
+				}
+				String name = item.Name!;
+				if (item.MegaEvolutionBaseEntry.HasValue)
+				{
+					builder.Append('M');
+					if (name.Contains("Charizard") || name.Contains("Mewtwo"))
+					{
+						builder.Append(name[^1]);
+					}
+				}
+				if (name.StartsWith("Primal"))
+				{
+					builder.Append('P');
+				}
+				return builder.ToString();
+			});
+
+
+
+
 			//build dex notation dict
 			//skip "Egg"
 			var monByDexNotation = data.DexEntries.Where(item=>item.DexNum != 0).ToLookup(item =>

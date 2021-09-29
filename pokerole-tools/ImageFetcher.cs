@@ -1,4 +1,7 @@
-﻿using System;
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -13,19 +16,18 @@ namespace Pokerole.Tools
 	internal class ImageFetcher
 	{
 		//const string RootURL = "https://archives.bulbagarden.net/wiki/Category:HOME_artwork";
-		private string categoryUrl;
-		private string destDir;
+		private readonly string categoryUrl;
+		private readonly string destDir;
 
 		public ImageFetcher(string categoryUrl, string destDir)
 		{
 			this.categoryUrl = categoryUrl;
-			this.destDir = destDir;
+			this.destDir = Path.GetFullPath(destDir);
 		}
 
 
 		public void FetchImages()
 		{
-			destDir = Path.GetFullPath(destDir);
 			//destDirectory = Path.GetFullPath(".");
 			//destDirectory = Path.Combine(destDirectory, "Images");
 			Directory.CreateDirectory(destDir);
