@@ -24,7 +24,8 @@ namespace Pokerole.Core
 		OneAlly,
 		UserAndAllies,
 		Area,
-		Battlefield
+		Battlefield,
+		BattlefieldAndArea
 	}
 
 	public enum MonStatus

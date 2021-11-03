@@ -56,6 +56,7 @@ namespace Pokerole.Core
 				{ BuiltInSkill.Will, Guid.Parse("82fd7a85-126a-4f73-962e-af0a62edf97d") }, 
 				{ BuiltInSkill.None, Guid.Parse("6de5dac7-0b13-4c58-9f6a-892cc71a580c") },
 				{ BuiltInSkill.Varies, Guid.Parse("f5c6817e-2dc4-4494-8dfb-aeddef0fd80c") },
+				{ BuiltInSkill.SameAsTheCopiedMove, Guid.Parse("d6557cfa-c0d5-406c-a8f3-d492a2fd5ef3") },
 	#endregion
 			});
 		public static IReadOnlyList<ISkill> RegisteredSkills
@@ -139,7 +140,8 @@ namespace Pokerole.Core
 				BuiltInSkill.Crafts or BuiltInSkill.Lore or BuiltInSkill.Medicine or BuiltInSkill.Science =>
 					SkillCategory.Knowledge,
 				BuiltInSkill.Happiness or BuiltInSkill.Loyalty => SkillCategory.HappinesOrLoyalty,
-				BuiltInSkill.Will or BuiltInSkill.None or BuiltInSkill.Varies => SkillCategory.Other,
+				BuiltInSkill.Will or BuiltInSkill.None or BuiltInSkill.Varies or BuiltInSkill.SameAsTheCopiedMove => 
+					SkillCategory.Other,
 				_ => throw new InvalidOperationException($"Unknown base skill: {skill}"),
 			};
 			return new BuiltInSkillImpl(skill, exclusivity, category);
@@ -250,7 +252,8 @@ namespace Pokerole.Core
 		Loyalty,
 		Will,
 		Varies,
-		None
+		None,
+		SameAsTheCopiedMove
 
 	}
 }

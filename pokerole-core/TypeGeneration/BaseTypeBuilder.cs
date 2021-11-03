@@ -27,6 +27,8 @@ namespace Pokerole.Core{
 			ItemReference<ISkill> secondaryAccuracySkill,
 			int reducedAccuracy,
 			ItemReference<ISkill>? damageSkill,
+			ItemReference<ISkill>? secondaryDamageSkill,
+			bool secondaryDamageIsNegative,
 			int damageModifier,
 			bool hasSpecialAccuracyMod,
 			bool hasSpecialDamageMod,
@@ -45,6 +47,8 @@ namespace Pokerole.Core{
 			SecondaryAccuracySkill = secondaryAccuracySkill;
 			ReducedAccuracy = reducedAccuracy;
 			DamageSkill = damageSkill;
+			SecondaryDamageSkill = secondaryDamageSkill;
+			SecondaryDamageIsNegative = secondaryDamageIsNegative;
 			DamageModifier = damageModifier;
 			HasSpecialAccuracyMod = hasSpecialAccuracyMod;
 			HasSpecialDamageMod = hasSpecialDamageMod;
@@ -103,6 +107,14 @@ namespace Pokerole.Core{
 		/// </summary>
 		public ItemReference<ISkill>? DamageSkill { get; }
 		/// <summary>
+		/// Skill used to roll additional damage for this move if any
+		/// </summary>
+		public ItemReference<ISkill>? SecondaryDamageSkill { get; }
+		/// <summary>
+		/// If true, points missing in the secondary skill are used for damage
+		/// </summary>
+		public bool SecondaryDamageIsNegative { get; }
+		/// <summary>
 		/// How many more dice to add to the damage roll pool
 		/// </summary>
 		public int DamageModifier { get; }
@@ -144,6 +156,8 @@ namespace Pokerole.Core{
 				SecondaryAccuracySkill = move.SecondaryAccuracySkill;
 				ReducedAccuracy = move.ReducedAccuracy;
 				DamageSkill = move.DamageSkill;
+				SecondaryDamageSkill = move.SecondaryDamageSkill;
+				SecondaryDamageIsNegative = move.SecondaryDamageIsNegative;
 				DamageModifier = move.DamageModifier;
 				HasSpecialAccuracyMod = move.HasSpecialAccuracyMod;
 				HasSpecialDamageMod = move.HasSpecialDamageMod;
@@ -313,6 +327,36 @@ namespace Pokerole.Core{
 			}
 
 			/// <summary>
+			/// Skill used to roll additional damage for this move if any
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<ISkill>? SecondaryDamageSkill { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("SecondaryDamageSkill", IsNullable = false)]
+			public ItemReference<ISkill>.Builder? SecondaryDamageSkillXmlAccessor
+			{
+				get => SecondaryDamageSkill is null ? null : new ItemReference<ISkill>.Builder(SecondaryDamageSkill ?? default);
+				set => SecondaryDamageSkill = value?.Build();
+			}
+
+			/// <summary>
+			/// If true, points missing in the secondary skill are used for damage
+			/// </summary>
+			[XmlIgnore]
+			public bool? SecondaryDamageIsNegative { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("SecondaryDamageIsNegative", IsNullable = false)]
+			public bool SecondaryDamageIsNegativeNullableXmlAccessor
+			{
+				get => SecondaryDamageIsNegative ?? default;
+				set => SecondaryDamageIsNegative = value;
+			}
+			/// <summary>
 			/// How many more dice to add to the damage roll pool
 			/// </summary>
 			[XmlIgnore]
@@ -420,6 +464,10 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
+					if (SecondaryDamageIsNegative is null)
+					{
+						return false;
+					}
 					if (DamageModifier is null)
 					{
 						return false;
@@ -467,6 +515,8 @@ namespace Pokerole.Core{
 					SecondaryAccuracySkill!.Value,
 					ReducedAccuracy!.Value,
 					DamageSkill,
+					SecondaryDamageSkill,
+					SecondaryDamageIsNegative!.Value,
 					DamageModifier!.Value,
 					HasSpecialAccuracyMod!.Value,
 					HasSpecialDamageMod!.Value,

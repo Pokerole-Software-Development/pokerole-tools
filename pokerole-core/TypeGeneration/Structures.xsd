@@ -154,6 +154,16 @@
 							<xs:documentation>Skill used to roll damage for this move if any</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="SecondaryDamageSkill" type="ex:ItemReference" ex:genericType="ex:ISkill" nillable="true">
+						<xs:annotation>
+							<xs:documentation>Skill used to roll additional damage for this move if any</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SecondaryDamageIsNegative" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>If true, points missing in the secondary skill are used for damage</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="DamageModifier" type="xs:int">
 						<xs:annotation>
 							<xs:documentation>How many more dice to add to the damage roll pool</xs:documentation>

@@ -17,8 +17,8 @@ namespace Pokerole.Tools
 {
 	class InitialDataImporter
 	{
-		//private const String csvFetchUrl = "https://raw.githubusercontent.com/XShadeSlayerXx/PokeRole-Discord.py-Base/master/";
-		private const String csvFetchUrl = "https://raw.githubusercontent.com/SirIntellegence/PokeRole-Discord.py-Base/typofix3/";
+		private const String csvFetchUrl = "https://raw.githubusercontent.com/XShadeSlayerXx/PokeRole-Discord.py-Base/master/";
+		//private const String csvFetchUrl = "https://raw.githubusercontent.com/SirIntellegence/PokeRole-Discord.py-Base/typofix3/";
 		private const string MOVE_MISSING_DESCRIP = "This move is missing";
 		private readonly HashSet<Guid> unevolvedEntries = new HashSet<Guid>();
 		private readonly HashSet<Guid> hasMegaEvolution = new HashSet<Guid>();
@@ -59,6 +59,7 @@ namespace Pokerole.Tools
 			ReadMoveLists();
 			LinkAbilities();
 			ReadPrimaryImages();
+			//ReadEvolutions();
 
 
 
@@ -143,59 +144,64 @@ namespace Pokerole.Tools
 		{
 			Dictionary<String, Move.Builder> moves = new Dictionary<string, Move.Builder>();
 			String file = FetchFileIfNeeded("pokeMoveSorted.csv");
-			foreach (var line in File.ReadAllLines(file))
+			using (TextFieldParser csvParser = new TextFieldParser(file))
 			{
-				Move.Builder? builder;
-				string[] fields = line.Split(new char[] { ',' }, 10);
-				if (fields[0] == "Struggle")
+				csvParser.SetDelimiters(new string[] { "," });
+				csvParser.HasFieldsEnclosedInQuotes = true;
+				while (!csvParser.EndOfData)
 				{
-					//read a physical and special variant
-					String[] physical, special;
-					physical = new String[fields.Length];
-					special = new String[fields.Length];
-					for (int i = 0; i < fields.Length; i++)
+					Move.Builder? builder;
+					string[] fields = csvParser.ReadFields();
+					if (fields[0] == "Struggle")
 					{
-						String item = fields[i];
-						if (item.Contains("/"))
+						//read a physical and special variant
+						String[] physical, special;
+						physical = new String[fields.Length];
+						special = new String[fields.Length];
+						for (int i = 0; i < fields.Length; i++)
 						{
-							String[] halves = item.Split('/');
-							physical[i] = halves[0];
-							special[i] = halves[1];
+							String item = fields[i];
+							if (item.Contains("/"))
+							{
+								String[] halves = item.Split('/');
+								physical[i] = halves[0];
+								special[i] = halves[1];
+							}
+							else
+							{
+								physical[i] = item;
+								special[i] = item;
+							}
 						}
-						else
+						physical[0] = "Struggle (Physical)";
+						special[0] = "Struggle (Special)";
+						builder = ReadMove(physical);
+						if (builder != null)
 						{
-							physical[i] = item;
-							special[i] = item;
+							data.Moves.Add(builder);
+							moves.Add(builder.Name!, builder);
 						}
+						builder = ReadMove(special);
+						if (builder != null)
+						{
+							data.Moves.Add(builder);
+							moves.Add(builder.Name!, builder);
+						}
+						continue;
 					}
-					physical[0] = "Struggle (Physical)";
-					special[0] = "Struggle (Special)";
-					builder = ReadMove(physical);
-					if (builder != null)
+					builder = ReadMove(fields);
+					if (builder == null)
 					{
-						data.Moves.Add(builder);
-						moves.Add(builder.Name!, builder);
+						continue;
 					}
-					builder = ReadMove(special);
-					if (builder != null)
+					data.Moves.Add(builder);
+					String? name = builder.Name;
+					if (name == null)
 					{
-						data.Moves.Add(builder);
-						moves.Add(builder.Name!, builder);
+						throw new InvalidOperationException("Move name missing");
 					}
-					continue;
+					moves.Add(name, builder);
 				}
-				builder = ReadMove(fields);
-				if (builder == null)
-				{
-					continue;
-				}
-				data.Moves.Add(builder);
-				String? name = builder.Name;
-				if (name == null)
-				{
-					throw new InvalidOperationException("Move name missing");
-				}
-				moves.Add(name, builder);
 			}
 			//these moves should exist, but don't, so create dummy entries for them
 			String[] missingMoves =
@@ -232,6 +238,8 @@ namespace Pokerole.Tools
 
 		private Move.Builder? ReadMove(string[] fields)
 		{
+			//officially, the fields are (in order):
+			//name, type, pwrtype, power, dmg1, dmg2, acc1, acc2, foe, effect, description
 			Guid guid = Guid.Empty;
 			//someone mispelled something...
 			String moveName = NameErrata(fields[0]);
@@ -291,17 +299,42 @@ namespace Pokerole.Tools
 				skillDef = SkillManager.GetBuiltInSkill(skill);
 				builder.DamageSkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
 			}
+			//damage 2
+			item = fields[5];
+			bool negative;
+			if (!String.IsNullOrEmpty(item))
+			{
+				negative = item.Contains("missing", StringComparison.OrdinalIgnoreCase);
+				if (negative)
+				{
+					item = item.Replace("missing", "", StringComparison.OrdinalIgnoreCase);
+				}
+				skill = ParseEnum<BuiltInSkill>(item);
+				skillDef = SkillManager.GetBuiltInSkill(skill);
+				builder.SecondaryDamageSkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
+				builder.SecondaryDamageIsNegative = negative;
+			}
+
+
 			//currently cannot handle field 6.
 			//TODO: Implement handling field 6... Whatever that is....
 
 			//Accuracy
 			item = fields[6];
-			bool negative = item.Contains("missing", StringComparison.OrdinalIgnoreCase);
+			negative = item.Contains("missing", StringComparison.OrdinalIgnoreCase);
 			if (negative)
 			{
 				item = item.Replace("missing", "", StringComparison.OrdinalIgnoreCase);
 			}
-			skill = String.IsNullOrEmpty(item) ? BuiltInSkill.None : ParseEnum<BuiltInSkill>(item);
+			if (item.Contains("/"))
+			{
+				//has two variants
+				skill = BuiltInSkill.Varies;
+			}
+			else
+			{
+				skill = String.IsNullOrEmpty(item) ? BuiltInSkill.None : ParseEnum<BuiltInSkill>(item);
+			}
 			skillDef = SkillManager.GetBuiltInSkill(skill);
 			builder.PrimaryAccuracySkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
 			builder.PrimaryAccuracyIsNegative = negative;
@@ -330,6 +363,9 @@ namespace Pokerole.Tools
 			{
 				builder.Effects.Add(item);
 			}
+			item = fields[10];
+			builder.Description = item;
+
 
 			return builder;
 		}
@@ -376,6 +412,9 @@ namespace Pokerole.Tools
 			Regex dexRegex = new Regex("^#?(D)?([0-9]+)(.*)$");
 			foreach (var line in File.ReadAllLines(file))
 			{
+				//official order:
+				//number, name, type1, type2, hp, str, maxstr, dex, maxdex, vit, maxvit, spc, maxspc, ins, maxins,
+				//ability, ability2, abilityhidden, abilityevent, unevolved, form, rank, gender, generation
 				if (first)
 				{
 					//skip over the header
@@ -479,10 +518,10 @@ namespace Pokerole.Tools
 			return name switch
 			{
 				"Necrozma Dark Wings" => "Necrozma Dawn Wings",
-				"Behemot Blade" => "Behemoth Blade",
-				"Behemot Bash" => "Behomoth Bash",
-				"Roar of Time" => "Roar Of Time",
-				"Light of Ruin" => "Light Of Ruin",
+				//"Behemot Blade" => "Behemoth Blade", resolved in repo
+				//"Behemot Bash" => "Behomoth Bash",
+				//"Roar of Time" => "Roar Of Time",
+				//"Light of Ruin" => "Light Of Ruin",
 				_ => name,
 			};
 		}
@@ -658,7 +697,81 @@ namespace Pokerole.Tools
 		}
 		private void ReadPrimaryImages()
 		{
+			//this doesn't have to be efficient. It just needs to work!!!
+			//                 pokerole-tools (root)-|
+			//                 pokerole-tools------| |
+			//                           bin ----| | |
+			//                           Debug-| | | |
+			// netcoreapp3.1 ----------------V V V V V
+			const String primaryImageDir = "../../../../Images/Crunched/PrimaryImages";
+			var filenames = new List<String>(Directory.GetFiles(primaryImageDir));
+			RemoveEvilImages(filenames);
+			//const String spriteImageDir = "../../../../ProjectReference/pokesprite/"
+			var keysToFiles = filenames.ToDictionary(file =>
+			{
+				String filename = Path.GetFileNameWithoutExtension(file);
+				if (!filename.StartsWith("HOME"))
+				{
+					throw new InvalidOperationException();
+				}
+				String remaining = filename[4..];
+				int dexNum = int.Parse(remaining[0..3]);
+				remaining = remaining[3..];
+				bool mega = false;
+				bool? megaVariantIsX = null;
+				if (remaining.StartsWith("M"))
+				{
+					mega = true;
+					remaining = remaining[1..];
+					if (remaining.Length > 0)
+					{
+						megaVariantIsX = remaining[0] == 'X' ? true : remaining[0] == 'Y' ? false : null;
+					}
+					if (megaVariantIsX.HasValue)
+					{
+						remaining = remaining[1..];
+					}
+				}
+				bool gigantamax = false;
+				if (remaining.StartsWith("Gi"))
+				{
+					gigantamax = true;
+					remaining = remaining[2..];
+				}
+				bool female = false;
+				if (remaining.StartsWith("_f"))
+				{
+					female = true;
+					remaining = remaining[2..];
+				}
+				bool shiny = false;
+				if (remaining.StartsWith("_s"))
+				{
+					//shiny
+					shiny = true;
+					remaining = remaining[2..];
+				}
+				char variant = '\0';
+				if (remaining.Length > 0)
+				{
+					variant = remaining[0];
+					remaining = remaining[1..];
+				}
+				if (remaining.Length == 0)
+				{
+					return new ImageData(dexNum, mega, megaVariantIsX, gigantamax, female, shiny, variant);
+				}
+				if (dexNum == 255)
+				{
+					//I don't care about your stupid backside torchick
+					return null;
+				}
+				here;
 
+
+
+				throw new NotImplementedException();
+			});
 			var monByDexNotation = data.DexEntries.Where(item => item.DexNum != 0).ToLookup(item =>
 			{
 				//foreach (var item in data.DexEntries)
@@ -697,42 +810,42 @@ namespace Pokerole.Tools
 
 
 
-			//build dex notation dict
-			//skip "Egg"
-			var monByDexNotation = data.DexEntries.Where(item=>item.DexNum != 0).ToLookup(item =>
-			{
-				//foreach (var item in data.DexEntries)
-				//{
-				int dexNum = item.DexNum!.Value;
-				StringBuilder builder = new StringBuilder(20);
-				builder.Append(dexNum.ToString("D3"));
-				char c = (item.Variant) switch
-				{
-					"Alolan" => 'A',
-					"Galarian" => 'G',
-					"BBF" => 'B',
-					"Delta" => 'D',
-					_ => '\0'
-				};
-				if (c != 0)
-				{
-					builder.Append(c);
-				}
-				String name = item.Name!;
-				if (item.MegaEvolutionBaseEntry.HasValue)
-				{
-					builder.Append('M');
-					if (name.Contains("Charizard") || name.Contains("Mewtwo"))
-					{
-						builder.Append(name[^1]);
-					}
-				}
-				if (name.StartsWith("Primal"))
-				{
-					builder.Append('P');
-				}
-				return builder.ToString();
-			});
+			////build dex notation dict
+			////skip "Egg"
+			//var monByDexNotation = data.DexEntries.Where(item=>item.DexNum != 0).ToLookup(item =>
+			//{
+			//	//foreach (var item in data.DexEntries)
+			//	//{
+			//	int dexNum = item.DexNum!.Value;
+			//	StringBuilder builder = new StringBuilder(20);
+			//	builder.Append(dexNum.ToString("D3"));
+			//	char c = (item.Variant) switch
+			//	{
+			//		"Alolan" => 'A',
+			//		"Galarian" => 'G',
+			//		"BBF" => 'B',
+			//		"Delta" => 'D',
+			//		_ => '\0'
+			//	};
+			//	if (c != 0)
+			//	{
+			//		builder.Append(c);
+			//	}
+			//	String name = item.Name!;
+			//	if (item.MegaEvolutionBaseEntry.HasValue)
+			//	{
+			//		builder.Append('M');
+			//		if (name.Contains("Charizard") || name.Contains("Mewtwo"))
+			//		{
+			//			builder.Append(name[^1]);
+			//		}
+			//	}
+			//	if (name.StartsWith("Primal"))
+			//	{
+			//		builder.Append('P');
+			//	}
+			//	return builder.ToString();
+			//});
 			//this may not be fully portable... Oh well
 			//path to pokerole-companion
 			//if you don't have it, git clone it (https://github.com/paxwort/Pokerole-Companion.git) and have
@@ -743,10 +856,10 @@ namespace Pokerole.Tools
 			//                                Debug-| | | |
 			// netcoreapp3.1 ---------------------V V V V V
 			const String pokeroleCompanionDir = "../../../../../Pokerole-Companion";
-			const String primaryImageDir = "PokeroleUI2/Graphics/Sprites/Tinified";
+			//const String primaryImageDir = "PokeroleUI2/Graphics/Sprites/Tinified";
 			String imagePath = Path.Combine(Directory.GetCurrentDirectory(), pokeroleCompanionDir,
 				primaryImageDir);
-			var filenames = Directory.GetFiles(imagePath);
+			//var filenames = Directory.GetFiles(imagePath);
 			var filesByDexNotation = filenames.ToLookup(path =>
 			{
 				String working = Path.GetFileName(path);
@@ -824,7 +937,7 @@ namespace Pokerole.Tools
 				}
 				//we need to figure out what is the primary image
 
-				String? primary = (entry.Name)switch
+				String? primary = (entry.Name) switch
 				{
 					//we shall make 'F' the primary image for now
 					"Unown" => "201_Unown_F_Dream",
@@ -1194,7 +1307,12 @@ namespace Pokerole.Tools
 				Debugger.Break();
 			}
 		}
-		private byte[]? ReadImage(String path)
+
+		private static void RemoveEvilImages(List<string> filenames) => filenames.RemoveAll(file => (Path.GetFileNameWithoutExtension(file)) switch
+		{
+			"449Hippopotas-BothGenders" or "450Hippowdon-BothGenders" => true,
+			_ => false
+		}); private byte[]? ReadImage(String path)
 		{
 #pragma warning disable CS0162 // Unreachable code detected
 			const bool readImages = false; //set to true to have the importer include image data in the export
@@ -1205,6 +1323,26 @@ namespace Pokerole.Tools
 			return null;
 #pragma warning restore CS0162 // Unreachable code detected
 		}
-
+		private record ImageData
+		{
+			public int DexNum { get; }
+			public bool Mega { get; }
+			public bool? MegaVariantIsX { get; }
+			public bool Shiny { get; }
+			public bool Gigantamax { get; }
+			public bool Female { get; }
+			public char Variant { get; }
+			public ImageData(int dexNum, bool mega, bool? megaVariantIsX, bool gigantamax, bool female, bool shiny,
+				char variant = '\0')
+			{
+				DexNum = dexNum;
+				Mega = mega;
+				MegaVariantIsX = megaVariantIsX;
+				Gigantamax = gigantamax;
+				Female = female;
+				Shiny = shiny;
+				Variant = variant;
+			}
+		}
 	}
 }
