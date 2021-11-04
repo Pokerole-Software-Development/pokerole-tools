@@ -707,7 +707,7 @@ namespace Pokerole.Tools
 			var filenames = new List<String>(Directory.GetFiles(primaryImageDir));
 			RemoveEvilImages(filenames);
 			//const String spriteImageDir = "../../../../ProjectReference/pokesprite/"
-			var keysToFiles = filenames.ToDictionary(file =>
+			var imageData = filenames.Select(file =>
 			{
 				String filename = Path.GetFileNameWithoutExtension(file);
 				if (!filename.StartsWith("HOME"))
@@ -719,24 +719,115 @@ namespace Pokerole.Tools
 				remaining = remaining[3..];
 				bool mega = false;
 				bool? megaVariantIsX = null;
-				if (remaining.StartsWith("M"))
+				bool gigantamax = false;
+				char? variant = null;
+				String? misc = null;
+				int subIndex = remaining.IndexOf('_');
+				//there is no mega for unown. There is an M form though. And an EX form and a QU form
+				if (dexNum == 201)
 				{
-					mega = true;
-					remaining = remaining[1..];
-					if (remaining.Length > 0)
+					if (remaining.Length > 0 && remaining[0] != '_')
 					{
-						megaVariantIsX = remaining[0] == 'X' ? true : remaining[0] == 'Y' ? false : null;
-					}
-					if (megaVariantIsX.HasValue)
-					{
-						remaining = remaining[1..];
+						String preview;
+						if (remaining.Length > 1)
+						{
+							preview = remaining[0..2];
+						}
+						else
+						{
+							preview = remaining[0..1];
+						}
+						preview = preview.TrimEnd('_');
+						misc += preview;
+						remaining = remaining[preview.Length..];
 					}
 				}
-				bool gigantamax = false;
-				if (remaining.StartsWith("Gi"))
+				else if (remaining.Length > 0 && subIndex != 0)
 				{
-					gigantamax = true;
-					remaining = remaining[2..];
+					String infoBlock;
+					if (subIndex > -1)
+					{
+						infoBlock = remaining[0..subIndex];
+						remaining = remaining[subIndex..];
+					}
+					else
+					{
+						infoBlock = remaining;
+						remaining = "";
+					}
+					if (infoBlock.StartsWith("Gi"))
+					{
+						gigantamax = true;
+						infoBlock = infoBlock[2..];
+					}
+					if (infoBlock.Length > 2)
+					{
+						if ("RGi" == infoBlock)
+						{
+							//gigantamax rapid strike
+							if (dexNum != 892)
+							{
+								throw new InvalidOperationException();
+							}
+							gigantamax = true;
+							variant = 'R';
+						}
+						else
+						{
+							//dat is a word, such as an Arcius sub type.
+							misc += infoBlock;
+						}
+						infoBlock = "";
+					}
+					//else if (dexNum == 676)
+					//{
+					//	//676: doggie styles
+					//	//someone has some styles...
+					//	misc += infoBlock;
+					//	infoBlock = "";
+					//}
+					else if (infoBlock.StartsWith("M"))
+					{
+						mega = true;
+						infoBlock = infoBlock[1..];
+						if (infoBlock.Length > 0)
+						{
+							megaVariantIsX = infoBlock[0] == 'X' ? true : infoBlock[0] == 'Y' ? false : null;
+						}
+						if (megaVariantIsX.HasValue)
+						{
+							infoBlock = infoBlock[1..];
+						}
+					}
+					if (infoBlock.Length > 1)
+					{
+						var part = infoBlock[0..2];
+						if (part == "GZ")
+						{
+							if (dexNum != 555)
+							{
+								throw new InvalidOperationException();
+							}
+							variant = 'G';
+							misc += "Z";
+						}
+						else
+						{
+							//two next chars go into misc since they are specific
+							misc += part;
+						}
+						infoBlock = infoBlock[2..];
+					}
+					if (infoBlock.Length > 0)
+					{
+						variant = infoBlock[0];
+						infoBlock = infoBlock[1..];
+					}
+					if (infoBlock.Length > 0)
+					{
+						//should have all been consumed
+						throw new NotImplementedException();
+					}
 				}
 				bool female = false;
 				if (remaining.StartsWith("_f"))
@@ -751,27 +842,31 @@ namespace Pokerole.Tools
 					shiny = true;
 					remaining = remaining[2..];
 				}
-				char variant = '\0';
-				if (remaining.Length > 0)
+				bool backImage = false;
+				if (remaining.StartsWith("_b"))
 				{
-					variant = remaining[0];
-					remaining = remaining[1..];
+					if (dexNum == 255)
+					{
+						//I don't care about your stupid backside torchic
+						//https://discord.com/channels/245675629515767809/324413827632463872/905276601279856670
+						//Word of Glee: On a scale of 1-10, your backside has an importance of 0
+						return null;
+					}
+					backImage = true;
+					remaining = remaining[2..];
 				}
 				if (remaining.Length == 0)
 				{
-					return new ImageData(dexNum, mega, megaVariantIsX, gigantamax, female, shiny, variant);
+					return new ImageData(file, dexNum, mega, megaVariantIsX, gigantamax, female, shiny, variant,
+						backImage, misc);
 				}
-				if (dexNum == 255)
-				{
-					//I don't care about your stupid backside torchick
-					return null;
-				}
-				here;
+				//here;
 
 
 
 				throw new NotImplementedException();
-			});
+			}).NonNull().ToList();
+			var missed = imageData.Where(item => !String.IsNullOrEmpty(item.Misc)).ToList();
 			var monByDexNotation = data.DexEntries.Where(item => item.DexNum != 0).ToLookup(item =>
 			{
 				//foreach (var item in data.DexEntries)
@@ -1325,16 +1420,21 @@ namespace Pokerole.Tools
 		}
 		private record ImageData
 		{
+			public string? Filename { get; }
 			public int DexNum { get; }
 			public bool Mega { get; }
 			public bool? MegaVariantIsX { get; }
 			public bool Shiny { get; }
 			public bool Gigantamax { get; }
 			public bool Female { get; }
-			public char Variant { get; }
-			public ImageData(int dexNum, bool mega, bool? megaVariantIsX, bool gigantamax, bool female, bool shiny,
-				char variant = '\0')
+			public char? Variant { get; }
+			public bool BackImage { get; }
+			public string? Misc { get; }
+
+			public ImageData(String filename, int dexNum, bool mega, bool? megaVariantIsX, bool gigantamax,
+				bool female, bool shiny, char? variant, bool backImage, String? misc)
 			{
+				Filename = filename;
 				DexNum = dexNum;
 				Mega = mega;
 				MegaVariantIsX = megaVariantIsX;
@@ -1342,6 +1442,21 @@ namespace Pokerole.Tools
 				Female = female;
 				Shiny = shiny;
 				Variant = variant;
+				BackImage = backImage;
+				Misc = misc;
+			}
+		}
+	}
+	public static class Extensions
+	{
+		public static IEnumerable<T> NonNull<T>(this IEnumerable<T?> enumerable)
+		{
+			foreach (var item in enumerable)
+			{
+				if (item != null)
+				{
+					yield return item;
+				}
 			}
 		}
 	}
