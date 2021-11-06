@@ -22,8 +22,8 @@ namespace Pokerole.Tools
 		private const string MOVE_MISSING_DESCRIP = "This move is missing";
 		private readonly HashSet<Guid> unevolvedEntries = new HashSet<Guid>();
 		private readonly HashSet<Guid> hasMegaEvolution = new HashSet<Guid>();
-		private PokeroleXmlData data;
-		private XmlSerializer xmlSerializer = new XmlSerializer(typeof(PokeroleXmlData));
+		private readonly PokeroleXmlData data;
+		private readonly XmlSerializer xmlSerializer = new XmlSerializer(typeof(PokeroleXmlData));
 		private readonly Dictionary<String, Move.Builder> movesByName = new Dictionary<string, Move.Builder>();
 		private readonly Dictionary<String, Item.Builder> itemsByName = new Dictionary<string, Item.Builder>();
 		private readonly Dictionary<String, DexEntry.Builder> monByName = new Dictionary<string, DexEntry.Builder>();
@@ -695,7 +695,7 @@ namespace Pokerole.Tools
 					builder.ItemReference!.Value));
 			}
 		}
-		private void ReadPrimaryImages()
+		private List<ImageRef.Builder> ReadPrimaryImages()
 		{
 			//this doesn't have to be efficient. It just needs to work!!!
 			//                 pokerole-tools (root)-|
@@ -716,6 +716,11 @@ namespace Pokerole.Tools
 				}
 				String remaining = filename[4..];
 				int dexNum = int.Parse(remaining[0..3]);
+				//not interested in egg
+				if (dexNum == 0)
+				{
+					return null;
+				}
 				remaining = remaining[3..];
 				bool mega = false;
 				bool? megaVariantIsX = null;
@@ -867,40 +872,55 @@ namespace Pokerole.Tools
 				throw new NotImplementedException();
 			}).NonNull().ToList();
 			var missed = imageData.Where(item => !String.IsNullOrEmpty(item.Misc)).ToList();
-			var monByDexNotation = data.DexEntries.Where(item => item.DexNum != 0).ToLookup(item =>
+			//delta may be slated for removal. Also, the numbers don't line up and I don't have images for them
+			var effectiveDex = data.DexEntries.Where(item => item.DexNum > 0 && item.Variant != "Delta").ToList();
+			var remainingImages = new HashSet<ImageData>(imageData);
+			var remainingDexEntries = new HashSet<DexEntry.Builder>(effectiveDex);
+			//dict compile
+			//not using "dexNotation" since we don't know what "Variant" might be
+			//egg already filtered out
+			var imagesByDex = imageData.ToLookup(item=>item.DexNum);
+			var entriesByDex = effectiveDex.ToLookup(item => item.DexNum);
+			//if (imagesByDex.Count != entriesByDex.Count) We are missing Galar DLC mon, so we are not doing this check
+			//{
+			//	//not expected
+			//	throw new InvalidOperationException();
+			//}
+			List<ImageRef.Builder> result = new List<ImageRef.Builder>(imageData.Count);
+			//link them up!
+			foreach (var item in imagesByDex)
 			{
-				//foreach (var item in data.DexEntries)
-				//{
-				int dexNum = item.DexNum!.Value;
-				StringBuilder builder = new StringBuilder(20);
-				builder.Append(dexNum.ToString("D3"));
-				char c = (item.Variant) switch
+				var images = item.ToList();
+				var dexEntries = entriesByDex[item.Key].ToList();
+				if (images.Count < 1 || dexEntries.Count < 1)
 				{
-					"Alolan" => 'A',
-					"Galarian" => 'G',
-					"BBF" => 'B',
-					"Delta" => 'D',
-					_ => '\0'
-				};
-				if (c != 0)
-				{
-					builder.Append(c);
+					//We are missing Galar DLC mon, so we are not doing this check
+					continue;
+					////items missing!!!!
+					//throw new InvalidOperationException();
 				}
-				String name = item.Name!;
-				if (item.MegaEvolutionBaseEntry.HasValue)
+				ImageData? shiny, normal;
+				DexEntry.Builder builder;
+				ImageRef.Builder imageBuilder;
+				if (images.Count == 2 && dexEntries.Count == 1)
 				{
-					builder.Append('M');
-					if (name.Contains("Charizard") || name.Contains("Mewtwo"))
-					{
-						builder.Append(name[^1]);
-					}
+					//hurray! Simplicity!!!
+					shiny = images.Single(thing => thing.Shiny);
+					normal = images.Single(thing => !thing.Shiny);
+					builder = dexEntries[0];
+
+					imageBuilder = MakeImageRef(normal.Filename);
+					builder.PrimaryImage = imageBuilder.ItemReference;
+					result.Add(imageBuilder);
+					imageBuilder = MakeImageRef(shiny.Filename);
+					builder.ShinyImage = imageBuilder.ItemReference;
+					result.Add(imageBuilder);
+					continue;
 				}
-				if (name.StartsWith("Primal"))
-				{
-					builder.Append('P');
-				}
-				return builder.ToString();
-			});
+
+				throw new NotImplementedException();
+			}
+			var monByDexNotation = Enumerable.Empty<DexEntry.Builder>().ToLookup(item => "");
 
 
 
@@ -1401,6 +1421,7 @@ namespace Pokerole.Tools
 				//not fully implemented
 				Debugger.Break();
 			}
+			throw new NotImplementedException();
 		}
 
 		private static void RemoveEvilImages(List<string> filenames) => filenames.RemoveAll(file => (Path.GetFileNameWithoutExtension(file)) switch
@@ -1418,9 +1439,18 @@ namespace Pokerole.Tools
 			return null;
 #pragma warning restore CS0162 // Unreachable code detected
 		}
-		private record ImageData
+		private ImageRef.Builder MakeImageRef(String filePath)
 		{
-			public string? Filename { get; }
+			return new ImageRef.Builder()
+			{
+				Filename = Path.GetFileName(filePath),
+				Data = ReadImage(filePath),
+				DataId = new DataId(null, Guid.NewGuid())
+			};
+		}
+	private record ImageData
+		{
+			public string Filename { get; }
 			public int DexNum { get; }
 			public bool Mega { get; }
 			public bool? MegaVariantIsX { get; }
