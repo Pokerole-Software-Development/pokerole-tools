@@ -3,8 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Pokerole.Tools</RootNamespace>
+    <RootNamespace>Pokerole.Tools.InitUpdate</RootNamespace>
 	  <LangVersion>9.0</LangVersion>
+	  <StartupObject>Pokerole.Tools.InitUpdate.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

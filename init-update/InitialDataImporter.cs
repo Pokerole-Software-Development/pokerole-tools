@@ -13,7 +13,7 @@ using System.Xml.Serialization;
 using Microsoft.VisualBasic.FileIO;
 using Pokerole.Core;
 
-namespace Pokerole.Tools
+namespace Pokerole.Tools.InitUpdate
 {
 	class InitialDataImporter
 	{

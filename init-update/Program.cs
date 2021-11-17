@@ -13,7 +13,7 @@ using Microsoft.VisualBasic.FileIO;
 using System.Diagnostics;
 using PdfHandler;
 
-namespace Pokerole.Tools
+namespace Pokerole.Tools.InitUpdate
 {
 	class Program
 	{

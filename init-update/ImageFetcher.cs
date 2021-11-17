@@ -11,7 +11,7 @@ using System.Xml.XPath;
 using HtmlAgilityPack;
 using System.Linq;
 
-namespace Pokerole.Tools
+namespace Pokerole.Tools.InitUpdate
 {
 	internal class ImageFetcher
 	{
