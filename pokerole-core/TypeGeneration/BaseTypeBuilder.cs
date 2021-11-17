@@ -1238,7 +1238,7 @@ namespace Pokerole.Core{
 	{
 		public DexEntry(DataId dataId,
 			int dexNum,
-			bool suggestedStarer,
+			bool suggestedStarter,
 			ItemReference<ITypeDefinition> primaryType,
 			ItemReference<ITypeDefinition>? secondaryType,
 			string name,
@@ -1251,11 +1251,13 @@ namespace Pokerole.Core{
 			int baseHp,
 			ItemReference<ImageRef> primaryImage,
 			List<ItemReference<ImageRef>> additionalImages,
+			List<ItemReference<ImageRef>> additionalShinyImages,
 			ItemReference<ImageRef> smallImage,
 			ItemReference<ImageRef>? shinyImage,
 			ItemReference<ImageRef>? smallShinyImage,
 			ItemReference<ImageRef>? primaryFemaleImage,
 			List<ItemReference<ImageRef>> additionalFemaleImages,
+			List<ItemReference<ImageRef>> additionalShinyFemaleImages,
 			ItemReference<ImageRef>? smallFemaleImage,
 			ItemReference<ImageRef>? shinyFemaleImage,
 			ItemReference<ImageRef>? smallShinyFemaleImage,
@@ -1278,7 +1280,7 @@ namespace Pokerole.Core{
 			List<MoveEntry> moveSet) : base(dataId)
 		{
 			DexNum = dexNum;
-			SuggestedStarer = suggestedStarer;
+			SuggestedStarter = suggestedStarter;
 			PrimaryType = primaryType;
 			SecondaryType = secondaryType;
 			Name = name;
@@ -1291,11 +1293,13 @@ namespace Pokerole.Core{
 			BaseHp = baseHp;
 			PrimaryImage = primaryImage;
 			AdditionalImages = new List<ItemReference<ImageRef>>(additionalImages).AsReadOnly();
+			AdditionalShinyImages = new List<ItemReference<ImageRef>>(additionalShinyImages).AsReadOnly();
 			SmallImage = smallImage;
 			ShinyImage = shinyImage;
 			SmallShinyImage = smallShinyImage;
 			PrimaryFemaleImage = primaryFemaleImage;
 			AdditionalFemaleImages = new List<ItemReference<ImageRef>>(additionalFemaleImages).AsReadOnly();
+			AdditionalShinyFemaleImages = new List<ItemReference<ImageRef>>(additionalShinyFemaleImages).AsReadOnly();
 			SmallFemaleImage = smallFemaleImage;
 			ShinyFemaleImage = shinyFemaleImage;
 			SmallShinyFemaleImage = smallShinyFemaleImage;
@@ -1327,7 +1331,7 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Whether or not this Pokémon is recommended as a starter
 		/// </summary>
-		public bool SuggestedStarer { get; }
+		public bool SuggestedStarter { get; }
 		/// <summary>
 		/// The primary type of this Pokémon
 		/// </summary>
@@ -1377,6 +1381,10 @@ namespace Pokerole.Core{
 		/// </summary>
 		public IReadOnlyList<ItemReference<ImageRef>> AdditionalImages { get; }
 		/// <summary>
+		/// Additional shiny images of this pokemon
+		/// </summary>
+		public IReadOnlyList<ItemReference<ImageRef>> AdditionalShinyImages { get; }
+		/// <summary>
 		/// Smaller display image of this Pokémon
 		/// </summary>
 		public ItemReference<ImageRef> SmallImage { get; }
@@ -1397,11 +1405,15 @@ namespace Pokerole.Core{
 		/// </summary>
 		public IReadOnlyList<ItemReference<ImageRef>> AdditionalFemaleImages { get; }
 		/// <summary>
+		/// Additional shiny female images of this pokemon
+		/// </summary>
+		public IReadOnlyList<ItemReference<ImageRef>> AdditionalShinyFemaleImages { get; }
+		/// <summary>
 		/// Smaller female display image of this Pokémon
 		/// </summary>
 		public ItemReference<ImageRef>? SmallFemaleImage { get; }
 		/// <summary>
-		/// Primary female display image of a shiny instance of this Pokémon
+		/// Shiny female display image of a shiny instance of this Pokémon
 		/// </summary>
 		public ItemReference<ImageRef>? ShinyFemaleImage { get; }
 		/// <summary>
@@ -1482,7 +1494,9 @@ namespace Pokerole.Core{
 			public Builder()
 			{
 				AdditionalImages = new List<ItemReference<ImageRef>>(10);
+				AdditionalShinyImages = new List<ItemReference<ImageRef>>(10);
 				AdditionalFemaleImages = new List<ItemReference<ImageRef>>(10);
+				AdditionalShinyFemaleImages = new List<ItemReference<ImageRef>>(10);
 				Abilities = new List<AbilityEntry>(10);
 				MegaEvolutions = new List<MegaEvolutionEntry>(10);
 				MoveSet = new List<MoveEntry>(10);
@@ -1491,7 +1505,7 @@ namespace Pokerole.Core{
 			{
 				DataId = dexEntry.DataId;
 				DexNum = dexEntry.DexNum;
-				SuggestedStarer = dexEntry.SuggestedStarer;
+				SuggestedStarter = dexEntry.SuggestedStarter;
 				PrimaryType = dexEntry.PrimaryType;
 				SecondaryType = dexEntry.SecondaryType;
 				Name = dexEntry.Name;
@@ -1504,11 +1518,13 @@ namespace Pokerole.Core{
 				BaseHp = dexEntry.BaseHp;
 				PrimaryImage = dexEntry.PrimaryImage;
 				AdditionalImages = new List<ItemReference<ImageRef>>(dexEntry.AdditionalImages);
+				AdditionalShinyImages = new List<ItemReference<ImageRef>>(dexEntry.AdditionalShinyImages);
 				SmallImage = dexEntry.SmallImage;
 				ShinyImage = dexEntry.ShinyImage;
 				SmallShinyImage = dexEntry.SmallShinyImage;
 				PrimaryFemaleImage = dexEntry.PrimaryFemaleImage;
 				AdditionalFemaleImages = new List<ItemReference<ImageRef>>(dexEntry.AdditionalFemaleImages);
+				AdditionalShinyFemaleImages = new List<ItemReference<ImageRef>>(dexEntry.AdditionalShinyFemaleImages);
 				SmallFemaleImage = dexEntry.SmallFemaleImage;
 				ShinyFemaleImage = dexEntry.ShinyFemaleImage;
 				SmallShinyFemaleImage = dexEntry.SmallShinyFemaleImage;
@@ -1552,15 +1568,15 @@ namespace Pokerole.Core{
 			/// Whether or not this Pokémon is recommended as a starter
 			/// </summary>
 			[XmlIgnore]
-			public bool? SuggestedStarer { get; set; }
+			public bool? SuggestedStarter { get; set; }
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("SuggestedStarer", IsNullable = false)]
-			public bool SuggestedStarerNullableXmlAccessor
+			[XmlElement("SuggestedStarter", IsNullable = false)]
+			public bool SuggestedStarterNullableXmlAccessor
 			{
-				get => SuggestedStarer ?? default;
-				set => SuggestedStarer = value;
+				get => SuggestedStarter ?? default;
+				set => SuggestedStarter = value;
 			}
 			/// <summary>
 			/// The primary type of this Pokémon
@@ -1726,6 +1742,41 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
+			/// Additional shiny images of this pokemon
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<ImageRef>> AdditionalShinyImages { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("AdditionalShinyImages", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<ImageRef>.Builder[] AdditionalShinyImagesBuilder
+			{
+				get
+				{
+					if (AdditionalShinyImages == null)
+					{
+						return Array.Empty<ItemReference<ImageRef>.Builder>();
+					}
+					return AdditionalShinyImages.Select(item=>new ItemReference<ImageRef>.Builder(item)).ToArray();
+				}
+				set
+				{
+					AdditionalShinyImages?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (AdditionalShinyImages == null)
+					{
+						AdditionalShinyImages = new List<ItemReference<ImageRef>>(value.Length);
+					}
+					ItemBuilder<ItemReference<ImageRef>>.BuildList(value, AdditionalShinyImages);
+				}
+			}
+			/// <summary>
 			/// Smaller display image of this Pokémon
 			/// </summary>
 			[XmlIgnore]
@@ -1825,6 +1876,41 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
+			/// Additional shiny female images of this pokemon
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<ImageRef>> AdditionalShinyFemaleImages { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("AdditionalShinyFemaleImages", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<ImageRef>.Builder[] AdditionalShinyFemaleImagesBuilder
+			{
+				get
+				{
+					if (AdditionalShinyFemaleImages == null)
+					{
+						return Array.Empty<ItemReference<ImageRef>.Builder>();
+					}
+					return AdditionalShinyFemaleImages.Select(item=>new ItemReference<ImageRef>.Builder(item)).ToArray();
+				}
+				set
+				{
+					AdditionalShinyFemaleImages?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (AdditionalShinyFemaleImages == null)
+					{
+						AdditionalShinyFemaleImages = new List<ItemReference<ImageRef>>(value.Length);
+					}
+					ItemBuilder<ItemReference<ImageRef>>.BuildList(value, AdditionalShinyFemaleImages);
+				}
+			}
+			/// <summary>
 			/// Smaller female display image of this Pokémon
 			/// </summary>
 			[XmlIgnore]
@@ -1841,7 +1927,7 @@ namespace Pokerole.Core{
 			}
 
 			/// <summary>
-			/// Primary female display image of a shiny instance of this Pokémon
+			/// Shiny female display image of a shiny instance of this Pokémon
 			/// </summary>
 			[XmlIgnore]
 			public ItemReference<ImageRef>? ShinyFemaleImage { get; set; }
@@ -2195,7 +2281,7 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
-					if (SuggestedStarer is null)
+					if (SuggestedStarter is null)
 					{
 						return false;
 					}
@@ -2239,11 +2325,19 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
+					if (AdditionalShinyImages is null)
+					{
+						return false;
+					}
 					if (SmallImage is null)
 					{
 						return false;
 					}
 					if (AdditionalFemaleImages is null)
+					{
+						return false;
+					}
+					if (AdditionalShinyFemaleImages is null)
 					{
 						return false;
 					}
@@ -2319,7 +2413,7 @@ namespace Pokerole.Core{
 				}
 				return new DexEntry(DataId!.Value,
 					DexNum!.Value,
-					SuggestedStarer!.Value,
+					SuggestedStarter!.Value,
 					PrimaryType!.Value,
 					SecondaryType,
 					Name!,
@@ -2332,11 +2426,13 @@ namespace Pokerole.Core{
 					BaseHp!.Value,
 					PrimaryImage!.Value,
 					AdditionalImages!,
+					AdditionalShinyImages!,
 					SmallImage!.Value,
 					ShinyImage,
 					SmallShinyImage,
 					PrimaryFemaleImage,
 					AdditionalFemaleImages!,
+					AdditionalShinyFemaleImages!,
 					SmallFemaleImage,
 					ShinyFemaleImage,
 					SmallShinyFemaleImage,

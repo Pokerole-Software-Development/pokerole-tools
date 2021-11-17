@@ -100,6 +100,7 @@
 			<xs:enumeration value="UserAndAllies"/>
 			<xs:enumeration value="Area"/>
 			<xs:enumeration value="Battlefield"/>
+			<xs:enumeration value="BattlefieldAndArena"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="Rank" final="restriction">

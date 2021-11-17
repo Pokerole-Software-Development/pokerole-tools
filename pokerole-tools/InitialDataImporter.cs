@@ -917,7 +917,7 @@ namespace Pokerole.Tools
 					result.Add(imageBuilder);
 					continue;
 				}
-
+				ProcessImages(images, dexEntries, result);
 				throw new NotImplementedException();
 			}
 			var monByDexNotation = Enumerable.Empty<DexEntry.Builder>().ToLookup(item => "");
@@ -1424,11 +1424,76 @@ namespace Pokerole.Tools
 			throw new NotImplementedException();
 		}
 
+		private void ProcessImages(List<ImageData> images, List<DexEntry.Builder> entries,
+			List<ImageRef.Builder> results)
+		{
+			HashSet<ImageData> toRemove = new HashSet<ImageData>();
+			foreach (var entry in entries)
+			{
+				toRemove.Clear();
+				foreach (ImageData image in images)
+				{
+					ItemReference<ImageRef> MakeAndAdd()
+					{
+						var result = MakeImageRef(image.Filename);
+						results.Add(result);
+						return result.ItemReference!.Value;
+					}
+					if (entry.DexNum == 201)//unkown has no mega or any other special
+					{
+						if (!image.Variant.HasValue)
+						{
+							if (image.Shiny)
+							{
+								entry.ShinyImage = MakeAndAdd();
+							}
+							else
+							{
+								entry.PrimaryImage = MakeAndAdd();
+							}
+						}
+						else
+						{
+							//other letters
+							if (image.Shiny)
+							{
+								entry.AdditionalShinyImages.Add(MakeAndAdd());
+							}
+							else
+							{
+								entry.AdditionalImages.Add(MakeAndAdd());
+							}
+						}
+						toRemove.Add(image);
+						continue;
+					}
+					//filter
+					if (image.Mega != entry.MegaEvolutionBaseEntry.HasValue)
+					{
+						continue;
+					}
+					if (!String.IsNullOrEmpty(image.Misc) || image.Variant.HasValue)
+					{
+						//not implemented
+						throw new NotImplementedException();
+					}
+					throw new NotImplementedException();
+				}
+				images.RemoveAll(toRemove.Contains);
+			}
+			if (images.Count > 0)
+			{
+				throw new InvalidOperationException("All images were not consumed");
+			}
+		}
+
+
 		private static void RemoveEvilImages(List<string> filenames) => filenames.RemoveAll(file => (Path.GetFileNameWithoutExtension(file)) switch
 		{
 			"449Hippopotas-BothGenders" or "450Hippowdon-BothGenders" => true,
 			_ => false
-		}); private byte[]? ReadImage(String path)
+		});
+		private byte[]? ReadImage(String path)
 		{
 #pragma warning disable CS0162 // Unreachable code detected
 			const bool readImages = false; //set to true to have the importer include image data in the export

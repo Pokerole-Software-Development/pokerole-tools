@@ -368,7 +368,7 @@
 							<xs:documentation>The international dex number of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SuggestedStarer" type="xs:boolean">
+					<xs:element name="SuggestedStarter" type="xs:boolean">
 						<xs:annotation>
 							<xs:documentation>Whether or not this Pokémon is recommended as a starter</xs:documentation>
 						</xs:annotation>
@@ -439,6 +439,17 @@
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
+					<xs:element name="AdditionalShinyImages" ex:isDbLazy="true" ex:listItemType="ItemReference"
+								ex:genericType="ImageRef">
+						<xs:annotation>
+							<xs:documentation>Additional shiny images of this pokemon</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
 					<xs:element name="SmallImage" type="ex:ItemReference" ex:genericType="ImageRef">
 						<xs:annotation>
 							<xs:documentation>Smaller display image of this Pokémon</xs:documentation>
@@ -470,6 +481,17 @@
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
+					<xs:element name="AdditionalShinyFemaleImages" ex:isDbLazy="true" ex:listItemType="ItemReference"
+								ex:genericType="ImageRef">
+						<xs:annotation>
+							<xs:documentation>Additional shiny female images of this pokemon</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
 					<xs:element name="SmallFemaleImage" type="ex:ItemReference" ex:genericType="ImageRef" nillable="true">
 						<xs:annotation>
 							<xs:documentation>Smaller female display image of this Pokémon</xs:documentation>
@@ -477,7 +499,7 @@
 					</xs:element>
 					<xs:element name="ShinyFemaleImage" type="ex:ItemReference" ex:genericType="ImageRef" nillable="true">
 						<xs:annotation>
-							<xs:documentation>Primary female display image of a shiny instance of this Pokémon</xs:documentation>
+							<xs:documentation>Shiny female display image of a shiny instance of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SmallShinyFemaleImage" type="ex:ItemReference" ex:genericType="ImageRef" nillable="true">
