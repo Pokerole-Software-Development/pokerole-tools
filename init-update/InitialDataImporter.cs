@@ -207,8 +207,11 @@ namespace Pokerole.Tools.InitUpdate
 			String[] missingMoves =
 			{
 				"Poltergeist",
-				"Behemoth Blade",
-				"Behemoth Bash"
+				//"Behemoth Blade",
+				//"Behemoth Bash"
+				"Expanding Force",
+				"Shell Side Arm",
+				"Eerie Spell"
 			};
 			ISkill noneSkill = SkillManager.GetBuiltInSkill(BuiltInSkill.None);
 			ITypeDefinition normalType = TypeManager.GetBuiltInType(BuiltInType.Normal);
@@ -443,7 +446,7 @@ namespace Pokerole.Tools.InitUpdate
 				{
 					"A" => "Alolan",
 					"G" => "Galarian",
-					"B" => "BBF",
+					"B" => "Ash",
 					"" => "",
 					_ => ""//separate case for breakpoints
 				};
@@ -582,6 +585,11 @@ namespace Pokerole.Tools.InitUpdate
 				{
 					String moveName = fields[i + 1];
 					String rawRank = fields[i + 2];
+					if (String.IsNullOrEmpty(rawRank))
+					{
+						//no more data
+						break;
+					}
 					Rank rank = ParseEnum<Rank>(rawRank);
 					if (!movesByName.TryGetValue(NameErrata(moveName), out Move.Builder? move))
 					{
@@ -917,8 +925,7 @@ namespace Pokerole.Tools.InitUpdate
 					result.Add(imageBuilder);
 					continue;
 				}
-				ProcessImages(images, dexEntries, result);
-				throw new NotImplementedException();
+				ProcessImages(item.Key, images, dexEntries, result);
 			}
 			var monByDexNotation = Enumerable.Empty<DexEntry.Builder>().ToLookup(item => "");
 
@@ -1424,7 +1431,7 @@ namespace Pokerole.Tools.InitUpdate
 			throw new NotImplementedException();
 		}
 
-		private void ProcessImages(List<ImageData> images, List<DexEntry.Builder> entries,
+		private void ProcessImages(int dexNum, List<ImageData> images, List<DexEntry.Builder> entries,
 			List<ImageRef.Builder> results)
 		{
 			HashSet<ImageData> toRemove = new HashSet<ImageData>();
@@ -1437,7 +1444,23 @@ namespace Pokerole.Tools.InitUpdate
 					{
 						var result = MakeImageRef(image.Filename);
 						results.Add(result);
+						toRemove.Add(image);
 						return result.ItemReference!.Value;
+					}
+					bool VariantCompare()
+					{
+						if (!image.Variant.HasValue)
+						{
+							return String.IsNullOrEmpty(entry.Variant);
+						}
+						switch (image.Variant.Value)
+						{
+							case 'A':
+								return entry.Variant == "Ash" || entry.Variant == "Alolan";
+							case 'G':
+								return entry.Variant == "Galarian";
+						}
+						throw new NotImplementedException();
 					}
 					if (entry.DexNum == 201)//unkown has no mega or any other special
 					{
@@ -1472,12 +1495,61 @@ namespace Pokerole.Tools.InitUpdate
 					{
 						continue;
 					}
-					if (!String.IsNullOrEmpty(image.Misc) || image.Variant.HasValue)
+					if (image.MegaVariantIsX.HasValue)
+					{
+						if (image.MegaVariantIsX.Value != entry.Name!.EndsWith("X"))
+						{
+							continue;
+						}
+					}
+					if (entry.DexNum == 25 && image.Variant.HasValue)
+					{
+						//stupid hats....
+						entry.AdditionalImages.Add(MakeAndAdd());
+						continue;
+					}
+					if (!VariantCompare())
+					{
+						continue;
+					}
+					if (!String.IsNullOrEmpty(image.Misc))
 					{
 						//not implemented
 						throw new NotImplementedException();
 					}
-					throw new NotImplementedException();
+					//so I won't have to re-write the parsing logic more than once...
+					Action<ItemReference<ImageRef>>? itemSetter = null;
+					if (image.BackImage)
+					{
+						if (image.Female)
+						{
+							itemSetter = image.Shiny ? item => entry.AdditionalShinyFemaleImages.Add(item) :
+								item => entry.AdditionalFemaleImages.Add(item);
+						}
+						else
+						{
+							itemSetter = image.Shiny ? item => entry.AdditionalShinyImages.Add(item) :
+								item => entry.AdditionalImages.Add(item);
+						}
+					}
+					else if (image.Female)
+					{
+						itemSetter = image.Shiny ? item => entry.ShinyFemaleImage = item :
+							item => entry.PrimaryFemaleImage = item;
+					}
+					else if (image.Shiny)
+					{
+						itemSetter = item => entry.ShinyImage = item;
+					}
+					else
+					{
+						itemSetter = item => entry.PrimaryImage = item;
+					}
+					if (itemSetter == null)
+					{
+						throw new NotImplementedException();
+					}
+					itemSetter(MakeAndAdd());
 				}
 				images.RemoveAll(toRemove.Contains);
 			}
