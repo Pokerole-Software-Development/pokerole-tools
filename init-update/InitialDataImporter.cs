@@ -212,7 +212,10 @@ namespace Pokerole.Tools.InitUpdate
 				//"Behemoth Bash"
 				"Expanding Force",
 				"Shell Side Arm",
-				"Eerie Spell"
+				"Eerie Spell",
+				"Freezing Glare",
+				"Thunderous Kick",
+				"Fiery Wrath"
 			};
 			ISkill noneSkill = SkillManager.GetBuiltInSkill(BuiltInSkill.None);
 			ITypeDefinition normalType = TypeManager.GetBuiltInType(BuiltInType.Normal);
@@ -1487,6 +1490,25 @@ namespace Pokerole.Tools.InitUpdate
 								_ => throw new InvalidOperationException()
 							};
 						}
+						else if (dexNum == 555)
+						{
+							//stupid dumb...
+							//Darmanitan
+							switch (image.Variant)
+							{
+								case 'G':
+									if (String.IsNullOrEmpty(image.Misc))
+									{
+										return name == "Galarian Darmanitan";
+									}
+									return name == "Galarian Zen Darmanitan";
+								case 'Z':
+									return name == "Zen Darmanitan";
+								case null:
+									return name == "Darmanitan";
+							}
+							throw new InvalidOperationException();
+						}
 						return image.Variant switch
 						{
 							'A' => entry.Variant == "Ash" || entry.Variant == "Alolan",
@@ -1495,6 +1517,9 @@ namespace Pokerole.Tools.InitUpdate
 							'P' => name.StartsWith("Primal"),
 							'O' => name.StartsWith("Origin"),
 							'S' => name.StartsWith("Sky"),
+							'T' => name.StartsWith("Form"),
+							'B' => name.StartsWith("Black"),
+							'W' => name.StartsWith("White"),
 							null => String.IsNullOrEmpty(entry.Variant),
 							_ => throw new NotImplementedException(),
 						};
@@ -1502,7 +1527,7 @@ namespace Pokerole.Tools.InitUpdate
 					//dex entries that have multiple forms but one entry. These have no mega forms
 					bool isSingleWithMultipleImages = (entry.DexNum) switch
 					{
-						201 or 351 or 412 or 421 or 422 or 423 => true,
+						201 or 351 or 412 or 421 or 422 or 423 or 493 or 550 or 585 or 586 => true,
 						_ => false
 					};
 					if (isSingleWithMultipleImages)//unkown has no mega or any other special
@@ -1513,6 +1538,10 @@ namespace Pokerole.Tools.InitUpdate
 						//421=Cherrim
 						//422=Shellos
 						//423=Gastrodon
+						//493=Arceus
+						//550=Basculin
+						//585=Deerling
+						//586=Sawsbuck
 						//assert that there is only one entry
 						if (entries.Count > 1)
 						{
@@ -1565,7 +1594,7 @@ namespace Pokerole.Tools.InitUpdate
 					{
 						continue;
 					}
-					if (!String.IsNullOrEmpty(image.Misc))
+					if (!String.IsNullOrEmpty(image.Misc) && dexNum != 555)
 					{
 						//not implemented
 						throw new NotImplementedException();
@@ -1609,10 +1638,10 @@ namespace Pokerole.Tools.InitUpdate
 			if (images.Count > 0)
 			{
 				//don't have the galaran birds yet...
-				if (images.Count == 2 && (dexNum == 144 || dexNum == 145 || dexNum == 146))
-				{
-					return;
-				}
+				//if (images.Count == 2 && (dexNum == 144 || dexNum == 145 || dexNum == 146))
+				//{
+				//	return;
+				//}
 				throw new InvalidOperationException("All images were not consumed");
 			}
 		}
