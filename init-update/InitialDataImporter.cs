@@ -3,6 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -1449,21 +1450,74 @@ namespace Pokerole.Tools.InitUpdate
 					}
 					bool VariantCompare()
 					{
-						if (!image.Variant.HasValue)
+						String name = entry.Name ?? throw new InvalidOperationException("Null name");
+						if (dexNum == 386)
 						{
-							return String.IsNullOrEmpty(entry.Variant);
+							//deoxys
+							return image.Variant switch
+							{
+								'A' => name.StartsWith("Attack"),
+								'D' => name.StartsWith("Defense"),
+								'S' => name.StartsWith("Speed"),
+								_ => name == "Deoxys",
+							};
 						}
-						switch (image.Variant.Value)
+						else if (dexNum == 413)
 						{
-							case 'A':
-								return entry.Variant == "Ash" || entry.Variant == "Alolan";
-							case 'G':
-								return entry.Variant == "Galarian";
+							return image.Variant switch
+							{
+								'G' => name.StartsWith("Ground"),
+								'S' => name.StartsWith("Steel"),
+								null => name.StartsWith("Grass"),
+								_ => throw new InvalidOperationException(),
+							};
 						}
-						throw new NotImplementedException();
+						else if (dexNum == 479)
+						{
+							//rotom
+							return (image.Variant) switch
+							{
+								'D' => name.EndsWith("Dex"),
+								'F' => name.EndsWith("Fan"),
+								'L' => name.EndsWith("Mow"),
+								'O' => name.EndsWith("Heat"),
+								'R' => name.EndsWith("Frost"),
+								'W' => name.EndsWith("Wash"),
+								null => name == "Rotom",
+								_ => throw new InvalidOperationException()
+							};
+						}
+						return image.Variant switch
+						{
+							'A' => entry.Variant == "Ash" || entry.Variant == "Alolan",
+							'G' => entry.Variant == "Galarian",
+							//technically, 'P' means Primal, but it is easier to handle it here than elsewhere
+							'P' => name.StartsWith("Primal"),
+							'O' => name.StartsWith("Origin"),
+							'S' => name.StartsWith("Sky"),
+							null => String.IsNullOrEmpty(entry.Variant),
+							_ => throw new NotImplementedException(),
+						};
 					}
-					if (entry.DexNum == 201)//unkown has no mega or any other special
+					//dex entries that have multiple forms but one entry. These have no mega forms
+					bool isSingleWithMultipleImages = (entry.DexNum) switch
 					{
+						201 or 351 or 412 or 421 or 422 or 423 => true,
+						_ => false
+					};
+					if (isSingleWithMultipleImages)//unkown has no mega or any other special
+					{
+						//201=Unkown
+						//351=Castform
+						//412=Burmy
+						//421=Cherrim
+						//422=Shellos
+						//423=Gastrodon
+						//assert that there is only one entry
+						if (entries.Count > 1)
+						{
+							throw new InvalidOperationException("Entry with one presumed entry has multiple");
+						}
 						if (!image.Variant.HasValue)
 						{
 							if (image.Shiny)
@@ -1487,7 +1541,6 @@ namespace Pokerole.Tools.InitUpdate
 								entry.AdditionalImages.Add(MakeAndAdd());
 							}
 						}
-						toRemove.Add(image);
 						continue;
 					}
 					//filter
@@ -1555,6 +1608,11 @@ namespace Pokerole.Tools.InitUpdate
 			}
 			if (images.Count > 0)
 			{
+				//don't have the galaran birds yet...
+				if (images.Count == 2 && (dexNum == 144 || dexNum == 145 || dexNum == 146))
+				{
+					return;
+				}
 				throw new InvalidOperationException("All images were not consumed");
 			}
 		}
