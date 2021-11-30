@@ -805,15 +805,25 @@ namespace Pokerole.Tools.InitUpdate
 					//}
 					else if (infoBlock.StartsWith("M"))
 					{
-						mega = true;
-						infoBlock = infoBlock[1..];
-						if (infoBlock.Length > 0)
+						if (dexNum == 745)
 						{
-							megaVariantIsX = infoBlock[0] == 'X' ? true : infoBlock[0] == 'Y' ? false : null;
+							//not mega, is midnight lycanrock
+							misc += infoBlock[0..2];
+							infoBlock = infoBlock[2..];
+							variant = 'M';//for simplicity
 						}
-						if (megaVariantIsX.HasValue)
+						else
 						{
+							mega = true;
 							infoBlock = infoBlock[1..];
+							if (infoBlock.Length > 0)
+							{
+								megaVariantIsX = infoBlock[0] == 'X' ? true : infoBlock[0] == 'Y' ? false : null;
+							}
+							if (megaVariantIsX.HasValue)
+							{
+								infoBlock = infoBlock[1..];
+							}
 						}
 					}
 					if (infoBlock.Length > 1)
@@ -927,9 +937,10 @@ namespace Pokerole.Tools.InitUpdate
 					imageBuilder = MakeImageRef(shiny.Filename);
 					builder.ShinyImage = imageBuilder.ItemReference;
 					result.Add(imageBuilder);
+					remainingDexEntries.Remove(builder);
 					continue;
 				}
-				ProcessImages(item.Key, images, dexEntries, result);
+				ProcessImages(item.Key, images, dexEntries, remainingDexEntries, result);
 			}
 			var monByDexNotation = Enumerable.Empty<DexEntry.Builder>().ToLookup(item => "");
 
@@ -1436,7 +1447,7 @@ namespace Pokerole.Tools.InitUpdate
 		}
 
 		private void ProcessImages(int dexNum, List<ImageData> images, List<DexEntry.Builder> entries,
-			List<ImageRef.Builder> results)
+			HashSet<DexEntry.Builder> remaining, List<ImageRef.Builder> results)
 		{
 			HashSet<ImageData> toRemove = new HashSet<ImageData>();
 			foreach (var entry in entries)
@@ -1454,80 +1465,165 @@ namespace Pokerole.Tools.InitUpdate
 					bool VariantCompare()
 					{
 						String name = entry.Name ?? throw new InvalidOperationException("Null name");
-						if (dexNum == 386)
+						switch (dexNum)
 						{
-							//deoxys
-							return image.Variant switch
-							{
-								'A' => name.StartsWith("Attack"),
-								'D' => name.StartsWith("Defense"),
-								'S' => name.StartsWith("Speed"),
-								_ => name == "Deoxys",
-							};
-						}
-						else if (dexNum == 413)
-						{
-							return image.Variant switch
-							{
-								'G' => name.StartsWith("Ground"),
-								'S' => name.StartsWith("Steel"),
-								null => name.StartsWith("Grass"),
-								_ => throw new InvalidOperationException(),
-							};
-						}
-						else if (dexNum == 479)
-						{
-							//rotom
-							return (image.Variant) switch
-							{
-								'D' => name.EndsWith("Dex"),
-								'F' => name.EndsWith("Fan"),
-								'L' => name.EndsWith("Mow"),
-								'O' => name.EndsWith("Heat"),
-								'R' => name.EndsWith("Frost"),
-								'W' => name.EndsWith("Wash"),
-								null => name == "Rotom",
-								_ => throw new InvalidOperationException()
-							};
-						}
-						else if (dexNum == 555)
-						{
-							//stupid dumb...
-							//Darmanitan
-							switch (image.Variant)
-							{
-								case 'G':
-									if (String.IsNullOrEmpty(image.Misc))
-									{
-										return name == "Galarian Darmanitan";
-									}
-									return name == "Galarian Zen Darmanitan";
-								case 'Z':
-									return name == "Zen Darmanitan";
-								case null:
-									return name == "Darmanitan";
-							}
-							throw new InvalidOperationException();
+							case 386:
+								//deoxys
+								return image.Variant switch
+								{
+									'A' => name.StartsWith("Attack"),
+									'D' => name.StartsWith("Defense"),
+									'S' => name.StartsWith("Speed"),
+									_ => name == "Deoxys",
+								};
+							case 413:
+								return image.Variant switch
+								{
+									'G' => name.StartsWith("Ground"),
+									'S' => name.StartsWith("Steel"),
+									null => name.StartsWith("Grass"),
+									_ => throw new InvalidOperationException(),
+								};
+							case 479:
+								//rotom
+								return (image.Variant) switch
+								{
+									'D' => name.EndsWith("Dex"),
+									'F' => name.EndsWith("Fan"),
+									'L' => name.EndsWith("Mow"),
+									'O' => name.EndsWith("Heat"),
+									'R' => name.EndsWith("Frost"),
+									'W' => name.EndsWith("Wash"),
+									null => name == "Rotom",
+									_ => throw new InvalidOperationException()
+								};
+							case 555:
+								//stupid dumb...
+								//Darmanitan
+								switch (image.Variant)
+								{
+									case 'G':
+										if (String.IsNullOrEmpty(image.Misc))
+										{
+											return name == "Galarian Darmanitan";
+										}
+										return name == "Galarian Zen Darmanitan";
+									case 'Z':
+										return name == "Zen Darmanitan";
+									case null:
+										return name == "Darmanitan";
+								}
+								throw new InvalidOperationException();
+							case 718:
+								return image.Variant switch
+								{
+									'L' => name.EndsWith("Cell"),
+									'T' => name.EndsWith("10%"),
+									'C' => name.EndsWith("100%"),
+									null => name.EndsWith("50%"),
+									_ => throw new InvalidOperationException()
+								};
+							case 741:
+								return image.Misc switch
+								{
+									"Pa" => name.EndsWith("Psychic"),
+									"Po" => name.EndsWith("Electric"),
+									"Se" => name.EndsWith("Ghost"),
+									"" or null => name.EndsWith("Fire"),
+									_ => throw new InvalidOperationException()
+								};
+							case 745:
+								return image.Variant switch
+								{
+									'D' => name.EndsWith("Dusk"),
+									'M' => name.EndsWith("Midnight"),
+									null => name.EndsWith("Midday"),
+									_ => throw new InvalidOperationException()
+								};
+							case 756:
+								return image.Misc switch
+								{
+									"Sc" => name.EndsWith("Swarm"),
+									null or "" => name == "Wishiwashi",
+									_ => throw new InvalidOperationException()
+								};
+							case 800:
+								if (image.Variant == 'U')
+								{
+									return name.EndsWith("Ultra Burst");
+								}
+								return image.Misc switch
+								{
+									"DM" => name.EndsWith("Dusk Mane"),
+									"DW" => name.EndsWith("Dawn Wings"),
+									null or "" => name == "Necrozma",
+									_ => throw new InvalidOperationException()
+								};
+							case 849:
+								return image.Variant switch
+								{
+									'L' => name.EndsWith("Low Key"),
+									null => name.EndsWith("Amped"),
+									_ => throw new InvalidOperationException()
+								};
+							case 875:
+								return image.Variant switch
+								{
+									'N' => name.StartsWith("Form"),
+									null => name == "Eiscue",
+									_ => throw new InvalidOperationException()
+								};
+
 						}
 						return image.Variant switch
 						{
 							'A' => entry.Variant == "Ash" || entry.Variant == "Alolan",
 							'G' => entry.Variant == "Galarian",
 							//technically, 'P' means Primal, but it is easier to handle it here than elsewhere
-							'P' => name.StartsWith("Primal"),
+							'P' => name.StartsWith("Primal") || name.StartsWith("Form"),
 							'O' => name.StartsWith("Origin"),
 							'S' => name.StartsWith("Sky"),
 							'T' => name.StartsWith("Form"),
-							'B' => name.StartsWith("Black"),
+							'B' => name.StartsWith("Black") || name.StartsWith("Form"),
 							'W' => name.StartsWith("White"),
+							'R' => name.StartsWith("Form"),
+							'U' => name.EndsWith("Unbound"),
 							null => String.IsNullOrEmpty(entry.Variant),
 							_ => throw new NotImplementedException(),
 						};
 					}
+					//pain!!!
+					if (dexNum == 774)
+					{
+						//many forms and two dex entries...
+						//apparently there is no shiny form for "shields up"
+						if (!entry.Name!.Contains("Core") && !image.Shiny && !image.Variant.HasValue)
+						{
+							entry.PrimaryImage = MakeAndAdd();
+						}
+						else if (entry.Name!.Contains("Core") && (image.Shiny || image.Variant.HasValue))
+						{
+							if (image.Shiny)
+							{
+								entry.ShinyImage = MakeAndAdd();
+							}
+							else if (image.Variant == 'R')//red is my favorite color, so it is the primary image
+							{
+								entry.PrimaryImage = MakeAndAdd();
+							}
+							else
+							{
+								entry.AdditionalImages.Add(MakeAndAdd());
+							}
+						}
+						continue;
+					}
 					//dex entries that have multiple forms but one entry. These have no mega forms
 					bool isSingleWithMultipleImages = (entry.DexNum) switch
 					{
-						201 or 351 or 412 or 421 or 422 or 423 or 493 or 550 or 585 or 586 => true,
+						201 or 351 or 412 or 421 or 422 or 423 or 493 or 550 or 585 or 586 or 649 or 666 or
+							669 or 670 or 671 or 676 or 710 or 711 or 716 or 773 or 778 or 801 or 845 or
+							854 or 855 or 869 or 877 => true,
 						_ => false
 					};
 					if (isSingleWithMultipleImages)//unkown has no mega or any other special
@@ -1542,12 +1638,25 @@ namespace Pokerole.Tools.InitUpdate
 						//550=Basculin
 						//585=Deerling
 						//586=Sawsbuck
+						//649=Genesect
+						//666=Vivillon
+						//669-671=Flabébé line
+						//676=Furfrou
+						//710-711=Pumpkaboo line
+						//716=Xerneas
+						//773=Silvally
+						//778=Mimikyu
+						//801=Magearna
+						//845=Cramorant
+						//854-855=Sinistea line
+						//869=Alcremie
+						//877=Morpeko
 						//assert that there is only one entry
 						if (entries.Count > 1)
 						{
 							throw new InvalidOperationException("Entry with one presumed entry has multiple");
 						}
-						if (!image.Variant.HasValue)
+						if (!image.Variant.HasValue && String.IsNullOrEmpty(image.Misc))
 						{
 							if (image.Shiny)
 							{
@@ -1560,7 +1669,7 @@ namespace Pokerole.Tools.InitUpdate
 						}
 						else
 						{
-							//other letters
+							//other letters or forms
 							if (image.Shiny)
 							{
 								entry.AdditionalShinyImages.Add(MakeAndAdd());
@@ -1594,14 +1703,15 @@ namespace Pokerole.Tools.InitUpdate
 					{
 						continue;
 					}
-					if (!String.IsNullOrEmpty(image.Misc) && dexNum != 555)
+					if (!String.IsNullOrEmpty(image.Misc) && dexNum != 555 && dexNum != 741 && dexNum != 745 &&
+						dexNum != 746 && dexNum != 800)
 					{
 						//not implemented
 						throw new NotImplementedException();
 					}
 					//so I won't have to re-write the parsing logic more than once...
 					Action<ItemReference<ImageRef>>? itemSetter = null;
-					if (image.BackImage)
+					if (image.BackImage || image.Gigantamax)
 					{
 						if (image.Female)
 						{
@@ -1634,6 +1744,7 @@ namespace Pokerole.Tools.InitUpdate
 					itemSetter(MakeAndAdd());
 				}
 				images.RemoveAll(toRemove.Contains);
+				remaining.Remove(entry);
 			}
 			if (images.Count > 0)
 			{
