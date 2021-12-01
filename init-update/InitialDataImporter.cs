@@ -938,9 +938,15 @@ namespace Pokerole.Tools.InitUpdate
 					builder.ShinyImage = imageBuilder.ItemReference;
 					result.Add(imageBuilder);
 					remainingDexEntries.Remove(builder);
+					remainingImages.Remove(normal);
+					remainingImages.Remove(shiny);
 					continue;
 				}
-				ProcessImages(item.Key, images, dexEntries, remainingDexEntries, result);
+				ProcessImages(item.Key, images, dexEntries, remainingDexEntries, remainingImages, result);
+			}
+			if (remainingImages.Count > 0 || remainingDexEntries.Count > 0)
+			{
+				throw new InvalidOperationException("Items were missed!");
 			}
 			var monByDexNotation = Enumerable.Empty<DexEntry.Builder>().ToLookup(item => "");
 
@@ -1447,7 +1453,8 @@ namespace Pokerole.Tools.InitUpdate
 		}
 
 		private void ProcessImages(int dexNum, List<ImageData> images, List<DexEntry.Builder> entries,
-			HashSet<DexEntry.Builder> remaining, List<ImageRef.Builder> results)
+			HashSet<DexEntry.Builder> remainingEntries, HashSet<ImageData> remainingImages,
+			List<ImageRef.Builder> results)
 		{
 			HashSet<ImageData> toRemove = new HashSet<ImageData>();
 			foreach (var entry in entries)
@@ -1460,6 +1467,7 @@ namespace Pokerole.Tools.InitUpdate
 						var result = MakeImageRef(image.Filename);
 						results.Add(result);
 						toRemove.Add(image);
+						remainingImages.Remove(image);
 						return result.ItemReference!.Value;
 					}
 					bool VariantCompare()
@@ -1588,6 +1596,7 @@ namespace Pokerole.Tools.InitUpdate
 							'W' => name.StartsWith("White"),
 							'R' => name.StartsWith("Form"),
 							'U' => name.EndsWith("Unbound"),
+							'C' => name.StartsWith("Form"),
 							null => String.IsNullOrEmpty(entry.Variant),
 							_ => throw new NotImplementedException(),
 						};
@@ -1623,7 +1632,7 @@ namespace Pokerole.Tools.InitUpdate
 					{
 						201 or 351 or 412 or 421 or 422 or 423 or 493 or 550 or 585 or 586 or 649 or 666 or
 							669 or 670 or 671 or 676 or 710 or 711 or 716 or 773 or 778 or 801 or 845 or
-							854 or 855 or 869 or 877 => true,
+							854 or 855 or 869 or 877 or 890 => true,
 						_ => false
 					};
 					if (isSingleWithMultipleImages)//unkown has no mega or any other special
@@ -1651,6 +1660,7 @@ namespace Pokerole.Tools.InitUpdate
 						//854-855=Sinistea line
 						//869=Alcremie
 						//877=Morpeko
+						//890=Eternatus
 						//assert that there is only one entry
 						if (entries.Count > 1)
 						{
@@ -1744,7 +1754,7 @@ namespace Pokerole.Tools.InitUpdate
 					itemSetter(MakeAndAdd());
 				}
 				images.RemoveAll(toRemove.Contains);
-				remaining.Remove(entry);
+				remainingEntries.Remove(entry);
 			}
 			if (images.Count > 0)
 			{
