@@ -238,8 +238,8 @@ namespace Pokerole.Core
 		[XmlArrayItem("Ability")]
 		public List<Ability.Builder> Abilities { get; set; } = new List<Ability.Builder>();
 		[XmlArray]
-		[XmlArrayItem("EvolutionEntries")]
-		public List<EvolutionEntry.Builder> EvolutionLists { get; set; } = new List<EvolutionEntry.Builder>();
+		[XmlArrayItem("EvolutionLists")]
+		public List<EvolutionList.Builder> EvolutionLists { get; set; } = new List<EvolutionList.Builder>();
 		[XmlArray]
 		[XmlArrayItem("MonInstance")]
 		public List<MonInstance.Builder> MonInstances { get; set; } = new List<MonInstance.Builder>();

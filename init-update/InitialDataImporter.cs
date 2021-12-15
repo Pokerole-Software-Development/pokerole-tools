@@ -2,12 +2,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
@@ -59,7 +61,9 @@ namespace Pokerole.Tools.InitUpdate
 			AddEntries(abilitiesByName, ReadAbilities());
 			ReadMoveLists();
 			LinkAbilities();
-			ReadPrimaryImages();
+			data.Images.AddRange(ReadPrimaryImages());
+			ReadDexImages();
+			GcStockImages();
 			//ReadEvolutions();
 
 
@@ -931,6 +935,7 @@ namespace Pokerole.Tools.InitUpdate
 					normal = images.Single(thing => !thing.Shiny);
 					builder = dexEntries[0];
 
+
 					imageBuilder = MakeImageRef(normal.Filename);
 					builder.PrimaryImage = imageBuilder.ItemReference;
 					result.Add(imageBuilder);
@@ -942,517 +947,19 @@ namespace Pokerole.Tools.InitUpdate
 					remainingImages.Remove(shiny);
 					continue;
 				}
-				ProcessImages(item.Key, images, dexEntries, remainingDexEntries, remainingImages, result);
+				ProcessPrimaryImages(item.Key, images, dexEntries, remainingDexEntries, remainingImages, result);
 			}
-			if (remainingImages.Count > 0 || remainingDexEntries.Count > 0)
+			//exclude images for the ones we don't have dex entries for since I don't have them for 891+, but DON'T
+			//skip them if we DO have the stat blocks
+			int imageRemainingCount = remainingImages.Count(item => entriesByDex.Contains(item.DexNum));
+			if (imageRemainingCount > 0 || remainingDexEntries.Count > 0)
 			{
 				throw new InvalidOperationException("Items were missed!");
 			}
-			var monByDexNotation = Enumerable.Empty<DexEntry.Builder>().ToLookup(item => "");
-
-
-
-
-			////build dex notation dict
-			////skip "Egg"
-			//var monByDexNotation = data.DexEntries.Where(item=>item.DexNum != 0).ToLookup(item =>
-			//{
-			//	//foreach (var item in data.DexEntries)
-			//	//{
-			//	int dexNum = item.DexNum!.Value;
-			//	StringBuilder builder = new StringBuilder(20);
-			//	builder.Append(dexNum.ToString("D3"));
-			//	char c = (item.Variant) switch
-			//	{
-			//		"Alolan" => 'A',
-			//		"Galarian" => 'G',
-			//		"BBF" => 'B',
-			//		"Delta" => 'D',
-			//		_ => '\0'
-			//	};
-			//	if (c != 0)
-			//	{
-			//		builder.Append(c);
-			//	}
-			//	String name = item.Name!;
-			//	if (item.MegaEvolutionBaseEntry.HasValue)
-			//	{
-			//		builder.Append('M');
-			//		if (name.Contains("Charizard") || name.Contains("Mewtwo"))
-			//		{
-			//			builder.Append(name[^1]);
-			//		}
-			//	}
-			//	if (name.StartsWith("Primal"))
-			//	{
-			//		builder.Append('P');
-			//	}
-			//	return builder.ToString();
-			//});
-			//this may not be fully portable... Oh well
-			//path to pokerole-companion
-			//if you don't have it, git clone it (https://github.com/paxwort/Pokerole-Companion.git) and have
-			//the copy in the same directory as this git repo instance
-			//                      pokerole-tools (root)-|
-			//                      pokerole-tools------| |
-			//                                bin ----| | |
-			//                                Debug-| | | |
-			// netcoreapp3.1 ---------------------V V V V V
-			const String pokeroleCompanionDir = "../../../../../Pokerole-Companion";
-			//const String primaryImageDir = "PokeroleUI2/Graphics/Sprites/Tinified";
-			String imagePath = Path.Combine(Directory.GetCurrentDirectory(), pokeroleCompanionDir,
-				primaryImageDir);
-			//var filenames = Directory.GetFiles(imagePath);
-			var filesByDexNotation = filenames.ToLookup(path =>
-			{
-				String working = Path.GetFileName(path);
-				working = working.Replace("_Dream.png", "");
-				String[] parts = working.Split('_');
-				String key = parts[0];
-				string last = parts[^1];
-				if (last == "X" || last == "Y") //X or Y
-				{
-					if (parts[1] != "Unown")
-					{
-						key += last;
-					}
-				}
-				else if (last == "Primal")
-				{
-					key += "P";
-				}
-				else if (last == "Ash")
-				{
-					key += "B";
-				}
-				return key;
-			});
-			HashSet<String> remainingMon = new HashSet<string>();
-			HashSet<String> remainingFiles = new HashSet<string>();
-			foreach (var item in monByDexNotation)
-			{
-				remainingMon.Add(item.Key);
-			}
-			foreach (var item in filesByDexNotation)
-			{
-				remainingFiles.Add(item.Key);
-			}
-			HashSet<String> missing = new HashSet<string>();
-			foreach (var pairing in monByDexNotation)
-			{
-				if (pairing.Count() > 1)
-				{
-					//handle that later...
-					continue;
-				}
-				DexEntry.Builder entry = pairing.First();
-				if (entry.PrimaryImage.HasValue)
-				{
-					//already done
-					remainingMon.Remove(pairing.Key);
-					remainingFiles.Remove(pairing.Key);
-					continue;
-				}
-				if (!filesByDexNotation.Contains(pairing.Key))
-				{
-					missing.Add(pairing.Key);
-					remainingMon.Remove(pairing.Key);
-					remainingFiles.Remove(pairing.Key);
-					continue;
-					throw new InvalidOperationException($"Could not find images for {pairing.Key}");
-				}
-				var files = filesByDexNotation[pairing.Key];
-				if (files.Count() == 1)
-				{
-					//that was easy
-					String path = files.First();
-					ImageRef.Builder imageBuilder = new ImageRef.Builder
-					{
-						Filename = Path.GetFileName(path),
-						Data = ReadImage(path),
-						DataId = new DataId(null, Guid.NewGuid())
-					};
-					data.Images.Add(imageBuilder);
-					entry.PrimaryImage = imageBuilder.ItemReference;
-					remainingMon.Remove(pairing.Key);
-					remainingFiles.Remove(pairing.Key);
-					continue;
-				}
-				//we need to figure out what is the primary image
-
-				String? primary = (entry.Name) switch
-				{
-					//we shall make 'F' the primary image for now
-					"Unown" => "201_Unown_F_Dream",
-					"Castform" => "351_Castform_Normal_Dream",
-					//umm... we will go with plant for now
-					"Burmy" => "412_Burmy_Plant_Cloak_Dream",
-					"Wormadam" => "413_Wormadam_Plant_Cloak_Dream",
-					//east?
-					"Shellos" => "422_Shellos_East_Sea_Dream",
-					"Gastrodon" => "423_Gastrodon_East_Sea_Dream",
-					//you only see othe other form on a sunny day
-					"Cherrim" => "421_Cherrim_Overcast_Form_Dream",
-					"Arceus" => "493_Arceus_Normal_Dream",
-					//apparently that one has two?
-					"Pansage" => "511_Pansage_Dream",
-					"Basculin" => "550_Basculin_Blue_Stripe_Form_Dream",
-					"Deerling" => "585_Deerling_Autumn_Form_Dream",
-					"Sawsbuck" => "586_Sawsbuck_Autumn_Form_Dream",
-					//chosen by google coin flip
-					"Frillish" => "592_Frillish_Male_Dream",
-					//other one
-					"Jellicent" => "593_Jellicent_Female_Dream",
-					"Genesect" => "649_Genesect_Dream",
-					"Vivillon" => "666_Vivillon_Dream",
-					//red is my favorite color
-					"Flabebe" => "669_Flabébé_Red_Flower_Dream",
-					"Floette" => "670_Floette_Red_Flower_Dream",
-					"Florges" => "671_Florges_Red_Flower_Dream",
-					"Furfrou" => "676_Furfrou_Dream",
-					"Aegislash" => "681_Aegislash_Dream",
-					//coin flip chose male last time... So doing female this time
-					"Meowstic" => "678_Meowstic_Female_Dream",
-					"Silvally" => "773_Silvally_Normal_Dream",
-					"Mimikyu" => "778_Mimikyu_Dream",
-					_ => null
-				};
-				if (primary == null)
-				{
-					Debugger.Break();
-				}
-				else
-				{
-					primary = files.First(itemPath => Path.GetFileNameWithoutExtension(itemPath) == primary);
-					ImageRef.Builder imageBuilder = new ImageRef.Builder
-					{
-						Filename = Path.GetFileName(primary),
-						Data = ReadImage(primary),
-						DataId = new DataId(null, Guid.NewGuid())
-					};
-					data.Images.Add(imageBuilder);
-					entry.PrimaryImage = imageBuilder.ItemReference;
-					foreach (var item in files)
-					{
-						if (item == primary)
-						{
-							continue;
-						}
-						imageBuilder = new ImageRef.Builder
-						{
-							Filename = Path.GetFileName(primary),
-							Data = ReadImage(primary),
-							DataId = new DataId(null, Guid.NewGuid())
-						};
-						data.Images.Add(imageBuilder);
-						entry.AdditionalImages.Add(imageBuilder.ItemReference!.Value);
-					}
-					remainingMon.Remove(pairing.Key);
-					remainingFiles.Remove(pairing.Key);
-				}
-			}
-			foreach (var key in remainingMon)
-			{
-				var grouping = monByDexNotation[key];
-				var files = filesByDexNotation[key];
-				if (files.Count() < 1)
-				{
-					//missing
-					continue;
-				}
-				Dictionary<String, String> formeDict;
-				ImageRef.Builder imageBuilder;
-				HashSet<DexEntry.Builder> remainingEntries = new HashSet<DexEntry.Builder>(grouping);
-				HashSet<String> remainingEntryFiles = new HashSet<string>(files);
-				Regex extractRegex;
-				String baseMonName;
-				String? emptyStringForme;
-				Dictionary<String, String> formeNameMapping = new Dictionary<string, string>(10);
-				List<String> nullEntries = new List<string>(4);
-				String? extraImageTarget = null;
-				String? extraImageDefault = null;
-				int? expectedCount = null;
-				switch (key)
-				{
-					case "386": //Deoxys
-						extractRegex = new Regex("386_Deoxys_(\\w+?)_Forme_Dream");
-						baseMonName = "Deoxys";
-						emptyStringForme = "Normal";
-						break;
-					case "413":
-						extractRegex = new Regex("413_Wormadam_(\\w+?)_Cloak_Dream");
-						baseMonName = "Wormadam";
-						formeNameMapping.Add("Plant", "Grass");
-						formeNameMapping.Add("Sandy", "Ground");
-						formeNameMapping.Add("Trash", "Steel");
-						emptyStringForme = null;
-						break;
-					case "479":
-						extractRegex = new Regex("479_Rotom_(\\w+?)_(?:Rotom|Forme)_Dream");
-						baseMonName = "Rotom";
-						emptyStringForme = "Normal";
-						break;
-					case "487":
-						extractRegex = new Regex("487_Giratina_(\\w+?)_Forme_Dream");
-						baseMonName = "Giratina";
-						emptyStringForme = "Altered";
-						break;
-					case "492":
-						extractRegex = new Regex("492_Shaymin_(\\w+?)_Forme_Dream");
-						baseMonName = "Shaymin";
-						emptyStringForme = "Land";
-						break;
-					case "555":
-					case "555G":
-						extractRegex = new Regex("555_Darmanitan(?:_(\\w+?))?_Dream");
-						baseMonName = "Darmanitan";
-						emptyStringForme = "";
-						formeNameMapping.Add("Zen Mode", "Zen");
-						formeNameMapping.Add("", "");
-						break;
-					case "641":
-						extractRegex = new Regex("641_Tornadus(_T)?_Dream");
-						baseMonName = "Tornadus";
-						emptyStringForme = "";
-						formeNameMapping.Add("", "");
-						formeNameMapping.Add(" T", "Form");
-						break;
-					case "642":
-						extractRegex = new Regex("642_Thundurus(_T)?_Dream");
-						baseMonName = "Thundurus";
-						emptyStringForme = "";
-						formeNameMapping.Add("", "");
-						formeNameMapping.Add(" T", "Form");
-						break;
-					case "645":
-						extractRegex = new Regex("645_Landorus(_T)?_Dream");
-						baseMonName = "Landorus";
-						emptyStringForme = "";
-						formeNameMapping.Add("", "");
-						formeNameMapping.Add(" T", "Form");
-						break;
-					case "646":
-						extractRegex = new Regex("646_(?:(Black|White)_)?Kyurem_Dream");
-						baseMonName = "Kyurem";
-						emptyStringForme = "";
-						break;
-					case "647":
-						extractRegex = new Regex("647_Keldeo(_R)?_Dream");
-						baseMonName = "Keldeo";
-						emptyStringForme = "";
-						formeNameMapping.Add("", "");
-						formeNameMapping.Add(" R", "Form");
-						break;
-					case "648":
-						extractRegex = new Regex("648_Meloetta(_P)?_Dream");
-						baseMonName = "Meloetta";
-						emptyStringForme = "";
-						formeNameMapping.Add("", "");
-						formeNameMapping.Add(" P", "Form");
-						break;
-					case "681":
-						extractRegex = new Regex("681_Aegislash(?:_(Blade|Shield))?_Forme_Dream");
-						baseMonName = "Aegislash";
-						emptyStringForme = "";
-						extraImageDefault = "";
-						extraImageTarget = "";
-						formeNameMapping.Add("", "");
-						formeNameMapping.Add("Blade", "Blade");
-						formeNameMapping.Add("Shield", "Form");
-						break;
-					case "718":
-						//I don't want to spend the time to get an image done for that...
-						nullEntries.Add("Cell");
-						extractRegex = new Regex("718_Zygarde(?:_(\\w+))_Dream");
-						baseMonName = "Zygarde";
-						formeNameMapping.Add("Cell", "Cell");
-						formeNameMapping.Add("Complete", "100%");
-						formeNameMapping.Add("", "50%");
-						formeNameMapping.Add("10 Percent", "10%");
-						emptyStringForme = "50%";
-						break;
-					case "720":
-						extractRegex = new Regex("720_Hoopa-(Confined|Unbound)_Dream");
-						baseMonName = "Hoopa";
-						emptyStringForme = "Confined";
-						break;
-					case "741":
-						extractRegex = new Regex("741_Oricorio_(.+)_Dream");
-						baseMonName = "Oricorio";
-						emptyStringForme = null;
-						formeNameMapping.Add("Baile", "Fire");
-						formeNameMapping.Add("Pom-Pom", "Electric");
-						formeNameMapping.Add("Pau", "Psychic");
-						formeNameMapping.Add("Sensu", "Ghost");
-						break;
-					case "745":
-						extractRegex = new Regex("745_Lycanroc_(.+)_Dream");
-						baseMonName = "Lycanroc";
-						emptyStringForme = null;
-						break;
-					case "746":
-						extractRegex = new Regex("746_Wishiwashi_(.+)_Dream");
-						baseMonName = "Wishiwashi";
-						emptyStringForme = "";
-						formeNameMapping.Add("Solo", "");
-						formeNameMapping.Add("School", "Swarm");
-						break;
-					case "774":
-						extractRegex = new Regex("774_Minior(?:_(\\w+))?_Dream");
-						baseMonName = "Minior";
-						emptyStringForme = "";
-						expectedCount = 8;
-						extraImageTarget = "Core";
-						extraImageDefault = "Red";//fav color is red
-						break;
-					case "800":
-						extractRegex = new Regex("800_Necrozma(?:_(\\w+))?_Dream");
-						baseMonName = "Necrozma";
-						emptyStringForme = "";
-						formeNameMapping.Add("", "");
-						formeNameMapping.Add("Dawn Wings", "Dawn Wings");
-						formeNameMapping.Add("Dusk Mane", "Dusk Mane");
-						formeNameMapping.Add("Ultra", "Ultra Burst");
-						break;
-					case "849":
-						//as of 5/22/2021, there is no image for Lowkey Toxtricity
-						extractRegex = new Regex("849_Toxtricity_Dream");
-						baseMonName = "Toxtricity";
-						emptyStringForme = null;
-						nullEntries.Add("Low Key");
-						formeNameMapping.Add("", "Amped");
-						formeNameMapping.Add("Low Key", "Low Key");
-						break;
-					case "875":
-						//as of 5/22/2021, there is no image for Eiscue without the ice head
-						extractRegex = new Regex("875_Eiscue_Dream");
-						baseMonName = "Eiscue";
-						emptyStringForme = "";
-						nullEntries.Add("Form");
-						break;
-
-					//as of 5/22/2021, there are no images for "Hero of Many Battles" Zacian and Zamazenta
-					case "888":
-						extractRegex = new Regex("888_Zacian_Dream");
-						baseMonName = "Zacian";
-						emptyStringForme = "";
-						nullEntries.Add("Hero of Many Battles");
-						formeNameMapping.Add("", "Form");
-						formeNameMapping.Add("Hero of Many Battles", "");
-						break;
-					case "889":
-						extractRegex = new Regex("889_Zamazenta_Dream");
-						baseMonName = "Zamazenta";
-						emptyStringForme = "";
-						nullEntries.Add("Hero of Many Battles");
-						formeNameMapping.Add("", "Form");
-						formeNameMapping.Add("Hero of Many Battles", "");
-						break;
-					default:
-						continue;
-
-				}
-				formeDict = files.ToDictionary(path => extractRegex.Match(Path.GetFileNameWithoutExtension(
-					path)).Groups[1].Value.Replace("_", " "));
-				foreach (var item in nullEntries)
-				{
-					formeDict.Add(item, "null");
-				}
-				if (expectedCount.HasValue)
-				{
-					Debug.Assert(formeDict.Count == expectedCount.Value);
-				}
-				if (formeNameMapping.Count > 0)
-				{
-					Debug.Assert(!expectedCount.HasValue);
-					//expecting a 1:1 mapping
-					Debug.Assert(formeNameMapping.Count == formeDict.Count);
-					formeDict = formeDict.ToDictionary(pair => formeNameMapping[pair.Key], pair => pair.Value);
-				}
-				DexEntry.Builder? extraImageEntry = null;
-				foreach (var entry in grouping)
-				{
-					String forme = entry.Name!.Replace(baseMonName, "").Trim();
-					if (forme == "")
-					{
-						forme = emptyStringForme ??
-							throw new InvalidOperationException("Was not expecting an non-forme mon!");
-					}
-					if (forme == extraImageTarget)
-					{
-						extraImageEntry = entry;
-					}
-					if (entry.PrimaryImage.HasValue)
-					{
-						//done
-						remainingEntries.Remove(entry);
-						continue;
-					}
-					if (!formeDict.TryGetValue(forme, out String? file))
-					{
-						if (extraImageEntry != entry)
-						{
-							throw new InvalidOperationException($"Failed to find an image entry for {baseMonName} " +
-								$"Forme: {forme}");
-						}
-						if (extraImageDefault == null)
-						{
-							throw new InvalidOperationException($"No default image found for {baseMonName} forme: " +
-								$"{forme}");
-						}
-						file = formeDict[extraImageDefault];
-					}
-					if (file == "null")
-					{
-						//we don't have an image for that one
-						remainingEntries.Remove(entry);
-						continue;
-					}
-					imageBuilder = new ImageRef.Builder
-					{
-						Filename = Path.GetFileName(file),
-						Data = ReadImage(file),
-						DataId = new DataId(null, Guid.NewGuid())
-					};
-					entry.PrimaryImage = imageBuilder.ItemReference;
-					data.Images.Add(imageBuilder);
-					remainingEntries.Remove(entry);
-					remainingEntryFiles.Remove(file);
-				}
-				if (remainingEntryFiles.Count > 0)
-				{
-					if (extraImageEntry == null)
-					{
-						throw new InvalidOperationException("Orphaned Images");
-					}
-					foreach (var item in remainingEntryFiles)
-					{
-						imageBuilder = new ImageRef.Builder
-						{
-							Filename = Path.GetFileName(item),
-							Data = ReadImage(item),
-							DataId = new DataId(null, Guid.NewGuid())
-						};
-						data.Images.Add(imageBuilder);
-						extraImageEntry.AdditionalImages.Add(imageBuilder.ItemReference!.Value);
-					}
-					remainingEntryFiles.Clear();
-				}
-				if (remainingEntries.Count > 0)
-				{
-					//item was missed
-					Debugger.Break();
-				}
-			}
-			if (remainingMon.Count > 0 || remainingFiles.Count > 0)
-			{
-				//not fully implemented
-				Debugger.Break();
-			}
-			throw new NotImplementedException();
+			return result;
 		}
 
-		private void ProcessImages(int dexNum, List<ImageData> images, List<DexEntry.Builder> entries,
+		private void ProcessPrimaryImages(int dexNum, List<ImageData> images, List<DexEntry.Builder> entries,
 			HashSet<DexEntry.Builder> remainingEntries, HashSet<ImageData> remainingImages,
 			List<ImageRef.Builder> results)
 		{
@@ -1766,13 +1273,15 @@ namespace Pokerole.Tools.InitUpdate
 				throw new InvalidOperationException("All images were not consumed");
 			}
 		}
-
-
 		private static void RemoveEvilImages(List<string> filenames) => filenames.RemoveAll(file => (Path.GetFileNameWithoutExtension(file)) switch
 		{
 			"449Hippopotas-BothGenders" or "450Hippowdon-BothGenders" => true,
 			_ => false
 		});
+		private void ReadDexImages()
+		{
+
+		}
 		private byte[]? ReadImage(String path)
 		{
 #pragma warning disable CS0162 // Unreachable code detected
@@ -1793,7 +1302,104 @@ namespace Pokerole.Tools.InitUpdate
 				DataId = new DataId(null, Guid.NewGuid())
 			};
 		}
-	private record ImageData
+		//why? because I eventually decided it would be easier to just do a GC instead of writing logic to remove old
+		//images as things are being updated.
+		private void GcStockImages()
+		{
+			GcList<ImageRef.Builder, ImageRef>(data.Images);
+		}
+		private void GcList<B, T>(List<B> list) where B : DataItemBuilder<T> where T : IDataItem {
+
+			//collect all references to type "T" in 'data' which can be built using type "B"
+			//using reflection to avoid having to update code again...
+			Type root = data.GetType();
+			HashSet<ItemReference<T>> references = new HashSet<ItemReference<T>>(list.Count);
+			foreach (var prop in root.GetProperties())
+			{
+				if (!prop.CanRead || !prop.CanWrite)
+				{
+					continue;
+				}
+				Type listType = prop.PropertyType;
+				if (!listType.IsGenericType || listType.GetGenericTypeDefinition() != typeof(List<>))
+				{
+					continue;
+				}
+				if (listType == typeof(List<B>))
+				{
+					//no recursion for you!
+					continue;
+				}
+				Type genericType = listType.GetGenericArguments()[0];
+				Type? builderType = genericType.BaseType;
+				if (builderType == null || !builderType.IsGenericType || !typeof(DataItemBuilder<>).IsAssignableFrom(
+					builderType.GetGenericTypeDefinition()))
+				{
+					throw new InvalidOperationException("Unknown list type: " + genericType);
+				}
+				//now we know that is a valid builder. Now to check entries of said builder
+				Type searchType = typeof(ItemReference<T>);
+				List<PropertyInfo> singleProps = new List<PropertyInfo>(10);
+				List<PropertyInfo> nullableProps = new List<PropertyInfo>(10);
+				List<PropertyInfo> listProps = new List<PropertyInfo>(10);
+				foreach (var tarProp in genericType.GetProperties())
+				{
+					switch (tarProp.PropertyType)
+					{
+						case Type innerType when innerType == typeof(ItemReference<T>):
+							singleProps.Add(tarProp);
+							break;
+						case Type innerType when innerType == typeof(ItemReference<T>?):
+							nullableProps.Add(tarProp);
+							break;
+						case Type innerType when innerType == typeof(List<ItemReference<T>>):
+							listProps.Add(tarProp);
+							break;
+					}
+
+				}
+				//get the list in question
+				Object? rawList = prop.GetValue(data);
+				if (rawList == null)
+				{
+					throw new InvalidOperationException($"How was {prop.Name} null?");
+				}
+				var iterable = (IEnumerable)rawList;
+				foreach (var item in iterable)
+				{
+					foreach (var itemProp in singleProps)
+					{
+						//never null. Enforced by the compiler everywhere else
+						references.Add((ItemReference<T>)itemProp.GetValue(item)!);
+					}
+					foreach (var itemProp in nullableProps)
+					{
+						var value = itemProp.GetValue(item);
+						if (value != null)
+						{
+							//`(int)(Object)new Nullable<int>(5)` returns 5, so we sholud be safe if value is not null
+							references.Add((ItemReference<T>)value);
+						}
+					}
+					foreach (var itemProp in listProps)
+					{
+						var value = itemProp.GetValue(item);
+						if (value == null)
+						{
+							//not my job to question it
+							continue;
+						}
+						foreach (var val in (IEnumerable)value)
+						{
+							//we aren't looking for lists of nullables, so the value is not null
+							references.Add((ItemReference<T>)val!);
+						}
+					}
+				}
+			}
+			throw new NotImplementedException();
+		}
+		private record ImageData
 		{
 			public string Filename { get; }
 			public int DexNum { get; }
