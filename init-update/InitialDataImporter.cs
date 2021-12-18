@@ -1055,7 +1055,7 @@ namespace Pokerole.Tools.InitUpdate
 									null => name.EndsWith("Midday"),
 									_ => throw new InvalidOperationException()
 								};
-							case 756:
+							case 746:
 								return image.Misc switch
 								{
 									"Sc" => name.EndsWith("Swarm"),
@@ -1173,7 +1173,8 @@ namespace Pokerole.Tools.InitUpdate
 						{
 							throw new InvalidOperationException("Entry with one presumed entry has multiple");
 						}
-						if (!image.Variant.HasValue && String.IsNullOrEmpty(image.Misc))
+						if (!image.Variant.HasValue && String.IsNullOrEmpty(image.Misc) && !image.BackImage &&
+							!image.Gigantamax)//Alcremie has gigantamax
 						{
 							if (image.Shiny)
 							{
@@ -1308,7 +1309,7 @@ namespace Pokerole.Tools.InitUpdate
 		{
 			GcList<ImageRef.Builder, ImageRef>(data.Images);
 		}
-		private void GcList<B, T>(List<B> list) where B : DataItemBuilder<T> where T : IDataItem {
+		private void GcList<B, T>(List<B> list) where B : DataItemBuilder<T> where T : IDataItem<T> {
 
 			//collect all references to type "T" in 'data' which can be built using type "B"
 			//using reflection to avoid having to update code again...
@@ -1389,15 +1390,63 @@ namespace Pokerole.Tools.InitUpdate
 							//not my job to question it
 							continue;
 						}
-						foreach (var val in (IEnumerable)value)
+						foreach (var val in (IEnumerable<ItemReference<T>>)value)
 						{
 							//we aren't looking for lists of nullables, so the value is not null
-							references.Add((ItemReference<T>)val!);
+							references.Add(val);
 						}
 					}
 				}
 			}
-			throw new NotImplementedException();
+			HashSet<Guid> referencedGuids = new HashSet<Guid>(references.Count);
+			HashSet<int> referencedIds = new HashSet<int>(references.Count);
+			HashSet<String> referencedNames = new HashSet<string>(references.Count);
+			foreach (var item in references)
+			{
+				var guid = item.DataId.Uuid;
+				if (guid != Guid.Empty)
+				{
+					referencedGuids.Add(guid);
+				}
+				var dbId = item.DataId.DbId;
+				if (dbId.HasValue)
+				{
+					referencedIds.Add(dbId.Value);
+				}
+				String? displayName = item.DisplayName;
+				if (!String.IsNullOrEmpty(displayName))
+				{
+					referencedNames.Add(displayName);
+				}
+			}
+			HashSet<B> referencedBuilders = new HashSet<B>(references.Count);
+			HashSet<B> unreferencedItems = new HashSet<B>(Math.Max(0, list.Count - references.Count));
+			foreach (var item in list)
+			{
+				DataId? idRaw = item.DataId;
+				if (idRaw.HasValue)
+				{
+					var id = idRaw.Value;
+					if (id.Uuid != Guid.Empty && referencedGuids.Contains(id.Uuid))
+					{
+						//referenced
+						continue;
+					}
+					if (id.DbId.HasValue && referencedIds.Contains(id.DbId.Value))
+					{
+						//referenced
+						continue;
+					}
+				}
+				String? dispName = item.ItemReference?.DisplayName;
+				if (!String.IsNullOrEmpty(dispName) && referencedNames.Contains(dispName))
+				{
+					//referenced
+					continue;
+				}
+				unreferencedItems.Add(item);
+			}
+			list.RemoveAll(unreferencedItems.Contains);
 		}
 		private record ImageData
 		{

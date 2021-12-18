@@ -183,13 +183,13 @@ namespace Pokerole.Core
 	{
 	}
 
-	public interface ISkill : IDataItem
+	public interface ISkill : IDataItem<ISkill>
 	{
 		String Name { get; }
 		bool IsBuiltInSkill { get; }
 		SkillCategory SkillCategory { get; }
 		SkillExclusivity SkillExclusivity { get; }
-		ItemReference<ISkill> ItemReference { get; }
+		//ItemReference<ISkill> ItemReference { get; }
 	}
 	public enum SkillExclusivity
 	{

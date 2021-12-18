@@ -161,7 +161,7 @@ namespace Pokerole.Core{
 		if (classDef.isDataItem)
 		{
 #>	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record <#=classDef.name#> : BaseDataItem
+	public partial record <#=classDef.name#> : BaseDataItem<<#=classDef.name#>>
 	{
 <#
 		}
@@ -212,7 +212,7 @@ namespace Pokerole.Core{
 			String nameAppend = nameField != null ? $", {nameField.name}" : "";
 #>
 
-		public ItemReference<<#=classDef.name#>> ItemReference => new ItemReference<<#=classDef.name#>>(DataId<#=nameAppend#>);
+		public override ItemReference<<#=classDef.name#>> ItemReference => new ItemReference<<#=classDef.name#>>(DataId<#=nameAppend#>);
 
 <#}
 		foreach(FieldDef field in classDef.fields){
@@ -231,7 +231,10 @@ namespace Pokerole.Core{
 		String lowercaseClassName = LowercaseInitial(classDef.name);
 #>
 		[XmlType(nameof(<#=classDef.name#>), Namespace = "<#=primarySchema.TargetNamespace#>")]
-		public partial class Builder : <#= String.Format(classDef.isDataItem ? "DataItemBuilder<{0}>" : "ItemBuilder<{0}>",
+<#		if (classDef.isDataItem){
+#>		[DebuggerDisplay("{ItemReference}")]
+<#		}
+#>		public partial class Builder : <#= String.Format(classDef.isDataItem ? "DataItemBuilder<{0}>" : "ItemBuilder<{0}>",
  classDef.name)#>
 		{
 			public Builder()
@@ -276,7 +279,7 @@ namespace Pokerole.Core{
 			String nameAppend = nameField != null ? $", {nameField.name}" : "";
 #>
 
-			public ItemReference<<#=classDef.name#>>? ItemReference => !DataId.HasValue ? null :
+			public override ItemReference<<#=classDef.name#>>? ItemReference => !DataId.HasValue ? null :
 					new ItemReference<<#=classDef.name#>>(DataId.Value<#=nameAppend#>);
 
 <#}

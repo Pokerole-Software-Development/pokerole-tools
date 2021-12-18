@@ -411,14 +411,14 @@ namespace Pokerole.Core
 		}
 	}
 	public interface ITypeBuilder { }
-	public interface ITypeDefinition : IDataItem
+	public interface ITypeDefinition : IDataItem<ITypeDefinition>
 	{
 		bool IsBuiltInType { get; }
 		String Name { get; }
 		IReadOnlyList<ITypeDefinition> GetOffensiveEffectiveness(TypeEffectiveness kind);
 		IReadOnlyList<ITypeDefinition> GetDefensiveEffectiveness(TypeEffectiveness kind);
 		Color? BackgroundColor { get; }
-		ItemReference<ITypeDefinition> ItemReference { get; }
+		//ItemReference<ITypeDefinition> ItemReference { get; }
 	}
 	public enum TypeEffectiveness
 	{

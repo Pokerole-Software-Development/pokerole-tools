@@ -12,7 +12,7 @@ using System.ComponentModel;
 
 namespace Pokerole.Core{
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record Move : BaseDataItem
+	public partial record Move : BaseDataItem<Move>
 	{
 		public Move(DataId dataId,
 			string name,
@@ -56,7 +56,7 @@ namespace Pokerole.Core{
 			Effects = new List<string>(effects).AsReadOnly();
 		}
 
-		public ItemReference<Move> ItemReference => new ItemReference<Move>(DataId, Name);
+		public override ItemReference<Move> ItemReference => new ItemReference<Move>(DataId, Name);
 
 		/// <summary>
 		/// Name of the move
@@ -135,6 +135,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public IReadOnlyList<string> Effects { get; }
 		[XmlType(nameof(Move), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<Move>
 		{
 			public Builder()
@@ -165,7 +166,7 @@ namespace Pokerole.Core{
 				Effects = new List<string>(move.Effects);
 			}
 
-			public ItemReference<Move>? ItemReference => !DataId.HasValue ? null :
+			public override ItemReference<Move>? ItemReference => !DataId.HasValue ? null :
 					new ItemReference<Move>(DataId.Value, Name);
 
 			/// <summary>
@@ -526,7 +527,7 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record Item : BaseDataItem
+	public partial record Item : BaseDataItem<Item>
 	{
 		public Item(DataId dataId,
 			string name,
@@ -536,7 +537,7 @@ namespace Pokerole.Core{
 			Description = description;
 		}
 
-		public ItemReference<Item> ItemReference => new ItemReference<Item>(DataId, Name);
+		public override ItemReference<Item> ItemReference => new ItemReference<Item>(DataId, Name);
 
 		/// <summary>
 		/// Item Name
@@ -547,6 +548,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public string Description { get; }
 		[XmlType(nameof(Item), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<Item>
 		{
 			public Builder()
@@ -558,7 +560,7 @@ namespace Pokerole.Core{
 				Description = item.Description;
 			}
 
-			public ItemReference<Item>? ItemReference => !DataId.HasValue ? null :
+			public override ItemReference<Item>? ItemReference => !DataId.HasValue ? null :
 					new ItemReference<Item>(DataId.Value, Name);
 
 			/// <summary>
@@ -858,7 +860,7 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record ImageRef : BaseDataItem
+	public partial record ImageRef : BaseDataItem<ImageRef>
 	{
 		public ImageRef(DataId dataId,
 			string filename,
@@ -870,7 +872,7 @@ namespace Pokerole.Core{
 			FilePath = filePath;
 		}
 
-		public ItemReference<ImageRef> ItemReference => new ItemReference<ImageRef>(DataId, Filename);
+		public override ItemReference<ImageRef> ItemReference => new ItemReference<ImageRef>(DataId, Filename);
 
 		/// <summary>
 		/// Someone didn't document this item...
@@ -885,6 +887,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public string? FilePath { get; }
 		[XmlType(nameof(ImageRef), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<ImageRef>
 		{
 			public Builder()
@@ -897,7 +900,7 @@ namespace Pokerole.Core{
 				FilePath = imageRef.FilePath;
 			}
 
-			public ItemReference<ImageRef>? ItemReference => !DataId.HasValue ? null :
+			public override ItemReference<ImageRef>? ItemReference => !DataId.HasValue ? null :
 					new ItemReference<ImageRef>(DataId.Value, Filename);
 
 			/// <summary>
@@ -1234,7 +1237,7 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record DexEntry : BaseDataItem
+	public partial record DexEntry : BaseDataItem<DexEntry>
 	{
 		public DexEntry(DataId dataId,
 			int dexNum,
@@ -1322,7 +1325,7 @@ namespace Pokerole.Core{
 			MoveSet = new List<MoveEntry>(moveSet).AsReadOnly();
 		}
 
-		public ItemReference<DexEntry> ItemReference => new ItemReference<DexEntry>(DataId, Name);
+		public override ItemReference<DexEntry> ItemReference => new ItemReference<DexEntry>(DataId, Name);
 
 		/// <summary>
 		/// The international dex number of this Pokémon
@@ -1489,6 +1492,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public IReadOnlyList<MoveEntry> MoveSet { get; }
 		[XmlType(nameof(DexEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<DexEntry>
 		{
 			public Builder()
@@ -1547,7 +1551,7 @@ namespace Pokerole.Core{
 				MoveSet = new List<MoveEntry>(dexEntry.MoveSet);
 			}
 
-			public ItemReference<DexEntry>? ItemReference => !DataId.HasValue ? null :
+			public override ItemReference<DexEntry>? ItemReference => !DataId.HasValue ? null :
 					new ItemReference<DexEntry>(DataId.Value, Name);
 
 			/// <summary>
@@ -2457,7 +2461,7 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record MonInstance : BaseDataItem
+	public partial record MonInstance : BaseDataItem<MonInstance>
 	{
 		public MonInstance(DataId dataId,
 			ItemReference<ImageRef> picture,
@@ -2563,7 +2567,7 @@ namespace Pokerole.Core{
 			Ribbons = new List<string>(ribbons).AsReadOnly();
 		}
 
-		public ItemReference<MonInstance> ItemReference => new ItemReference<MonInstance>(DataId, Name);
+		public override ItemReference<MonInstance> ItemReference => new ItemReference<MonInstance>(DataId, Name);
 
 		/// <summary>
 		/// Picture of this Pokémon
@@ -2766,6 +2770,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public IReadOnlyList<string> Ribbons { get; }
 		[XmlType(nameof(MonInstance), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<MonInstance>
 		{
 			public Builder()
@@ -2831,7 +2836,7 @@ namespace Pokerole.Core{
 				Ribbons = new List<string>(monInstance.Ribbons);
 			}
 
-			public ItemReference<MonInstance>? ItemReference => !DataId.HasValue ? null :
+			public override ItemReference<MonInstance>? ItemReference => !DataId.HasValue ? null :
 					new ItemReference<MonInstance>(DataId.Value, Name);
 
 			/// <summary>
@@ -3825,7 +3830,7 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record Ability : BaseDataItem
+	public partial record Ability : BaseDataItem<Ability>
 	{
 		public Ability(DataId dataId,
 			string name,
@@ -3835,7 +3840,7 @@ namespace Pokerole.Core{
 			Effect = effect;
 		}
 
-		public ItemReference<Ability> ItemReference => new ItemReference<Ability>(DataId, Name);
+		public override ItemReference<Ability> ItemReference => new ItemReference<Ability>(DataId, Name);
 
 		/// <summary>
 		/// Someone didn't document this item...
@@ -3846,6 +3851,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public string Effect { get; }
 		[XmlType(nameof(Ability), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<Ability>
 		{
 			public Builder()
@@ -3857,7 +3863,7 @@ namespace Pokerole.Core{
 				Effect = ability.Effect;
 			}
 
-			public ItemReference<Ability>? ItemReference => !DataId.HasValue ? null :
+			public override ItemReference<Ability>? ItemReference => !DataId.HasValue ? null :
 					new ItemReference<Ability>(DataId.Value, Name);
 
 			/// <summary>
@@ -4077,7 +4083,7 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record Trainer : BaseDataItem
+	public partial record Trainer : BaseDataItem<Trainer>
 	{
 		public Trainer(DataId dataId,
 			string characterName,
@@ -4161,7 +4167,7 @@ namespace Pokerole.Core{
 			Backpack = backpack;
 		}
 
-		public ItemReference<Trainer> ItemReference => new ItemReference<Trainer>(DataId);
+		public override ItemReference<Trainer> ItemReference => new ItemReference<Trainer>(DataId);
 
 		/// <summary>
 		/// Someone didn't document this item...
@@ -4320,6 +4326,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public ItemReference<Backpack> Backpack { get; }
 		[XmlType(nameof(Trainer), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<Trainer>
 		{
 			public Builder()
@@ -4371,7 +4378,7 @@ namespace Pokerole.Core{
 				Backpack = trainer.Backpack;
 			}
 
-			public ItemReference<Trainer>? ItemReference => !DataId.HasValue ? null :
+			public override ItemReference<Trainer>? ItemReference => !DataId.HasValue ? null :
 					new ItemReference<Trainer>(DataId.Value);
 
 			/// <summary>
@@ -5115,7 +5122,7 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record Backpack : BaseDataItem
+	public partial record Backpack : BaseDataItem<Backpack>
 	{
 		public Backpack(DataId dataId,
 			int potionCount,
@@ -5133,7 +5140,7 @@ namespace Pokerole.Core{
 			Badges = new List<string>(badges).AsReadOnly();
 		}
 
-		public ItemReference<Backpack> ItemReference => new ItemReference<Backpack>(DataId);
+		public override ItemReference<Backpack> ItemReference => new ItemReference<Backpack>(DataId);
 
 		/// <summary>
 		/// Someone didn't document this item...
@@ -5160,6 +5167,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public IReadOnlyList<string> Badges { get; }
 		[XmlType(nameof(Backpack), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<Backpack>
 		{
 			public Builder()
@@ -5179,7 +5187,7 @@ namespace Pokerole.Core{
 				Badges = new List<string>(backpack.Badges);
 			}
 
-			public ItemReference<Backpack>? ItemReference => !DataId.HasValue ? null :
+			public override ItemReference<Backpack>? ItemReference => !DataId.HasValue ? null :
 					new ItemReference<Backpack>(DataId.Value);
 
 			/// <summary>
@@ -5433,7 +5441,7 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record Rival : BaseDataItem
+	public partial record Rival : BaseDataItem<Rival>
 	{
 		public Rival(DataId dataId,
 			ImageRef picture,
@@ -5467,7 +5475,7 @@ namespace Pokerole.Core{
 			UnlilkeAbilities = new List<UnlikeAbility>(unlilkeAbilities).AsReadOnly();
 		}
 
-		public ItemReference<Rival> ItemReference => new ItemReference<Rival>(DataId, Name);
+		public override ItemReference<Rival> ItemReference => new ItemReference<Rival>(DataId, Name);
 
 		/// <summary>
 		/// Your Rival's better looking picture
@@ -5526,6 +5534,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public IReadOnlyList<UnlikeAbility> UnlilkeAbilities { get; }
 		[XmlType(nameof(Rival), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<Rival>
 		{
 			public Builder()
@@ -5553,7 +5562,7 @@ namespace Pokerole.Core{
 				UnlilkeAbilities = new List<UnlikeAbility>(rival.UnlilkeAbilities);
 			}
 
-			public ItemReference<Rival>? ItemReference => !DataId.HasValue ? null :
+			public override ItemReference<Rival>? ItemReference => !DataId.HasValue ? null :
 					new ItemReference<Rival>(DataId.Value, Name);
 
 			/// <summary>
@@ -5843,15 +5852,16 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record EvolutionList : BaseDataItem
+	public partial record EvolutionList : BaseDataItem<EvolutionList>
 	{
 		public EvolutionList(DataId dataId) : base(dataId)
 		{
 		}
 
-		public ItemReference<EvolutionList> ItemReference => new ItemReference<EvolutionList>(DataId);
+		public override ItemReference<EvolutionList> ItemReference => new ItemReference<EvolutionList>(DataId);
 
 		[XmlType(nameof(EvolutionList), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<EvolutionList>
 		{
 			public Builder()
@@ -5861,7 +5871,7 @@ namespace Pokerole.Core{
 				DataId = evolutionList.DataId;
 			}
 
-			public ItemReference<EvolutionList>? ItemReference => !DataId.HasValue ? null :
+			public override ItemReference<EvolutionList>? ItemReference => !DataId.HasValue ? null :
 					new ItemReference<EvolutionList>(DataId.Value);
 
 			/// <summary>

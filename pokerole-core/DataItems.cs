@@ -56,12 +56,12 @@ namespace Pokerole.Core
 		{
 			return !(left == right);
 		}
-		public override string? ToString()
+		public override string ToString()
 		{
 			return $"DbId = {DbId}, Uuid = {Uuid}";
 		}
 	}
-	public readonly struct ItemReference<T> : IEquatable<ItemReference<T>> where T : IDataItem
+	public readonly struct ItemReference<T> : IEquatable<ItemReference<T>> where T : IDataItem<T>
 	{
 		public ItemReference(DataId id) : this(id, null) { }
 		public ItemReference(DataId id, String? name)
@@ -78,6 +78,14 @@ namespace Pokerole.Core
 
 		public bool Equals([AllowNull] ItemReference<T> other) => DataId == other.DataId && DisplayName == other.DisplayName;
 		public override int GetHashCode() => HashCode.Combine(DisplayName, DataId);
+		public override string ToString()
+		{
+			if (String.IsNullOrEmpty(DisplayName))
+			{
+				return DataId.ToString();
+			}
+			return $"DisplayName = {DisplayName}, {DataId}";
+		}
 
 		//[XmlType(nameof(ItemReference<T>), Namespace = "https://www.pokeroleproject.com/schemas/ExternalTypes.xsd")]
 		//have to implement IXmlSerializable to make things work?
@@ -130,20 +138,23 @@ namespace Pokerole.Core
 			}
 		}
 	}
-	public interface IDataItem
+	public interface IDataItem<T> where T : IDataItem<T>
 	{
 		public DataId DataId { get; }
+		public ItemReference<T> ItemReference { get; }
 	}
-	public abstract record BaseDataItem : IDataItem
+	public abstract record BaseDataItem<T> : IDataItem<T> where T : BaseDataItem<T>
 	{
 		private readonly DataId dataId;
 		public DataId DataId => dataId;
+		public abstract ItemReference<T> ItemReference { get; }
 		/// <summary>
 		/// Whether or not this item is out of date. If true, you should replace this instance with a fresher one from
 		/// wherever you get your data (like a database)
 		/// </summary>
 		public bool OutOfDate { get; private set; }
 		public void MarkOutOfDate() => OutOfDate = true;
+
 		protected BaseDataItem(DataId id)
 		{
 			dataId = id;
@@ -173,7 +184,7 @@ namespace Pokerole.Core
 		}
 
 	}
-	public abstract class DataItemBuilder<T> : ItemBuilder<T> where T : IDataItem
+	public abstract class DataItemBuilder<T> : ItemBuilder<T> where T : IDataItem<T>
 	{
 		[XmlIgnore]
 		public DataId? DataId {get;set; }
@@ -188,6 +199,7 @@ namespace Pokerole.Core
 			get => new DataId.Builder(DataId ?? default);
 			set => DataId = value.Build();
 		}
+		public abstract ItemReference<T>? ItemReference { get; }
 
 		//[Browsable(false)]
 		//[DebuggerHidden]
