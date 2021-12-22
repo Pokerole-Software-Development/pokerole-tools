@@ -15,6 +15,8 @@ using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic.FileIO;
 using Pokerole.Core;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Pokerole.Tools.InitUpdate
 {
@@ -714,11 +716,11 @@ namespace Pokerole.Tools.InitUpdate
 		private List<ImageRef.Builder> ReadPrimaryImages()
 		{
 			//this doesn't have to be efficient. It just needs to work!!!
-			//                 pokerole-tools (root)-|
-			//                   init-update ------| |
-			//                           bin ----| | |
-			//                           Debug-| | | |
-			// netcoreapp3.1 ----------------V V V V V
+			//                 pokerole-tools (root)--|
+			//                   init-update ------|  |
+			//                           bin ---|  |  |
+			//                          Debug|  |  |  |
+			// netcoreapp3.1 --------------V V  V  V  V
 			const String primaryImageDir = "../../../../Images/Crunched/PrimaryImages";
 			var filenames = new List<String>(Directory.GetFiles(primaryImageDir));
 			RemoveEvilImages(filenames);
@@ -1285,6 +1287,47 @@ namespace Pokerole.Tools.InitUpdate
 		});
 		private void ReadDexImages()
 		{
+			//gota collect them all!
+			//*2 for shinies, .5 for misc images
+			List<DexImageData> dexImages = new List<DexImageData>((int)(data.DexEntries.Count * 2.5));
+			//               pokerole-tools (root)--|
+			//                 init-update ------|  |
+			//                         bin ---|  |  |
+			//                        Debug|  |  |  |
+			// netcoreapp3.1 ------------V V  V  V  V
+			const String pokespriteDir = "../../../../ProjectReference/pokesprite";
+			JObject dexData;
+			using (JsonReader reader = new JsonTextReader(new StreamReader(Path.Combine(pokespriteDir, "data",
+				"pokemon.json"))))
+			{
+				dexData = JObject.Load(reader);
+			}
+			var entriesByDexNum = data.DexEntries.Where(item=>!item.Name!.StartsWith("Delta")).ToLookup(item => item.DexNum);
+			String imagesDir = Path.Combine(pokespriteDir, "pokemon-gen8");
+			foreach (var node in dexData)
+			{
+				int dexNum = int.Parse(node.Key);
+				var entries = entriesByDexNum[dexNum];
+				if (entries.Count() < 1)
+				{
+					throw new InvalidOperationException($"Missing dex entry for #{dexNum}");
+				}
+				//Note: need to read gen-7 and gen-8 nodes
+				if (entries.Count() == 1 && node.Value?["gen-8"]?["forms"]?["gmax"] == null)
+				{
+					//hurray! Simplicity!!!
+					var entry = entries.First();
+
+					throw new NotImplementedException();
+					//continue;
+				}
+				throw new NotImplementedException();
+			}
+			throw new NotImplementedException();
+
+		}
+		private void CollectDexImages(String dir)
+		{
 
 		}
 		private byte[]? ReadImage(String path)
@@ -1626,6 +1669,10 @@ namespace Pokerole.Tools.InitUpdate
 				BackImage = backImage;
 				Misc = misc;
 			}
+		}
+		private record DexImageData
+		{
+
 		}
 		private record GcTypeInfo
 		{

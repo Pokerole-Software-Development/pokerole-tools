@@ -450,9 +450,9 @@
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
-					<xs:element name="SmallImage" type="ex:ItemReference" ex:genericType="ImageRef">
+					<xs:element name="SpriteImage" type="ex:ItemReference" ex:genericType="ImageRef">
 						<xs:annotation>
-							<xs:documentation>Smaller display image of this Pokémon</xs:documentation>
+							<xs:documentation>Smaller sprite image of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ShinyImage" type="ex:ItemReference" ex:genericType="ImageRef" nillable="true">
@@ -460,9 +460,9 @@
 							<xs:documentation>Primary display image of a shiny instance of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SmallShinyImage" type="ex:ItemReference" ex:genericType="ImageRef" nillable="true">
+					<xs:element name="SpriteShinyImage" type="ex:ItemReference" ex:genericType="ImageRef" nillable="true">
 						<xs:annotation>
-							<xs:documentation>Smaller display image of a shiny instance of this Pokémon</xs:documentation>
+							<xs:documentation>Smaller sprite image of a shiny instance of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PrimaryFemaleImage" type="ex:ItemReference" ex:genericType="ImageRef" nillable="true">
@@ -506,6 +506,50 @@
 						<xs:annotation>
 							<xs:documentation>Smaller female display image of a shiny instance of this Pokémon</xs:documentation>
 						</xs:annotation>
+					</xs:element>
+					<xs:element name="AdditionalSpriteImages" ex:isDbLazy="true" ex:listItemType="ItemReference"
+								ex:genericType="ImageRef">
+						<xs:annotation>
+							<xs:documentation>Additional sprite images of this pokemon</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AdditionalShinySpriteImages" ex:isDbLazy="true" ex:listItemType="ItemReference"
+								ex:genericType="ImageRef">
+						<xs:annotation>
+							<xs:documentation>Additional shiny sprite images of this pokemon</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AdditionalFemaleSpriteImages" ex:isDbLazy="true" ex:listItemType="ItemReference"
+								ex:genericType="ImageRef">
+						<xs:annotation>
+							<xs:documentation>Additional sprite female images of this pokemon</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AdditionalShinyFemaleSpriteImages" ex:isDbLazy="true" ex:listItemType="ItemReference"
+								ex:genericType="ImageRef">
+						<xs:annotation>
+							<xs:documentation>Additional shiny sprite female images of this pokemon</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
 					</xs:element>
 					<xs:element name="Abilities" ex:isDbLazy="true" ex:listItemType="AbilityEntry">
 						<xs:annotation>
