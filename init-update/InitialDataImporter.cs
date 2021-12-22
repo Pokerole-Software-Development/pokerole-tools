@@ -715,7 +715,7 @@ namespace Pokerole.Tools.InitUpdate
 		{
 			//this doesn't have to be efficient. It just needs to work!!!
 			//                 pokerole-tools (root)-|
-			//                 pokerole-tools------| |
+			//                   init-update ------| |
 			//                           bin ----| | |
 			//                           Debug-| | | |
 			// netcoreapp3.1 ----------------V V V V V
@@ -967,6 +967,10 @@ namespace Pokerole.Tools.InitUpdate
 			foreach (var entry in entries)
 			{
 				toRemove.Clear();
+				entry.AdditionalFemaleImages.Clear();
+				entry.AdditionalImages.Clear();
+				entry.AdditionalShinyFemaleImages.Clear();
+				entry.AdditionalShinyImages.Clear();
 				foreach (ImageData image in images)
 				{
 					ItemReference<ImageRef> MakeAndAdd()
@@ -1315,6 +1319,10 @@ namespace Pokerole.Tools.InitUpdate
 			//using reflection to avoid having to update code again...
 			Type root = data.GetType();
 			HashSet<ItemReference<T>> references = new HashSet<ItemReference<T>>(list.Count);
+			Dictionary<Type, GcTypeInfo> typeInfo = new Dictionary<Type, GcTypeInfo>(20);
+			Dictionary<Type, Type> enumerableInfo = new Dictionary<Type, Type>(20);
+			HashSet<Object> seenObjects = new HashSet<object>();
+			Type searchType = typeof(ItemReference<T>);
 			foreach (var prop in root.GetProperties())
 			{
 				if (!prop.CanRead || !prop.CanWrite)
@@ -1339,64 +1347,65 @@ namespace Pokerole.Tools.InitUpdate
 					throw new InvalidOperationException("Unknown list type: " + genericType);
 				}
 				//now we know that is a valid builder. Now to check entries of said builder
-				Type searchType = typeof(ItemReference<T>);
-				List<PropertyInfo> singleProps = new List<PropertyInfo>(10);
-				List<PropertyInfo> nullableProps = new List<PropertyInfo>(10);
-				List<PropertyInfo> listProps = new List<PropertyInfo>(10);
-				foreach (var tarProp in genericType.GetProperties())
-				{
-					switch (tarProp.PropertyType)
-					{
-						case Type innerType when innerType == typeof(ItemReference<T>):
-							singleProps.Add(tarProp);
-							break;
-						case Type innerType when innerType == typeof(ItemReference<T>?):
-							nullableProps.Add(tarProp);
-							break;
-						case Type innerType when innerType == typeof(List<ItemReference<T>>):
-							listProps.Add(tarProp);
-							break;
-					}
+				GcProcessType<B, T>(typeInfo, enumerableInfo, references, seenObjects, prop.GetValue(data) ??
+					throw new InvalidOperationException($"Data member {prop.Name} was null!"));
+				//List<PropertyInfo> singleProps = new List<PropertyInfo>(10);
+				//List<PropertyInfo> nullableProps = new List<PropertyInfo>(10);
+				//List<PropertyInfo> listProps = new List<PropertyInfo>(10);
+				//foreach (var tarProp in genericType.GetProperties())
+				//{
+				//	switch (tarProp.PropertyType)
+				//	{
+				//		case Type innerType when innerType == typeof(ItemReference<T>):
+				//			singleProps.Add(tarProp);
+				//			break;
+				//		case Type innerType when innerType == typeof(ItemReference<T>?):
+				//			nullableProps.Add(tarProp);
+				//			break;
+				//		case Type innerType when innerType == typeof(List<ItemReference<T>>):
+				//			listProps.Add(tarProp);
+				//			break;
+				//	}
 
-				}
-				//get the list in question
-				Object? rawList = prop.GetValue(data);
-				if (rawList == null)
-				{
-					throw new InvalidOperationException($"How was {prop.Name} null?");
-				}
-				var iterable = (IEnumerable)rawList;
-				foreach (var item in iterable)
-				{
-					foreach (var itemProp in singleProps)
-					{
-						//never null. Enforced by the compiler everywhere else
-						references.Add((ItemReference<T>)itemProp.GetValue(item)!);
-					}
-					foreach (var itemProp in nullableProps)
-					{
-						var value = itemProp.GetValue(item);
-						if (value != null)
-						{
-							//`(int)(Object)new Nullable<int>(5)` returns 5, so we sholud be safe if value is not null
-							references.Add((ItemReference<T>)value);
-						}
-					}
-					foreach (var itemProp in listProps)
-					{
-						var value = itemProp.GetValue(item);
-						if (value == null)
-						{
-							//not my job to question it
-							continue;
-						}
-						foreach (var val in (IEnumerable<ItemReference<T>>)value)
-						{
-							//we aren't looking for lists of nullables, so the value is not null
-							references.Add(val);
-						}
-					}
-				}
+				//}
+				////get the list in question
+				//Object? rawList = prop.GetValue(data);
+				//if (rawList == null)
+				//{
+				//	throw new InvalidOperationException($"How was {prop.Name} null?");
+				//}
+				//var iterable = (IEnumerable)rawList;
+				//foreach (var item in iterable)
+				//{
+				//	foreach (var itemProp in singleProps)
+				//	{
+				//		//never null. Enforced by the compiler everywhere else
+				//		references.Add((ItemReference<T>)itemProp.GetValue(item)!);
+				//	}
+				//	foreach (var itemProp in nullableProps)
+				//	{
+				//		var value = itemProp.GetValue(item);
+				//		if (value != null)
+				//		{
+				//			//`(int)(Object)new Nullable<int>(5)` returns 5, so we sholud be safe if value is not null
+				//			references.Add((ItemReference<T>)value);
+				//		}
+				//	}
+				//	foreach (var itemProp in listProps)
+				//	{
+				//		var value = itemProp.GetValue(item);
+				//		if (value == null)
+				//		{
+				//			//not my job to question it
+				//			continue;
+				//		}
+				//		foreach (var val in (IEnumerable<ItemReference<T>>)value)
+				//		{
+				//			//we aren't looking for lists of nullables, so the value is not null
+				//			references.Add(val);
+				//		}
+				//	}
+				//}
 			}
 			HashSet<Guid> referencedGuids = new HashSet<Guid>(references.Count);
 			HashSet<int> referencedIds = new HashSet<int>(references.Count);
@@ -1446,8 +1455,150 @@ namespace Pokerole.Tools.InitUpdate
 				}
 				unreferencedItems.Add(item);
 			}
-			list.RemoveAll(unreferencedItems.Contains);
+			int count = 0;
+			list.RemoveAll(item =>
+			{
+				if (unreferencedItems.Contains(item))
+				{
+					count++;
+					return true;
+				}
+				return false;
+			});
+			Console.WriteLine($"Garbage Collected {count} instances of {typeof(B)}");
 		}
+		private void GcProcessType<B, T>(Dictionary<Type, GcTypeInfo> typeInfoDict,
+			Dictionary<Type, Type> enumerableInfo, HashSet<ItemReference<T>> references,
+			HashSet<object> seenObjects, object? item) where B : DataItemBuilder<T> where T : IDataItem<T>
+		{
+			if (item == null)
+			{
+				return;
+			}
+			if (!seenObjects.Add(item))
+			{
+				//we have seen this one already
+				return;
+			}
+			(GcTypeInfo? typeInfo, bool isEnumerable) = GetTypeInfo<T>(typeInfoDict, enumerableInfo, item);
+			if (isEnumerable)
+			{
+				foreach (var inner in (IEnumerable)item)
+				{
+					GcProcessType<B, T>(typeInfoDict, enumerableInfo, references, seenObjects, inner);
+				}
+				return;
+			}
+			if (typeInfo == null)
+			{
+				throw new InvalidOperationException("Should not be null!!!");
+			}
+			foreach (var prop in typeInfo.AllProps)
+			{
+				if (typeInfo.SingleProps.Contains(prop))
+				{
+					references.Add((ItemReference<T>)prop.GetValue(item)!);
+				}
+				else if (typeInfo.NullableProps.Contains(prop))
+				{
+					ItemReference<T>? val = (ItemReference<T>?)prop.GetValue(item);
+					if (val.HasValue)
+					{
+						references.Add(val.Value);
+					}
+				}
+				else if (typeInfo.EnumerableProps.Contains(prop))
+				{
+					var value = prop.GetValue(item);
+					if (value == null)
+					{
+						//not my job to question it
+						continue;
+					}
+					foreach (var val in (IEnumerable<ItemReference<T>>)value)
+					{
+						//we aren't looking for lists of nullables, so the value is not null
+						references.Add(val);
+					}
+				}
+				else
+				{
+					GcProcessType<B, T>(typeInfoDict, enumerableInfo, references, seenObjects, prop.GetValue(item));
+				}
+			}
+		}
+
+		private static (GcTypeInfo? typeInfo, bool isEnumerable) GetTypeInfo<T>(Dictionary<Type, GcTypeInfo> typeInfoDict,
+			Dictionary<Type, Type> enumerableInfo, object item) where T : IDataItem<T>
+		{
+			return GetTypeInfo<T>(typeInfoDict, enumerableInfo, item.GetType());
+		}
+		private static (GcTypeInfo? typeInfo, bool isEnumerable) GetTypeInfo<T>(Dictionary<Type, GcTypeInfo> typeInfoDict,
+			Dictionary<Type, Type> enumerableInfo, Type inputType) where T : IDataItem<T>
+		{
+			Type searchType = inputType;
+			bool isEnumerable = false;
+			GcTypeInfo? typeInfo;
+			if (enumerableInfo.TryGetValue(searchType, out Type? baseType))
+			{
+				return (null, true);
+				//isEnumerable = true;
+				//searchType = baseType;
+			}
+			else if (typeInfoDict.TryGetValue(searchType, out typeInfo))
+			{
+				return (typeInfo, false);
+			}
+			//note: the generic version extends the non-generic one
+			else if (searchType.GetInterfaces().Contains(typeof(IEnumerable)))
+			{
+				isEnumerable = true;
+				var genericImpl = searchType.FindInterfaces((type, criteria) => type.IsGenericType &&
+					type.GetGenericTypeDefinition() == typeof(IEnumerable<>), null);
+				if (genericImpl.Length == 1)
+				{
+					searchType = genericImpl[0].GetGenericArguments()[0];
+				}
+				else if (genericImpl.Length < 1)
+				{
+					searchType = typeof(Object);
+				}
+				else
+				{
+					//wat?
+					throw new InvalidOperationException($"{searchType} implemented IEnumerable with two different generics!");
+				}
+				enumerableInfo.Add(inputType, searchType);
+				return (null, true);
+			}
+			if (!typeInfoDict.TryGetValue(searchType, out typeInfo))
+			{
+				//gather type info
+				List<PropertyInfo> allProps = new List<PropertyInfo>(searchType.GetProperties());
+				HashSet<PropertyInfo> singleProps = new HashSet<PropertyInfo>(10);
+				HashSet<PropertyInfo> nullableProps = new HashSet<PropertyInfo>(10);
+				HashSet<PropertyInfo> enumerabaleProps = new HashSet<PropertyInfo>(10);
+				foreach (var tarProp in allProps)
+				{
+					switch (tarProp.PropertyType)
+					{
+						case Type innerType when innerType == typeof(ItemReference<T>):
+							singleProps.Add(tarProp);
+							break;
+						case Type innerType when innerType == typeof(ItemReference<T>?):
+							nullableProps.Add(tarProp);
+							break;
+						case Type innerType when typeof(IEnumerable<ItemReference<T>>).IsAssignableFrom(innerType):
+							enumerabaleProps.Add(tarProp);
+							break;
+					}
+				}
+				typeInfo = new GcTypeInfo(searchType, allProps, singleProps, nullableProps, enumerabaleProps);
+				typeInfoDict.Add(searchType, typeInfo);
+			}
+			return (typeInfo, isEnumerable);
+		}
+
 		private record ImageData
 		{
 			public string Filename { get; }
@@ -1474,6 +1625,23 @@ namespace Pokerole.Tools.InitUpdate
 				Variant = variant;
 				BackImage = backImage;
 				Misc = misc;
+			}
+		}
+		private record GcTypeInfo
+		{
+			public Type Type { get; }
+			public ReadOnlySet<PropertyInfo> SingleProps { get; }
+			public ReadOnlySet<PropertyInfo> NullableProps { get; }
+			public ReadOnlySet<PropertyInfo> EnumerableProps { get; }
+			public ReadOnlyCollection<PropertyInfo> AllProps { get; }
+			public GcTypeInfo(Type type, List<PropertyInfo> allProps, ISet<PropertyInfo> singleProps, ISet<PropertyInfo> nullableProps,
+				ISet<PropertyInfo> enumerableProps)
+			{
+				Type = type;
+				SingleProps = new ReadOnlySet<PropertyInfo>(singleProps);
+				NullableProps = new ReadOnlySet<PropertyInfo>(nullableProps);
+				EnumerableProps = new ReadOnlySet<PropertyInfo>(enumerableProps);
+				AllProps = allProps.AsReadOnly();
 			}
 		}
 	}
