@@ -64,7 +64,7 @@ namespace Pokerole.Tools.InitUpdate
 			ReadMoveLists();
 			LinkAbilities();
 			data.Images.AddRange(ReadPrimaryImages());
-			ReadDexImages();
+			data.Images.AddRange(ReadDexImages());
 			GcStockImages();
 			//ReadEvolutions();
 
@@ -205,7 +205,7 @@ namespace Pokerole.Tools.InitUpdate
 					String? name = builder.Name;
 					if (name == null)
 					{
-						throw new InvalidOperationException("Move name missing");
+						throw new WasNullException("Move name missing");
 					}
 					moves.Add(name, builder);
 				}
@@ -985,7 +985,7 @@ namespace Pokerole.Tools.InitUpdate
 					}
 					bool VariantCompare()
 					{
-						String name = entry.Name ?? throw new InvalidOperationException("Null name");
+						String name = entry.Name ?? throw new WasNullException("Null name");
 						switch (dexNum)
 						{
 							case 386:
@@ -1285,11 +1285,8 @@ namespace Pokerole.Tools.InitUpdate
 			"449Hippopotas-BothGenders" or "450Hippowdon-BothGenders" => true,
 			_ => false
 		});
-		private void ReadDexImages()
+		private List<ImageRef.Builder> ReadDexImages()
 		{
-			//gota collect them all!
-			//*2 for shinies, .5 for misc images
-			List<DexImageData> dexImages = new List<DexImageData>((int)(data.DexEntries.Count * 2.5));
 			//               pokerole-tools (root)--|
 			//                 init-update ------|  |
 			//                         bin ---|  |  |
@@ -1302,33 +1299,264 @@ namespace Pokerole.Tools.InitUpdate
 			{
 				dexData = JObject.Load(reader);
 			}
-			var entriesByDexNum = data.DexEntries.Where(item=>!item.Name!.StartsWith("Delta")).ToLookup(item => item.DexNum);
-			String imagesDir = Path.Combine(pokespriteDir, "pokemon-gen8");
+			static JToken GetNonNullValue(JToken parent, params String[] names)
+			{
+				JToken token = parent;
+				foreach (var name in names)
+				{
+					var value = token[name] ?? throw new WasNullException($"'{name}' was null!");
+					token = value;
+				}
+				return token;
+			}
+			static JProperty PropertyFromToken(JToken token)
+			{
+				if (token.Type != JTokenType.Property)
+				{
+					throw new InvalidOperationException("Given token was not a Property");
+				}
+				return (JProperty)token;
+			}
+			//static JObject ObjectFromToken(JToken token)
+			//{
+			//	if (token.Type != JTokenType.Object)
+			//	{
+			//		throw new InvalidOperationException("Given token was not an Object");
+			//	}
+			//	return (JObject)token;
+			//}
+			//gota collect them all!
+			//*2 for shinies, .5 for misc images
+			Dictionary<int, PokeSpriteDexEntry> spriteEntries = new Dictionary<int, PokeSpriteDexEntry>(
+				(int)(data.DexEntries.Count * 2.5));
+			//we are just parsing values here. NOT INTERPRETING THEM
 			foreach (var node in dexData)
 			{
 				int dexNum = int.Parse(node.Key);
-				var entries = entriesByDexNum[dexNum];
+				PokeSpriteDexEntry entry = new PokeSpriteDexEntry(dexNum);
+				spriteEntries.Add(dexNum, entry);
+				var value = node.Value;
+				if (value == null)
+				{
+					throw new WasNullException("Value was null");
+				}
+				foreach (var item in GetNonNullValue(value, "name"))
+				{
+					var prop = PropertyFromToken(item);
+					entry.name[prop.Name] = (String?)prop.Value ?? throw new WasNullException("prop was null");
+				}
+				foreach (var item in GetNonNullValue(value, "slug"))
+				{
+					var prop = PropertyFromToken(item);
+					entry.slug[prop.Name] = (String?)prop.Value ?? throw new WasNullException("prop was null");
+				}
+				void ReadForms(JObject formNode)
+				{
+					foreach(var pair in formNode)
+					{
+						String key = pair.Key;
+						if (!entry.forms.TryGetValue(key, out PokeSpriteForm? form))
+						{
+							form = new PokeSpriteForm();
+							entry.forms[key] = form;
+						}
+						//if ((bool?)pair.Value?["is_prev_gen_icon"] ?? false)
+						//{
+						//	//nothing new
+						//	continue;
+						//}
+						foreach (JProperty prop in pair.Value ?? throw new WasNullException("Form pair"))
+						{
+							switch (prop.Name)
+							{
+								case "is_alias_of":
+									form.alias = (String?)prop.Value ?? throw new WasNullException();
+									break;
+								case "is_unofficial_icon":
+									form.unofficial = (bool?)prop.Value ?? throw new WasNullException();
+									break;
+								case "is_unofficial_legacy_icon":
+									form.unofficialLegacy = (bool?)prop.Value ?? throw new WasNullException();
+									break;
+								case "is_prev_gen_icon":
+									form.isPrevGen = (bool?)prop.Value ?? throw new WasNullException();
+									continue;
+								case "has_right":
+									form.hasRight = (bool?)prop.Value ?? throw new WasNullException();
+									break;
+								case "has_female":
+									form.hasFemale = (bool?)prop.Value ?? throw new WasNullException();
+									break;
+								case "has_unofficial_female_icon":
+									form.unofficialFemale = (bool?)prop.Value ?? throw new WasNullException();
+									break;
+								default:
+									throw new InvalidOperationException($"Unknown form prop: {prop.Name}");
+							}
+						}
+					}
+				}
+				var gen7 = value["gen-7"]?["forms"];// GetNonNullValue(value, "gen-7", "forms");
+				var gen8 = GetNonNullValue(value, "gen-8", "forms");
+				if (gen7 != null)// null for gen8 mon
+				{
+					ReadForms((JObject)gen7);
+				}
+				ReadForms((JObject)gen8);
+			}
+			HashSet<DexEntry.Builder> remainingDexEntries = data.DexEntries.Where(item => !item.Name!.StartsWith("Delta")).
+				ToHashSet();
+			ILookup<int, DexEntry.Builder> entriesByDexNum = remainingDexEntries.ToLookup(item => item.DexNum!.Value);
+			String imagesDir = Path.Combine(pokespriteDir, "pokemon-gen8");
+			List<ImageRef.Builder> newImages = new List<ImageRef.Builder>(remainingDexEntries.Count * 3);
+			//Orderby since I don't recall if dicts care about that...
+			foreach (var spritePair in spriteEntries.OrderBy(pair => pair.Key))
+			{
+				IEnumerable<DexEntry.Builder> entries = entriesByDexNum[spritePair.Key];
 				if (entries.Count() < 1)
 				{
-					throw new InvalidOperationException($"Missing dex entry for #{dexNum}");
-				}
-				//Note: need to read gen-7 and gen-8 nodes
-				if (entries.Count() == 1 && node.Value?["gen-8"]?["forms"]?["gmax"] == null)
-				{
-					//hurray! Simplicity!!!
-					var entry = entries.First();
-
 					throw new NotImplementedException();
-					//continue;
 				}
-				throw new NotImplementedException();
+				HashSet<DexEntry.Builder> remaining = new HashSet<DexEntry.Builder>(entries);
+				var spriteDex = spritePair.Value;
+				foreach (var formPair in spriteDex.forms)
+				{
+					String key = formPair.Key;
+					PokeSpriteForm form = formPair.Value;
+					//skipping aliases for now
+					if (!String.IsNullOrWhiteSpace(form.alias))
+					{
+						//skip for now to avoid creating garbage entries
+						continue;
+					}
+					////dereference alias
+					//while (!String.IsNullOrEmpty(form.alias))
+					//{
+
+					//}
+					ItemReference<ImageRef> MakeImage(bool shiny, bool female, bool right)
+					{
+						bool gen7 = form.isPrevGen;
+						String baseSlug = spriteDex.Slug;
+						String formName = key;
+						if (formName == "$")
+						{
+							//base
+							formName = "";
+						}
+						List <String> parts = new List<string>(10);
+						//no gen 8 icons exist that face right
+						parts.Add(gen7 || right ? "pokemon-gen7x" : "pokemon-gen8");
+						parts.Add(shiny ? "shiny" : "regular");
+						//to my astonishment, no female images have a right variant...
+						if (female && right)
+						{
+							throw new NotImplementedException();//not handled elsewhere
+						}
+						if (female)
+						{
+							parts.Add("female");
+						}
+						if (right)
+						{
+							parts.Add("right");
+						}
+						String baseName = baseSlug;
+						if (!String.IsNullOrWhiteSpace(formName))
+						{
+							baseName += $"-{formName}";
+						}
+						parts.Add(baseName + ".png");
+						//Note: we are using the path section we build since we would otherwise have duplicate filenames
+						String fileNamePart = Path.Join(parts.ToArray());
+						String filenameFull = Path.GetFullPath(Path.Join(pokespriteDir, fileNamePart));
+						ImageRef.Builder builder = new ImageRef.Builder()
+						{
+							Filename = fileNamePart,
+							Data = ReadImage(filenameFull),
+							DataId = new DataId(null, Guid.NewGuid())
+						};
+						if (!File.Exists(filenameFull))
+						{
+							throw new InvalidOperationException();
+						}
+						newImages.Add(builder);
+						return builder.ItemReference!.Value;
+					}
+					bool IsVariant(DexEntry.Builder entry, out bool isAdditional)
+					{
+						isAdditional = false;
+						if (key == "mega")
+						{
+							return entry.MegaEvolutionBaseEntry != null;
+						}
+						if (key == "mega-x")
+						{
+							return entry.Name!.EndsWith(" X");
+						}
+						if (key == "mega-y")
+						{
+							return entry.Name!.EndsWith(" Y");
+						}
+						if ((key == "gmax" || key == "$"))
+						{
+							return String.IsNullOrEmpty(entry.Variant);
+						}
+						throw new NotImplementedException();
+					}
+					DexEntry.Builder? FindVariant(out bool isAdditional)
+					{
+						foreach (var entry in entries)
+						{
+							if (IsVariant(entry, out isAdditional))
+							{
+								return entry;
+							}
+						}
+						isAdditional = false;
+						return null;
+					}
+					var entry = FindVariant(out bool isAdditional);
+					if (entry == null)
+					{
+						throw new NotImplementedException();
+					}
+					if (key == "gmax")
+					{
+						//gmax has no right, no female, and no actual dex entry other than the default one
+						entry.AdditionalSpriteImages.Add(MakeImage(false, false, false));
+						entry.AdditionalShinySpriteImages.Add(MakeImage(true, false, false));
+						continue;
+					}
+					if (isAdditional)
+					{
+						//add additional images
+						entry.AdditionalSpriteImages.Add(MakeImage(false, false, false));
+						entry.AdditionalShinySpriteImages.Add(MakeImage(true, false, false));
+						if (form.hasFemale)
+						{
+							entry.AdditionalFemaleSpriteImages.Add(MakeImage(false, true, false));
+							entry.AdditionalShinyFemaleSpriteImages.Add(MakeImage(true, true, false));
+						}
+					}
+					else
+					{
+						entry.SpriteImage = MakeImage(false, false, false);
+						entry.SpriteShinyImage = MakeImage(true, false, false);
+					}
+					if (form.hasRight)
+					{
+						entry.AdditionalSpriteImages.Add(MakeImage(false, false, true));
+						entry.AdditionalShinySpriteImages.Add(MakeImage(true, false, true));
+					}
+					remaining.Remove(entry);
+				}
+				if (remaining.Count > 0)
+				{
+					throw new NotImplementedException();
+				}
 			}
-			throw new NotImplementedException();
-
-		}
-		private void CollectDexImages(String dir)
-		{
-
+			return newImages;
 		}
 		private byte[]? ReadImage(String path)
 		{
@@ -1534,7 +1762,7 @@ namespace Pokerole.Tools.InitUpdate
 			}
 			if (typeInfo == null)
 			{
-				throw new InvalidOperationException("Should not be null!!!");
+				throw new WasNullException("Should not be null!!!");
 			}
 			foreach (var prop in typeInfo.AllProps)
 			{
@@ -1670,10 +1898,6 @@ namespace Pokerole.Tools.InitUpdate
 				Misc = misc;
 			}
 		}
-		private record DexImageData
-		{
-
-		}
 		private record GcTypeInfo
 		{
 			public Type Type { get; }
@@ -1692,6 +1916,41 @@ namespace Pokerole.Tools.InitUpdate
 			}
 		}
 	}
+	class PokeSpriteDexEntry
+	{
+		public int dexNum;
+		public Dictionary<String, String> name;
+		public Dictionary<String, String> slug;
+		/// <summary>
+		/// English slug for file names
+		/// </summary>
+		public String Slug => slug["eng"];
+		/// <summary>
+		/// union of gen-7 and gen-8, reading gen-7 first, and then gen-8
+		/// </summary>
+		public Dictionary<String, PokeSpriteForm> forms;
+		public PokeSpriteDexEntry(int dexNum)
+		{
+			this.dexNum = dexNum;
+			name = new Dictionary<string, string>(4);
+			slug = new Dictionary<string, string>(3);
+			forms = new Dictionary<string, PokeSpriteForm>(1);
+		}
+	}
+	class PokeSpriteForm
+	{
+		public String? alias;
+		public bool unofficial, unofficialFemale;
+		public bool unofficialLegacy;
+		public bool isPrevGen;
+		public bool hasRight, hasFemale;
+		public PokeSpriteForm()
+		{
+			alias = null;
+			unofficial = unofficialFemale = unofficialLegacy = isPrevGen = hasRight = hasFemale = false;
+		}
+
+	}
 	public static class Extensions
 	{
 		public static IEnumerable<T> NonNull<T>(this IEnumerable<T?> enumerable)
@@ -1704,5 +1963,16 @@ namespace Pokerole.Tools.InitUpdate
 				}
 			}
 		}
+	}
+
+	[Serializable]
+	public class WasNullException : Exception
+	{
+		public WasNullException() { }
+		public WasNullException(string message) : base(message) { }
+		public WasNullException(string message, Exception inner) : base(message, inner) { }
+		protected WasNullException(
+		  System.Runtime.Serialization.SerializationInfo info,
+		  System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 	}
 }
