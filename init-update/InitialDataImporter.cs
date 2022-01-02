@@ -33,6 +33,7 @@ namespace Pokerole.Tools.InitUpdate
 		private readonly Dictionary<String, Item.Builder> itemsByName = new Dictionary<string, Item.Builder>();
 		private readonly Dictionary<String, DexEntry.Builder> monByName = new Dictionary<string, DexEntry.Builder>();
 		private readonly Dictionary<String, Ability.Builder> abilitiesByName = new Dictionary<string, Ability.Builder>();
+		private const bool HAS_DLC_MON = false;
 		public InitialDataImporter()
 		{
 			String previousOutput;
@@ -953,7 +954,8 @@ namespace Pokerole.Tools.InitUpdate
 			}
 			//exclude images for the ones we don't have dex entries for since I don't have them for 891+, but DON'T
 			//skip them if we DO have the stat blocks
-			int imageRemainingCount = remainingImages.Count(item => entriesByDex.Contains(item.DexNum));
+			int imageRemainingCount = HAS_DLC_MON ? remainingImages.Count :
+				remainingImages.Count(item => entriesByDex.Contains(item.DexNum));
 			if (imageRemainingCount > 0 || remainingDexEntries.Count > 0)
 			{
 				throw new InvalidOperationException("Items were missed!");
@@ -1404,17 +1406,22 @@ namespace Pokerole.Tools.InitUpdate
 				}
 				ReadForms((JObject)gen8);
 			}
-			HashSet<DexEntry.Builder> remainingDexEntries = data.DexEntries.Where(item => !item.Name!.StartsWith("Delta")).
-				ToHashSet();
+			HashSet<DexEntry.Builder> remainingDexEntries = data.DexEntries.Where(item => !item.Name!.StartsWith("Delta")
+					&& item.DexNum.HasValue && item.DexNum.Value > 0).ToHashSet();
 			ILookup<int, DexEntry.Builder> entriesByDexNum = remainingDexEntries.ToLookup(item => item.DexNum!.Value);
 			String imagesDir = Path.Combine(pokespriteDir, "pokemon-gen8");
 			List<ImageRef.Builder> newImages = new List<ImageRef.Builder>(remainingDexEntries.Count * 3);
 			//Orderby since I don't recall if dicts care about that...
 			foreach (var spritePair in spriteEntries.OrderBy(pair => pair.Key))
 			{
-				IEnumerable<DexEntry.Builder> entries = entriesByDexNum[spritePair.Key];
+				int dexNum = spritePair.Key;
+				IEnumerable<DexEntry.Builder> entries = entriesByDexNum[dexNum];
 				if (entries.Count() < 1)
 				{
+					if (dexNum > 890 && !HAS_DLC_MON)
+					{
+						continue;
+					}
 					throw new NotImplementedException();
 				}
 				HashSet<DexEntry.Builder> remaining = new HashSet<DexEntry.Builder>(entries);
@@ -1486,6 +1493,263 @@ namespace Pokerole.Tools.InitUpdate
 					bool IsVariant(DexEntry.Builder entry, out bool isAdditional)
 					{
 						isAdditional = false;
+						//specific first, then general
+						bool isSingleWithMultipleImages = (dexNum) switch
+						{
+							25 or 133 or 172 or 201 or 249 or 327 or 351 or 412 or 421 or 422 or 423 or 493 or 550 or 585 or 586 or 649 or
+								666 or 669 or 670 or 671 or 676 or 710 or 711 or 716 or 773 or 778 or 801 or 845 or
+								854 or 855 or 869 or 877 or 890 => true,
+							_ => false
+						};
+						if (isSingleWithMultipleImages)
+						{
+							//25=Pikachu (hats)
+							//133=Eevee (Starter)
+							//172=Pichu (Spiky ear)
+							//201=Unkown
+							//249=Lugia (Shadow)
+							//327=Spinda (Don't know why...)
+							//351=Castform
+							//412=Burmy
+							//421=Cherrim
+							//422=Shellos
+							//423=Gastrodon
+							//493=Arceus
+							//550=Basculin
+							//585=Deerling
+							//586=Sawsbuck
+							//649=Genesect
+							//666=Vivillon
+							//669-671=Flabébé line
+							//676=Furfrou
+							//710-711=Pumpkaboo line
+							//716=Xerneas
+							//773=Silvally
+							//778=Mimikyu
+							//801=Magearna
+							//845=Cramorant
+							//854-855=Sinistea line
+							//869=Alcremie
+							//877=Morpeko
+							//890=Eternatus
+							isAdditional = true;
+							return true;
+						}
+						String name = entry.Name ?? throw new InvalidOperationException("Name was null!");
+						switch (dexNum)
+						{
+							case 382:
+							case 383:
+								return key switch
+								{
+									"primal" => name.StartsWith("Primal", StringComparison.OrdinalIgnoreCase),
+									"$" => !name.StartsWith("Primal", StringComparison.OrdinalIgnoreCase),
+									_ => throw new InvalidOperationException()
+								};
+							case 386:
+								return key switch
+								{
+									"$" => name == "Deoxys",
+									"attack" => name.StartsWith("Attack"),
+									"defense" => name.StartsWith("Defense"),
+									"speed" => name.StartsWith("Speed"),
+									_ => throw new InvalidOperationException()
+								};
+
+							case 413:
+								return key switch
+								{
+									"sandy" => name.StartsWith("Ground"),
+									"trash" => name.StartsWith("Steel"),
+									"$" or "plant" => name.StartsWith("Grass"),
+									_ => throw new InvalidOperationException(),
+								};
+							case 479:
+								//rotom
+								return key switch
+								{
+									"$" => name == "Rotom",
+									//'D' => name.EndsWith("Dex"), no dex image for now
+									"fan" => name.EndsWith("Fan"),
+									"mow" => name.EndsWith("Mow"),
+									"heat" => name.EndsWith("Heat"),
+									"frost" => name.EndsWith("Frost"),
+									"wash" => name.EndsWith("Wash"),
+									_ => throw new InvalidOperationException()
+								};
+							case 487:
+								//Giratina
+								return key switch
+								{
+									"origin" => name.StartsWith("Origin"),
+									"$" or "altered" => name == "Giratina",
+									_ => throw new InvalidOperationException()
+								};
+							case 492:
+								//shaymin
+								return key switch
+								{
+									"sky" => name.StartsWith("Sky"),
+									"$" or "land" => name == "Shaymin",
+									_ => throw new InvalidOperationException()
+								};
+							case 555:
+								//stupid dumb...
+								//Darmanitan
+								return key switch
+								{
+									"$" => name == "Darmanitan",
+									"zen" => name == "Zen Darmanitan",
+									"galar" => name == "Galarian Darmanitan",
+									"galar-zen" => name == "Galarian Zen Darmanitan",
+									_ => throw new InvalidOperationException()
+								};
+							case 641:
+							case 642:
+							case 645:
+								//Tornadus, Thundurus, and Landorus
+								return key switch
+								{
+									"therian" => name.StartsWith("Form"),
+									"$" or "incarnate" => !name.StartsWith("Form"),
+									_ => throw new InvalidOperationException()
+								};
+							case 646:
+								//Kyurem
+								return key switch
+								{
+									"black" => name.StartsWith("Black"),
+									"white" => name.StartsWith("White"),
+									"$" => name == "Kyurem",
+									_ => throw new InvalidOperationException()
+								};
+							case 647:
+								//Keldeo
+								return key switch
+								{
+									"resolute" => name.StartsWith("Form"),
+									"$" or "ordinary" => name == "Keldeo",
+									_ => throw new InvalidOperationException()
+								};
+							case 648:
+								//Meloetta
+								return key switch
+								{
+									"pirouette" => name.StartsWith("Form"),
+									"$" or "aria" => !name.StartsWith("Form"),
+									_ => throw new InvalidOperationException()
+								};
+							case 658:
+								//Greninja
+								return key switch
+								{
+									"ash" or "battle-bond" => name.StartsWith("BBF"),
+									"$" => name == "Greninja",
+									_ => throw new InvalidOperationException()
+								};
+							case 681:
+								//Aegislash
+								return key switch
+								{
+									"blade" => name.StartsWith("Form"),
+									"$" or "shield" => name == "Aegislash",
+									_ => throw new InvalidOperationException()
+								};
+							case 718:
+								//Zygarde
+								return key switch
+								{
+									//'L' => name.EndsWith("Cell"), same as rotom dex, skip
+									"10" => name.EndsWith("10%"),
+									"complete" => name.EndsWith("100%"),
+									"$" or "50" => name.EndsWith("50%"),
+									_ => throw new InvalidOperationException()
+								};
+							case 720:
+								//Hoopa
+								return key switch
+								{
+									"unbound" => name.EndsWith("Unbound"),
+									"$" => name == "Hoopa",
+									_ => throw new InvalidOperationException()
+								};
+							case 741:
+								return key switch
+								{
+									"pau" => name.EndsWith("Psychic"),
+									"pom-pom" => name.EndsWith("Electric"),
+									"sensu" => name.EndsWith("Ghost"),
+									"baile" or "$" => name.EndsWith("Fire"),
+									_ => throw new InvalidOperationException()
+								};
+							case 745:
+								return key switch
+								{
+									"dusk" => name.EndsWith("Dusk"),
+									"midnight" => name.EndsWith("Midnight"),
+									"$" or "midday" => name.EndsWith("Midday"),
+									_ => throw new InvalidOperationException()
+								};
+							case 746:
+								return key switch
+								{
+									"school" => name.EndsWith("Swarm"),
+									"$" or "solo" => name == "Wishiwashi",
+									_ => throw new InvalidOperationException()
+								};
+							case 774:
+								//Minior
+								if (key == "$" || key.EndsWith("meteor"))
+								{
+									isAdditional = key != "$";
+									return name == "Minior";
+								}
+								//I wrote this code and I like red, so red will be the default
+								isAdditional = key != "red";
+								return name.EndsWith("Core");
+							case 800:
+								return key switch
+								{
+									"ultra" => name.EndsWith("Ultra Burst"),
+									"dusk" => name.EndsWith("Dusk Mane"),
+									"dawn" => name.EndsWith("Dawn Wings"),
+									"$" => name == "Necrozma",
+									_ => throw new InvalidOperationException()
+								};
+							case 802:
+								//there seems to be a duplicate??
+								//ignore the duplicate
+								return key == "$";
+							case 849:
+								isAdditional = key.Contains("gmax");
+								String switchKey = Regex.Replace(key, "-?gmax", "");
+								if (switchKey == "")
+								{
+									switchKey = "$";
+								}
+								return switchKey switch
+								{
+									"low-key" => name.EndsWith("Low Key"),
+									"$" or "amped" => name.EndsWith("Amped"),
+									_ => throw new InvalidOperationException()
+								};
+							case 875:
+								return key switch
+								{
+									"noice" => name.StartsWith("Form"),
+									"$" or "ice" => name == "Eiscue",
+									_ => throw new InvalidOperationException()
+								};
+							case 888:
+							case 889:
+								//sword+shield doggos
+								return key switch
+								{
+									"$" or "hero-of-many-battles" => !name.StartsWith("Form"),
+									"crowned" => name.StartsWith("Form"),
+									_ => throw new InvalidOperationException()
+								};
+						}
 						if (key == "mega")
 						{
 							return entry.MegaEvolutionBaseEntry != null;
@@ -1498,9 +1762,16 @@ namespace Pokerole.Tools.InitUpdate
 						{
 							return entry.Name!.EndsWith(" Y");
 						}
-						if ((key == "gmax" || key == "$"))
+						if (key == "gmax" || key == "$")
 						{
 							return String.IsNullOrEmpty(entry.Variant);
+						}
+						switch (key)
+						{
+							case "alola":
+								return "Alolan" == entry.Variant;
+							case "galar":
+								return "Galarian" == entry.Variant;
 						}
 						throw new NotImplementedException();
 					}
@@ -1519,6 +1790,11 @@ namespace Pokerole.Tools.InitUpdate
 					var entry = FindVariant(out bool isAdditional);
 					if (entry == null)
 					{
+						if (dexNum == 802)
+						{
+							//had a duplicate for some reason. Skip it
+							continue;
+						}
 						throw new NotImplementedException();
 					}
 					if (key == "gmax")
@@ -1543,6 +1819,12 @@ namespace Pokerole.Tools.InitUpdate
 					{
 						entry.SpriteImage = MakeImage(false, false, false);
 						entry.SpriteShinyImage = MakeImage(true, false, false);
+						if (form.hasFemale)
+						{
+							entry.SpriteFemaleImage = MakeImage(false, true, false);
+							entry.SpriteShinyFemaleImage = MakeImage(true, true, false);
+
+						}
 					}
 					if (form.hasRight)
 					{
@@ -1550,9 +1832,19 @@ namespace Pokerole.Tools.InitUpdate
 						entry.AdditionalShinySpriteImages.Add(MakeImage(true, false, true));
 					}
 					remaining.Remove(entry);
+					remainingDexEntries.Remove(entry);
 				}
 				if (remaining.Count > 0)
 				{
+					if (remaining.Count == 1)
+					{
+						var entry = remaining.First();
+						if ((entry.DexNum == 479 && entry.Name!.EndsWith("Dex")) || (entry.DexNum == 718 &&
+							entry.Name!.EndsWith("Cell")))
+						{
+							continue;//ignore
+						}
+					}
 					throw new NotImplementedException();
 				}
 			}
