@@ -160,7 +160,13 @@ namespace Pokerole.Core
 			dataId = id;
 		}
 	}
-	public abstract class ItemBuilder<T>
+	//for reflection convinience
+	public interface IItemBuilder
+	{
+		bool IsValid { get; }
+		Object Build();
+	}
+	public abstract class ItemBuilder<T> : IItemBuilder
 	{
 		/// <summary>
 		/// Whether or not all of the required Properites of this instance are set to build a new
@@ -174,6 +180,10 @@ namespace Pokerole.Core
 		/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 		/// have been set</exception>
 		public abstract T Build();
+		Object IItemBuilder.Build()
+		{
+			return Build()!;
+		}
 		public static void BuildList(IEnumerable<ItemBuilder<T>> list, List<T> destinationList)
 		{
 			destinationList.AddRange(list.Select(item => item.Build()));
