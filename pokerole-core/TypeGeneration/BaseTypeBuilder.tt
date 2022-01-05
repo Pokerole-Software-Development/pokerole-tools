@@ -427,6 +427,41 @@ namespace Pokerole.Core{
 					return true;
 				}
 			}
+<#
+		//count needed entries
+		int required = 0;
+		foreach(FieldDef field in classDef.fields)
+		{
+			if (!field.type.isNullable)
+			{
+				required++;
+			}
+		}
+#>			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(<#=required#>);
+<#
+		foreach(FieldDef field in classDef.fields)
+		{
+			if (!field.type.isNullable)
+			{
+#>
+					if (<#=field.name#> is null)
+					{
+						missing.Add("<#=field.name#>");
+					}
+<#
+			}
+		}
+#>
+					return missing;
+				}
+			}
 			/// <summary>
 			/// Build and instance of <see cref="<#=classDef.name#>"/> from this Builder
 			/// </summary>

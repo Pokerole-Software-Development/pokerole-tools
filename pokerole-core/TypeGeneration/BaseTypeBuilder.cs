@@ -493,6 +493,85 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(17);
+					if (Name is null)
+					{
+						missing.Add("Name");
+					}
+					if (Description is null)
+					{
+						missing.Add("Description");
+					}
+					if (Power is null)
+					{
+						missing.Add("Power");
+					}
+					if (MoveCategory is null)
+					{
+						missing.Add("MoveCategory");
+					}
+					if (Type is null)
+					{
+						missing.Add("Type");
+					}
+					if (MoveTarget is null)
+					{
+						missing.Add("MoveTarget");
+					}
+					if (Ranged is null)
+					{
+						missing.Add("Ranged");
+					}
+					if (PrimaryAccuracySkill is null)
+					{
+						missing.Add("PrimaryAccuracySkill");
+					}
+					if (PrimaryAccuracyIsNegative is null)
+					{
+						missing.Add("PrimaryAccuracyIsNegative");
+					}
+					if (SecondaryAccuracySkill is null)
+					{
+						missing.Add("SecondaryAccuracySkill");
+					}
+					if (ReducedAccuracy is null)
+					{
+						missing.Add("ReducedAccuracy");
+					}
+					if (SecondaryDamageIsNegative is null)
+					{
+						missing.Add("SecondaryDamageIsNegative");
+					}
+					if (DamageModifier is null)
+					{
+						missing.Add("DamageModifier");
+					}
+					if (HasSpecialAccuracyMod is null)
+					{
+						missing.Add("HasSpecialAccuracyMod");
+					}
+					if (HasSpecialDamageMod is null)
+					{
+						missing.Add("HasSpecialDamageMod");
+					}
+					if (AdditionalInfo is null)
+					{
+						missing.Add("AdditionalInfo");
+					}
+					if (Effects is null)
+					{
+						missing.Add("Effects");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
 			/// Build and instance of <see cref="Move"/> from this Builder
 			/// </summary>
 			/// <returns>A new instance of <see cref="Move"/></returns>
@@ -597,6 +676,25 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(2);
+					if (Name is null)
+					{
+						missing.Add("Name");
+					}
+					if (Description is null)
+					{
+						missing.Add("Description");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
 			/// Build and instance of <see cref="Item"/> from this Builder
 			/// </summary>
 			/// <returns>A new instance of <see cref="Item"/></returns>
@@ -676,6 +774,25 @@ namespace Pokerole.Core{
 						return false;
 					}
 					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(2);
+					if (Units is null)
+					{
+						missing.Add("Units");
+					}
+					if (Value is null)
+					{
+						missing.Add("Value");
+					}
+					return missing;
 				}
 			}
 			/// <summary>
@@ -761,6 +878,25 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(2);
+					if (Units is null)
+					{
+						missing.Add("Units");
+					}
+					if (Value is null)
+					{
+						missing.Add("Value");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
 			/// Build and instance of <see cref="Weight"/> from this Builder
 			/// </summary>
 			/// <returns>A new instance of <see cref="Weight"/></returns>
@@ -840,6 +976,25 @@ namespace Pokerole.Core{
 						return false;
 					}
 					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(2);
+					if (Skill is null)
+					{
+						missing.Add("Skill");
+					}
+					if (Value is null)
+					{
+						missing.Add("Value");
+					}
+					return missing;
 				}
 			}
 			/// <summary>
@@ -935,6 +1090,21 @@ namespace Pokerole.Core{
 						return false;
 					}
 					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(1);
+					if (Filename is null)
+					{
+						missing.Add("Filename");
+					}
+					return missing;
 				}
 			}
 			/// <summary>
@@ -1034,6 +1204,25 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(2);
+					if (Item is null)
+					{
+						missing.Add("Item");
+					}
+					if (TargetEvolution is null)
+					{
+						missing.Add("TargetEvolution");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
 			/// Build and instance of <see cref="MegaEvolutionEntry"/> from this Builder
 			/// </summary>
 			/// <returns>A new instance of <see cref="MegaEvolutionEntry"/></returns>
@@ -1127,6 +1316,25 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(2);
+					if (Rank is null)
+					{
+						missing.Add("Rank");
+					}
+					if (Move is null)
+					{
+						missing.Add("Move");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
 			/// Build and instance of <see cref="MoveEntry"/> from this Builder
 			/// </summary>
 			/// <returns>A new instance of <see cref="MoveEntry"/></returns>
@@ -1217,6 +1425,25 @@ namespace Pokerole.Core{
 						return false;
 					}
 					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(2);
+					if (Hidden is null)
+					{
+						missing.Add("Hidden");
+					}
+					if (Ability is null)
+					{
+						missing.Add("Ability");
+					}
+					return missing;
 				}
 			}
 			/// <summary>
@@ -2593,6 +2820,153 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(34);
+					if (DexNum is null)
+					{
+						missing.Add("DexNum");
+					}
+					if (SuggestedStarter is null)
+					{
+						missing.Add("SuggestedStarter");
+					}
+					if (PrimaryType is null)
+					{
+						missing.Add("PrimaryType");
+					}
+					if (Name is null)
+					{
+						missing.Add("Name");
+					}
+					if (AverageHeight is null)
+					{
+						missing.Add("AverageHeight");
+					}
+					if (AverageWeight is null)
+					{
+						missing.Add("AverageWeight");
+					}
+					if (Category is null)
+					{
+						missing.Add("Category");
+					}
+					if (DexDescription is null)
+					{
+						missing.Add("DexDescription");
+					}
+					if (SuggestedRank is null)
+					{
+						missing.Add("SuggestedRank");
+					}
+					if (BaseHp is null)
+					{
+						missing.Add("BaseHp");
+					}
+					if (PrimaryImage is null)
+					{
+						missing.Add("PrimaryImage");
+					}
+					if (AdditionalImages is null)
+					{
+						missing.Add("AdditionalImages");
+					}
+					if (AdditionalShinyImages is null)
+					{
+						missing.Add("AdditionalShinyImages");
+					}
+					if (SpriteImage is null)
+					{
+						missing.Add("SpriteImage");
+					}
+					if (AdditionalFemaleImages is null)
+					{
+						missing.Add("AdditionalFemaleImages");
+					}
+					if (AdditionalShinyFemaleImages is null)
+					{
+						missing.Add("AdditionalShinyFemaleImages");
+					}
+					if (AdditionalSpriteImages is null)
+					{
+						missing.Add("AdditionalSpriteImages");
+					}
+					if (AdditionalShinySpriteImages is null)
+					{
+						missing.Add("AdditionalShinySpriteImages");
+					}
+					if (AdditionalFemaleSpriteImages is null)
+					{
+						missing.Add("AdditionalFemaleSpriteImages");
+					}
+					if (AdditionalShinyFemaleSpriteImages is null)
+					{
+						missing.Add("AdditionalShinyFemaleSpriteImages");
+					}
+					if (Abilities is null)
+					{
+						missing.Add("Abilities");
+					}
+					if (MegaEvolutions is null)
+					{
+						missing.Add("MegaEvolutions");
+					}
+					if (MaxStrength is null)
+					{
+						missing.Add("MaxStrength");
+					}
+					if (StartingStrength is null)
+					{
+						missing.Add("StartingStrength");
+					}
+					if (MaxDexterity is null)
+					{
+						missing.Add("MaxDexterity");
+					}
+					if (StartingDexterity is null)
+					{
+						missing.Add("StartingDexterity");
+					}
+					if (MaxVitality is null)
+					{
+						missing.Add("MaxVitality");
+					}
+					if (StartingVitality is null)
+					{
+						missing.Add("StartingVitality");
+					}
+					if (MaxSpecial is null)
+					{
+						missing.Add("MaxSpecial");
+					}
+					if (StartingSpecial is null)
+					{
+						missing.Add("StartingSpecial");
+					}
+					if (MaxInsight is null)
+					{
+						missing.Add("MaxInsight");
+					}
+					if (StartingInsight is null)
+					{
+						missing.Add("StartingInsight");
+					}
+					if (GenderType is null)
+					{
+						missing.Add("GenderType");
+					}
+					if (MoveSet is null)
+					{
+						missing.Add("MoveSet");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
 			/// Build and instance of <see cref="DexEntry"/> from this Builder
 			/// </summary>
 			/// <returns>A new instance of <see cref="DexEntry"/></returns>
@@ -3957,6 +4331,201 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(46);
+					if (Picture is null)
+					{
+						missing.Add("Picture");
+					}
+					if (Definition is null)
+					{
+						missing.Add("Definition");
+					}
+					if (Name is null)
+					{
+						missing.Add("Name");
+					}
+					if (Ability is null)
+					{
+						missing.Add("Ability");
+					}
+					if (HP is null)
+					{
+						missing.Add("HP");
+					}
+					if (WillPoints is null)
+					{
+						missing.Add("WillPoints");
+					}
+					if (HeldItem is null)
+					{
+						missing.Add("HeldItem");
+					}
+					if (Status is null)
+					{
+						missing.Add("Status");
+					}
+					if (EvasionDice is null)
+					{
+						missing.Add("EvasionDice");
+					}
+					if (ClashDice is null)
+					{
+						missing.Add("ClashDice");
+					}
+					if (Defence is null)
+					{
+						missing.Add("Defence");
+					}
+					if (SpecialDefence is null)
+					{
+						missing.Add("SpecialDefence");
+					}
+					if (Rank is null)
+					{
+						missing.Add("Rank");
+					}
+					if (Moves is null)
+					{
+						missing.Add("Moves");
+					}
+					if (Height is null)
+					{
+						missing.Add("Height");
+					}
+					if (Weight is null)
+					{
+						missing.Add("Weight");
+					}
+					if (Strength is null)
+					{
+						missing.Add("Strength");
+					}
+					if (Dexterity is null)
+					{
+						missing.Add("Dexterity");
+					}
+					if (Vitality is null)
+					{
+						missing.Add("Vitality");
+					}
+					if (Special is null)
+					{
+						missing.Add("Special");
+					}
+					if (Insight is null)
+					{
+						missing.Add("Insight");
+					}
+					if (Brawl is null)
+					{
+						missing.Add("Brawl");
+					}
+					if (Channel is null)
+					{
+						missing.Add("Channel");
+					}
+					if (Clash is null)
+					{
+						missing.Add("Clash");
+					}
+					if (Evasion is null)
+					{
+						missing.Add("Evasion");
+					}
+					if (Alert is null)
+					{
+						missing.Add("Alert");
+					}
+					if (Athletic is null)
+					{
+						missing.Add("Athletic");
+					}
+					if (Nature is null)
+					{
+						missing.Add("Nature");
+					}
+					if (Stealth is null)
+					{
+						missing.Add("Stealth");
+					}
+					if (Allure is null)
+					{
+						missing.Add("Allure");
+					}
+					if (Etiquette is null)
+					{
+						missing.Add("Etiquette");
+					}
+					if (Intimidate is null)
+					{
+						missing.Add("Intimidate");
+					}
+					if (Perform is null)
+					{
+						missing.Add("Perform");
+					}
+					if (CustomSkills is null)
+					{
+						missing.Add("CustomSkills");
+					}
+					if (Tough is null)
+					{
+						missing.Add("Tough");
+					}
+					if (Cool is null)
+					{
+						missing.Add("Cool");
+					}
+					if (Beauty is null)
+					{
+						missing.Add("Beauty");
+					}
+					if (Clever is null)
+					{
+						missing.Add("Clever");
+					}
+					if (Cute is null)
+					{
+						missing.Add("Cute");
+					}
+					if (MonNature is null)
+					{
+						missing.Add("MonNature");
+					}
+					if (Happiness is null)
+					{
+						missing.Add("Happiness");
+					}
+					if (Loyalty is null)
+					{
+						missing.Add("Loyalty");
+					}
+					if (BattleCount is null)
+					{
+						missing.Add("BattleCount");
+					}
+					if (VicoryCount is null)
+					{
+						missing.Add("VicoryCount");
+					}
+					if (Accessories is null)
+					{
+						missing.Add("Accessories");
+					}
+					if (Ribbons is null)
+					{
+						missing.Add("Ribbons");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
 			/// Build and instance of <see cref="MonInstance"/> from this Builder
 			/// </summary>
 			/// <returns>A new instance of <see cref="MonInstance"/></returns>
@@ -4089,6 +4658,25 @@ namespace Pokerole.Core{
 						return false;
 					}
 					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(2);
+					if (Name is null)
+					{
+						missing.Add("Name");
+					}
+					if (Effect is null)
+					{
+						missing.Add("Effect");
+					}
+					return missing;
 				}
 			}
 			/// <summary>
@@ -4252,6 +4840,37 @@ namespace Pokerole.Core{
 						return false;
 					}
 					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(5);
+					if (BaseEvolution is null)
+					{
+						missing.Add("BaseEvolution");
+					}
+					if (From is null)
+					{
+						missing.Add("From");
+					}
+					if (To is null)
+					{
+						missing.Add("To");
+					}
+					if (Kind is null)
+					{
+						missing.Add("Kind");
+					}
+					if (Details is null)
+					{
+						missing.Add("Details");
+					}
+					return missing;
 				}
 			}
 			/// <summary>
@@ -5260,6 +5879,173 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(39);
+					if (CharacterName is null)
+					{
+						missing.Add("CharacterName");
+					}
+					if (PlayerName is null)
+					{
+						missing.Add("PlayerName");
+					}
+					if (Rank is null)
+					{
+						missing.Add("Rank");
+					}
+					if (Age is null)
+					{
+						missing.Add("Age");
+					}
+					if (Concept is null)
+					{
+						missing.Add("Concept");
+					}
+					if (TrainerNature is null)
+					{
+						missing.Add("TrainerNature");
+					}
+					if (Money is null)
+					{
+						missing.Add("Money");
+					}
+					if (HP is null)
+					{
+						missing.Add("HP");
+					}
+					if (WillPoints is null)
+					{
+						missing.Add("WillPoints");
+					}
+					if (Party is null)
+					{
+						missing.Add("Party");
+					}
+					if (Strength is null)
+					{
+						missing.Add("Strength");
+					}
+					if (Dexterity is null)
+					{
+						missing.Add("Dexterity");
+					}
+					if (Vitality is null)
+					{
+						missing.Add("Vitality");
+					}
+					if (Insight is null)
+					{
+						missing.Add("Insight");
+					}
+					if (Tough is null)
+					{
+						missing.Add("Tough");
+					}
+					if (Cool is null)
+					{
+						missing.Add("Cool");
+					}
+					if (Beauty is null)
+					{
+						missing.Add("Beauty");
+					}
+					if (Clever is null)
+					{
+						missing.Add("Clever");
+					}
+					if (Cute is null)
+					{
+						missing.Add("Cute");
+					}
+					if (Brawl is null)
+					{
+						missing.Add("Brawl");
+					}
+					if (Throw is null)
+					{
+						missing.Add("Throw");
+					}
+					if (Evasion is null)
+					{
+						missing.Add("Evasion");
+					}
+					if (Weapons is null)
+					{
+						missing.Add("Weapons");
+					}
+					if (Alert is null)
+					{
+						missing.Add("Alert");
+					}
+					if (Athletic is null)
+					{
+						missing.Add("Athletic");
+					}
+					if (Nature is null)
+					{
+						missing.Add("Nature");
+					}
+					if (Stealth is null)
+					{
+						missing.Add("Stealth");
+					}
+					if (Allure is null)
+					{
+						missing.Add("Allure");
+					}
+					if (Etiquette is null)
+					{
+						missing.Add("Etiquette");
+					}
+					if (Intimidate is null)
+					{
+						missing.Add("Intimidate");
+					}
+					if (Perform is null)
+					{
+						missing.Add("Perform");
+					}
+					if (Crafts is null)
+					{
+						missing.Add("Crafts");
+					}
+					if (Lore is null)
+					{
+						missing.Add("Lore");
+					}
+					if (Medicine is null)
+					{
+						missing.Add("Medicine");
+					}
+					if (Science is null)
+					{
+						missing.Add("Science");
+					}
+					if (Achievements is null)
+					{
+						missing.Add("Achievements");
+					}
+					if (MonSeen is null)
+					{
+						missing.Add("MonSeen");
+					}
+					if (MonCaught is null)
+					{
+						missing.Add("MonCaught");
+					}
+					if (Backpack is null)
+					{
+						missing.Add("Backpack");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
 			/// Build and instance of <see cref="Trainer"/> from this Builder
 			/// </summary>
 			/// <returns>A new instance of <see cref="Trainer"/></returns>
@@ -5539,6 +6325,41 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(6);
+					if (PotionCount is null)
+					{
+						missing.Add("PotionCount");
+					}
+					if (SuperPotionCount is null)
+					{
+						missing.Add("SuperPotionCount");
+					}
+					if (HyperPotionCount is null)
+					{
+						missing.Add("HyperPotionCount");
+					}
+					if (BattleItems is null)
+					{
+						missing.Add("BattleItems");
+					}
+					if (OtherItems is null)
+					{
+						missing.Add("OtherItems");
+					}
+					if (Badges is null)
+					{
+						missing.Add("Badges");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
 			/// Build and instance of <see cref="Backpack"/> from this Builder
 			/// </summary>
 			/// <returns>A new instance of <see cref="Backpack"/></returns>
@@ -5613,6 +6434,25 @@ namespace Pokerole.Core{
 						return false;
 					}
 					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(2);
+					if (Name is null)
+					{
+						missing.Add("Name");
+					}
+					if (Description is null)
+					{
+						missing.Add("Description");
+					}
+					return missing;
 				}
 			}
 			/// <summary>
@@ -6015,6 +6855,73 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(14);
+					if (Picture is null)
+					{
+						missing.Add("Picture");
+					}
+					if (Rank is null)
+					{
+						missing.Add("Rank");
+					}
+					if (Name is null)
+					{
+						missing.Add("Name");
+					}
+					if (Age is null)
+					{
+						missing.Add("Age");
+					}
+					if (Concept is null)
+					{
+						missing.Add("Concept");
+					}
+					if (Nature is null)
+					{
+						missing.Add("Nature");
+					}
+					if (Money is null)
+					{
+						missing.Add("Money");
+					}
+					if (HP is null)
+					{
+						missing.Add("HP");
+					}
+					if (WillPoints is null)
+					{
+						missing.Add("WillPoints");
+					}
+					if (Party is null)
+					{
+						missing.Add("Party");
+					}
+					if (Relationship is null)
+					{
+						missing.Add("Relationship");
+					}
+					if (Backgrounds is null)
+					{
+						missing.Add("Backgrounds");
+					}
+					if (Attitude is null)
+					{
+						missing.Add("Attitude");
+					}
+					if (UnlilkeAbilities is null)
+					{
+						missing.Add("UnlilkeAbilities");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
 			/// Build and instance of <see cref="Rival"/> from this Builder
 			/// </summary>
 			/// <returns>A new instance of <see cref="Rival"/></returns>
@@ -6079,6 +6986,17 @@ namespace Pokerole.Core{
 						return false;
 					}
 					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(0);
+					return missing;
 				}
 			}
 			/// <summary>
