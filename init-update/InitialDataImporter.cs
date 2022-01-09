@@ -17,6 +17,7 @@ using Microsoft.VisualBasic.FileIO;
 using Pokerole.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 
 namespace Pokerole.Tools.InitUpdate
 {
@@ -67,6 +68,7 @@ namespace Pokerole.Tools.InitUpdate
 			data.Images.AddRange(ReadPrimaryImages());
 			data.Images.AddRange(ReadDexImages());
 			GcStockImages();
+			ReadHeightAndWeights();
 			//ReadEvolutions();
 
 
@@ -2028,6 +2030,10 @@ namespace Pokerole.Tools.InitUpdate
 				}
 				return false;
 			});
+			if (count != 0)
+			{
+				Debugger.Break();
+			}
 			Console.WriteLine($"Garbage Collected {count} instances of {typeof(B)}");
 		}
 		private void GcProcessType<B, T>(Dictionary<Type, GcTypeInfo> typeInfoDict,
@@ -2160,6 +2166,32 @@ namespace Pokerole.Tools.InitUpdate
 				typeInfoDict.Add(searchType, typeInfo);
 			}
 			return (typeInfo, isEnumerable);
+		}
+
+
+
+		private void ReadHeightAndWeights()
+		{
+			async Task<List<(String name, String requestUri)>> ListPokemon()
+			{
+				List<(String, String)> entries = new List<(string, string)>(data.DexEntries.Count);
+				await foreach (var item in PokeApiHandler.PerformRequest("pokemon"))
+				{
+					foreach (JToken token in item["results"] ?? throw new WasNullException())
+					{
+						entries.Add(((String?)token["name"] ?? throw new WasNullException(),
+							(String?)token["url"] ?? throw new WasNullException()));
+					}
+				}
+				return entries;
+			}
+			List<(String name, String requestUri)> apiItems = ListPokemon().GetAwaiter().GetResult();
+
+			foreach (DexEntry.Builder entry in data.DexEntries)
+			{
+				here;
+			}
+			throw new NotImplementedException();
 		}
 
 		private record ImageData
