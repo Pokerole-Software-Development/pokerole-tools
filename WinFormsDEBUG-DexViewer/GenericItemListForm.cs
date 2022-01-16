@@ -100,7 +100,12 @@ namespace WinFormsDEBUG_DexViewer
 			{
 				if (!item.IsValid)
 				{
+					
 					unbuildable.Add(item);
+					throw new NotImplementedException(@"need average height/weight and pokemon category/dex description
+					use pokeapi for height and weight
+					sadness for the other two...
+					also evolution stuff...");
 				}
 				else
 				{

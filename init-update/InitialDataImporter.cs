@@ -77,7 +77,7 @@ namespace Pokerole.Tools.InitUpdate
 			StringWriter writer = new StringWriter();
 			xmlSerializer.Serialize(writer, data);
 			File.WriteAllText("output.xml", writer.ToString());
-			Console.WriteLine(writer.ToString());
+			//Console.WriteLine(writer.ToString());
 
 			//for the sake of testing
 			PokeroleXmlData data2 = (PokeroleXmlData)xmlSerializer.Deserialize(new StringReader(writer.ToString()));
@@ -2186,10 +2186,85 @@ namespace Pokerole.Tools.InitUpdate
 				return entries;
 			}
 			List<(String name, String requestUri)> apiItems = ListPokemon().GetAwaiter().GetResult();
+			Dictionary<String, String> nameToUri = apiItems.ToDictionary(item => item.name, item => item.requestUri,
+				StringComparer.OrdinalIgnoreCase);
+			HashSet<String> remaining = new HashSet<String>(nameToUri.Keys, StringComparer.OrdinalIgnoreCase);
 
+			String GetUri(DexEntry.Builder entry, out String key)
+			{
+				String entryName = entry.Name!;
+				//.Replace("'", ""); for Farfetch'd
+				//.Replace(".", ""); for Mr. Mime
+				key = entryName.Replace(' ', '-').Replace("-(provisional)", "").Replace("'", "").
+					Replace(".", "");
+				if (!String.IsNullOrEmpty(entry.Variant))
+				{
+					if (entryName.IndexOf(entry.Variant!,StringComparison.OrdinalIgnoreCase) < 0)
+					{
+						throw new InvalidOperationException();
+					}
+					String replacement = entry.Variant switch
+					{
+						"Alolan"=>"Alola",
+						"Galarian"=>"Galar",
+						_ => throw new InvalidOperationException()
+					};
+					key = Regex.Replace(entryName, "(\\w+) (.+)", $"$2-{replacement}").Replace(' ', '-').
+						Replace("-(provisional)", "").Replace("'", "").Replace(".", "");
+				}
+				if (nameToUri.TryGetValue(key, out String? uri))
+				{
+					return uri;
+				}
+				if (entryName.StartsWith("mega", StringComparison.OrdinalIgnoreCase))
+				{
+					key = Regex.Replace(key, "Mega-(.+?)(-[XY])?$", "$1-Mega$2");
+				}
+				if (nameToUri.TryGetValue(key, out uri))
+				{
+					return uri;
+				}
+				throw new NotImplementedException();
+			}
 			foreach (DexEntry.Builder entry in data.DexEntries)
 			{
-				here;
+				if (entry.DexNum == 0)
+				{
+					//we don't care about "egg"
+					continue;
+				}
+				//here;
+				String fetchUri = GetUri(entry, out String key);
+				//get relative Uri since our caching api take relative endpoints
+				fetchUri = fetchUri[26..^1];
+				async Task<JObject> FetchEntry()
+				{
+					// only expecting one page
+					await using var iter = PokeApiHandler.PerformRequest(fetchUri).GetAsyncEnumerator();
+					if (!await iter.MoveNextAsync())
+					{
+						throw new InvalidOperationException();
+					}
+					var result = iter.Current;
+					if (await iter.MoveNextAsync())
+					{
+						//there should only be one page!!!!
+						throw new InvalidOperationException();
+					}
+					return result;
+				}
+				var jObject = FetchEntry().GetAwaiter().GetResult();
+				//read dem stats!
+				//apparently, all official pokemon heights are in decimeters...
+				int heightDecimeters = (int?)jObject["height"] ?? throw new WasNullException();
+				int weightHectograms = (int?)jObject["weight"] ?? throw new WasNullException();
+				entry.AverageHeight = new Height("deimeters", heightDecimeters);
+				entry.AverageWeight = new Weight("hectograms", weightHectograms);
+				remaining.Remove(key);
+			}
+			if (remaining.Count > 0)
+			{
+				throw new InvalidOperationException();
 			}
 			throw new NotImplementedException();
 		}
