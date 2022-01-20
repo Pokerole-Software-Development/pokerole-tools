@@ -2185,18 +2185,45 @@ namespace Pokerole.Tools.InitUpdate
 				}
 				return entries;
 			}
-			List<(String name, String requestUri)> apiItems = ListPokemon().GetAwaiter().GetResult();
-			Dictionary<String, String> nameToUri = apiItems.ToDictionary(item => item.name, item => item.requestUri,
-				StringComparer.OrdinalIgnoreCase);
-			HashSet<String> remaining = new HashSet<String>(nameToUri.Keys, StringComparer.OrdinalIgnoreCase);
+			async Task<Dictionary<String, JObject>> LoadStats()
+			{
+				var list = await ListPokemon().ConfigureAwait(false);
+				async Task<(String key, JObject value)> FetchStats((String key, String uri) input)
+				{
+					String uri = input.uri[26..];
+					// only expecting one page
+					await using var iter = PokeApiHandler.PerformRequest(uri).GetAsyncEnumerator();
+					if (!await iter.MoveNextAsync().ConfigureAwait(false))
+					{
+						throw new InvalidOperationException();
+					}
+					var result = iter.Current;
+					if (await iter.MoveNextAsync().ConfigureAwait(false))
+					{
+						//there should only be one page!!!!
+						throw new InvalidOperationException();
+					}
+					return (input.key, result);
+				}
+				List<Task<(String key, JObject value)>> tasks = new List<Task<(string key, JObject value)>>(list.Count);
+				foreach (var item in list)
+				{
+					//Task.Run
+					tasks.Add(FetchStats(item));
+				}
+				return (await Task.WhenAll(tasks).ConfigureAwait(false)).OrderBy(item=>item.key).
+					ToDictionary(item => item.key, item => item.value, StringComparer.OrdinalIgnoreCase);
+			}
+			//List<(String name, String requestUri)> apiItems = ListPokemon().GetAwaiter().GetResult();
+			//Dictionary<String, String> nameToUri = apiItems.ToDictionary(item => item.name, item => item.requestUri,
+			//	StringComparer.OrdinalIgnoreCase);
+			Dictionary<String, JObject> nameToStat = LoadStats().GetAwaiter().GetResult();
+			HashSet<String> remaining = new HashSet<String>(nameToStat.Keys, StringComparer.OrdinalIgnoreCase);
 
-			String GetUri(DexEntry.Builder entry, out String key)
+			JObject GetStats(DexEntry.Builder entry, out String key)
 			{
 				String entryName = entry.Name!;
-				//.Replace("'", ""); for Farfetch'd
-				//.Replace(".", ""); for Mr. Mime
-				key = entryName.Replace(' ', '-').Replace("-(provisional)", "").Replace("'", "").
-					Replace(".", "");
+				key = entryName;
 				if (!String.IsNullOrEmpty(entry.Variant))
 				{
 					if (entryName.IndexOf(entry.Variant!,StringComparison.OrdinalIgnoreCase) < 0)
@@ -2209,20 +2236,88 @@ namespace Pokerole.Tools.InitUpdate
 						"Galarian"=>"Galar",
 						_ => throw new InvalidOperationException()
 					};
-					key = Regex.Replace(entryName, "(\\w+) (.+)", $"$2-{replacement}").Replace(' ', '-').
-						Replace("-(provisional)", "").Replace("'", "").Replace(".", "");
+					key = Regex.Replace(entryName, "(\\w+) (.+)", $"$2-{replacement}");
 				}
-				if (nameToUri.TryGetValue(key, out String? uri))
+				//.Replace("'", ""); for Farfetch'd
+				//.Replace(".", ""); for Mr. Mime
+				key = key.Replace(' ', '-').Replace("-(provisional)", "").Replace("'", "").
+					Replace(".", "");
+				if (nameToStat.TryGetValue(key, out JObject? stats))
 				{
-					return uri;
+					return stats;
 				}
 				if (entryName.StartsWith("mega", StringComparison.OrdinalIgnoreCase))
 				{
 					key = Regex.Replace(key, "Mega-(.+?)(-[XY])?$", "$1-Mega$2");
 				}
-				if (nameToUri.TryGetValue(key, out uri))
+				if (nameToStat.TryGetValue(key, out stats))
 				{
-					return uri;
+					return stats;
+				}
+				switch (entry.DexNum)
+				{
+					case 413:
+						key = key.Replace("Ground", "sandy", StringComparison.OrdinalIgnoreCase).
+							Replace("Steel", "trash", StringComparison.OrdinalIgnoreCase).
+							Replace("Grass", "plant", StringComparison.OrdinalIgnoreCase);
+						break;
+				}
+				if (key.Contains("-"))
+				{
+					//try swapping bits
+					string[] parts = key.Split('-');
+					List<String> workingList = parts.ToList();
+					for (int i = 0; i < parts.Length; i++)
+					{
+						//try the 'i'th item in every 'j' position
+						for (int j = 0; j < parts.Length; j++)
+						{
+							if (j == i)
+							{
+								//skip
+								continue;
+							}
+							workingList.Clear();
+							workingList.AddRange(parts);
+							if (i < j)
+							{
+								workingList.Insert(j, parts[i]);
+								workingList.RemoveAt(i);
+							}
+							else
+							{
+								//need to do it in the other direction
+								workingList.RemoveAt(i);
+								workingList.Insert(j, parts[i]);
+							}
+							if (nameToStat.TryGetValue(String.Join('-', workingList), out stats))
+							{
+								return stats;
+							}
+						}
+					}
+				}
+
+
+				switch (entry.DexNum)
+				{
+					//Deoxys
+					case 386:// attack, defense, normal, speed
+						if (!key.Contains("-"))
+						{
+							//normal
+							key += "-normal";
+						}
+						else
+						{
+							//should be covered already
+							throw new InvalidOperationException();
+						}
+						break;
+				}
+				if (nameToStat.TryGetValue(key, out stats))
+				{
+					return stats;
 				}
 				throw new NotImplementedException();
 			}
@@ -2233,27 +2328,27 @@ namespace Pokerole.Tools.InitUpdate
 					//we don't care about "egg"
 					continue;
 				}
-				//here;
-				String fetchUri = GetUri(entry, out String key);
-				//get relative Uri since our caching api take relative endpoints
-				fetchUri = fetchUri[26..^1];
-				async Task<JObject> FetchEntry()
-				{
-					// only expecting one page
-					await using var iter = PokeApiHandler.PerformRequest(fetchUri).GetAsyncEnumerator();
-					if (!await iter.MoveNextAsync())
-					{
-						throw new InvalidOperationException();
-					}
-					var result = iter.Current;
-					if (await iter.MoveNextAsync())
-					{
-						//there should only be one page!!!!
-						throw new InvalidOperationException();
-					}
-					return result;
-				}
-				var jObject = FetchEntry().GetAwaiter().GetResult();
+				////here;
+				//String fetchUri = GetUri(entry, out String key);
+				////get relative Uri since our caching api take relative endpoints
+				//fetchUri = fetchUri[26..^1];
+				//async Task<JObject> FetchEntry()
+				//{
+				//	// only expecting one page
+				//	await using var iter = PokeApiHandler.PerformRequest(fetchUri).GetAsyncEnumerator();
+				//	if (!await iter.MoveNextAsync())
+				//	{
+				//		throw new InvalidOperationException();
+				//	}
+				//	var result = iter.Current;
+				//	if (await iter.MoveNextAsync())
+				//	{
+				//		//there should only be one page!!!!
+				//		throw new InvalidOperationException();
+				//	}
+				//	return result;
+				//}
+				var jObject = GetStats(entry, out String key);// FetchEntry().GetAwaiter().GetResult();
 				//read dem stats!
 				//apparently, all official pokemon heights are in decimeters...
 				int heightDecimeters = (int?)jObject["height"] ?? throw new WasNullException();

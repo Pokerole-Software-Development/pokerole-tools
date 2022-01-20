@@ -11,6 +11,7 @@ namespace Pokerole.Tools.InitUpdate
 {
 	static class PokeApiHandler
 	{
+		private const bool awaitConfig = false;
 		private static readonly String cachePath = Path.GetFullPath(Path.Combine(".", "pokeapi.co cache"));
 		public static async IAsyncEnumerable<JObject> PerformRequest(String endpointRequest)
 		{
@@ -19,7 +20,7 @@ namespace Pokerole.Tools.InitUpdate
 			String? nextPage = null;
 			for (int i = 1; i == 1 || nextPage != null; i++)
 			{
-				JObject page = await FetchResult(endpointRequest, i, nextPage, client);
+				JObject page = await FetchResult(endpointRequest, i, nextPage, client).ConfigureAwait(awaitConfig);
 				nextPage = (String?)page["next"];
 				yield return page;
 			}
@@ -31,7 +32,7 @@ namespace Pokerole.Tools.InitUpdate
 			if (File.Exists(filename))
 			{
 				using JsonReader reader = new JsonTextReader(new StreamReader(File.OpenRead(filename)));
-				return await JObject.LoadAsync(reader);
+				return await JObject.LoadAsync(reader).ConfigureAwait(awaitConfig);
 			}
 			//not cached, fetch it
 			String fetchUri = nextPage ?? String.Concat("https://pokeapi.co/api/v2/", endpointRequest);
@@ -39,17 +40,17 @@ namespace Pokerole.Tools.InitUpdate
 			{
 				throw new ArgumentException("Invalid Uri", nameof(endpointRequest));
 			}
-			String json = await client.DownloadStringTaskAsync(uri);
+			String json = await client.DownloadStringTaskAsync(uri).ConfigureAwait(awaitConfig);
 			String parentDir = Path.GetDirectoryName(filename) ?? throw new WasNullException();
 			Directory.CreateDirectory(parentDir);
 			var task = File.WriteAllTextAsync(filename, json);
 			var result = JObject.Parse(json);
-			await task;
+			await task.ConfigureAwait(awaitConfig);
 			return result;
 		}
 		private static String JsonFileForRequest(String endpointRequest, int page)
 		{
-			String fileName = String.Concat(endpointRequest, " page ", page, ".json");
+			String fileName = String.Concat(endpointRequest.TrimEnd('\\','/'), " page ", page, ".json");
 			return Path.Combine(cachePath, fileName);
 		}
 	}

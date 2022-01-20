@@ -115,6 +115,7 @@ namespace Pokerole.Core
 			{
 				return new ItemReference<T>(DataId, DisplayName);
 			}
+			public override List<string> MissingValues => new List<string>(0);
 
 			public XmlSchema? GetSchema() => null;
 			public void ReadXml(XmlReader reader)
@@ -165,6 +166,10 @@ namespace Pokerole.Core
 	{
 		bool IsValid { get; }
 		Object Build();
+		/// <summary>
+		/// Which properties of this instance are not set, but should be set. Generally for debugging.
+		/// </summary>
+		List<String> MissingValues { get; }
 	}
 	public abstract class ItemBuilder<T> : IItemBuilder
 	{
@@ -192,6 +197,7 @@ namespace Pokerole.Core
 		{
 			return list.Select(item => item.Build()).ToList();
 		}
+		public abstract List<String> MissingValues { get; }
 
 	}
 	public abstract class DataItemBuilder<T> : ItemBuilder<T> where T : IDataItem<T>

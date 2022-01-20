@@ -495,7 +495,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -678,7 +678,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -779,7 +779,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -880,7 +880,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -981,7 +981,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -1095,7 +1095,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -1206,7 +1206,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -1318,7 +1318,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -1430,7 +1430,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -2822,7 +2822,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -4333,7 +4333,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -4663,7 +4663,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -4845,7 +4845,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -5881,7 +5881,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -6327,7 +6327,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -6439,7 +6439,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -6857,7 +6857,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
@@ -6991,7 +6991,7 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Which properties of this instance are not set, but should be set. Generally for debugging.
 			/// </summary>
-			public List<String> MissingValues
+			public override List<String> MissingValues
 			{
 				get
 				{
