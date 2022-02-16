@@ -2175,7 +2175,7 @@ namespace Pokerole.Tools.InitUpdate
 			async Task<List<(String name, String requestUri)>> ListPokemon()
 			{
 				List<(String, String)> entries = new List<(string, string)>(data.DexEntries.Count);
-				await foreach (var item in PokeApiHandler.PerformRequest("pokemon"))
+				await foreach (var item in PokeApiHandler.Instance.PerformRequest("pokemon"))
 				{
 					foreach (JToken token in item["results"] ?? throw new WasNullException())
 					{
@@ -2192,7 +2192,7 @@ namespace Pokerole.Tools.InitUpdate
 				{
 					String uri = input.uri[26..];
 					// only expecting one page
-					await using var iter = PokeApiHandler.PerformRequest(uri).GetAsyncEnumerator();
+					await using var iter = PokeApiHandler.Instance.PerformRequest(uri).GetAsyncEnumerator();
 					if (!await iter.MoveNextAsync().ConfigureAwait(false))
 					{
 						throw new InvalidOperationException();
@@ -2314,6 +2314,12 @@ namespace Pokerole.Tools.InitUpdate
 							throw new InvalidOperationException();
 						}
 						break;
+					//rotom
+					case 479:
+						//use values from stock for dex rotom
+						key = "Rotom";
+						return nameToStat[key];
+
 				}
 				if (nameToStat.TryGetValue(key, out stats))
 				{
