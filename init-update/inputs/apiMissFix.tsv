@@ -1,0 +1,116 @@
+DexNum	Name	Variant	Types	Pokéapi key
+386	Deoxys		Psychic	deoxys-normal
+413	Grass Wormadam		Bug/Grass	wormadam-plant
+413	Steel Wormadam		Bug/Steel	wormadam-trash
+413	Ground Wormadam		Bug/Ground	wormadam-sandy
+479	Rotom Dex		Electric	
+487	Giratina		Ghost/Dragon	giratina-origin
+492	Shaymin		Grass	shaymin-land
+550	Basculin		Water	basculin-red-striped
+555	Darmanitan		Fire	darmanitan-standard
+555	Galarian Darmanitan	Galarian	Ice	darmanitan-standard-galar
+555	Zen Darmanitan		Fire/Psychic	darmanitan-zen
+555	Galarian Zen Darmanitan	Galarian	Ice/Fire	darmanitan-zen-galar
+641	Tornadus		Flying	tornadus-incarnate
+641	Form Tornadus		Flying	tornadus-therian
+642	Thundurus		Electric/Flying	thundurus-incarnate
+642	Form Thundurus		Electric/Flying	thundurus-therian
+645	Landorus		Ground/Flying	landorus-incarnate
+645	Form Landorus		Ground/Flying	landorus-therian
+647	Keldeo		Water/Fighting	keldeo-ordinary
+647	Form Keldeo		Water/Fighting	keldeo-resolute
+648	Meloetta		Normal/Psychic	meloetta-aria
+648	Form Meloetta		Normal/Fighting	meloetta-pirouette
+658	BBF Greninja	Ash	Water/Dark	greninja-ash
+678	Meowstic		Psychic	meowstic-male
+681	Aegislash		Steel/Ghost	aegislash-blade
+681	Form Aegislash		Steel/Ghost	aegislash-shield
+710	Pumpkaboo		Ghost/Grass	pumpkaboo-average
+711	Gourgeist		Ghost/Grass	gourgeist-average
+718	Zygarde Cell		Dragon/Ground	zygarde
+718	Zygarde 10%		Dragon/Ground	zygarde-10
+718	Zygarde 50%		Dragon/Ground	zygarde-50
+718	Zygarde 100%		Dragon/Ground	zygarde-complete
+741	Oricorio Fire		Fire/Flying	oricorio-baile
+741	Oricorio Electric		Electric/Flying	oricorio-pom-pom
+741	Oricorio Psychic		Psychic/Flying	oricorio-pau
+741	Oricorio Ghost		Ghost/Flying	oricorio-sensu
+746	Wishiwashi		Water	wishiwashi-solo
+746	Wishiwashi Swarm		Water	wishiwashi-school
+772	Type: Null		Normal	type-null
+774	Minior		Rock/Flying	minior-red-meteor
+774	Minior Core		Rock/Flying	minior-red
+778	Mimikyu		Ghost/Fairy	mimikyu-disguised
+800	Necrozma Dusk Mane		Psychic/Steel	necrozma-dusk
+800	Necrozma Dawn Wings		Psychic/Ghost	necrozma-dawn
+800	Necrozma Ultra Burst		Psychic/Dragon	necrozma-ultra
+875	Eiscue		Ice	eiscue-ice
+875	Form Eiscue		Ice	eiscue-noice
+876	Indeedee		Psychic/Normal	indeedee-male
+888	Zacian		Fairy	zacian-hero
+888	Form Zacian		Fairy/Steel	zacian-crowned
+889	Zamazenta		Fighting	zamazenta-hero
+889	Form Zamazenta		Fighting/Steel	zamazenta-crowned
+				basculin-blue-striped
+				calyrex
+				calyrex-ice-rider
+				calyrex-shadow-rider
+				castform-rainy
+				castform-snowy
+				castform-sunny
+				deoxys-attack
+				deoxys-defense
+				deoxys-speed
+				eternatus-eternamax
+				floette-eternal
+				giratina-altered
+				glastrier
+				gourgeist-large
+				gourgeist-small
+				gourgeist-super
+				greninja-battle-bond
+				groudon-primal
+				indeedee-female
+				kubfu
+				kyogre-primal
+				kyurem-black
+				kyurem-white
+				magearna-original
+				meowstic-female
+				mimikyu-busted
+				Minior-blue
+				minior-blue-meteor
+				minior-green
+				minior-green-meteor
+				minior-indigo
+				minior-indigo-meteor
+				minior-orange
+				minior-orange-meteor
+				minior-violet
+				minior-violet-meteor
+				minior-yellow
+				minior-yellow-meteor
+				pikachu-alola-cap
+				pikachu-belle
+				pikachu-cosplay
+				pikachu-hoenn-cap
+				pikachu-kalos-cap
+				pikachu-libre
+				pikachu-original-cap
+				pikachu-partner-cap
+				pikachu-phd
+				pikachu-pop-star
+				pikachu-rock-star
+				pikachu-sinnoh-cap
+				pikachu-unova-cap
+				pumpkaboo-large
+				pumpkaboo-small
+				pumpkaboo-super
+				regidrago
+				regieleki
+				rockruff-own-tempo
+				shaymin-sky
+				spectrier
+				urshifu-rapid-strike
+				urshifu-single-strike
+				zarude
