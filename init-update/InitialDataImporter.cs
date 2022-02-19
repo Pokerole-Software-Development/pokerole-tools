@@ -35,6 +35,14 @@ namespace Pokerole.Tools.InitUpdate
 		private readonly Dictionary<String, DexEntry.Builder> monByName = new Dictionary<string, DexEntry.Builder>();
 		private readonly Dictionary<String, Ability.Builder> abilitiesByName = new Dictionary<string, Ability.Builder>();
 		private const bool HAS_DLC_MON = false;
+		//                                                pokerole-tools (root)--|
+		//                                                  init-update ------|  |
+		//                                                          bin ---|  |  |
+		//                                                         Debug|  |  |  |
+		//                                  netcoreapp3.1 ------------V V  V  V  V
+		private static readonly String projectRoot = Path.GetFullPath("../../../..");
+		private static readonly String processedInputs = Path.Combine(projectRoot, "init-update/inputs");
+		
 		public InitialDataImporter()
 		{
 			String previousOutput;
@@ -719,15 +727,9 @@ namespace Pokerole.Tools.InitUpdate
 		private List<ImageRef.Builder> ReadPrimaryImages()
 		{
 			//this doesn't have to be efficient. It just needs to work!!!
-			//                 pokerole-tools (root)--|
-			//                   init-update ------|  |
-			//                           bin ---|  |  |
-			//                          Debug|  |  |  |
-			// netcoreapp3.1 --------------V V  V  V  V
-			const String primaryImageDir = "../../../../Images/Crunched/PrimaryImages";
+			String primaryImageDir = Path.Combine(projectRoot, "Images/Crunched/PrimaryImages");
 			var filenames = new List<String>(Directory.GetFiles(primaryImageDir));
 			RemoveEvilImages(filenames);
-			//const String spriteImageDir = "../../../../ProjectReference/pokesprite/"
 			var imageData = filenames.Select(file =>
 			{
 				String filename = Path.GetFileNameWithoutExtension(file);
@@ -1291,12 +1293,7 @@ namespace Pokerole.Tools.InitUpdate
 		});
 		private List<ImageRef.Builder> ReadDexImages()
 		{
-			//               pokerole-tools (root)--|
-			//                 init-update ------|  |
-			//                         bin ---|  |  |
-			//                        Debug|  |  |  |
-			// netcoreapp3.1 ------------V V  V  V  V
-			const String pokespriteDir = "../../../../ProjectReference/pokesprite";
+			String pokespriteDir = Path.Combine(projectRoot, "ProjectReference/pokesprite");
 			JObject dexData;
 			using (JsonReader reader = new JsonTextReader(new StreamReader(Path.Combine(pokespriteDir, "data",
 				"pokemon.json"))))
@@ -2214,21 +2211,32 @@ namespace Pokerole.Tools.InitUpdate
 				return (await Task.WhenAll(tasks).ConfigureAwait(false)).OrderBy(item=>item.key).
 					ToDictionary(item => item.key, item => item.value, StringComparer.OrdinalIgnoreCase);
 			}
+
+
+
+
 			//List<(String name, String requestUri)> apiItems = ListPokemon().GetAwaiter().GetResult();
 			//Dictionary<String, String> nameToUri = apiItems.ToDictionary(item => item.name, item => item.requestUri,
 			//	StringComparer.OrdinalIgnoreCase);
 			Dictionary<String, JObject> nameToStat = LoadStats().GetAwaiter().GetResult();
 			HashSet<String> remaining = new HashSet<String>(nameToStat.Keys, StringComparer.OrdinalIgnoreCase);
 
-			JObject GetStats(DexEntry.Builder entry, out String key)
+			
+			JObject? GetStats(DexEntry.Builder entry, out String key)
 			{
+				if (entry.DexNum == 555)
+				{
+					key = "";
+					return null;//workaround so Zen doesn't go missing in the misseed list for some reason
+				}
 				String entryName = entry.Name!;
 				key = entryName;
 				if (!String.IsNullOrEmpty(entry.Variant))
 				{
 					if (entryName.IndexOf(entry.Variant!,StringComparison.OrdinalIgnoreCase) < 0)
 					{
-						throw new InvalidOperationException();
+						return null;
+						//throw new InvalidOperationException();
 					}
 					String replacement = entry.Variant switch
 					{
@@ -2254,14 +2262,14 @@ namespace Pokerole.Tools.InitUpdate
 				{
 					return stats;
 				}
-				switch (entry.DexNum)
-				{
-					case 413:
-						key = key.Replace("Ground", "sandy", StringComparison.OrdinalIgnoreCase).
-							Replace("Steel", "trash", StringComparison.OrdinalIgnoreCase).
-							Replace("Grass", "plant", StringComparison.OrdinalIgnoreCase);
-						break;
-				}
+				//switch (entry.DexNum)
+				//{
+				//	case 413:
+				//		key = key.Replace("Ground", "sandy", StringComparison.OrdinalIgnoreCase).
+				//			Replace("Steel", "trash", StringComparison.OrdinalIgnoreCase).
+				//			Replace("Grass", "plant", StringComparison.OrdinalIgnoreCase);
+				//		break;
+				//}
 				if (key.Contains("-"))
 				{
 					//try swapping bits
@@ -2297,9 +2305,9 @@ namespace Pokerole.Tools.InitUpdate
 						}
 					}
 				}
+				return null;
 
-
-				switch (entry.DexNum)
+				/*switch (entry.DexNum)
 				{
 					//Deoxys
 					case 386:// attack, defense, normal, speed
@@ -2319,15 +2327,60 @@ namespace Pokerole.Tools.InitUpdate
 						//use values from stock for dex rotom
 						key = "Rotom";
 						return nameToStat[key];
-
+					case 487:
+						//giratina
+						key = "Giratina" == entryName ? "giratina-altered" : "giratina-origin";
+						break;
+					case 492:
+						//shaymin
+						key = "Shaymin" == entryName ? "shaymin-land" : "shaymin-sky";
+						break;
+					case 550:
+						//basculin: blue-striped, red-striped
+						//same block for each
+						key = "basculin-blue-striped";
+						break;
 				}
 				if (nameToStat.TryGetValue(key, out stats))
 				{
 					return stats;
 				}
-				throw new NotImplementedException();
+				throw new NotImplementedException();*/
 			}
-			foreach (DexEntry.Builder entry in data.DexEntries)
+			//list mismatching entries for someone else to solve
+			var entriesRemaining = new HashSet<DexEntry.Builder>(data.DexEntries.Where(entry=>entry.DexNum != 0 && entry.Variant != "Delta"));
+			var keysRemaining = new HashSet<String>(nameToStat.Keys.Where(key=>!key.Contains("gmax") && !key.Contains("totem")),
+				StringComparer.OrdinalIgnoreCase);
+			foreach (var entry in data.DexEntries)
+			{
+				if (entry.DexNum == 0 || entry.Variant == "Delta" || entry.Name!.Contains("Delta"))
+				{
+					//we don't care about "egg" or Delta
+					continue;
+				}
+				//determine if there is a matching key or not
+				var result = GetStats(entry, out String key);
+				if (result != null)
+				{
+					//handled
+					entriesRemaining.Remove(entry);
+					keysRemaining.Remove(key);
+				}
+			}
+			StringBuilder listOutput = new StringBuilder(1 >> 16);
+			listOutput.Append("DexNum\tName\tVariant\tTypes\tPokéapi key\n");
+			List<DexEntry.Builder> missedEntries = entriesRemaining.OrderBy(entry => entry.DexNum).ToList();
+			List<String> missedKeys = keysRemaining.OrderBy(key => key).ToList();
+			for(int i = 0; i < missedEntries.Count || i < missedKeys.Count; i++)
+			{
+				DexEntry.Builder? entry = i < missedEntries.Count ? missedEntries[i] : null;
+				String? key = i < missedKeys.Count ? missedKeys[i] : null;
+				String type = String.Join('/', entry?.PrimaryType?.DisplayName, entry?.SecondaryType?.DisplayName);
+				type = type.Trim('/');
+				listOutput.AppendFormat("{0}\t{1}\t{2}\t{3}\t{4}\n", entry?.DexNum, entry?.Name, entry?.Variant, type, key);
+			}
+			File.WriteAllText("apiMiss.tsv", listOutput.ToString());
+			/*foreach (DexEntry.Builder entry in data.DexEntries)
 			{
 				if (entry.DexNum == 0)
 				{
@@ -2362,7 +2415,7 @@ namespace Pokerole.Tools.InitUpdate
 				entry.AverageHeight = new Height("deimeters", heightDecimeters);
 				entry.AverageWeight = new Weight("hectograms", weightHectograms);
 				remaining.Remove(key);
-			}
+			}*/
 			if (remaining.Count > 0)
 			{
 				throw new InvalidOperationException();
@@ -2370,6 +2423,12 @@ namespace Pokerole.Tools.InitUpdate
 			throw new NotImplementedException();
 		}
 
+		private List<(DexEntry.Builder entry, String kind, String value)> ReadDescriptionsAndEvoInfo()
+		{
+			List<(DexEntry.Builder entry, String kind, String value)> result = new List<(DexEntry.Builder entry,
+				string kind, string value)>(data.DexEntries.Count / 3);
+
+		}
 		private record ImageData
 		{
 			public string Filename { get; }
