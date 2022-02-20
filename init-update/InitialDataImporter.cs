@@ -2212,14 +2212,13 @@ namespace Pokerole.Tools.InitUpdate
 					ToDictionary(item => item.key, item => item.value, StringComparer.OrdinalIgnoreCase);
 			}
 
-
-
-
-			//List<(String name, String requestUri)> apiItems = ListPokemon().GetAwaiter().GetResult();
-			//Dictionary<String, String> nameToUri = apiItems.ToDictionary(item => item.name, item => item.requestUri,
-			//	StringComparer.OrdinalIgnoreCase);
 			Dictionary<String, JObject> nameToStat = LoadStats().GetAwaiter().GetResult();
 			HashSet<String> remaining = new HashSet<String>(nameToStat.Keys, StringComparer.OrdinalIgnoreCase);
+
+			//load edge cases
+			//do note that there are duplicate entries in the list. This doesn't matter to us ATM because we only
+			//care about average weight and height
+
 
 			
 			JObject? GetStats(DexEntry.Builder entry, out String key)
@@ -2425,8 +2424,9 @@ namespace Pokerole.Tools.InitUpdate
 
 		private List<(DexEntry.Builder entry, String kind, String value)> ReadDescriptionsAndEvoInfo()
 		{
-			List<(DexEntry.Builder entry, String kind, String value)> result = new List<(DexEntry.Builder entry,
-				string kind, string value)>(data.DexEntries.Count / 3);
+			throw new NotImplementedException();
+			//List<(DexEntry.Builder entry, String kind, String value)> result = new List<(DexEntry.Builder entry,
+			//	string kind, string value)>(data.DexEntries.Count / 3);
 
 		}
 		private record ImageData
