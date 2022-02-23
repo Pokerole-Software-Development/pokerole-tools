@@ -2214,36 +2214,55 @@ namespace Pokerole.Tools.InitUpdate
 
 			Dictionary<String, JObject> nameToStat = LoadStats().GetAwaiter().GetResult();
 			HashSet<String> remaining = new HashSet<String>(nameToStat.Keys, StringComparer.OrdinalIgnoreCase);
+			HashSet<String> ignore = new HashSet<string>();
+			foreach (var item in remaining)
+			{
+				if (item.Contains("-totem") || item.EndsWith("gmax"))
+				{
+					//don't care about you
+					ignore.Add(item);
+				}
+			}
 
 			//load edge cases
 			//do note that there are duplicate entries in the list. This doesn't matter to us ATM because we only
 			//care about average weight and height
+			Dictionary <String, String> edgeCases = new Dictionary<string, string>(60);
+			foreach (var line in File.ReadLines(Path.Combine(processedInputs, "apiMissFix.tsv")))
+			{
+				//5 columns of data. We only care about Columns 2 and 5
+				String[] parts = line.Split('\t');
+				if (!String.IsNullOrEmpty(parts[1]))
+				{
+					edgeCases[parts[1]] = parts[4];
+				}
+				else
+				{
+					//ignore that key
+					ignore.Add(parts[4]);
+				}
+			}
+			remaining.RemoveWhere(ignore.Contains);
 
 
 			
 			JObject? GetStats(DexEntry.Builder entry, out String key)
 			{
-				if (entry.DexNum == 555)
-				{
-					key = "";
-					return null;//workaround so Zen doesn't go missing in the misseed list for some reason
-				}
 				String entryName = entry.Name!;
 				key = entryName;
 				if (!String.IsNullOrEmpty(entry.Variant))
 				{
-					if (entryName.IndexOf(entry.Variant!,StringComparison.OrdinalIgnoreCase) < 0)
+					if (entryName.IndexOf(entry.Variant!, StringComparison.OrdinalIgnoreCase) >= 0)
 					{
-						return null;
-						//throw new InvalidOperationException();
+						//Variant is used for other things too
+						String replacement = entry.Variant switch
+						{
+							"Alolan" => "Alola",
+							"Galarian" => "Galar",
+							_ => throw new InvalidOperationException()
+						};
+						key = Regex.Replace(entryName, "(\\w+) (.+)", $"$2-{replacement}");
 					}
-					String replacement = entry.Variant switch
-					{
-						"Alolan"=>"Alola",
-						"Galarian"=>"Galar",
-						_ => throw new InvalidOperationException()
-					};
-					key = Regex.Replace(entryName, "(\\w+) (.+)", $"$2-{replacement}");
 				}
 				//.Replace("'", ""); for Farfetch'd
 				//.Replace(".", ""); for Mr. Mime
@@ -2297,56 +2316,28 @@ namespace Pokerole.Tools.InitUpdate
 								workingList.RemoveAt(i);
 								workingList.Insert(j, parts[i]);
 							}
-							if (nameToStat.TryGetValue(String.Join('-', workingList), out stats))
+							key = String.Join('-', workingList);
+							if (nameToStat.TryGetValue(key, out stats))
 							{
 								return stats;
 							}
 						}
 					}
 				}
-				return null;
-
-				/*switch (entry.DexNum)
+				//try edge cases
+				if (edgeCases.TryGetValue(entry.Name!, out String? value))
 				{
-					//Deoxys
-					case 386:// attack, defense, normal, speed
-						if (!key.Contains("-"))
-						{
-							//normal
-							key += "-normal";
-						}
-						else
-						{
-							//should be covered already
-							throw new InvalidOperationException();
-						}
-						break;
-					//rotom
-					case 479:
-						//use values from stock for dex rotom
-						key = "Rotom";
-						return nameToStat[key];
-					case 487:
-						//giratina
-						key = "Giratina" == entryName ? "giratina-altered" : "giratina-origin";
-						break;
-					case 492:
-						//shaymin
-						key = "Shaymin" == entryName ? "shaymin-land" : "shaymin-sky";
-						break;
-					case 550:
-						//basculin: blue-striped, red-striped
-						//same block for each
-						key = "basculin-blue-striped";
-						break;
+					key = value;
+					if (key.Length == 0)
+					{
+						//very edgy. No such entry
+						return null;
+					}
+					return nameToStat[key];
 				}
-				if (nameToStat.TryGetValue(key, out stats))
-				{
-					return stats;
-				}
-				throw new NotImplementedException();*/
+				throw new NotImplementedException();
 			}
-			//list mismatching entries for someone else to solve
+			/*//list mismatching entries for someone else to solve
 			var entriesRemaining = new HashSet<DexEntry.Builder>(data.DexEntries.Where(entry=>entry.DexNum != 0 && entry.Variant != "Delta"));
 			var keysRemaining = new HashSet<String>(nameToStat.Keys.Where(key=>!key.Contains("gmax") && !key.Contains("totem")),
 				StringComparer.OrdinalIgnoreCase);
@@ -2378,12 +2369,12 @@ namespace Pokerole.Tools.InitUpdate
 				type = type.Trim('/');
 				listOutput.AppendFormat("{0}\t{1}\t{2}\t{3}\t{4}\n", entry?.DexNum, entry?.Name, entry?.Variant, type, key);
 			}
-			File.WriteAllText("apiMiss.tsv", listOutput.ToString());
-			/*foreach (DexEntry.Builder entry in data.DexEntries)
+			File.WriteAllText("apiMiss.tsv", listOutput.ToString());*/
+			foreach (DexEntry.Builder entry in data.DexEntries)
 			{
-				if (entry.DexNum == 0)
+				if (entry.DexNum == 0 || entry.Variant == "Delta" || entry.Name!.Contains("Delta"))
 				{
-					//we don't care about "egg"
+					//we don't care about "egg" or Delta
 					continue;
 				}
 				////here;
@@ -2409,12 +2400,38 @@ namespace Pokerole.Tools.InitUpdate
 				var jObject = GetStats(entry, out String key);// FetchEntry().GetAwaiter().GetResult();
 				//read dem stats!
 				//apparently, all official pokemon heights are in decimeters...
-				int heightDecimeters = (int?)jObject["height"] ?? throw new WasNullException();
-				int weightHectograms = (int?)jObject["weight"] ?? throw new WasNullException();
-				entry.AverageHeight = new Height("deimeters", heightDecimeters);
-				entry.AverageWeight = new Weight("hectograms", weightHectograms);
+				int? heightDecimeters = null, weightHectograms = null;
+				if (jObject == null)
+				{
+					if (entry.DexNum == 479)
+					{
+						//Rotom Dex. Use Rotom Stats
+						jObject = nameToStat["rotom"];
+					}
+					else if (entry.DexNum == 718)
+					{
+						//Zygarde Cell. Hardcoded values
+						heightDecimeters = 2;
+						weightHectograms = 1;
+					}
+					else
+					{
+						throw new NotImplementedException();
+					}
+				}
+				if (jObject != null)
+				{
+					heightDecimeters = (int?)jObject["height"] ?? throw new WasNullException();
+					weightHectograms = (int?)jObject["weight"] ?? throw new WasNullException();
+				}
+				if (!heightDecimeters.HasValue || !weightHectograms.HasValue)
+				{
+					throw new InvalidOperationException("value was not assigned");
+				}
+				entry.AverageHeight = new Height("deimeters", heightDecimeters.Value);
+				entry.AverageWeight = new Weight("hectograms", weightHectograms.Value);
 				remaining.Remove(key);
-			}*/
+			}
 			if (remaining.Count > 0)
 			{
 				throw new InvalidOperationException();

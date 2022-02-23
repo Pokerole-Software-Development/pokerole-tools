@@ -4,7 +4,7 @@ DexNum	Name	Variant	Types	Pokéapi key
 413	Steel Wormadam		Bug/Steel	wormadam-trash
 413	Ground Wormadam		Bug/Ground	wormadam-sandy
 479	Rotom Dex		Electric	
-487	Giratina		Ghost/Dragon	giratina-origin
+487	Giratina		Ghost/Dragon	giratina-altered
 492	Shaymin		Grass	shaymin-land
 550	Basculin		Water	basculin-red-striped
 555	Darmanitan		Fire	darmanitan-standard
@@ -27,7 +27,7 @@ DexNum	Name	Variant	Types	Pokéapi key
 681	Form Aegislash		Steel/Ghost	aegislash-shield
 710	Pumpkaboo		Ghost/Grass	pumpkaboo-average
 711	Gourgeist		Ghost/Grass	gourgeist-average
-718	Zygarde Cell		Dragon/Ground	zygarde
+718	Zygarde Cell		Dragon/Ground	
 718	Zygarde 10%		Dragon/Ground	zygarde-10
 718	Zygarde 50%		Dragon/Ground	zygarde-50
 718	Zygarde 100%		Dragon/Ground	zygarde-complete
@@ -58,18 +58,13 @@ DexNum	Name	Variant	Types	Pokéapi key
 				castform-rainy
 				castform-snowy
 				castform-sunny
-				
-				
-				
 				eternatus-eternamax
 				floette-eternal
-				
 				glastrier
-				
-				
-				
+				gourgeist-large
+				gourgeist-small
+				gourgeist-super
 				greninja-battle-bond
-				groudon-primal
 				indeedee-female
 				kubfu
 				kyogre-primal
@@ -78,7 +73,7 @@ DexNum	Name	Variant	Types	Pokéapi key
 				magearna-original
 				meowstic-female
 				mimikyu-busted
-				Minior-blue
+				minior-blue
 				minior-blue-meteor
 				minior-green
 				minior-green-meteor
@@ -114,3 +109,4 @@ DexNum	Name	Variant	Types	Pokéapi key
 				urshifu-rapid-strike
 				urshifu-single-strike
 				zarude
+				zygarde
