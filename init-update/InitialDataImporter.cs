@@ -2296,6 +2296,7 @@ namespace Pokerole.Tools.InitUpdate
 						test, out stats), parts);
 					if (possibleKey != null)
 					{
+						key = possibleKey;
 						return stats;
 					}
 					//List<String> workingList = parts.ToList();

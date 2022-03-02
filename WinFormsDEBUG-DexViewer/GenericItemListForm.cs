@@ -50,6 +50,7 @@ namespace WinFormsDEBUG_DexViewer
 		private void ConfigureAndPopulateListForType(Type type, IEnumerable<IItemBuilder> rawList)
 		{
 			//configure
+			lstItems.View = View.Details;
 			Func<object, ListViewItem> constructListViewItem;
 			switch (type)
 			{
@@ -61,10 +62,10 @@ namespace WinFormsDEBUG_DexViewer
 						{
 							Text = "Dex Num"
 						},
-						new ColumnHeader()
-						{
-							Text = "Sprite"
-						},
+						//new ColumnHeader()
+						//{
+						//	Text = "Sprite"
+						//},
 						new ColumnHeader()
 						{
 							Text = "Entry Name"
@@ -102,10 +103,10 @@ namespace WinFormsDEBUG_DexViewer
 				{
 					
 					unbuildable.Add(item);
-					throw new NotImplementedException(@"need average height/weight and pokemon category/dex description
-					use pokeapi for height and weight
-					sadness for the other two...
-					also evolution stuff...");
+					//throw new NotImplementedException(@"need average height/weight and pokemon category/dex description
+					//use pokeapi for height and weight
+					//sadness for the other two...
+					//also evolution stuff...");
 				}
 				else
 				{
@@ -116,7 +117,12 @@ namespace WinFormsDEBUG_DexViewer
 
 		private void btnShowBroken_Click(object sender, EventArgs e)
 		{
-
+			if (unbuildable.Count < 1)
+			{
+				return;
+			}
+			using BrokenItemLister lister = new BrokenItemLister(unbuildable);
+			lister.ShowDialog(this);
 		}
 	}
 }
