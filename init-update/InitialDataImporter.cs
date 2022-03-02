@@ -475,6 +475,8 @@ namespace Pokerole.Tools.InitUpdate
 				if (m.Groups[1].Success)
 				{
 					variant = "Delta";
+					//NOT IMPORTING!!!! Causes too much trouble!!!
+					continue;
 				}
 				builder.Variant = variant;
 				builder.DexNum = dexNum;
@@ -595,6 +597,11 @@ namespace Pokerole.Tools.InitUpdate
 				String[] id = fields[0].Split(new char[] { ' ' }, 2);
 				if (!monByName.TryGetValue(NameErrata(id[1]), out DexEntry.Builder? builder))
 				{
+					if (id[1].Contains("Delta"))
+					{
+						//NOT IMPORTING!!!!
+						continue;
+					}
 					throw new InvalidOperationException($"Could not find moves for {id[1]}");
 				}
 				if (builder.MoveSet.Count > 0)
@@ -1480,7 +1487,8 @@ namespace Pokerole.Tools.InitUpdate
 						{
 							Filename = fileNamePart,
 							Data = ReadImage(filenameFull),
-							DataId = new DataId(null, Guid.NewGuid())
+							DataId = new DataId(null, Guid.NewGuid()),
+							FilePath = RelativePath(filenameFull)
 						};
 						if (!File.Exists(filenameFull))
 						{
@@ -1531,7 +1539,7 @@ namespace Pokerole.Tools.InitUpdate
 							//869=Alcremie
 							//877=Morpeko
 							//890=Eternatus
-							isAdditional = true;
+							isAdditional = key != "$";
 							return true;
 						}
 						String name = entry.Name ?? throw new InvalidOperationException("Name was null!");
@@ -1849,6 +1857,15 @@ namespace Pokerole.Tools.InitUpdate
 			}
 			return newImages;
 		}
+
+		private string RelativePath(string filenameFull)
+		{
+			//relative to the repo root to simplify debugging
+			var full = Path.GetFullPath(filenameFull);
+			var relative = Path.GetRelativePath(projectRoot, full);
+			return relative;
+		}
+
 		private byte[]? ReadImage(String path)
 		{
 #pragma warning disable CS0162 // Unreachable code detected
@@ -1866,7 +1883,8 @@ namespace Pokerole.Tools.InitUpdate
 			{
 				Filename = Path.GetFileName(filePath),
 				Data = ReadImage(filePath),
-				DataId = new DataId(null, Guid.NewGuid())
+				DataId = new DataId(null, Guid.NewGuid()),
+				FilePath = RelativePath(filePath)
 			};
 		}
 		//why? because I eventually decided it would be easier to just do a GC instead of writing logic to remove old

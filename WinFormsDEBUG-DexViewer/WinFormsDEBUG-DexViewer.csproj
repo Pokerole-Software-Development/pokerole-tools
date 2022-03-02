@@ -8,12 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\init-update\bin\Debug\netcoreapp3.1\output.xml" Link="output.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\pokerole-core\pokerole-core.csproj" />
   </ItemGroup>
 

@@ -13,9 +13,12 @@ namespace WinFormsDEBUG_DexViewer
 	public partial class GenericItemListForm : Form
 	{
 		readonly List<IItemBuilder> unbuildable = new List<IItemBuilder>();
+		private readonly ImageList smallImageList = new ImageList();
 		public GenericItemListForm(Type type, IEnumerable<IItemBuilder> rawList)
 		{
 			InitializeComponent();
+			lstItems.SmallImageList = smallImageList;
+			smallImageList.ImageSize = new Size(32, 32);
 			ConfigureAndPopulateListForType(type, rawList);
 			if (unbuildable.Count == 0)
 			{
@@ -80,9 +83,8 @@ namespace WinFormsDEBUG_DexViewer
 						Image? sprite = Form1.LoadImage(entry.SpriteImage);
 						if (sprite != null)
 						{
-							var imageList = lstItems.SmallImageList;
-							int index = imageList.Images.Count;
-							imageList.Images.Add(sprite);
+							int index = smallImageList.Images.Count;
+							smallImageList.Images.Add(sprite);
 							result.ImageIndex = index;
 						}
 						return result;
@@ -113,6 +115,7 @@ namespace WinFormsDEBUG_DexViewer
 					lstItems.Items.Add(constructListViewItem(item.Build()));
 				}
 			}
+			lstItems.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 		}
 
 		private void btnShowBroken_Click(object sender, EventArgs e)

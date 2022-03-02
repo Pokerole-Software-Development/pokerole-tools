@@ -17,6 +17,12 @@ namespace WinFormsDEBUG_DexViewer
 {
 	public partial class Form1 : Form
 	{
+		//                                                pokerole-tools (root)--|
+		//                                      WinFormsDEBUG-DexViewer ------|  |
+		//                                                          bin ---|  |  |
+		//                                                         Debug|  |  |  |
+		//                                  netcoreapp3.1 ------------V V  V  V  V
+		private static readonly String projectRoot = Path.GetFullPath("../../../..");
 		public static PokeroleXmlData Data { get; }
 		private static ReadOnlyDictionary<ItemReference<ImageRef>, ImageRef> ImageIndex { get; }
 		private static readonly ConcurrentDictionary<ItemReference<ImageRef>, Image?> images =
@@ -25,7 +31,8 @@ namespace WinFormsDEBUG_DexViewer
 		static Form1()
 		{
 			XmlSerializer serializer = new XmlSerializer(typeof(PokeroleXmlData));
-			String content = File.ReadAllText("output.xml");
+			String content = File.ReadAllText(Path.Combine(projectRoot, "init-update", "bin", "Debug",
+				"netcoreapp3.1", "output.xml"));
 			Data = (PokeroleXmlData)serializer.Deserialize(new StringReader(content));
 			ImageIndex = new ReadOnlyDictionary<ItemReference<ImageRef>, ImageRef>(Data.Images.Where(item =>
 					item.IsValid).ToDictionary(item => item.ItemReference!.Value, item => item.Build()));
@@ -45,12 +52,27 @@ namespace WinFormsDEBUG_DexViewer
 				byte[]? data = imageRef.Data;
 				if (data == null || data.Length == 0)
 				{
-					return null;
+					return FindImage(imageRef.FilePath);
 				}
 				Image image = Image.FromStream(new MemoryStream(data));
 				return image;
 			});
 		}
+
+		private static Image? FindImage(string? filePath)
+		{
+			if (filePath == null)
+			{
+				return null;
+			}
+			var fullPath = Path.Combine(projectRoot, filePath);
+			if (!File.Exists(fullPath))
+			{
+				return null;
+			}
+			return Image.FromFile(fullPath);
+		}
+
 		public Form1()
 		{
 			InitializeComponent();
