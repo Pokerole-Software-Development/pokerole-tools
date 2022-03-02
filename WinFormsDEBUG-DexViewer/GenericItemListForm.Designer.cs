@@ -80,10 +80,12 @@ namespace WinFormsDEBUG_DexViewer
 			this.lstItems.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lstItems.HideSelection = false;
 			this.lstItems.Location = new System.Drawing.Point(3, 3);
+			this.lstItems.MultiSelect = false;
 			this.lstItems.Name = "lstItems";
 			this.lstItems.Size = new System.Drawing.Size(794, 415);
 			this.lstItems.TabIndex = 3;
 			this.lstItems.UseCompatibleStateImageBehavior = false;
+			this.lstItems.ItemActivate += new System.EventHandler(this.lstItems_ItemActivate);
 			// 
 			// GenericItemListForm
 			// 

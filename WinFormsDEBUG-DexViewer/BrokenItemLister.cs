@@ -11,7 +11,7 @@ namespace WinFormsDEBUG_DexViewer
 {
 	public partial class BrokenItemLister : Form
 	{
-		private List<IItemBuilder> unbuildable;
+		private readonly List<IItemBuilder> unbuildable;
 
 		public BrokenItemLister(List<IItemBuilder> unbuildable)
 		{

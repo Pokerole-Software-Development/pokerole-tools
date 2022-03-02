@@ -13,6 +13,7 @@ namespace WinFormsDEBUG_DexViewer
 	public partial class GenericItemListForm : Form
 	{
 		readonly List<IItemBuilder> unbuildable = new List<IItemBuilder>();
+		readonly List<Object> builtItems = new List<object>();
 		private readonly ImageList smallImageList = new ImageList();
 		public GenericItemListForm(Type type, IEnumerable<IItemBuilder> rawList)
 		{
@@ -54,11 +55,12 @@ namespace WinFormsDEBUG_DexViewer
 		{
 			//configure
 			lstItems.View = View.Details;
+			lstItems.Columns.Clear();
 			Func<object, ListViewItem> constructListViewItem;
+			Action adjustColumns;
 			switch (type)
 			{
 				case Type _ when type == typeof(DexEntry.Builder):
-					lstItems.Columns.Clear();
 					lstItems.Columns.AddRange(new ColumnHeader[]
 					{
 						new ColumnHeader()
@@ -89,9 +91,18 @@ namespace WinFormsDEBUG_DexViewer
 						}
 						return result;
 					};
+					adjustColumns = () => lstItems.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 					break;
-				case Type _ when type == typeof(Move.Builder):
 				case Type _ when type == typeof(ImageRef.Builder):
+					//lstItems.Columns.AddRange(new ColumnHeader[]
+					//{
+
+					//});
+
+
+
+
+				case Type _ when type == typeof(Move.Builder):
 				case Type _ when type == typeof(Item.Builder):
 				case Type _ when type == typeof(Ability.Builder):
 				case Type _ when type == typeof(EvolutionList.Builder):
@@ -112,10 +123,12 @@ namespace WinFormsDEBUG_DexViewer
 				}
 				else
 				{
-					lstItems.Items.Add(constructListViewItem(item.Build()));
+					object builtItem = item.Build();
+					lstItems.Items.Add(constructListViewItem(builtItem));
+					builtItems.Add(builtItem);
 				}
 			}
-			lstItems.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+			adjustColumns();
 		}
 
 		private void btnShowBroken_Click(object sender, EventArgs e)
@@ -126,6 +139,27 @@ namespace WinFormsDEBUG_DexViewer
 			}
 			using BrokenItemLister lister = new BrokenItemLister(unbuildable);
 			lister.ShowDialog(this);
+		}
+
+		private void lstItems_ItemActivate(object sender, EventArgs e)
+		{
+			//for now...
+			if (lstItems.SelectedItems.Count != 1)
+			{
+				return;
+			}
+			var selected = lstItems.SelectedItems[0];
+			using Form temp = new Form()
+			{
+				Text = "Item Details"
+			};
+			PropertyGrid propGrid = new PropertyGrid()
+			{
+				SelectedObject = builtItems[selected.Index],
+				Dock = DockStyle.Fill
+			};
+			temp.Controls.Add(propGrid);
+			temp.ShowDialog(this);
 		}
 	}
 }
