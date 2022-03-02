@@ -145,7 +145,7 @@ fields. They form large families in
 their burrows. Since they are often
 preyed on, Rattatas are always alert
 and quick to flee."
-19	Rattata	Alola	Level	Medium	Mouse Pokémon	"Rattata first came to Alola through
+19	Rattata	Alolan	Level	Medium	Mouse Pokémon	"Rattata first came to Alola through
 cargo ships, it thrived and almost
 destroyed the region’s ecosystem.
 Attempts to exterminate this
@@ -157,7 +157,7 @@ gnaws on hard materials. It may
 even chew on the walls of houses.
 Its has water-proof fur, webbed
 feet and its a capable swimmer."
-20	Raticate	Alola			Mouse Pokémon	"Alolan Raticate command their
+20	Raticate	Alolan			Mouse Pokémon	"Alolan Raticate command their
 Rattata underlings to bring them
 food every night.
 Five star restaurants often struggle
@@ -197,7 +197,7 @@ it starts to emit a faint glow and
 it becomes more aggressive than it
 normally is. They live in forests but
 are rare to find in the wild."
-26	Raichu	Alola			Mouse Pokémon	"Scientists were baffled to discover
+26	Raichu	Alolan			Mouse Pokémon	"Scientists were baffled to discover
 Raichu’s evolution in the Alola Region.
 There is no explanation as to how
 it gained Psychic abilities, but diet
@@ -209,7 +209,7 @@ been sighted living in the desert.
 They are shy by nature - they dig
 and curl in a ball when facing a
 threat."
-27	Sandshrew	Alola	Level	Medium	Mouse Pokémon	"Sandshrew who became trapped in
+27	Sandshrew	Alolan	Level	Medium	Mouse Pokémon	"Sandshrew who became trapped in
 the merciless cold weather of Alola
 had to change their types to survive.
 They now depend on snow to roll
@@ -221,13 +221,13 @@ from enemy attacks. Surprisingly, it is
 a good climber that uses its sharp
 claws for grip and drilling tunnels
 underground."
-28	Sandslash	Alola			Mouse Pokémon	"These Pokémon make their burrows
+28	Sandslash	Alolan			Mouse Pokémon	"These Pokémon make their burrows
 on Alola’s ice caverns, hidden in
 plain sight. Careful with its spikes,
 any puncture into the skin and you
 can get severe frostbite. They can’t
 stand high temperatures."
-29	Nidoran	Female	Level	Medium	Poison Pin Pokémon	"A female only species. It lives close
+29	Nidoran F		Level	Medium	Poison Pin Pokémon	"A female only species. It lives close
 to meadows and forests. They
 are mellow Pokémon. To protect
 herself, she secretes a powerful
@@ -245,7 +245,7 @@ of its nest and protect its young
 from predators. There are records
 of angry Nidoqueens sending
 people flying with a single tackle."
-32	Nidoran	Male	Level	Medium	Poison Pin Pokémon	"The male Nidoran has developed
+32	Nidoran M		Level	Medium	Poison Pin Pokémon	"The male Nidoran has developed
 a great alertness to sounds. Its
 small body is covered in spikes that
 are drenched in venom when he’s
@@ -281,7 +281,7 @@ and splits into six. It is quite warm
 and cuddly - very popular with the
 ladies . It is, however, uncommon to
 see one in the wild."
-37	Vulpix	Alola	Stone	Ice Stone	Fox Pokémon	"The Vulpix who became stranded in
+37	Vulpix	Alolan	Stone	Ice Stone	Fox Pokémon	"The Vulpix who became stranded in
 Alola had to change type in order
 to survive. Alola’s local name for this
 Pokémon is Keokeo.
@@ -293,7 +293,7 @@ exhuberant golden fur and the
 mystical power of its nine tails. It is,
 however, known to hold a grudge
 against those who mistreat it."
-38	Ninetales	Alola			Fox Pokémon	"In old times, Alolan natives revered
+38	Ninetales	Alolan			Fox Pokémon	"In old times, Alolan natives revered
 this Pokémon as a god incarnate.
 It is usually calm and benevolent, but
 it can be ruthless when disturbed,
@@ -371,7 +371,7 @@ It has a very thin skin. It’s frail and
 has problems regulating its own
 temperature. Keep it burrowed or it
 will get sick."
-50	Diglett	Alola	Level	Medium	Mole Pokémon	"This variant of Diglett is only found
+50	Diglett	Alolan	Level	Medium	Mole Pokémon	"This variant of Diglett is only found
 in the Alola region. The small hairs
 on its head are used perceive its
 surroundings while burrowed, do
@@ -383,7 +383,7 @@ alike. They work together to dig
 endlessly through the ground.
 They are known for destroying the
 foundations of roads and buildings."
-51	Dugtrio	Alola			Mole Pokémon	"Thanks to its golden mane, this
+51	Dugtrio	Alolan			Mole Pokémon	"Thanks to its golden mane, this
 Pokémon has been revered as a
 femenine diety. The triplets groom
 each other to help keep the hair
@@ -395,7 +395,7 @@ city. Shiny things facinate them and
 they keep a little treasure hidden.
 The coin on its head is its most
 prized possesion."
-52	Meowth	Alola	Level	Medium	Scratch Cat Pokémon	"In old times, Meowth were taken to
+52	Meowth	Alolan	Level	Medium	Scratch Cat Pokémon	"In old times, Meowth were taken to
 Alola as gifts for the tribe’s royals,
 this caused them to become
 incredibly greedy and pampered.
@@ -407,7 +407,7 @@ to no provocation whatsoever.
 Their elegance and grace is very
 valued, although they can be
 vicious hunters."
-53	Persian	Alola			Classy Cat Pokémon	"They were bred for their silky fur
+53	Persian	Alolan			Classy Cat Pokémon	"They were bred for their silky fur
 and round faces, not for their
 temperament. This is an extremely
 proud Pokémon who will look down
@@ -544,7 +544,7 @@ rocks around. Because of this, many
 trainers step on them and are
 attacked. It rolls to move around and
 eats whatever it finds on the floor."
-74	Geodude	Alola	Level	Medium	Rock Pokémon	"The magnetic fields on Alola’s Blush
+74	Geodude	Alolan	Level	Medium	Rock Pokémon	"The magnetic fields on Alola’s Blush
 Mountain made Geodude develop
 Electric chargers on its body.
 They tend to disguise themselves as
@@ -556,7 +556,7 @@ It is good at climbing. Groups of
 them have been seen clinging from
 rock formations and cliffs to eat the
 tasty rocks covered in moss."
-75	Graveler	Alola	Trade	Trade	Rock Pokémon	"These Pokémon charge themselves
+75	Graveler	Alolan	Trade	Trade	Rock Pokémon	"These Pokémon charge themselves
 by rolling around, it is dangerous if
 two of them collide, a loud noise
 and a flash of light will be seen and
@@ -568,7 +568,7 @@ withdraws its head and legs as if it
 were a turtle to roll around. There
 have been cases of Golem that
 resist dynamite blasts unscathed."
-76	Golem	Alola			Megaton Pokémon	"The Alolan variant of Golem does
+76	Golem	Alolan			Megaton Pokémon	"The Alolan variant of Golem does
 not roll around like its counterpart,
 instead it loads rocks into the
 charger on its head and shoots
@@ -651,7 +651,7 @@ is anything filthy like waste water
 pumped out from factories. Grime
 and sludge stick to their body
 making them grow larger over time."
-88	Grimer	Alola	Level	Slow	Sludge Pokémon	"Grimer were brought into Alola to eat
+88	Grimer	Alolan	Level	Slow	Sludge Pokémon	"Grimer were brought into Alola to eat
 garbage on the region. It seemed
 like a counterintuitive measure but
 ended up solving the problem. But
@@ -663,7 +663,7 @@ poison that kills any plant. Touching
 it can cause a fever that will require
 bed rest. A good diet may reduce
 Muk’s toxicity."
-89	Muk	Alola			Sludge Pokémon	"It is as friendly as it is toxic, be careful
+89	Muk	Alolan			Sludge Pokémon	"It is as friendly as it is toxic, be careful
 for it tries to hug others regularly. A
 good diet does not help reduce its
 toxicity levels, it only makes it cranky
@@ -759,7 +759,7 @@ strong sunlight. Each head thinks
 independently. They are friendly
 and provide their shade to other
 Pokémon."
-103	Exeggutor	Alola			Coconut Pokémon	"Alola is the native region for this
+103	Exeggutor	Alolan			Coconut Pokémon	"Alola is the native region for this
 Pokémon, only in there it can evolve
 into this form. With this size, its
 Psychic abilities are rarely needed
@@ -777,7 +777,7 @@ this Pokémon will use its Bone club as
 a weapon against foes. Marowak’s
 den is usually full of the bones it has
 collected."
-105	Marowak	Alola			Bone Keeper Pokémon	"Alola has many predators for an
+105	Marowak	Alolan			Bone Keeper Pokémon	"Alola has many predators for an
 orphaned Cubone, so its mother’s
 spirit lingered close to protect her
 baby. This otherworldly influence
@@ -2818,19 +2818,19 @@ It makes a cloak with the materials
 close to it to protect itself from the
 weather. Males evolve into a Mothim
 and females into a Wormadam."
-413	Wormadam		With Gender	With Female	Bagworm Pokémon	"When Burmy evolved, its Grass cloak
+413	Wormadam	Grass	With Gender	With Female	Bagworm Pokémon	"When Burmy evolved, its Grass cloak
 became a part of its body. For this
 reason there are many variations in
 body and type. It is a calm Pokémon
 that loves flowers.
 This Pokémon is female only."
-413	Wormadam		With Gender	With Female	Bagworm Pokémon	"When Burmy evolved, its Trash cloak
+413	Wormadam	Steel	With Gender	With Female	Bagworm Pokémon	"When Burmy evolved, its Trash cloak
 became a part of its body. For this
 reason there are many variations in
 body and type. It is a calm Pokémon
 that loves foil wrapping.
 This Pokémon is female only."
-413	Wormadam		With Gender	With Female	Bagworm Pokémon	"When Burmy evolved, its Sand cloak
+413	Wormadam	Ground	With Gender	With Female	Bagworm Pokémon	"When Burmy evolved, its Sand cloak
 became a part of its body. For this
 reason there are many variations in
 body and type. It is a calm Pokémon
@@ -5688,7 +5688,7 @@ tentacle. This Pokémon is also known
 as the Forest Witch. It is very sensitive
 to the emotions of others if it senses
 doubt, fear or anger it will attack you."
-110	Weezing	Galar			Poison Gas Pokémon	"This Pokémon eats the contamination
+110	Weezing	Galarian			Poison Gas Pokémon	"This Pokémon eats the contamination
 in the air, and instead of droppings, it
 expels clean air.
 Its Galar Form was first spotted long
@@ -5711,13 +5711,13 @@ to opponents, ensnaring them as
 tentacles would. They often make
 others trip or get them hanging
 upside down to amuse themselves."
-263	Zigzagoon	Galar	Level	Medium	Tiny Racoon Pokémon	"Zigzagoons raised in Galar grow
+263	Zigzagoon	Galarian	Level	Medium	Tiny Racoon Pokémon	"Zigzagoons raised in Galar grow
 to be punks. If they see another
 Pokémon, they will purposely run
 into them to start a fight. The only
 way to calm them down is with a lot
 of loud noise."
-264	Linoone	Galar	Level	Medium	Rush Pokémon	"It uses its long tongue to taunt
+264	Linoone	Galarian	Level	Medium	Rush Pokémon	"It uses its long tongue to taunt
 its opponents. Once the foe is
 enraged, this Pokémon hurls itself at
 it, tackling them forcefully. They are
@@ -5729,7 +5729,7 @@ Obstagoon has a tendency to take
 on a threatening posture and shout
 at anyone that is in front of it. They
 rarely take things seriously."
-52	Meowth	Galar	Level	Medium	Scratch Cat Pokémon	"The coin on its head has rusted.
+52	Meowth	Galarian	Level	Medium	Scratch Cat Pokémon	"The coin on its head has rusted.
 Meowths were taken into viking
 ships on long travels through the
 sea, living for so long in such harsh
@@ -5741,7 +5741,7 @@ Unlike other Meowth evolutions,
 Perrserker does not want riches and
 luxury, it enjoys battles, the outdoors
 and taveling though the sea."
-222	Corsola	Galar	Level	Medium	Coral Pokémon	"Watch your step when walking
+222	Corsola	Galarian	Level	Medium	Coral Pokémon	"Watch your step when walking
 through shallow ocean waters because this Pokémon looks like a
 stone and it will curse you if you kick
 it. Sudden climate change wiped
@@ -5752,25 +5752,25 @@ become stiff as stone. This Pokémon
 longs for the days where coral reefs
 were full of life, it holds a grudge to
 those who destroyed them."
-83	Farfetch’d	Galar	Special	Score 3 Critical hits in 1 battle	Wild Duck Pokémon	"The stalks of leeks are thicker and
+83	Farfetch'd	Galarian	Special	Score 3 Critical hits in 1 battle	Wild Duck Pokémon	"The stalks of leeks are thicker and
 longer in the Galar region, this has
 allowed Farfetch’d fare better than
 their Kanto counterparts. It has also
 made them hardier and warrior-like.
 They are still delicious, though."
-865	Sirfetch’d				Wild Duck Pokémon	"Only Farfetch’d that have survived
+865	Sirfetch'd				Wild Duck Pokémon	"Only Farfetch’d that have survived
 many battles cango thought this
 evolution. They are very proud of
 their leek spear and leafen shield,
 When this Pokémon’s leek withers, it
 will retire from combat."
-618	Stunfisk	Galar			Trap Pokémon	"Stunfisk lives in mud with high iron
+618	Stunfisk	Galarian			Trap Pokémon	"Stunfisk lives in mud with high iron
 content. Those nutrients turned its
 body into a Steel Type.
 Stunfisks’ lips are hard to spot in the
 mud, but if someone steps on it, its
 jagged steel clamps their prey."
-122	Mr. Mime	Galar	Level	Medium	Barrier Pokémon	"Mime Jr. that endure the harsh winter
+122	Mr. Mime	Galarian	Level	Medium	Barrier Pokémon	"Mime Jr. that endure the harsh winter
 of Galar are able to create invisible
 walls that suddenly turn to ice, as
 they evolve they start creating ice
@@ -5782,23 +5782,23 @@ amusing movements make it very
 popular and they love to entertain
 children. It releases all of its psychic
 power from the pattern on its belly."
-554	Darumaka	Galar	Item	Ice Stone	Zen Charm Pokémon	"When forced to live on snow, its fire
+554	Darumaka	Galarian	Item	Ice Stone	Zen Charm Pokémon	"When forced to live on snow, its fire
 sac froze and now it generates cold.
 Darumaka uses low temperatures as
 energy, making it very energetic on
 winter. It is playful and likes to throw
 Snowballs."
-555	Darmanitan	Galar			Zen Charm Pokémon	"The Galarian form of Darmanitan.
+555	Darmanitan	Galarian			Zen Charm Pokémon	"The Galarian form of Darmanitan.
 They walk into townds during the
 blizzards to steal food.
 Darmanitans seem mean, but they
 are gentle and shy."
-555	Darmanitan	Galar, Zen Mode			Zen Charm Pokémon (Galarian)	"Zen Charm Pokémon (Galarian)
+555	Darmanitan	Galarian, Zen Mode			Zen Charm Pokémon (Galarian)	"Zen Charm Pokémon (Galarian)
 When Darmanitan gets angry atrophied fire core is reignited, This
 Pokémon breathes fire and destroys everything on its path..
 They must be calmed down or its
 own heat may melt their bodies."
-562	Yamask	Galar	Spatial	Walk near a rune Painting	Spirit Pokémon	"It’s said that this Pokémon was
+562	Yamask	Galarian	Spatial	Walk near a rune Painting	Spirit Pokémon	"It’s said that this Pokémon was
 formed when an ancient clay tablet
 was drawn to the dark energy of
 a spirit. The clay slab seems to be
@@ -5821,13 +5821,13 @@ their color and flavor, some are
 sweet, some are sour but they are
 all delicious. Cakes baked with its
 help can be sold for a lot of money."
-77	Ponyta		Level	Medium	Unique Horn Pokémonn	"The old magical forests of Galar
+77	Ponyta	Galarian	Level	Medium	Unique Horn Pokémonn	"The old magical forests of Galar
 made Ponytas adopt a mystic nature.
 Their miraculous horn can heal most
 wounds and sense the purity in your
 heart, if you hold evil, you’ll never see
 this Pokémon in the wild."
-78	Rapidash				Unique Horn Pokémonn	"Those with evil in their hearts will be
+78	Rapidash	Galarian			Unique Horn Pokémonn	"Those with evil in their hearts will be
 disdained by this proud and beautiful
 Pokémon as it dashes on the air using
 its psychic power. It is said that only

@@ -42,7 +42,7 @@ namespace Pokerole.Tools.InitUpdate
 		//                                  netcoreapp3.1 ------------V V  V  V  V
 		private static readonly String projectRoot = Path.GetFullPath("../../../..");
 		private static readonly String processedInputs = Path.Combine(projectRoot, "init-update/inputs");
-		
+
 		public InitialDataImporter()
 		{
 			String previousOutput;
@@ -76,12 +76,13 @@ namespace Pokerole.Tools.InitUpdate
 			data.Images.AddRange(ReadPrimaryImages());
 			data.Images.AddRange(ReadDexImages());
 			GcStockImages();
-			ReadHeightAndWeights();
+			var evoData = ReadDescriptionsAndEvoInfo();
 			//ReadEvolutions();
 
 
-
-
+			//this one likes to take time... so do it last. Would shove it in a different thread, but that slows
+			//the debugger down when it hits a break point
+			ReadHeightAndWeights();
 			StringWriter writer = new StringWriter();
 			xmlSerializer.Serialize(writer, data);
 			File.WriteAllText("output.xml", writer.ToString());
@@ -906,13 +907,13 @@ namespace Pokerole.Tools.InitUpdate
 			}).NonNull().ToList();
 			var missed = imageData.Where(item => !String.IsNullOrEmpty(item.Misc)).ToList();
 			//delta may be slated for removal. Also, the numbers don't line up and I don't have images for them
-			var effectiveDex = data.DexEntries.Where(item => item.DexNum > 0 && item.Variant != "Delta").ToList();
+			var effectiveDex = data.DexEntries.Where(ValidPredicate).ToList();
 			var remainingImages = new HashSet<ImageData>(imageData);
 			var remainingDexEntries = new HashSet<DexEntry.Builder>(effectiveDex);
 			//dict compile
 			//not using "dexNotation" since we don't know what "Variant" might be
 			//egg already filtered out
-			var imagesByDex = imageData.ToLookup(item=>item.DexNum);
+			var imagesByDex = imageData.ToLookup(item => item.DexNum);
 			var entriesByDex = effectiveDex.ToLookup(item => item.DexNum);
 			//if (imagesByDex.Count != entriesByDex.Count) We are missing Galar DLC mon, so we are not doing this check
 			//{
@@ -1353,7 +1354,7 @@ namespace Pokerole.Tools.InitUpdate
 				}
 				void ReadForms(JObject formNode)
 				{
-					foreach(var pair in formNode)
+					foreach (var pair in formNode)
 					{
 						String key = pair.Key;
 						if (!entry.forms.TryGetValue(key, out PokeSpriteForm? form))
@@ -1405,8 +1406,7 @@ namespace Pokerole.Tools.InitUpdate
 				}
 				ReadForms((JObject)gen8);
 			}
-			HashSet<DexEntry.Builder> remainingDexEntries = data.DexEntries.Where(item => !item.Name!.StartsWith("Delta")
-					&& item.DexNum.HasValue && item.DexNum.Value > 0).ToHashSet();
+			HashSet<DexEntry.Builder> remainingDexEntries = data.DexEntries.Where(ValidPredicate).ToHashSet();
 			ILookup<int, DexEntry.Builder> entriesByDexNum = remainingDexEntries.ToLookup(item => item.DexNum!.Value);
 			String imagesDir = Path.Combine(pokespriteDir, "pokemon-gen8");
 			List<ImageRef.Builder> newImages = new List<ImageRef.Builder>(remainingDexEntries.Count * 3);
@@ -1450,7 +1450,7 @@ namespace Pokerole.Tools.InitUpdate
 							//base
 							formName = "";
 						}
-						List <String> parts = new List<string>(10);
+						List<String> parts = new List<string>(10);
 						//no gen 8 icons exist that face right
 						parts.Add(gen7 || right ? "pokemon-gen7x" : "pokemon-gen8");
 						parts.Add(shiny ? "shiny" : "regular");
@@ -2208,7 +2208,7 @@ namespace Pokerole.Tools.InitUpdate
 					//Task.Run
 					tasks.Add(FetchStats(item));
 				}
-				return (await Task.WhenAll(tasks).ConfigureAwait(false)).OrderBy(item=>item.key).
+				return (await Task.WhenAll(tasks).ConfigureAwait(false)).OrderBy(item => item.key).
 					ToDictionary(item => item.key, item => item.value, StringComparer.OrdinalIgnoreCase);
 			}
 
@@ -2227,7 +2227,7 @@ namespace Pokerole.Tools.InitUpdate
 			//load edge cases
 			//do note that there are duplicate entries in the list. This doesn't matter to us ATM because we only
 			//care about average weight and height
-			Dictionary <String, String> edgeCases = new Dictionary<string, string>(60);
+			Dictionary<String, String> edgeCases = new Dictionary<string, string>(60);
 			foreach (var line in File.ReadLines(Path.Combine(processedInputs, "apiMissFix.tsv")))
 			{
 				//5 columns of data. We only care about Columns 2 and 5
@@ -2245,7 +2245,7 @@ namespace Pokerole.Tools.InitUpdate
 			remaining.RemoveWhere(ignore.Contains);
 
 
-			
+
 			JObject? GetStats(DexEntry.Builder entry, out String key)
 			{
 				String entryName = entry.Name!;
@@ -2292,37 +2292,43 @@ namespace Pokerole.Tools.InitUpdate
 				{
 					//try swapping bits
 					string[] parts = key.Split('-');
-					List<String> workingList = parts.ToList();
-					for (int i = 0; i < parts.Length; i++)
+					String? possibleKey = TryMatchPermutations(new char[] { '-' }, test => nameToStat.TryGetValue(
+						test, out stats), parts);
+					if (possibleKey != null)
 					{
-						//try the 'i'th item in every 'j' position
-						for (int j = 0; j < parts.Length; j++)
-						{
-							if (j == i)
-							{
-								//skip
-								continue;
-							}
-							workingList.Clear();
-							workingList.AddRange(parts);
-							if (i < j)
-							{
-								workingList.Insert(j, parts[i]);
-								workingList.RemoveAt(i);
-							}
-							else
-							{
-								//need to do it in the other direction
-								workingList.RemoveAt(i);
-								workingList.Insert(j, parts[i]);
-							}
-							key = String.Join('-', workingList);
-							if (nameToStat.TryGetValue(key, out stats))
-							{
-								return stats;
-							}
-						}
+						return stats;
 					}
+					//List<String> workingList = parts.ToList();
+					//for (int i = 0; i < parts.Length; i++)
+					//{
+					//	//try the 'i'th item in every 'j' position
+					//	for (int j = 0; j < parts.Length; j++)
+					//	{
+					//		if (j == i)
+					//		{
+					//			//skip
+					//			continue;
+					//		}
+					//		workingList.Clear();
+					//		workingList.AddRange(parts);
+					//		if (i < j)
+					//		{
+					//			workingList.Insert(j, parts[i]);
+					//			workingList.RemoveAt(i);
+					//		}
+					//		else
+					//		{
+					//			//need to do it in the other direction
+					//			workingList.RemoveAt(i);
+					//			workingList.Insert(j, parts[i]);
+					//		}
+					//		key = String.Join('-', workingList);
+					//		if (nameToStat.TryGetValue(key, out stats))
+					//		{
+					//			return stats;
+					//		}
+					//	}
+					//}
 				}
 				//try edge cases
 				if (edgeCases.TryGetValue(entry.Name!, out String? value))
@@ -2398,8 +2404,8 @@ namespace Pokerole.Tools.InitUpdate
 				//	return result;
 				//}
 				var jObject = GetStats(entry, out String key);// FetchEntry().GetAwaiter().GetResult();
-				//read dem stats!
-				//apparently, all official pokemon heights are in decimeters...
+															  //read dem stats!
+															  //apparently, all official pokemon heights are in decimeters...
 				int? heightDecimeters = null, weightHectograms = null;
 				if (jObject == null)
 				{
@@ -2436,15 +2442,217 @@ namespace Pokerole.Tools.InitUpdate
 			{
 				throw new InvalidOperationException();
 			}
-			throw new NotImplementedException();
 		}
 
 		private List<(DexEntry.Builder entry, String kind, String value)> ReadDescriptionsAndEvoInfo()
 		{
-			throw new NotImplementedException();
-			//List<(DexEntry.Builder entry, String kind, String value)> result = new List<(DexEntry.Builder entry,
-			//	string kind, string value)>(data.DexEntries.Count / 3);
+			List<(DexEntry.Builder entry, String kind, String value)> result = new List<(DexEntry.Builder entry,
+				string kind, string value)>(data.DexEntries.Count / 3);
+			String inputPath = Path.Combine(processedInputs, "Pokemon_data_Entry.tsv");
+			HashSet<DexEntry.Builder> remaining = data.DexEntries.Where(ValidPredicate).ToHashSet();
+			var byDexNum = data.DexEntries.Where(ValidPredicate).ToLookup(item => item.DexNum.GetValueOrDefault());
+			if (byDexNum[0].Count() > 0)
+			{
+				throw new InvalidOperationException("Entry did not have a dex num set!");
+			}
+			Regex newLineFinder = new Regex("(\\\\)?(\r\n|\r|\n)");
+			String FixDescription(String input)
+			{
+				return newLineFinder.Replace(input, m =>
+				{
+					if (!m.Groups[1].Success)
+					{
+						return " ";
+					}
+					return "\n";
+				});
+			}
 
+			using (TextFieldParser tsvParser = new TextFieldParser(inputPath))
+			{
+				tsvParser.SetDelimiters(new string[] { "\t" });
+				tsvParser.HasFieldsEnclosedInQuotes = true;
+				bool first = true;
+				while (!tsvParser.EndOfData)
+				{
+					String[] fields = tsvParser.ReadFields();
+					//skip the header
+					if (first)
+					{
+						first = false;
+						continue;
+					}
+					int dexNum = int.Parse(fields[0]);
+					String name = fields[1];
+					String variant = fields[2];
+					String evoKind = fields[3];
+					String evoValue = fields[4];
+					String dexCategory = fields[5];
+					String description = FixDescription(fields[6]);
+					if (dexNum == 845 && !String.IsNullOrEmpty(variant))
+					{
+						//ignoring those for now
+						continue;
+					}
+					IEnumerable<DexEntry.Builder> forDexNum = byDexNum[dexNum];
+					DexEntry.Builder FindEntry()
+					{
+						switch (dexNum)
+						{
+							case 555:
+							{
+								//EVIL Darmanitan!!!
+								String target = variant switch
+								{
+									"" => "Darmanitan",
+									"Zen Mode" => "Zen Darmanitan",
+									"Galarian" => "Galarian Darmanitan",
+									"Galarian, Zen Mode" => "Galarian Zen Darmanitan",
+									_ => throw new InvalidOperationException()
+								};
+								return forDexNum.First(item => item.Name == target);
+
+							}
+
+							case 718:
+							{
+								String target = variant switch
+								{
+									"" => "50%",
+									"10%" => "10%",
+									"Core/Cell" => "Cell",
+									"100%" => "100%",
+									_ => throw new InvalidOperationException()
+								};
+								return forDexNum.First(item => item.Name == $"Zygarde {target}");
+
+							}
+
+							case 741:
+							{
+
+								String target = variant switch
+								{
+									"Baile" => "Fire",
+									"Pom-Pom" => "Electric",
+									"Pa'u" => "Psychic",
+									"Sensu" => "Ghost",
+									_ => throw new InvalidOperationException()
+								};
+								return forDexNum.First(item => item.Name == $"Oricorio {target}");
+							}
+							case 849:
+							{
+								//adjust so Amped and Low Key handle properly
+								variant = variant.Replace(" Form", "");
+								break;
+							}
+						}
+
+						char[] separators = { ' ', '-' };
+						if (!String.IsNullOrEmpty(variant))
+						{
+							foreach (var item in forDexNum)
+							{
+								//try various parsings
+								if (TryMatchPermutations(separators, test=>test == item.Name, variant, name) != null)
+								{
+									return item;
+								}
+							}
+						}
+						if (variant.StartsWith("Mega"))
+						{
+							if (variant == "Mega")
+							{
+								return forDexNum.First(entry => entry.MegaEvolutionBaseEntry.HasValue);
+							}
+							return forDexNum.First(entry => entry.MegaEvolutionBaseEntry.HasValue &&
+								entry.Name!.EndsWith(variant[^1]));
+						}
+						if (String.IsNullOrEmpty(variant))
+						{
+							return forDexNum.First(entry => String.IsNullOrEmpty(entry.Variant) &&
+								!entry.MegaEvolutionBaseEntry.HasValue);
+						}
+						//if we have gotten this far, then we shall call this "Form" type, since that is usually
+						//what it is called. Regional forms and Forms that do match names should be handled already.
+						//We can handle the reduced corner cases manually
+						
+						foreach (var item in forDexNum)
+						{
+							//try various parsings
+							if (TryMatchPermutations(separators, test => test == item.Name, "Form", name) != null)
+							{
+								return item;
+							}
+						}
+						throw new InvalidOperationException();
+					}
+					var entry = FindEntry();
+					entry.Category = dexCategory;
+					entry.DexDescription = description;
+					result.Add((entry, evoKind, evoValue));
+					remaining.Remove(entry);
+				}
+			}
+			if (remaining.Where(item=>!item.Name!.Contains("provisional")).Count() > 0)
+			{
+				throw new InvalidOperationException();
+			}
+			return result;
+		}
+		private bool ValidPredicate(DexEntry.Builder entry)
+		{
+			return !InvalidPredicate(entry);
+		}
+		private bool InvalidPredicate(DexEntry.Builder entry)
+		{
+			if (entry.Name?.StartsWith("Delta") ?? false) {
+				//don't care about deltas
+				return true;
+			}
+			//don't care about egg
+			return !entry.DexNum.HasValue || entry.DexNum <= 0;
+		}
+		private static String? TryMatchPermutations(char[] separators, Predicate<String> checkHit, params String[] parts)
+		{
+			//try swapping bits
+			List<String> workingList = parts.ToList();
+			foreach (char c in separators)
+			{
+				for (int i = 0; i < parts.Length; i++)
+				{
+					//try the 'i'th item in every 'j' position
+					for (int j = 0; j < parts.Length; j++)
+					{
+						if (j == i)
+						{
+							//skip
+							continue;
+						}
+						workingList.Clear();
+						workingList.AddRange(parts);
+						if (i < j)
+						{
+							workingList.Insert(j, parts[i]);
+							workingList.RemoveAt(i);
+						}
+						else
+						{
+							//need to do it in the other direction
+							workingList.RemoveAt(i);
+							workingList.Insert(j, parts[i]);
+						}
+						String testVal = String.Join(c, workingList);
+						if (checkHit(testVal))
+						{
+							return testVal;
+						}
+					}
+				}
+			}
+			return null;
 		}
 		private record ImageData
 		{
