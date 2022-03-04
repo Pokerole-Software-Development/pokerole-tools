@@ -170,6 +170,10 @@ namespace Pokerole.Core
 		/// Which properties of this instance are not set, but should be set. Generally for debugging.
 		/// </summary>
 		List<String> MissingValues { get; }
+		/// <summary>
+		/// What it the type of item that this builder makes?
+		/// </summary>
+		Type BuilderType { get; }
 	}
 	public abstract class ItemBuilder<T> : IItemBuilder
 	{
@@ -199,6 +203,7 @@ namespace Pokerole.Core
 		}
 		public abstract List<String> MissingValues { get; }
 
+		public Type BuilderType => typeof(T);
 	}
 	public abstract class DataItemBuilder<T> : ItemBuilder<T> where T : IDataItem<T>
 	{

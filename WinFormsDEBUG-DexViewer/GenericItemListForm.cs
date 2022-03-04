@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using Pokerole.Core;
 using System.Linq;
+using System.IO;
 
 namespace WinFormsDEBUG_DexViewer
 {
@@ -15,11 +16,15 @@ namespace WinFormsDEBUG_DexViewer
 		readonly List<IItemBuilder> unbuildable = new List<IItemBuilder>();
 		readonly List<Object> builtItems = new List<object>();
 		private readonly ImageList smallImageList = new ImageList();
+		private readonly ImageList largeImageList = new ImageList();
 		public GenericItemListForm(Type type, IEnumerable<IItemBuilder> rawList)
 		{
 			InitializeComponent();
 			lstItems.SmallImageList = smallImageList;
 			smallImageList.ImageSize = new Size(32, 32);
+			lstItems.LargeImageList = largeImageList;
+			largeImageList.ImageSize = new Size(128, 128);
+			largeImageList.ColorDepth = ColorDepth.Depth32Bit;
 			ConfigureAndPopulateListForType(type, rawList);
 			if (unbuildable.Count == 0)
 			{
@@ -39,9 +44,9 @@ namespace WinFormsDEBUG_DexViewer
 			switch (type)
 			{
 				case Type _ when type == typeof(DexEntry.Builder):
+				case Type _ when type == typeof(ImageRef.Builder):
 					return true;
 				case Type _ when type == typeof(Move.Builder):
-				case Type _ when type == typeof(ImageRef.Builder):
 				case Type _ when type == typeof(Item.Builder):
 				case Type _ when type == typeof(Ability.Builder):
 				case Type _ when type == typeof(EvolutionList.Builder):
@@ -94,14 +99,34 @@ namespace WinFormsDEBUG_DexViewer
 					adjustColumns = () => lstItems.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 					break;
 				case Type _ when type == typeof(ImageRef.Builder):
-					//lstItems.Columns.AddRange(new ColumnHeader[]
-					//{
-
-					//});
-
-
-
-
+					lstItems.Columns.AddRange(new ColumnHeader[]
+					{
+						new ColumnHeader()
+						{
+							Text = "Filename"
+						},
+						new ColumnHeader()
+						{
+							Text = "File Path"
+						}
+					});
+					rawList = rawList.Cast<ImageRef.Builder>().OrderBy(item=>Path.GetFileName(item.Filename)).ThenBy(item => item.Filename).ThenBy(item => item.FilePath);
+					constructListViewItem = raw =>
+					{
+						ImageRef imageRef = (ImageRef)raw;
+						ListViewItem result = new ListViewItem(new String[] { imageRef.Filename, imageRef.FilePath ?? "" });
+						//grab the image if possible
+						Image? image = Form1.LoadImage(imageRef);
+						if (image != null)
+						{
+							int index = largeImageList.Images.Count;
+							largeImageList.Images.Add(image);
+							result.ImageIndex = index;
+						}
+						return result;
+					};
+					adjustColumns = () => lstItems.View = View.LargeIcon;
+					break;
 				case Type _ when type == typeof(Move.Builder):
 				case Type _ when type == typeof(Item.Builder):
 				case Type _ when type == typeof(Ability.Builder):

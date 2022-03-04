@@ -2059,6 +2059,11 @@ namespace Pokerole.Tools.InitUpdate
 			{
 				return;
 			}
+			if (typeof(Type).IsInstanceOfType(item))
+			{
+				//skip IItemBuilder.BuilderType
+				return;
+			}
 			if (!seenObjects.Add(item))
 			{
 				//we have seen this one already
