@@ -712,208 +712,6 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public struct Height
-	{
-		public Height(string units,
-			double value)
-		{
-			Units = units;
-			Value = value;
-		}
-		/// <summary>
-		/// Someone didn't document this item...
-		/// </summary>
-		public string Units { get; }
-		/// <summary>
-		/// Someone didn't document this item...
-		/// </summary>
-		public double Value { get; }
-		[XmlType(nameof(Height), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public partial class Builder : ItemBuilder<Height>
-		{
-			public Builder()
-			{			}
-			public Builder(Height height)
-			{
-				Units = height.Units;
-				Value = height.Value;
-			}
-			/// <summary>
-			/// Someone didn't document this item...
-			/// </summary>
-			[XmlAttribute()]
-			public string? Units { get; set; }
-			/// <summary>
-			/// Someone didn't document this item...
-			/// </summary>
-			[XmlIgnore]
-			public double? Value { get; set; }
-			[Browsable(false)]
-			[DebuggerHidden]
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlAttribute("Value")]
-			public double ValueNullableXmlAccessor
-			{
-				get => Value ?? default;
-				set => Value = value;
-			}
-			/// <summary>
-			/// Whether or not all of the required Properites of this instance are set to build a new
-			/// <see cref="Height"/>. <see cref="Build"/> will throw an exception if this returns false.
-			/// </summary>
-			public override bool IsValid
-			{
-				get
-				{
-					if (Units is null)
-					{
-						return false;
-					}
-					if (Value is null)
-					{
-						return false;
-					}
-					return true;
-				}
-			}
-			/// <summary>
-			/// Which properties of this instance are not set, but should be set. Generally for debugging.
-			/// </summary>
-			public override List<String> MissingValues
-			{
-				get
-				{
-					List<String> missing = new List<String>(2);
-					if (Units is null)
-					{
-						missing.Add("Units");
-					}
-					if (Value is null)
-					{
-						missing.Add("Value");
-					}
-					return missing;
-				}
-			}
-			/// <summary>
-			/// Build and instance of <see cref="Height"/> from this Builder
-			/// </summary>
-			/// <returns>A new instance of <see cref="Height"/></returns>
-			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
-			/// have been set</exception>
-			public override Height Build(){
-				if (!IsValid)
-				{
-					throw new InvalidOperationException("Not all required fields were set");
-				}
-				return new Height(
-					Units!,
-					Value!.Value);
-			}
-		}
-	}
-	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public struct Weight
-	{
-		public Weight(string units,
-			double value)
-		{
-			Units = units;
-			Value = value;
-		}
-		/// <summary>
-		/// Someone didn't document this item...
-		/// </summary>
-		public string Units { get; }
-		/// <summary>
-		/// Someone didn't document this item...
-		/// </summary>
-		public double Value { get; }
-		[XmlType(nameof(Weight), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public partial class Builder : ItemBuilder<Weight>
-		{
-			public Builder()
-			{			}
-			public Builder(Weight weight)
-			{
-				Units = weight.Units;
-				Value = weight.Value;
-			}
-			/// <summary>
-			/// Someone didn't document this item...
-			/// </summary>
-			[XmlAttribute()]
-			public string? Units { get; set; }
-			/// <summary>
-			/// Someone didn't document this item...
-			/// </summary>
-			[XmlIgnore]
-			public double? Value { get; set; }
-			[Browsable(false)]
-			[DebuggerHidden]
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlAttribute("Value")]
-			public double ValueNullableXmlAccessor
-			{
-				get => Value ?? default;
-				set => Value = value;
-			}
-			/// <summary>
-			/// Whether or not all of the required Properites of this instance are set to build a new
-			/// <see cref="Weight"/>. <see cref="Build"/> will throw an exception if this returns false.
-			/// </summary>
-			public override bool IsValid
-			{
-				get
-				{
-					if (Units is null)
-					{
-						return false;
-					}
-					if (Value is null)
-					{
-						return false;
-					}
-					return true;
-				}
-			}
-			/// <summary>
-			/// Which properties of this instance are not set, but should be set. Generally for debugging.
-			/// </summary>
-			public override List<String> MissingValues
-			{
-				get
-				{
-					List<String> missing = new List<String>(2);
-					if (Units is null)
-					{
-						missing.Add("Units");
-					}
-					if (Value is null)
-					{
-						missing.Add("Value");
-					}
-					return missing;
-				}
-			}
-			/// <summary>
-			/// Build and instance of <see cref="Weight"/> from this Builder
-			/// </summary>
-			/// <returns>A new instance of <see cref="Weight"/></returns>
-			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
-			/// have been set</exception>
-			public override Weight Build(){
-				if (!IsValid)
-				{
-					throw new InvalidOperationException("Not all required fields were set");
-				}
-				return new Weight(
-					Units!,
-					Value!.Value);
-			}
-		}
-	}
-	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
 	public record CustomSkillEntry
 	{
 		public CustomSkillEntry(string skill,
@@ -1497,7 +1295,10 @@ namespace Pokerole.Core{
 			List<ItemReference<ImageRef>> additionalShinyFemaleSpriteImages,
 			List<AbilityEntry> abilities,
 			ItemReference<DexEntry>? baseEvolution,
-			ItemReference<EvolutionList>? evolutionList,
+			string primaryEggGroup,
+			string? secondaryEggGroup,
+			ItemReference<DexEntry>? breedingCounterpart,
+			ItemReference<EvolutionTree>? evolutionTree,
 			ItemReference<DexEntry>? megaEvolutionBaseEntry,
 			List<MegaEvolutionEntry> megaEvolutions,
 			int maxStrength,
@@ -1543,7 +1344,10 @@ namespace Pokerole.Core{
 			AdditionalShinyFemaleSpriteImages = new List<ItemReference<ImageRef>>(additionalShinyFemaleSpriteImages).AsReadOnly();
 			Abilities = new List<AbilityEntry>(abilities).AsReadOnly();
 			BaseEvolution = baseEvolution;
-			EvolutionList = evolutionList;
+			PrimaryEggGroup = primaryEggGroup;
+			SecondaryEggGroup = secondaryEggGroup;
+			BreedingCounterpart = breedingCounterpart;
+			EvolutionTree = evolutionTree;
 			MegaEvolutionBaseEntry = megaEvolutionBaseEntry;
 			MegaEvolutions = new List<MegaEvolutionEntry>(megaEvolutions).AsReadOnly();
 			MaxStrength = maxStrength;
@@ -1683,9 +1487,21 @@ namespace Pokerole.Core{
 		/// </summary>
 		public ItemReference<DexEntry>? BaseEvolution { get; }
 		/// <summary>
-		/// Evolution line of this Pokémon if applicable
+		/// Primary Egg group
 		/// </summary>
-		public ItemReference<EvolutionList>? EvolutionList { get; }
+		public string PrimaryEggGroup { get; }
+		/// <summary>
+		/// Secondary Egg group if any
+		/// </summary>
+		public string? SecondaryEggGroup { get; }
+		/// <summary>
+		/// The evolution root of this entry's breedable counterpart if any. The most obvious example is the Nidoran pair
+		/// </summary>
+		public ItemReference<DexEntry>? BreedingCounterpart { get; }
+		/// <summary>
+		/// Evolution tree of this Pokémon if applicable
+		/// </summary>
+		public ItemReference<EvolutionTree>? EvolutionTree { get; }
 		/// <summary>
 		/// If this is a mega evolution, then what it evolved from, otherwise null
 		/// </summary>
@@ -1793,7 +1609,10 @@ namespace Pokerole.Core{
 				AdditionalShinyFemaleSpriteImages = new List<ItemReference<ImageRef>>(dexEntry.AdditionalShinyFemaleSpriteImages);
 				Abilities = new List<AbilityEntry>(dexEntry.Abilities);
 				BaseEvolution = dexEntry.BaseEvolution;
-				EvolutionList = dexEntry.EvolutionList;
+				PrimaryEggGroup = dexEntry.PrimaryEggGroup;
+				SecondaryEggGroup = dexEntry.SecondaryEggGroup;
+				BreedingCounterpart = dexEntry.BreedingCounterpart;
+				EvolutionTree = dexEntry.EvolutionTree;
 				MegaEvolutionBaseEntry = dexEntry.MegaEvolutionBaseEntry;
 				MegaEvolutions = new List<MegaEvolutionEntry>(dexEntry.MegaEvolutions);
 				MaxStrength = dexEntry.MaxStrength;
@@ -2413,19 +2232,45 @@ namespace Pokerole.Core{
 			}
 
 			/// <summary>
-			/// Evolution line of this Pokémon if applicable
+			/// Primary Egg group
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? PrimaryEggGroup { get; set; }
+			/// <summary>
+			/// Secondary Egg group if any
+			/// </summary>
+			[XmlElement(IsNullable = true)]
+			public string? SecondaryEggGroup { get; set; }
+			/// <summary>
+			/// The evolution root of this entry's breedable counterpart if any. The most obvious example is the Nidoran pair
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<EvolutionList>? EvolutionList { get; set; }
+			public ItemReference<DexEntry>? BreedingCounterpart { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("EvolutionList", IsNullable = false)]
-			public ItemReference<EvolutionList>.Builder? EvolutionListXmlAccessor
+			[XmlElement("BreedingCounterpart", IsNullable = false)]
+			public ItemReference<DexEntry>.Builder? BreedingCounterpartXmlAccessor
 			{
-				get => EvolutionList is null ? null : new ItemReference<EvolutionList>.Builder(EvolutionList ?? default);
-				set => EvolutionList = value?.Build();
+				get => BreedingCounterpart is null ? null : new ItemReference<DexEntry>.Builder(BreedingCounterpart ?? default);
+				set => BreedingCounterpart = value?.Build();
+			}
+
+			/// <summary>
+			/// Evolution tree of this Pokémon if applicable
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<EvolutionTree>? EvolutionTree { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("EvolutionTree", IsNullable = false)]
+			public ItemReference<EvolutionTree>.Builder? EvolutionTreeXmlAccessor
+			{
+				get => EvolutionTree is null ? null : new ItemReference<EvolutionTree>.Builder(EvolutionTree ?? default);
+				set => EvolutionTree = value?.Build();
 			}
 
 			/// <summary>
@@ -2764,6 +2609,10 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
+					if (PrimaryEggGroup is null)
+					{
+						return false;
+					}
 					if (MegaEvolutions is null)
 					{
 						return false;
@@ -2826,7 +2675,7 @@ namespace Pokerole.Core{
 			{
 				get
 				{
-					List<String> missing = new List<String>(34);
+					List<String> missing = new List<String>(35);
 					if (DexNum is null)
 					{
 						missing.Add("DexNum");
@@ -2910,6 +2759,10 @@ namespace Pokerole.Core{
 					if (Abilities is null)
 					{
 						missing.Add("Abilities");
+					}
+					if (PrimaryEggGroup is null)
+					{
+						missing.Add("PrimaryEggGroup");
 					}
 					if (MegaEvolutions is null)
 					{
@@ -3008,7 +2861,10 @@ namespace Pokerole.Core{
 					AdditionalShinyFemaleSpriteImages!,
 					Abilities!,
 					BaseEvolution,
-					EvolutionList,
+					PrimaryEggGroup!,
+					SecondaryEggGroup,
+					BreedingCounterpart,
+					EvolutionTree,
 					MegaEvolutionBaseEntry,
 					MegaEvolutions!,
 					MaxStrength!.Value,
@@ -4693,203 +4549,6 @@ namespace Pokerole.Core{
 				return new Ability(DataId!.Value,
 					Name!,
 					Effect!);
-			}
-		}
-	}
-	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public record EvolutionEntry
-	{
-		public EvolutionEntry(ItemReference<DexEntry> baseEvolution,
-			ItemReference<DexEntry> from,
-			ItemReference<DexEntry> to,
-			EvolutionKind kind,
-			string details)
-		{
-			BaseEvolution = baseEvolution;
-			From = from;
-			To = to;
-			Kind = kind;
-			Details = details;
-		}
-		/// <summary>
-		/// The lowest form of this evolution chain
-		/// </summary>
-		public ItemReference<DexEntry> BaseEvolution { get; }
-		/// <summary>
-		/// What it is being evolved from
-		/// </summary>
-		public ItemReference<DexEntry> From { get; }
-		/// <summary>
-		/// What it is being evolved to
-		/// </summary>
-		public ItemReference<DexEntry> To { get; }
-		/// <summary>
-		/// Type of evolution (for quick filtering)
-		/// </summary>
-		public EvolutionKind Kind { get; }
-		/// <summary>
-		/// Further details about how the evolution works. This could be a level number, name of an item, or just about anything really...
-		/// </summary>
-		public string Details { get; }
-		[XmlType(nameof(EvolutionEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public partial class Builder : ItemBuilder<EvolutionEntry>
-		{
-			public Builder()
-			{			}
-			public Builder(EvolutionEntry evolutionEntry)
-			{
-				BaseEvolution = evolutionEntry.BaseEvolution;
-				From = evolutionEntry.From;
-				To = evolutionEntry.To;
-				Kind = evolutionEntry.Kind;
-				Details = evolutionEntry.Details;
-			}
-			/// <summary>
-			/// The lowest form of this evolution chain
-			/// </summary>
-			[XmlIgnore]
-			public ItemReference<DexEntry>? BaseEvolution { get; set; }
-			
-			[Browsable(false)]
-			[DebuggerHidden]
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("BaseEvolution", IsNullable = false)]
-			public ItemReference<DexEntry>.Builder? BaseEvolutionXmlAccessor
-			{
-				get => BaseEvolution is null ? null : new ItemReference<DexEntry>.Builder(BaseEvolution ?? default);
-				set => BaseEvolution = value?.Build();
-			}
-
-			/// <summary>
-			/// What it is being evolved from
-			/// </summary>
-			[XmlIgnore]
-			public ItemReference<DexEntry>? From { get; set; }
-			
-			[Browsable(false)]
-			[DebuggerHidden]
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("From", IsNullable = false)]
-			public ItemReference<DexEntry>.Builder? FromXmlAccessor
-			{
-				get => From is null ? null : new ItemReference<DexEntry>.Builder(From ?? default);
-				set => From = value?.Build();
-			}
-
-			/// <summary>
-			/// What it is being evolved to
-			/// </summary>
-			[XmlIgnore]
-			public ItemReference<DexEntry>? To { get; set; }
-			
-			[Browsable(false)]
-			[DebuggerHidden]
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("To", IsNullable = false)]
-			public ItemReference<DexEntry>.Builder? ToXmlAccessor
-			{
-				get => To is null ? null : new ItemReference<DexEntry>.Builder(To ?? default);
-				set => To = value?.Build();
-			}
-
-			/// <summary>
-			/// Type of evolution (for quick filtering)
-			/// </summary>
-			[XmlIgnore]
-			public EvolutionKind? Kind { get; set; }
-			[Browsable(false)]
-			[DebuggerHidden]
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("Kind", IsNullable = false)]
-			public EvolutionKind KindNullableXmlAccessor
-			{
-				get => Kind ?? default;
-				set => Kind = value;
-			}
-			/// <summary>
-			/// Further details about how the evolution works. This could be a level number, name of an item, or just about anything really...
-			/// </summary>
-			[XmlElement(IsNullable = false)]
-			public string? Details { get; set; }
-			/// <summary>
-			/// Whether or not all of the required Properites of this instance are set to build a new
-			/// <see cref="EvolutionEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
-			/// </summary>
-			public override bool IsValid
-			{
-				get
-				{
-					if (BaseEvolution is null)
-					{
-						return false;
-					}
-					if (From is null)
-					{
-						return false;
-					}
-					if (To is null)
-					{
-						return false;
-					}
-					if (Kind is null)
-					{
-						return false;
-					}
-					if (Details is null)
-					{
-						return false;
-					}
-					return true;
-				}
-			}
-			/// <summary>
-			/// Which properties of this instance are not set, but should be set. Generally for debugging.
-			/// </summary>
-			public override List<String> MissingValues
-			{
-				get
-				{
-					List<String> missing = new List<String>(5);
-					if (BaseEvolution is null)
-					{
-						missing.Add("BaseEvolution");
-					}
-					if (From is null)
-					{
-						missing.Add("From");
-					}
-					if (To is null)
-					{
-						missing.Add("To");
-					}
-					if (Kind is null)
-					{
-						missing.Add("Kind");
-					}
-					if (Details is null)
-					{
-						missing.Add("Details");
-					}
-					return missing;
-				}
-			}
-			/// <summary>
-			/// Build and instance of <see cref="EvolutionEntry"/> from this Builder
-			/// </summary>
-			/// <returns>A new instance of <see cref="EvolutionEntry"/></returns>
-			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
-			/// have been set</exception>
-			public override EvolutionEntry Build(){
-				if (!IsValid)
-				{
-					throw new InvalidOperationException("Not all required fields were set");
-				}
-				return new EvolutionEntry(
-					BaseEvolution!.Value,
-					From!.Value,
-					To!.Value,
-					Kind!.Value,
-					Details!);
 			}
 		}
 	}
@@ -6951,37 +6610,118 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record EvolutionList : BaseDataItem<EvolutionList>
+	public record EvolutionEntry
 	{
-		public EvolutionList(DataId dataId) : base(dataId)
+		public EvolutionEntry(ItemReference<DexEntry> from,
+			ItemReference<DexEntry> to,
+			EvolutionKind kind,
+			string details)
 		{
+			From = from;
+			To = to;
+			Kind = kind;
+			Details = details;
 		}
-
-		public override ItemReference<EvolutionList> ItemReference => new ItemReference<EvolutionList>(DataId);
-
-		[XmlType(nameof(EvolutionList), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		[DebuggerDisplay("{ItemReference}")]
-		public partial class Builder : DataItemBuilder<EvolutionList>
+		/// <summary>
+		/// What it is being evolved from
+		/// </summary>
+		public ItemReference<DexEntry> From { get; }
+		/// <summary>
+		/// What it is being evolved to
+		/// </summary>
+		public ItemReference<DexEntry> To { get; }
+		/// <summary>
+		/// Type of evolution (for quick filtering)
+		/// </summary>
+		public EvolutionKind Kind { get; }
+		/// <summary>
+		/// Further details about how the evolution works. This could be a level number, name of an item, or just about anything really...
+		/// </summary>
+		public string Details { get; }
+		[XmlType(nameof(EvolutionEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		public partial class Builder : ItemBuilder<EvolutionEntry>
 		{
 			public Builder()
 			{			}
-			public Builder(EvolutionList evolutionList)
+			public Builder(EvolutionEntry evolutionEntry)
 			{
-				DataId = evolutionList.DataId;
+				From = evolutionEntry.From;
+				To = evolutionEntry.To;
+				Kind = evolutionEntry.Kind;
+				Details = evolutionEntry.Details;
+			}
+			/// <summary>
+			/// What it is being evolved from
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<DexEntry>? From { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("From", IsNullable = false)]
+			public ItemReference<DexEntry>.Builder? FromXmlAccessor
+			{
+				get => From is null ? null : new ItemReference<DexEntry>.Builder(From ?? default);
+				set => From = value?.Build();
 			}
 
-			public override ItemReference<EvolutionList>? ItemReference => !DataId.HasValue ? null :
-					new ItemReference<EvolutionList>(DataId.Value);
+			/// <summary>
+			/// What it is being evolved to
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<DexEntry>? To { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("To", IsNullable = false)]
+			public ItemReference<DexEntry>.Builder? ToXmlAccessor
+			{
+				get => To is null ? null : new ItemReference<DexEntry>.Builder(To ?? default);
+				set => To = value?.Build();
+			}
 
 			/// <summary>
+			/// Type of evolution (for quick filtering)
+			/// </summary>
+			[XmlIgnore]
+			public EvolutionKind? Kind { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Kind", IsNullable = false)]
+			public EvolutionKind KindNullableXmlAccessor
+			{
+				get => Kind ?? default;
+				set => Kind = value;
+			}
+			/// <summary>
+			/// Further details about how the evolution works. This could be a level number, name of an item, or just about anything really...
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Details { get; set; }
+			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
-			/// <see cref="EvolutionList"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// <see cref="EvolutionEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
 			public override bool IsValid
 			{
 				get
 				{
-					if (DataId is null)
+					if (From is null)
+					{
+						return false;
+					}
+					if (To is null)
+					{
+						return false;
+					}
+					if (Kind is null)
+					{
+						return false;
+					}
+					if (Details is null)
 					{
 						return false;
 					}
@@ -6995,22 +6735,510 @@ namespace Pokerole.Core{
 			{
 				get
 				{
-					List<String> missing = new List<String>(0);
+					List<String> missing = new List<String>(4);
+					if (From is null)
+					{
+						missing.Add("From");
+					}
+					if (To is null)
+					{
+						missing.Add("To");
+					}
+					if (Kind is null)
+					{
+						missing.Add("Kind");
+					}
+					if (Details is null)
+					{
+						missing.Add("Details");
+					}
 					return missing;
 				}
 			}
 			/// <summary>
-			/// Build and instance of <see cref="EvolutionList"/> from this Builder
+			/// Build and instance of <see cref="EvolutionEntry"/> from this Builder
 			/// </summary>
-			/// <returns>A new instance of <see cref="EvolutionList"/></returns>
+			/// <returns>A new instance of <see cref="EvolutionEntry"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public override EvolutionList Build(){
+			public override EvolutionEntry Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");
 				}
-				return new EvolutionList(DataId!.Value);
+				return new EvolutionEntry(
+					From!.Value,
+					To!.Value,
+					Kind!.Value,
+					Details!);
+			}
+		}
+	}
+	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public partial record EvolutionTree : BaseDataItem<EvolutionTree>
+	{
+		public EvolutionTree(DataId dataId,
+			string name,
+			ItemReference<Item>? babyEvolutionItem,
+			ItemReference<DexEntry>? breedCounterpart,
+			ItemReference<Item>? babyItem,
+			ItemReference<DexEntry>? nonBabyRoot,
+			ItemReference<DexEntry> root,
+			List<EvolutionEntry> evolutionEntries) : base(dataId)
+		{
+			Name = name;
+			BabyEvolutionItem = babyEvolutionItem;
+			BreedCounterpart = breedCounterpart;
+			BabyItem = babyItem;
+			NonBabyRoot = nonBabyRoot;
+			Root = root;
+			EvolutionEntries = new List<EvolutionEntry>(evolutionEntries).AsReadOnly();
+		}
+
+		public override ItemReference<EvolutionTree> ItemReference => new ItemReference<EvolutionTree>(DataId, Name);
+
+		/// <summary>
+		/// Name of this Evolution list. Typically the root 'mon's species name followed by " Line"
+		/// </summary>
+		public string Name { get; }
+		/// <summary>
+		/// An what item a parent must be holding to get the baby root of this 
+		/// </summary>
+		public ItemReference<Item>? BabyEvolutionItem { get; }
+		/// <summary>
+		/// Breedable counterpart for this evolution tree if any. The most obvious example is the Nidoran pair
+		/// </summary>
+		public ItemReference<DexEntry>? BreedCounterpart { get; }
+		/// <summary>
+		/// Type of item a parent must be holding in order to get the baby root of this tree instead of NonBabyRoot, if any
+		/// </summary>
+		public ItemReference<Item>? BabyItem { get; }
+		/// <summary>
+		/// Egg result if this tree has a BabyItem and neither parent was holding it
+		/// </summary>
+		public ItemReference<DexEntry>? NonBabyRoot { get; }
+		/// <summary>
+		/// Root entry of this evolution tree
+		/// </summary>
+		public ItemReference<DexEntry> Root { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public IReadOnlyList<EvolutionEntry> EvolutionEntries { get; }
+		[XmlType(nameof(EvolutionTree), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
+		public partial class Builder : DataItemBuilder<EvolutionTree>
+		{
+			public Builder()
+			{
+				EvolutionEntries = new List<EvolutionEntry>(10);
+			}
+			public Builder(EvolutionTree evolutionTree)
+			{
+				DataId = evolutionTree.DataId;
+				Name = evolutionTree.Name;
+				BabyEvolutionItem = evolutionTree.BabyEvolutionItem;
+				BreedCounterpart = evolutionTree.BreedCounterpart;
+				BabyItem = evolutionTree.BabyItem;
+				NonBabyRoot = evolutionTree.NonBabyRoot;
+				Root = evolutionTree.Root;
+				EvolutionEntries = new List<EvolutionEntry>(evolutionTree.EvolutionEntries);
+			}
+
+			public override ItemReference<EvolutionTree>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<EvolutionTree>(DataId.Value, Name);
+
+			/// <summary>
+			/// Name of this Evolution list. Typically the root 'mon's species name followed by " Line"
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Name { get; set; }
+			/// <summary>
+			/// An what item a parent must be holding to get the baby root of this 
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<Item>? BabyEvolutionItem { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("BabyEvolutionItem", IsNullable = false)]
+			public ItemReference<Item>.Builder? BabyEvolutionItemXmlAccessor
+			{
+				get => BabyEvolutionItem is null ? null : new ItemReference<Item>.Builder(BabyEvolutionItem ?? default);
+				set => BabyEvolutionItem = value?.Build();
+			}
+
+			/// <summary>
+			/// Breedable counterpart for this evolution tree if any. The most obvious example is the Nidoran pair
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<DexEntry>? BreedCounterpart { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("BreedCounterpart", IsNullable = false)]
+			public ItemReference<DexEntry>.Builder? BreedCounterpartXmlAccessor
+			{
+				get => BreedCounterpart is null ? null : new ItemReference<DexEntry>.Builder(BreedCounterpart ?? default);
+				set => BreedCounterpart = value?.Build();
+			}
+
+			/// <summary>
+			/// Type of item a parent must be holding in order to get the baby root of this tree instead of NonBabyRoot, if any
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<Item>? BabyItem { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("BabyItem", IsNullable = false)]
+			public ItemReference<Item>.Builder? BabyItemXmlAccessor
+			{
+				get => BabyItem is null ? null : new ItemReference<Item>.Builder(BabyItem ?? default);
+				set => BabyItem = value?.Build();
+			}
+
+			/// <summary>
+			/// Egg result if this tree has a BabyItem and neither parent was holding it
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<DexEntry>? NonBabyRoot { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("NonBabyRoot", IsNullable = false)]
+			public ItemReference<DexEntry>.Builder? NonBabyRootXmlAccessor
+			{
+				get => NonBabyRoot is null ? null : new ItemReference<DexEntry>.Builder(NonBabyRoot ?? default);
+				set => NonBabyRoot = value?.Build();
+			}
+
+			/// <summary>
+			/// Root entry of this evolution tree
+			/// </summary>
+			[XmlIgnore]
+			public ItemReference<DexEntry>? Root { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Root", IsNullable = false)]
+			public ItemReference<DexEntry>.Builder? RootXmlAccessor
+			{
+				get => Root is null ? null : new ItemReference<DexEntry>.Builder(Root ?? default);
+				set => Root = value?.Build();
+			}
+
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public List<EvolutionEntry> EvolutionEntries { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("EvolutionEntries", IsNullable = false)]
+			[XmlArrayItem("EvolutionEntry")]
+			public EvolutionEntry.Builder[] EvolutionEntriesBuilder
+			{
+				get
+				{
+					if (EvolutionEntries == null)
+					{
+						return Array.Empty<EvolutionEntry.Builder>();
+					}
+					return EvolutionEntries.Select(item=>new EvolutionEntry.Builder(item)).ToArray();
+				}
+				set
+				{
+					EvolutionEntries?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (EvolutionEntries == null)
+					{
+						EvolutionEntries = new List<EvolutionEntry>(value.Length);
+					}
+					ItemBuilder<EvolutionEntry>.BuildList(value, EvolutionEntries);
+				}
+			}
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="EvolutionTree"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public override bool IsValid
+			{
+				get
+				{
+					if (DataId is null)
+					{
+						return false;
+					}
+					if (Name is null)
+					{
+						return false;
+					}
+					if (Root is null)
+					{
+						return false;
+					}
+					if (EvolutionEntries is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public override List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(3);
+					if (Name is null)
+					{
+						missing.Add("Name");
+					}
+					if (Root is null)
+					{
+						missing.Add("Root");
+					}
+					if (EvolutionEntries is null)
+					{
+						missing.Add("EvolutionEntries");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="EvolutionTree"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="EvolutionTree"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public override EvolutionTree Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new EvolutionTree(DataId!.Value,
+					Name!,
+					BabyEvolutionItem,
+					BreedCounterpart,
+					BabyItem,
+					NonBabyRoot,
+					Root!.Value,
+					EvolutionEntries!);
+			}
+		}
+	}
+	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public struct Height
+	{
+		public Height(string units,
+			double value)
+		{
+			Units = units;
+			Value = value;
+		}
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string Units { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public double Value { get; }
+		[XmlType(nameof(Height), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		public partial class Builder : ItemBuilder<Height>
+		{
+			public Builder()
+			{			}
+			public Builder(Height height)
+			{
+				Units = height.Units;
+				Value = height.Value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlAttribute()]
+			public string? Units { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public double? Value { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlAttribute("Value")]
+			public double ValueNullableXmlAccessor
+			{
+				get => Value ?? default;
+				set => Value = value;
+			}
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="Height"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public override bool IsValid
+			{
+				get
+				{
+					if (Units is null)
+					{
+						return false;
+					}
+					if (Value is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public override List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(2);
+					if (Units is null)
+					{
+						missing.Add("Units");
+					}
+					if (Value is null)
+					{
+						missing.Add("Value");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="Height"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="Height"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public override Height Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new Height(
+					Units!,
+					Value!.Value);
+			}
+		}
+	}
+	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public struct Weight
+	{
+		public Weight(string units,
+			double value)
+		{
+			Units = units;
+			Value = value;
+		}
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public string Units { get; }
+		/// <summary>
+		/// Someone didn't document this item...
+		/// </summary>
+		public double Value { get; }
+		[XmlType(nameof(Weight), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		public partial class Builder : ItemBuilder<Weight>
+		{
+			public Builder()
+			{			}
+			public Builder(Weight weight)
+			{
+				Units = weight.Units;
+				Value = weight.Value;
+			}
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlAttribute()]
+			public string? Units { get; set; }
+			/// <summary>
+			/// Someone didn't document this item...
+			/// </summary>
+			[XmlIgnore]
+			public double? Value { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlAttribute("Value")]
+			public double ValueNullableXmlAccessor
+			{
+				get => Value ?? default;
+				set => Value = value;
+			}
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="Weight"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public override bool IsValid
+			{
+				get
+				{
+					if (Units is null)
+					{
+						return false;
+					}
+					if (Value is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public override List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(2);
+					if (Units is null)
+					{
+						missing.Add("Units");
+					}
+					if (Value is null)
+					{
+						missing.Add("Value");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="Weight"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="Weight"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public override Weight Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new Weight(
+					Units!,
+					Value!.Value);
 			}
 		}
 	}

@@ -243,6 +243,41 @@ namespace Pokerole.Core
 			}
 		}
 	}
+	public partial record EvolutionTree
+	{
+		/// <summary>
+		/// Pokemon we know belong to this tree
+		/// </summary>
+		public List<ItemReference<DexEntry>> ApplicableMon
+		{
+			get
+			{
+				List<ItemReference<DexEntry>> result = new List<ItemReference<DexEntry>>(1 + EvolutionEntries.Count);
+				result.Add(Root);
+				result.AddRange(EvolutionEntries.Select(entry => entry.To));
+				return result;
+			}
+		}
+		public partial class Builder
+		{
+			/// <summary>
+			/// Pokemon we know belong to this tree... Out of what is set so far that is...
+			/// </summary>
+			public List<ItemReference<DexEntry>> KnownApplicableMon
+			{
+				get
+				{
+					List<ItemReference<DexEntry>> result = new List<ItemReference<DexEntry>>(1 + EvolutionEntries.Count);
+					if (Root != null)
+					{
+						result.Add(Root.Value);
+					}
+					result.AddRange(from entry in EvolutionEntries where entry != null && entry?.To != null select entry.To);
+					return result;
+				}
+			}
+		}
+	}
 	//public class ImageRef {
 	//	public String ImagePath { get; }
 	//	//public 
@@ -271,8 +306,8 @@ namespace Pokerole.Core
 		[XmlArrayItem("Ability")]
 		public List<Ability.Builder> Abilities { get; set; } = new List<Ability.Builder>();
 		[XmlArray]
-		[XmlArrayItem("EvolutionLists")]
-		public List<EvolutionList.Builder> EvolutionLists { get; set; } = new List<EvolutionList.Builder>();
+		[XmlArrayItem("EvolutionTrees")]
+		public List<EvolutionTree.Builder> EvolutionTrees { get; set; } = new List<EvolutionTree.Builder>();
 		[XmlArray]
 		[XmlArrayItem("MonInstance")]
 		public List<MonInstance.Builder> MonInstances { get; set; } = new List<MonInstance.Builder>();
