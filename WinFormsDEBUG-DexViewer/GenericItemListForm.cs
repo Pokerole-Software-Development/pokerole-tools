@@ -49,7 +49,7 @@ namespace WinFormsDEBUG_DexViewer
 				case Type _ when type == typeof(Move.Builder):
 				case Type _ when type == typeof(Item.Builder):
 				case Type _ when type == typeof(Ability.Builder):
-				case Type _ when type == typeof(EvolutionList.Builder):
+				case Type _ when type == typeof(EvolutionTree.Builder):
 				case Type _ when type == typeof(MonInstance.Builder):
 					return false;
 			}
@@ -130,7 +130,7 @@ namespace WinFormsDEBUG_DexViewer
 				case Type _ when type == typeof(Move.Builder):
 				case Type _ when type == typeof(Item.Builder):
 				case Type _ when type == typeof(Ability.Builder):
-				case Type _ when type == typeof(EvolutionList.Builder):
+				case Type _ when type == typeof(EvolutionTree.Builder):
 				case Type _ when type == typeof(MonInstance.Builder):
 					throw new NotImplementedException();
 				default: throw new InvalidOperationException($"Unknown type {type}");

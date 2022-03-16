@@ -30,8 +30,8 @@ namespace Pokerole.Tools.InitUpdate
 		private readonly HashSet<Guid> hasMegaEvolution = new HashSet<Guid>();
 		private readonly PokeroleXmlData data;
 		private readonly XmlSerializer xmlSerializer = new XmlSerializer(typeof(PokeroleXmlData));
-		private readonly Dictionary<String, Move.Builder> movesByName = new Dictionary<string, Move.Builder>();
-		private readonly Dictionary<String, Item.Builder> itemsByName = new Dictionary<string, Item.Builder>();
+		private readonly Dictionary<String, Move.Builder> movesByName = new Dictionary<string, Move.Builder>(StringComparer.OrdinalIgnoreCase);
+		private readonly Dictionary<String, Item.Builder> itemsByName = new Dictionary<string, Item.Builder>(StringComparer.OrdinalIgnoreCase);
 		private readonly Dictionary<String, DexEntry.Builder> monByName = new Dictionary<string, DexEntry.Builder>();
 		private readonly Dictionary<String, Ability.Builder> abilitiesByName = new Dictionary<string, Ability.Builder>();
 		private const bool HAS_DLC_MON = false;
@@ -77,12 +77,12 @@ namespace Pokerole.Tools.InitUpdate
 			data.Images.AddRange(ReadDexImages());
 			GcStockImages();
 			var evoData = ReadDescriptionsAndEvoInfo();
-			//ReadEvolutions();
+			ReadEvolutionTrees(evoData);
 
 
 			//this one likes to take time... so do it last. Would shove it in a different thread, but that slows
 			//the debugger down when it hits a break point
-			ReadHeightAndWeights();
+			ReadHeightWeightsAndBreedingInfo().GetAwaiter().GetResult();
 			StringWriter writer = new StringWriter();
 			xmlSerializer.Serialize(writer, data);
 			File.WriteAllText("output.xml", writer.ToString());
@@ -999,7 +999,7 @@ namespace Pokerole.Tools.InitUpdate
 					}
 					bool VariantCompare()
 					{
-						String name = entry.Name ?? throw new WasNullException("Null name");
+						String name = NonNull(entry.Name, "Null name");
 						switch (dexNum)
 						{
 							case 386:
@@ -1352,12 +1352,12 @@ namespace Pokerole.Tools.InitUpdate
 				foreach (var item in GetNonNullValue(value, "name"))
 				{
 					var prop = PropertyFromToken(item);
-					entry.name[prop.Name] = (String?)prop.Value ?? throw new WasNullException("prop was null");
+					entry.name[prop.Name] = NonNull((String?)prop.Value, "prop was null");
 				}
 				foreach (var item in GetNonNullValue(value, "slug"))
 				{
 					var prop = PropertyFromToken(item);
-					entry.slug[prop.Name] = (String?)prop.Value ?? throw new WasNullException("prop was null");
+					entry.slug[prop.Name] = NonNull((String?)prop.Value, "prop was null");
 				}
 				void ReadForms(JObject formNode)
 				{
@@ -1374,30 +1374,30 @@ namespace Pokerole.Tools.InitUpdate
 						//	//nothing new
 						//	continue;
 						//}
-						foreach (JProperty prop in pair.Value ?? throw new WasNullException("Form pair"))
+						foreach (JProperty prop in NonNull(pair.Value, "Form pair"))
 						{
 							switch (prop.Name)
 							{
 								case "is_alias_of":
-									form.alias = (String?)prop.Value ?? throw new WasNullException();
+									form.alias = NonNull((String?)prop.Value);
 									break;
 								case "is_unofficial_icon":
-									form.unofficial = (bool?)prop.Value ?? throw new WasNullException();
+									form.unofficial = NonNull((bool?)prop.Value);
 									break;
 								case "is_unofficial_legacy_icon":
-									form.unofficialLegacy = (bool?)prop.Value ?? throw new WasNullException();
+									form.unofficialLegacy = NonNull((bool?)prop.Value);
 									break;
 								case "is_prev_gen_icon":
-									form.isPrevGen = (bool?)prop.Value ?? throw new WasNullException();
+									form.isPrevGen = NonNull((bool?)prop.Value);
 									continue;
 								case "has_right":
-									form.hasRight = (bool?)prop.Value ?? throw new WasNullException();
+									form.hasRight = NonNull((bool?)prop.Value);
 									break;
 								case "has_female":
-									form.hasFemale = (bool?)prop.Value ?? throw new WasNullException();
+									form.hasFemale = NonNull((bool?)prop.Value);
 									break;
 								case "has_unofficial_female_icon":
-									form.unofficialFemale = (bool?)prop.Value ?? throw new WasNullException();
+									form.unofficialFemale = NonNull((bool?)prop.Value);
 									break;
 								default:
 									throw new InvalidOperationException($"Unknown form prop: {prop.Name}");
@@ -2190,17 +2190,17 @@ namespace Pokerole.Tools.InitUpdate
 
 
 
-		private void ReadHeightAndWeights()
+		private async Task ReadHeightWeightsAndBreedingInfo()
 		{
 			async Task<List<(String name, String requestUri)>> ListPokemon()
 			{
 				List<(String, String)> entries = new List<(string, string)>(data.DexEntries.Count);
 				await foreach (var item in PokeApiHandler.Instance.PerformRequest("pokemon"))
 				{
-					foreach (JToken token in item["results"] ?? throw new WasNullException())
+					foreach (JToken token in NonNull(item["results"]))
 					{
-						entries.Add(((String?)token["name"] ?? throw new WasNullException(),
-							(String?)token["url"] ?? throw new WasNullException()));
+						entries.Add((NonNull((String?)token["name"]),
+							NonNull((String?)token["url"])));
 					}
 				}
 				return entries;
@@ -2235,7 +2235,7 @@ namespace Pokerole.Tools.InitUpdate
 					ToDictionary(item => item.key, item => item.value, StringComparer.OrdinalIgnoreCase);
 			}
 
-			Dictionary<String, JObject> nameToStat = LoadStats().GetAwaiter().GetResult();
+			Dictionary<String, JObject> nameToStat = await LoadStats().ConfigureAwait(false);
 			HashSet<String> remaining = new HashSet<String>(nameToStat.Keys, StringComparer.OrdinalIgnoreCase);
 			HashSet<String> ignore = new HashSet<string>();
 			foreach (var item in remaining)
@@ -2266,7 +2266,7 @@ namespace Pokerole.Tools.InitUpdate
 				}
 			}
 			remaining.RemoveWhere(ignore.Contains);
-
+			Dictionary<String, DexEntry.Builder> keyToEntry = new Dictionary<string, DexEntry.Builder>(StringComparer.OrdinalIgnoreCase);
 
 
 			JObject? GetStats(DexEntry.Builder entry, out String key)
@@ -2449,10 +2449,14 @@ namespace Pokerole.Tools.InitUpdate
 						throw new NotImplementedException();
 					}
 				}
+				else
+				{
+					keyToEntry.Add(key, entry);
+				}
 				if (jObject != null)
 				{
-					heightDecimeters = (int?)jObject["height"] ?? throw new WasNullException();
-					weightHectograms = (int?)jObject["weight"] ?? throw new WasNullException();
+					heightDecimeters = NonNull((int?)jObject["height"]);
+					weightHectograms = NonNull((int?)jObject["weight"]);
 				}
 				if (!heightDecimeters.HasValue || !weightHectograms.HasValue)
 				{
@@ -2461,10 +2465,85 @@ namespace Pokerole.Tools.InitUpdate
 				entry.AverageHeight = new Height("deimeters", heightDecimeters.Value);
 				entry.AverageWeight = new Weight("hectograms", weightHectograms.Value);
 				remaining.Remove(key);
+
 			}
 			if (remaining.Count > 0)
 			{
 				throw new InvalidOperationException();
+			}
+			var remainingEntries = new HashSet<DexEntry.Builder>(data.DexEntries.Where(ValidPredicate));
+			//read egg groups
+			List<(String name, String url)> eggGroupUris = new List<(string name, string url)>(10);
+			await foreach (var item in PokeApiHandler.Instance.PerformRequest("egg-group"))
+			{
+				foreach (JToken token in NonNull(item["results"]))
+				{
+					eggGroupUris.Add((NonNull((String?)token["name"]),
+						NonNull((String?)token["url"])));
+				}
+			}
+			var byDexNum = data.DexEntries.Where(ValidPredicate).ToLookup(entry => entry.DexNum);
+			//load them egg groups!
+			foreach (var (name, url) in eggGroupUris)
+			{
+				//only one page each as far as I can tell
+				JObject jDoc;
+				await using var iter = PokeApiHandler.Instance.PerformRequest(url).GetAsyncEnumerator();
+				if (!await iter.MoveNextAsync())
+				{
+					//one page expected!!!
+					throw new InvalidOperationException();
+				}
+				jDoc = iter.Current;
+				if (await iter.MoveNextAsync())
+				{
+					//only expecting one page
+					throw new InvalidOperationException();
+				}
+				String groupName = NonNull((String?)jDoc.SelectToken("names[?(@.language.name=='en')].name"));
+				foreach (var keyNode in jDoc.SelectTokens("pokemon_species[*].name"))
+				{
+					String key = NonNull((String?)keyNode);
+					if (!keyToEntry.TryGetValue(key, out DexEntry.Builder? initialEntry))
+					{
+						//may be something special... like a form of some kind
+						key = key.Split("-")[0];
+						if (!HAS_DLC_MON)
+						{
+							switch (key)
+							{
+								case "kubfu":
+								case "urshifu":
+								case "zarude":
+								case "regieleki":
+								case "regidrago":
+								case "glastrier":
+								case "spectrier":
+								case "calyrex":
+									continue;
+							}
+						}
+						initialEntry = keyToEntry.First(pair => pair.Key.StartsWith(key,
+							StringComparison.OrdinalIgnoreCase)).Value;
+					}
+					var entries = byDexNum[initialEntry.DexNum];
+					foreach (var entry in entries)
+					{
+						if (entry.PrimaryEggGroup is null)
+						{
+							entry.PrimaryEggGroup = groupName;
+						}
+						else
+						{
+							entry.SecondaryEggGroup = groupName;
+						}
+						remainingEntries.Remove(entry);
+					}
+				}
+			}
+			if (remainingEntries.Count > 0)
+			{
+				throw new InvalidOperationException("Not all items processed");
 			}
 		}
 
@@ -2626,6 +2705,13 @@ namespace Pokerole.Tools.InitUpdate
 			}
 			return result;
 		}
+		private void ReadEvolutionTrees(List<(DexEntry.Builder, String kind, String value)> evolutionCauses)
+		{
+			//load ShadeSlayer's scrape
+
+		}
+
+
 		private bool ValidPredicate(DexEntry.Builder entry)
 		{
 			return !InvalidPredicate(entry);
@@ -2677,6 +2763,22 @@ namespace Pokerole.Tools.InitUpdate
 				}
 			}
 			return null;
+		}
+		private static T NonNull<T>(T? input, String? message = null) where T : struct
+		{
+			if (input.HasValue)
+			{
+				return input.Value;
+			}
+			throw message == null ? new WasNullException() : new WasNullException(message);
+		}
+		private static T NonNull<T>(T? input, String? message = null)
+		{
+			if (input != null)
+			{
+				return input;
+			}
+			throw message == null ? new WasNullException() : new WasNullException(message);
 		}
 		private record ImageData
 		{

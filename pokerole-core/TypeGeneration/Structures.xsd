@@ -1340,7 +1340,7 @@
 					</xs:element>
 					<xs:element name="BreedCounterpart" type="ex:ItemReference" ex:genericType="DexEntry" nillable="true">
 						<xs:annotation>
-							<xs:documentation>Breedable counterpart for this evolution tree if any. The most obvious example is the Nidoran pair</xs:documentation>
+							<xs:documentation>Breedable counterpart for this evolution tree if any. The most obvious example is the Nidoran pair. The value will be the root of the couterpart's evolution tree</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BabyItem" type="ex:ItemReference" ex:genericType="Item" nillable="true">

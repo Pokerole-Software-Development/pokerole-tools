@@ -28,12 +28,18 @@ namespace Pokerole.Tools.InitUpdate
 		}
 		public async IAsyncEnumerable<JObject> PerformRequest(String endpointRequest)
 		{
+			String request = endpointRequest;
+			if (request.StartsWith("https://pokeapi.co/api/v2/"))
+			{
+				//25 = "https://pokeapi.co/api/v2/".Length
+				request = request[25..];
+			}
 			using WebClient client = new WebClient();
 			//Note: calling the first page "page 1" since we don't know if we have a next one or not
 			String? nextPage = null;
 			for (int i = 1; i == 1 || nextPage != null; i++)
 			{
-				JObject page = await FetchResult(endpointRequest, i, nextPage, client).ConfigureAwait(awaitConfig);
+				JObject page = await FetchResult(request, i, nextPage, client).ConfigureAwait(awaitConfig);
 				nextPage = (String?)page["next"];
 				yield return page;
 			}

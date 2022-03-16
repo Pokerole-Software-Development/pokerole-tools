@@ -6806,7 +6806,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public ItemReference<Item>? BabyEvolutionItem { get; }
 		/// <summary>
-		/// Breedable counterpart for this evolution tree if any. The most obvious example is the Nidoran pair
+		/// Breedable counterpart for this evolution tree if any. The most obvious example is the Nidoran pair. The value will be the root of the couterpart's evolution tree
 		/// </summary>
 		public ItemReference<DexEntry>? BreedCounterpart { get; }
 		/// <summary>
@@ -6822,7 +6822,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public ItemReference<DexEntry> Root { get; }
 		/// <summary>
-		/// Someone didn't document this item...
+		/// Evolution entries of this tree
 		/// </summary>
 		public IReadOnlyList<EvolutionEntry> EvolutionEntries { get; }
 		[XmlType(nameof(EvolutionTree), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
@@ -6870,7 +6870,7 @@ namespace Pokerole.Core{
 			}
 
 			/// <summary>
-			/// Breedable counterpart for this evolution tree if any. The most obvious example is the Nidoran pair
+			/// Breedable counterpart for this evolution tree if any. The most obvious example is the Nidoran pair. The value will be the root of the couterpart's evolution tree
 			/// </summary>
 			[XmlIgnore]
 			public ItemReference<DexEntry>? BreedCounterpart { get; set; }
@@ -6934,7 +6934,7 @@ namespace Pokerole.Core{
 			}
 
 			/// <summary>
-			/// Someone didn't document this item...
+			/// Evolution entries of this tree
 			/// </summary>
 			[XmlIgnore]
 			public List<EvolutionEntry> EvolutionEntries { get; set; }
