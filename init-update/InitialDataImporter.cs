@@ -2708,7 +2708,42 @@ namespace Pokerole.Tools.InitUpdate
 		private void ReadEvolutionTrees(List<(DexEntry.Builder, String kind, String value)> evolutionCauses)
 		{
 			//load ShadeSlayer's scrape
-
+			using (TextFieldParser csvParser = new TextFieldParser(Path.Combine(processedInputs, "pokeEvoListFixed.csv")))
+			{
+				List<(DexEntry.Builder root, DexEntry.Builder from, String misc, DexEntry.Builder to)> rawList =
+					new List<(DexEntry.Builder, DexEntry.Builder, string, DexEntry.Builder)>();
+				csvParser.Delimiters = new String[]{ "," };
+				csvParser.HasFieldsEnclosedInQuotes = true;
+				Regex regex = new Regex("#(\\d+) (.+)");
+				while (!csvParser.EndOfData)
+				{
+					DexEntry.Builder Parse(String item)
+					{
+						Match m = regex.Match(item);
+						if (!m.Success)
+						{
+							throw new InvalidOperationException();
+						}
+						var key = m.Groups[2].Value;
+						if (monByName.TryGetValue(key, out DexEntry.Builder? value))
+						{
+							return value;
+						}
+						return monByName[key + " (provisional)"];
+					}
+					String[] parts = csvParser.ReadFields();
+					if (!HAS_DLC_MON && parts[0].Contains("Kubfu"))
+					{
+						continue;
+					}
+					var root = Parse(parts[0]);
+					var from = Parse(parts[1]);
+					var misc = parts[2];
+					var to = Parse(parts[3]);
+					rawList.Add((root, from, misc, to));
+				}
+				here;
+			}
 		}
 
 

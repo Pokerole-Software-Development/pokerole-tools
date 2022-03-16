@@ -19,10 +19,10 @@
 #172 Pichu,#025 Pikachu,"use Thunder Stone, in Alola",#026 Alolan Raichu
 #027 Sandshrew,#027 Sandshrew,Level 22,#028 Sandslash
 #027 Alolan Sandshrew,#027 Alolan Sandshrew,use Ice Stone,#028 Alolan Sandslash
-#029 Nidoran♀,#029 Nidoran♀,Level 16,#030 Nidorina
-#029 Nidoran♀,#030 Nidorina,use Moon Stone,#031 Nidoqueen
-#032 Nidoran♂,#032 Nidoran♂,Level 16,#033 Nidorino
-#032 Nidoran♂,#033 Nidorino,use Moon Stone,#034 Nidoking
+#029 Nidoran F,#029 Nidoran F,Level 16,#030 Nidorina
+#029 Nidoran F,#030 Nidorina,use Moon Stone,#031 Nidoqueen
+#032 Nidoran M,#032 Nidoran M,Level 16,#033 Nidorino
+#032 Nidoran M,#033 Nidorino,use Moon Stone,#034 Nidoking
 #173 Cleffa,#173 Cleffa,high Friendship,#035 Clefairy
 #173 Cleffa,#035 Clefairy,use Moon Stone,#036 Clefable
 #037 Vulpix,#037 Vulpix,use Fire Stone,#038 Ninetales
@@ -301,7 +301,7 @@
 #551 Sandile,#551 Sandile,Level 29,#552 Krokorok
 #551 Sandile,#552 Krokorok,Level 40,#553 Krookodile
 #554 Darumaka,#554 Darumaka,Level 35,#555 Darmanitan
-#554 Galarian Darumaka,#554 Galarian Darumaka,use Ice Stone,#555 Darmanitan Galarian
+#554 Galarian Darumaka,#554 Galarian Darumaka,use Ice Stone,#555 Galarian Darmanitan
 #557 Dwebble,#557 Dwebble,Level 34,#558 Crustle
 #559 Scraggy,#559 Scraggy,Level 39,#560 Scrafty
 #562 Yamask,#562 Yamask,Level 34,#563 Cofagrigus
@@ -355,8 +355,8 @@
 #664 Scatterbug,#664 Scatterbug,Level 9,#665 Spewpa
 #664 Scatterbug,#665 Spewpa,Level 12,#666 Vivillon
 #667 Litleo,#667 Litleo,Level 35,#668 Pyroar
-#669 Flabébé,#669 Flabébé,Level 19,#670 Floette
-#669 Flabébé,#670 Floette,use Shiny Stone,#671 Florges
+#669 Flabebe,#669 Flabebe,Level 19,#670 Floette
+#669 Flabebe,#670 Floette,use Shiny Stone,#671 Florges
 #672 Skiddo,#672 Skiddo,Level 32,#673 Gogoat
 #674 Pancham,#674 Pancham,"Level 32, Dark type Pokémon in party",#675 Pangoro
 #677 Espurr,#677 Espurr,Level 25,#678 Meowstic
@@ -390,9 +390,9 @@
 #736 Grubbin,#737 Charjabug,"use Thunder Stone, in Gen 8, or level up in a Magnetic Field area",#738 Vikavolt
 #739 Crabrawler,#739 Crabrawler,at Mount Lanakila,#740 Crabominable
 #742 Cutiefly,#742 Cutiefly,Level 25,#743 Ribombee
-#744 Rockruff,#744 Rockruff,"Level 25, Daytime, in Pokémon Sun or Ultra Sun",#745 Lycanroc Midday Form
-#744 Rockruff,#744 Rockruff,"Level 25, Nighttime, in Pokémon Moon or Ultra Moon",#745 Lycanroc Midnight Form
-#744 Rockruff,#744 Rockruff,"Level 25, Own Tempo, Dusk 5-6pm, in Ultra Sun/Moon",#745 Lycanroc Dusk Form
+#744 Rockruff,#744 Rockruff,"Level 25, Daytime, in Pokémon Sun or Ultra Sun",#745 Lycanroc Midday
+#744 Rockruff,#744 Rockruff,"Level 25, Nighttime, in Pokémon Moon or Ultra Moon",#745 Lycanroc Midnight
+#744 Rockruff,#744 Rockruff,"Level 25, Own Tempo, Dusk 5-6pm, in Ultra Sun/Moon",#745 Lycanroc Dusk
 #747 Mareanie,#747 Mareanie,Level 38,#748 Toxapex
 #749 Mudbray,#749 Mudbray,Level 30,#750 Mudsdale
 #751 Dewpider,#751 Dewpider,Level 22,#752 Araquanid
@@ -442,8 +442,8 @@
 #856 Hatenna,#856 Hatenna,Level 32,#857 Hattrem
 #856 Hatenna,#857 Hattrem,Level 42,#858 Hatterene
 #878 Cufant,#878 Cufant,Level 34,#879 Copperajah
-#848 Toxel,#848 Toxel,"Level 30, with a low key Nature",#849 Toxtricity Low Key Form
-#848 Toxel,#848 Toxel,"Level 30, with an amped Nature",#849 Toxtricity Amped Form
+#848 Toxel,#848 Toxel,"Level 30, with a low key Nature",#849 Toxtricity Low Key
+#848 Toxel,#848 Toxel,"Level 30, with an amped Nature",#849 Toxtricity Amped
 #843 Silicobra,#843 Silicobra,Level 36,#844 Sandaconda
 #854 Sinistea,#854 Sinistea,use Cracked Pot,#855 Polteageist
 #872 Snom,#872 Snom,"high Friendship, Nighttime",#873 Frosmoth
