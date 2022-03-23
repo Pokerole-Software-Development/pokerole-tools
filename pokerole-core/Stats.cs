@@ -14,14 +14,14 @@ namespace Pokerole.Core
 	{
 		private static bool initted = false;
 		private static readonly Object initLock = new object();
-		private static readonly List<IStat> skillList = new List<IStat>();
-		private static readonly IReadOnlyList<IStat> readonlySkills = skillList.AsReadOnly();
-		private static readonly Dictionary<BuiltInStat, IStat> builtInSkillImplementations =
+		private static readonly List<IStat> statList = new List<IStat>();
+		private static readonly IReadOnlyList<IStat> readonlyStats = statList.AsReadOnly();
+		private static readonly Dictionary<BuiltInStat, IStat> builtInStatImplementations =
 			new Dictionary<BuiltInStat, IStat>(30);
 		private static readonly IReadOnlyDictionary<BuiltInStat, Guid> baseTypeGuids =
 			new ReadOnlyDictionary<BuiltInStat, Guid>(new Dictionary<BuiltInStat, Guid>
 			{
-#region Skills
+#region Stats
 				{ BuiltInStat.Strength, Guid.Parse("aee02cc8-60ee-4916-8320-282a307103ba") },
 				{ BuiltInStat.Dexterity, Guid.Parse("e4f0fbba-eeea-45e9-9e1e-24c68d3653d5") },
 				{ BuiltInStat.Vitality, Guid.Parse("36800f3e-de5f-4316-bfad-427569707974") },
@@ -59,27 +59,27 @@ namespace Pokerole.Core
 				{ BuiltInStat.SameAsTheCopiedMove, Guid.Parse("d6557cfa-c0d5-406c-a8f3-d492a2fd5ef3") },
 	#endregion
 			});
-		public static IReadOnlyList<IStat> RegisteredSkills
+		public static IReadOnlyList<IStat> RegisteredStats
 		{
 			get
 			{
 				CheckInit();
-				return readonlySkills;
+				return readonlyStats;
 			}
 		}
-		public static IStat GetBuiltInSkill(BuiltInStat skill)
+		public static IStat GetBuiltInStat(BuiltInStat stat)
 		{
 			CheckInit();
-			if (!builtInSkillImplementations.TryGetValue(skill, out IStat? item))
+			if (!builtInStatImplementations.TryGetValue(stat, out IStat? item))
 			{
-				throw new ArgumentException($"'{skill}' is not a valid built-in skill or has not been registered");
+				throw new ArgumentException($"'{stat}' is not a valid built-in stat or has not been registered");
 			}
 			return item;
 		}
 
-		public static ISkillBuilder CreateSkillBuilder()
+		public static IStatBuilder CreateStatBuilder()
 		{
-			throw new NotImplementedException("Support for custom skills is not implemented yet");
+			throw new NotImplementedException("Support for custom stats is not implemented yet");
 		}
 
 		private static void CheckInit()
@@ -99,105 +99,105 @@ namespace Pokerole.Core
 		private static void Init()
 		{
 			//just in case....
-			skillList.Clear();
-			builtInSkillImplementations.Clear();
-			BuiltInStat[] builtInSkills = (BuiltInStat[])Enum.GetValues(typeof(BuiltInStat));
-			if (skillList.Capacity < builtInSkills.Length)
+			statList.Clear();
+			builtInStatImplementations.Clear();
+			BuiltInStat[] builtInStats = (BuiltInStat[])Enum.GetValues(typeof(BuiltInStat));
+			if (statList.Capacity < builtInStats.Length)
 			{
-				skillList.Capacity = builtInSkills.Length;
+				statList.Capacity = builtInStats.Length;
 			}
-			foreach (var skill in builtInSkills)
+			foreach (var stat in builtInStats)
 			{
-				var instance = ConstructSkillInstance(skill);
-				builtInSkillImplementations[skill] = instance;
-				skillList.Add(instance);
+				var instance = ConstructStatInstance(stat);
+				builtInStatImplementations[stat] = instance;
+				statList.Add(instance);
 			}
 			initted = true;
 		}
 
-		private static BuiltInSkillImpl ConstructSkillInstance(BuiltInStat skill)
+		private static BuiltInStatImpl ConstructStatInstance(BuiltInStat stat)
 		{
-			var exclusivity = skill switch
+			var exclusivity = stat switch
 			{
 				BuiltInStat.Special or BuiltInStat.Channel or BuiltInStat.Happiness or BuiltInStat.Loyalty =>
-					SkillExclusivity.Pokemon,
+					StatExclusivity.Pokemon,
 				BuiltInStat.Throw or BuiltInStat.Weapons or BuiltInStat.Crafts or BuiltInStat.Lore or
-					BuiltInStat.Medicine or BuiltInStat.Science => SkillExclusivity.Trainer,
-				_ => SkillExclusivity.None,
+					BuiltInStat.Medicine or BuiltInStat.Science => StatExclusivity.Trainer,
+				_ => StatExclusivity.None,
 			};
-			var category = skill switch
+			var category = stat switch
 			{
 				BuiltInStat.Strength or BuiltInStat.Dexterity or BuiltInStat.Vitality or BuiltInStat.Special or
-					BuiltInStat.Insight => SkillCategory.Primary,
+					BuiltInStat.Insight => StatCategory.Primary,
 				BuiltInStat.Tough or BuiltInStat.Cool or BuiltInStat.Beauty or BuiltInStat.Cute or
-					BuiltInStat.Clever => SkillCategory.SocialAttribute,
+					BuiltInStat.Clever => StatCategory.SocialAttribute,
 				BuiltInStat.Brawl or BuiltInStat.Channel or BuiltInStat.Clash or BuiltInStat.Evasion or
-					BuiltInStat.Throw or BuiltInStat.Weapons => SkillCategory.Fight,
+					BuiltInStat.Throw or BuiltInStat.Weapons => StatCategory.Fight,
 				BuiltInStat.Alert or BuiltInStat.Athletic or BuiltInStat.Nature or BuiltInStat.Stealth =>
-					SkillCategory.Survival,
+					StatCategory.Survival,
 				BuiltInStat.Allure or BuiltInStat.Empathy or BuiltInStat.Etiquette or BuiltInStat.Intimidate or
-					BuiltInStat.Perform => SkillCategory.Contest,
+					BuiltInStat.Perform => StatCategory.Contest,
 				BuiltInStat.Crafts or BuiltInStat.Lore or BuiltInStat.Medicine or BuiltInStat.Science =>
-					SkillCategory.Knowledge,
-				BuiltInStat.Happiness or BuiltInStat.Loyalty => SkillCategory.HappinesOrLoyalty,
+					StatCategory.Knowledge,
+				BuiltInStat.Happiness or BuiltInStat.Loyalty => StatCategory.HappinesOrLoyalty,
 				BuiltInStat.Will or BuiltInStat.None or BuiltInStat.Varies or BuiltInStat.SameAsTheCopiedMove => 
-					SkillCategory.Other,
-				_ => throw new InvalidOperationException($"Unknown base skill: {skill}"),
+					StatCategory.Other,
+				_ => throw new InvalidOperationException($"Unknown base stat: {stat}"),
 			};
-			return new BuiltInSkillImpl(skill, exclusivity, category);
+			return new BuiltInStatImpl(stat, exclusivity, category);
 		}
 
-		private class BuiltInSkillImpl : SkillImpl
+		private class BuiltInStatImpl : StatImpl
 		{
-			private readonly BuiltInStat skill;
+			private readonly BuiltInStat stat;
 			private readonly DataId dataId;
-			internal BuiltInSkillImpl(BuiltInStat skill, SkillExclusivity exclusivity, SkillCategory category)
+			internal BuiltInStatImpl(BuiltInStat stat, StatExclusivity exclusivity, StatCategory category)
 				: base(exclusivity, category)
 			{
-				this.skill = skill;
-				dataId = new DataId((int)skill, baseTypeGuids[skill]);
+				this.stat = stat;
+				dataId = new DataId((int)stat, baseTypeGuids[stat]);
 			}
 			public override DataId DataId => dataId;
-			public override bool IsBuiltInSkill => true;
-			public override string Name => skill.ToString();
+			public override bool IsBuiltInStat => true;
+			public override string Name => stat.ToString();
 		}
-		private abstract class SkillImpl : IStat
+		private abstract class StatImpl : IStat
 		{
-			private readonly SkillCategory category;
-			private readonly SkillExclusivity exclusivity;
-			protected SkillImpl(SkillExclusivity exclusivity, SkillCategory category)
+			private readonly StatCategory category;
+			private readonly StatExclusivity exclusivity;
+			protected StatImpl(StatExclusivity exclusivity, StatCategory category)
 			{
 				this.category = category;
 				this.exclusivity = exclusivity;
 			}
 			public abstract DataId DataId { get; }
 			public abstract string Name { get; }
-			public abstract bool IsBuiltInSkill { get; }
-			public SkillCategory SkillCategory => category;
-			public SkillExclusivity SkillExclusivity => exclusivity;
+			public abstract bool IsBuiltInStat { get; }
+			public StatCategory StatCategory => category;
+			public StatExclusivity StatExclusivity => exclusivity;
 			public ItemReference<IStat> ItemReference => new ItemReference<IStat>(DataId, Name);
 		}
 	}
 
-	public interface ISkillBuilder
+	public interface IStatBuilder
 	{
 	}
 
 	public interface IStat : IDataItem<IStat>
 	{
 		String Name { get; }
-		bool IsBuiltInSkill { get; }
-		SkillCategory SkillCategory { get; }
-		SkillExclusivity SkillExclusivity { get; }
+		bool IsBuiltInStat { get; }
+		StatCategory StatCategory { get; }
+		StatExclusivity StatExclusivity { get; }
 		//ItemReference<IStat> ItemReference { get; }
 	}
-	public enum SkillExclusivity
+	public enum StatExclusivity
 	{
 		None,
 		Pokemon,
 		Trainer
 	}
-	public enum SkillCategory
+	public enum StatCategory
 	{
 		Primary,
 		//Cool, Cute, etc.
@@ -236,7 +236,7 @@ namespace Pokerole.Core
 		Athletic,
 		Nature,
 		Stealth,
-		//Contest Skills
+		//Contest Stats
 		Allure,
 		Empathy,//apparently this exists but doesn't?
 		Etiquette,

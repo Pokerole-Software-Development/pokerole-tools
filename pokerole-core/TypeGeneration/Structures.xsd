@@ -117,30 +117,30 @@
 							<xs:documentation>Whether or not this move is ranged</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="PrimaryAccuracySkill" type="ex:ItemReference" ex:genericType="ex:IStat"
+					<xs:element name="PrimaryAccuracyStat" type="ex:ItemReference" ex:genericType="ex:IStat"
 								ex:isDbLazy="true">
 						<xs:annotation>
-							<xs:documentation>Primary skill used for rolling accuracy</xs:documentation>
+							<xs:documentation>Primary stat used for rolling accuracy</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PrimaryAccuracyIsNegative" type="xs:boolean">
 						<xs:annotation>
-							<xs:documentation>If true, points missing in the primary skill are used for accuracy</xs:documentation>
+							<xs:documentation>If true, points missing in the primary stat are used for accuracy</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SecondaryAccuracySkill" type="ex:ItemReference" ex:genericType="ex:IStat"
+					<xs:element name="SecondaryAccuracyStat" type="ex:ItemReference" ex:genericType="ex:IStat"
 								ex:isDbLazy="true">
 						<xs:annotation>
-							<xs:documentation>Secondary skill used for rolling accuracy</xs:documentation>
+							<xs:documentation>Secondary stat used for rolling accuracy</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<!--<xs:element name="Accuracy" ex:isDbLazy="true" ex:listItemType="ex:ItemReference" ex:genericType="ex:IStat">
 						<xs:annotation>
-							<xs:documentation>Skills used to roll accuracy for this move</xs:documentation>
+							<xs:documentation>Stats used to roll accuracy for this move</xs:documentation>
 						</xs:annotation>
 						<xs:complexType>
 							<xs:sequence>
-								<xs:element name="Skill" maxOccurs="unbounded" type="ex:ItemReference" ex:genericType="ex:IStat" ex:isDbLazy="true" minOccurs="1"/>
+								<xs:element name="Stat" maxOccurs="unbounded" type="ex:ItemReference" ex:genericType="ex:IStat" ex:isDbLazy="true" minOccurs="1"/>
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>-->
@@ -149,19 +149,19 @@
 							<xs:documentation>How many more successes are needed for this attack to hit</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="DamageSkill" type="ex:ItemReference" ex:genericType="ex:IStat" nillable="true">
+					<xs:element name="DamageStat" type="ex:ItemReference" ex:genericType="ex:IStat" nillable="true">
 						<xs:annotation>
-							<xs:documentation>Skill used to roll damage for this move if any</xs:documentation>
+							<xs:documentation>Stat used to roll damage for this move if any</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SecondaryDamageSkill" type="ex:ItemReference" ex:genericType="ex:IStat" nillable="true">
+					<xs:element name="SecondaryDamageStat" type="ex:ItemReference" ex:genericType="ex:IStat" nillable="true">
 						<xs:annotation>
-							<xs:documentation>Skill used to roll additional damage for this move if any</xs:documentation>
+							<xs:documentation>Stat used to roll additional damage for this move if any</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SecondaryDamageIsNegative" type="xs:boolean">
 						<xs:annotation>
-							<xs:documentation>If true, points missing in the secondary skill are used for damage</xs:documentation>
+							<xs:documentation>If true, points missing in the secondary stat are used for damage</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DamageModifier" type="xs:int">
@@ -302,8 +302,8 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="CustomSkillEntry">
-		<xs:attribute name="Skill" type="xs:string"/>
+	<xs:complexType name="CustomStatEntry">
+		<xs:attribute name="Stat" type="xs:string"/>
 		<xs:attribute name="Value" type="xs:int"/>
 	</xs:complexType>
 	<xs:complexType name="ImageRef">
@@ -805,7 +805,7 @@
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<!--Skills-->
+					<!--Stats-->
 					<!--Fight-->
 					<xs:element name="Brawl" type="xs:int">
 						<xs:annotation>
@@ -870,17 +870,17 @@
 						</xs:annotation>
 					</xs:element>
 					<!--Taken and modified from https://stackoverflow.com/a/6729836/1366594 -->
-					<xs:element name="CustomSkills" ex:listItemType="CustomSkillEntry">
+					<xs:element name="CustomStats" ex:listItemType="CustomStatEntry">
 						<xs:complexType>
 							<xs:sequence>
-								<xs:element name="CustomSkillEntry" type="CustomSkillEntry" maxOccurs="unbounded" minOccurs="0"/>
+								<xs:element name="CustomStatEntry" type="CustomStatEntry" maxOccurs="unbounded" minOccurs="0"/>
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
-					<!--<xs:element name="CustomSkills" ex:isDict="true" ex:keyType="xs:string" ex:valueType="xs:int">
+					<!--<xs:element name="CustomStats" ex:isDict="true" ex:keyType="xs:string" ex:valueType="xs:int">
 						<xs:complexType>
 							<xs:sequence>
-								<xs:element maxOccurs="unbounded" name="CustomSkill">
+								<xs:element maxOccurs="unbounded" name="CustomStat">
 									<xs:complexType>
 										<xs:attribute name="key" type="xs:string" use="required" />
 										<xs:attribute name="value" type="xs:int" use="required" />
@@ -1056,7 +1056,7 @@
 							<xs:documentation></xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<!--Skills-->
+					<!--Stats-->
 					<!--Fight-->
 					<xs:element name="Brawl" type="xs:int">
 						<xs:annotation>

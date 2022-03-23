@@ -22,12 +22,12 @@ namespace Pokerole.Core{
 			ItemReference<ITypeDefinition> type,
 			MoveTarget moveTarget,
 			bool ranged,
-			ItemReference<IStat> primaryAccuracySkill,
+			ItemReference<IStat> primaryAccuracyStat,
 			bool primaryAccuracyIsNegative,
-			ItemReference<IStat> secondaryAccuracySkill,
+			ItemReference<IStat> secondaryAccuracyStat,
 			int reducedAccuracy,
-			ItemReference<IStat>? damageSkill,
-			ItemReference<IStat>? secondaryDamageSkill,
+			ItemReference<IStat>? damageStat,
+			ItemReference<IStat>? secondaryDamageStat,
 			bool secondaryDamageIsNegative,
 			int damageModifier,
 			bool hasSpecialAccuracyMod,
@@ -42,12 +42,12 @@ namespace Pokerole.Core{
 			Type = type;
 			MoveTarget = moveTarget;
 			Ranged = ranged;
-			PrimaryAccuracySkill = primaryAccuracySkill;
+			PrimaryAccuracyStat = primaryAccuracyStat;
 			PrimaryAccuracyIsNegative = primaryAccuracyIsNegative;
-			SecondaryAccuracySkill = secondaryAccuracySkill;
+			SecondaryAccuracyStat = secondaryAccuracyStat;
 			ReducedAccuracy = reducedAccuracy;
-			DamageSkill = damageSkill;
-			SecondaryDamageSkill = secondaryDamageSkill;
+			DamageStat = damageStat;
+			SecondaryDamageStat = secondaryDamageStat;
 			SecondaryDamageIsNegative = secondaryDamageIsNegative;
 			DamageModifier = damageModifier;
 			HasSpecialAccuracyMod = hasSpecialAccuracyMod;
@@ -87,31 +87,31 @@ namespace Pokerole.Core{
 		/// </summary>
 		public bool Ranged { get; }
 		/// <summary>
-		/// Primary skill used for rolling accuracy
+		/// Primary stat used for rolling accuracy
 		/// </summary>
-		public ItemReference<IStat> PrimaryAccuracySkill { get; }
+		public ItemReference<IStat> PrimaryAccuracyStat { get; }
 		/// <summary>
-		/// If true, points missing in the primary skill are used for accuracy
+		/// If true, points missing in the primary stat are used for accuracy
 		/// </summary>
 		public bool PrimaryAccuracyIsNegative { get; }
 		/// <summary>
-		/// Secondary skill used for rolling accuracy
+		/// Secondary stat used for rolling accuracy
 		/// </summary>
-		public ItemReference<IStat> SecondaryAccuracySkill { get; }
+		public ItemReference<IStat> SecondaryAccuracyStat { get; }
 		/// <summary>
 		/// How many more successes are needed for this attack to hit
 		/// </summary>
 		public int ReducedAccuracy { get; }
 		/// <summary>
-		/// Skill used to roll damage for this move if any
+		/// Stat used to roll damage for this move if any
 		/// </summary>
-		public ItemReference<IStat>? DamageSkill { get; }
+		public ItemReference<IStat>? DamageStat { get; }
 		/// <summary>
-		/// Skill used to roll additional damage for this move if any
+		/// Stat used to roll additional damage for this move if any
 		/// </summary>
-		public ItemReference<IStat>? SecondaryDamageSkill { get; }
+		public ItemReference<IStat>? SecondaryDamageStat { get; }
 		/// <summary>
-		/// If true, points missing in the secondary skill are used for damage
+		/// If true, points missing in the secondary stat are used for damage
 		/// </summary>
 		public bool SecondaryDamageIsNegative { get; }
 		/// <summary>
@@ -152,12 +152,12 @@ namespace Pokerole.Core{
 				Type = move.Type;
 				MoveTarget = move.MoveTarget;
 				Ranged = move.Ranged;
-				PrimaryAccuracySkill = move.PrimaryAccuracySkill;
+				PrimaryAccuracyStat = move.PrimaryAccuracyStat;
 				PrimaryAccuracyIsNegative = move.PrimaryAccuracyIsNegative;
-				SecondaryAccuracySkill = move.SecondaryAccuracySkill;
+				SecondaryAccuracyStat = move.SecondaryAccuracyStat;
 				ReducedAccuracy = move.ReducedAccuracy;
-				DamageSkill = move.DamageSkill;
-				SecondaryDamageSkill = move.SecondaryDamageSkill;
+				DamageStat = move.DamageStat;
+				SecondaryDamageStat = move.SecondaryDamageStat;
 				SecondaryDamageIsNegative = move.SecondaryDamageIsNegative;
 				DamageModifier = move.DamageModifier;
 				HasSpecialAccuracyMod = move.HasSpecialAccuracyMod;
@@ -252,23 +252,23 @@ namespace Pokerole.Core{
 				set => Ranged = value;
 			}
 			/// <summary>
-			/// Primary skill used for rolling accuracy
+			/// Primary stat used for rolling accuracy
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<IStat>? PrimaryAccuracySkill { get; set; }
+			public ItemReference<IStat>? PrimaryAccuracyStat { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("PrimaryAccuracySkill", IsNullable = false)]
-			public ItemReference<IStat>.Builder? PrimaryAccuracySkillXmlAccessor
+			[XmlElement("PrimaryAccuracyStat", IsNullable = false)]
+			public ItemReference<IStat>.Builder? PrimaryAccuracyStatXmlAccessor
 			{
-				get => PrimaryAccuracySkill is null ? null : new ItemReference<IStat>.Builder(PrimaryAccuracySkill ?? default);
-				set => PrimaryAccuracySkill = value?.Build();
+				get => PrimaryAccuracyStat is null ? null : new ItemReference<IStat>.Builder(PrimaryAccuracyStat ?? default);
+				set => PrimaryAccuracyStat = value?.Build();
 			}
 
 			/// <summary>
-			/// If true, points missing in the primary skill are used for accuracy
+			/// If true, points missing in the primary stat are used for accuracy
 			/// </summary>
 			[XmlIgnore]
 			public bool? PrimaryAccuracyIsNegative { get; set; }
@@ -282,19 +282,19 @@ namespace Pokerole.Core{
 				set => PrimaryAccuracyIsNegative = value;
 			}
 			/// <summary>
-			/// Secondary skill used for rolling accuracy
+			/// Secondary stat used for rolling accuracy
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<IStat>? SecondaryAccuracySkill { get; set; }
+			public ItemReference<IStat>? SecondaryAccuracyStat { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("SecondaryAccuracySkill", IsNullable = false)]
-			public ItemReference<IStat>.Builder? SecondaryAccuracySkillXmlAccessor
+			[XmlElement("SecondaryAccuracyStat", IsNullable = false)]
+			public ItemReference<IStat>.Builder? SecondaryAccuracyStatXmlAccessor
 			{
-				get => SecondaryAccuracySkill is null ? null : new ItemReference<IStat>.Builder(SecondaryAccuracySkill ?? default);
-				set => SecondaryAccuracySkill = value?.Build();
+				get => SecondaryAccuracyStat is null ? null : new ItemReference<IStat>.Builder(SecondaryAccuracyStat ?? default);
+				set => SecondaryAccuracyStat = value?.Build();
 			}
 
 			/// <summary>
@@ -312,39 +312,39 @@ namespace Pokerole.Core{
 				set => ReducedAccuracy = value;
 			}
 			/// <summary>
-			/// Skill used to roll damage for this move if any
+			/// Stat used to roll damage for this move if any
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<IStat>? DamageSkill { get; set; }
+			public ItemReference<IStat>? DamageStat { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("DamageSkill", IsNullable = false)]
-			public ItemReference<IStat>.Builder? DamageSkillXmlAccessor
+			[XmlElement("DamageStat", IsNullable = false)]
+			public ItemReference<IStat>.Builder? DamageStatXmlAccessor
 			{
-				get => DamageSkill is null ? null : new ItemReference<IStat>.Builder(DamageSkill ?? default);
-				set => DamageSkill = value?.Build();
+				get => DamageStat is null ? null : new ItemReference<IStat>.Builder(DamageStat ?? default);
+				set => DamageStat = value?.Build();
 			}
 
 			/// <summary>
-			/// Skill used to roll additional damage for this move if any
+			/// Stat used to roll additional damage for this move if any
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<IStat>? SecondaryDamageSkill { get; set; }
+			public ItemReference<IStat>? SecondaryDamageStat { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("SecondaryDamageSkill", IsNullable = false)]
-			public ItemReference<IStat>.Builder? SecondaryDamageSkillXmlAccessor
+			[XmlElement("SecondaryDamageStat", IsNullable = false)]
+			public ItemReference<IStat>.Builder? SecondaryDamageStatXmlAccessor
 			{
-				get => SecondaryDamageSkill is null ? null : new ItemReference<IStat>.Builder(SecondaryDamageSkill ?? default);
-				set => SecondaryDamageSkill = value?.Build();
+				get => SecondaryDamageStat is null ? null : new ItemReference<IStat>.Builder(SecondaryDamageStat ?? default);
+				set => SecondaryDamageStat = value?.Build();
 			}
 
 			/// <summary>
-			/// If true, points missing in the secondary skill are used for damage
+			/// If true, points missing in the secondary stat are used for damage
 			/// </summary>
 			[XmlIgnore]
 			public bool? SecondaryDamageIsNegative { get; set; }
@@ -449,7 +449,7 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
-					if (PrimaryAccuracySkill is null)
+					if (PrimaryAccuracyStat is null)
 					{
 						return false;
 					}
@@ -457,7 +457,7 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
-					if (SecondaryAccuracySkill is null)
+					if (SecondaryAccuracyStat is null)
 					{
 						return false;
 					}
@@ -528,17 +528,17 @@ namespace Pokerole.Core{
 					{
 						missing.Add("Ranged");
 					}
-					if (PrimaryAccuracySkill is null)
+					if (PrimaryAccuracyStat is null)
 					{
-						missing.Add("PrimaryAccuracySkill");
+						missing.Add("PrimaryAccuracyStat");
 					}
 					if (PrimaryAccuracyIsNegative is null)
 					{
 						missing.Add("PrimaryAccuracyIsNegative");
 					}
-					if (SecondaryAccuracySkill is null)
+					if (SecondaryAccuracyStat is null)
 					{
-						missing.Add("SecondaryAccuracySkill");
+						missing.Add("SecondaryAccuracyStat");
 					}
 					if (ReducedAccuracy is null)
 					{
@@ -590,12 +590,12 @@ namespace Pokerole.Core{
 					Type!.Value,
 					MoveTarget!.Value,
 					Ranged!.Value,
-					PrimaryAccuracySkill!.Value,
+					PrimaryAccuracyStat!.Value,
 					PrimaryAccuracyIsNegative!.Value,
-					SecondaryAccuracySkill!.Value,
+					SecondaryAccuracyStat!.Value,
 					ReducedAccuracy!.Value,
-					DamageSkill,
-					SecondaryDamageSkill,
+					DamageStat,
+					SecondaryDamageStat,
 					SecondaryDamageIsNegative!.Value,
 					DamageModifier!.Value,
 					HasSpecialAccuracyMod!.Value,
@@ -712,37 +712,37 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public record CustomSkillEntry
+	public record CustomStatEntry
 	{
-		public CustomSkillEntry(string skill,
+		public CustomStatEntry(string stat,
 			int value)
 		{
-			Skill = skill;
+			Stat = stat;
 			Value = value;
 		}
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public string Skill { get; }
+		public string Stat { get; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
 		public int Value { get; }
-		[XmlType(nameof(CustomSkillEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public partial class Builder : ItemBuilder<CustomSkillEntry>
+		[XmlType(nameof(CustomStatEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		public partial class Builder : ItemBuilder<CustomStatEntry>
 		{
 			public Builder()
 			{			}
-			public Builder(CustomSkillEntry customSkillEntry)
+			public Builder(CustomStatEntry customStatEntry)
 			{
-				Skill = customSkillEntry.Skill;
-				Value = customSkillEntry.Value;
+				Stat = customStatEntry.Stat;
+				Value = customStatEntry.Value;
 			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
 			[XmlAttribute()]
-			public string? Skill { get; set; }
+			public string? Stat { get; set; }
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
@@ -759,13 +759,13 @@ namespace Pokerole.Core{
 			}
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
-			/// <see cref="CustomSkillEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// <see cref="CustomStatEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
 			/// </summary>
 			public override bool IsValid
 			{
 				get
 				{
-					if (Skill is null)
+					if (Stat is null)
 					{
 						return false;
 					}
@@ -784,9 +784,9 @@ namespace Pokerole.Core{
 				get
 				{
 					List<String> missing = new List<String>(2);
-					if (Skill is null)
+					if (Stat is null)
 					{
-						missing.Add("Skill");
+						missing.Add("Stat");
 					}
 					if (Value is null)
 					{
@@ -796,18 +796,18 @@ namespace Pokerole.Core{
 				}
 			}
 			/// <summary>
-			/// Build and instance of <see cref="CustomSkillEntry"/> from this Builder
+			/// Build and instance of <see cref="CustomStatEntry"/> from this Builder
 			/// </summary>
-			/// <returns>A new instance of <see cref="CustomSkillEntry"/></returns>
+			/// <returns>A new instance of <see cref="CustomStatEntry"/></returns>
 			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
 			/// have been set</exception>
-			public override CustomSkillEntry Build(){
+			public override CustomStatEntry Build(){
 				if (!IsValid)
 				{
 					throw new InvalidOperationException("Not all required fields were set");
 				}
-				return new CustomSkillEntry(
-					Skill!,
+				return new CustomStatEntry(
+					Stat!,
 					Value!.Value);
 			}
 		}
@@ -2923,7 +2923,7 @@ namespace Pokerole.Core{
 			int etiquette,
 			int intimidate,
 			int perform,
-			List<CustomSkillEntry> customSkills,
+			List<CustomStatEntry> customStats,
 			int tough,
 			int cool,
 			int beauty,
@@ -2974,7 +2974,7 @@ namespace Pokerole.Core{
 			Etiquette = etiquette;
 			Intimidate = intimidate;
 			Perform = perform;
-			CustomSkills = new List<CustomSkillEntry>(customSkills).AsReadOnly();
+			CustomStats = new List<CustomStatEntry>(customStats).AsReadOnly();
 			Tough = tough;
 			Cool = cool;
 			Beauty = beauty;
@@ -3142,7 +3142,7 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public IReadOnlyList<CustomSkillEntry> CustomSkills { get; }
+		public IReadOnlyList<CustomStatEntry> CustomStats { get; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
@@ -3199,7 +3199,7 @@ namespace Pokerole.Core{
 			{
 				Status = new List<MonStatus>(10);
 				Moves = new List<MoveEntry>(10);
-				CustomSkills = new List<CustomSkillEntry>(10);
+				CustomStats = new List<CustomStatEntry>(10);
 				Accessories = new List<string>(10);
 				Ribbons = new List<string>(10);
 			}
@@ -3243,7 +3243,7 @@ namespace Pokerole.Core{
 				Etiquette = monInstance.Etiquette;
 				Intimidate = monInstance.Intimidate;
 				Perform = monInstance.Perform;
-				CustomSkills = new List<CustomSkillEntry>(monInstance.CustomSkills);
+				CustomStats = new List<CustomStatEntry>(monInstance.CustomStats);
 				Tough = monInstance.Tough;
 				Cool = monInstance.Cool;
 				Beauty = monInstance.Beauty;
@@ -3806,35 +3806,35 @@ namespace Pokerole.Core{
 			/// Someone didn't document this item...
 			/// </summary>
 			[XmlIgnore]
-			public List<CustomSkillEntry> CustomSkills { get; set; }
+			public List<CustomStatEntry> CustomStats { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlArray("CustomSkills", IsNullable = false)]
-			[XmlArrayItem("CustomSkillEntry")]
-			public CustomSkillEntry.Builder[] CustomSkillsBuilder
+			[XmlArray("CustomStats", IsNullable = false)]
+			[XmlArrayItem("CustomStatEntry")]
+			public CustomStatEntry.Builder[] CustomStatsBuilder
 			{
 				get
 				{
-					if (CustomSkills == null)
+					if (CustomStats == null)
 					{
-						return Array.Empty<CustomSkillEntry.Builder>();
+						return Array.Empty<CustomStatEntry.Builder>();
 					}
-					return CustomSkills.Select(item=>new CustomSkillEntry.Builder(item)).ToArray();
+					return CustomStats.Select(item=>new CustomStatEntry.Builder(item)).ToArray();
 				}
 				set
 				{
-					CustomSkills?.Clear();
+					CustomStats?.Clear();
 					if (value == null)
 					{
 						return;
 					}
-					if (CustomSkills == null)
+					if (CustomStats == null)
 					{
-						CustomSkills = new List<CustomSkillEntry>(value.Length);
+						CustomStats = new List<CustomStatEntry>(value.Length);
 					}
-					ItemBuilder<CustomSkillEntry>.BuildList(value, CustomSkills);
+					ItemBuilder<CustomStatEntry>.BuildList(value, CustomStats);
 				}
 			}
 			/// <summary>
@@ -4131,7 +4131,7 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
-					if (CustomSkills is null)
+					if (CustomStats is null)
 					{
 						return false;
 					}
@@ -4326,9 +4326,9 @@ namespace Pokerole.Core{
 					{
 						missing.Add("Perform");
 					}
-					if (CustomSkills is null)
+					if (CustomStats is null)
 					{
-						missing.Add("CustomSkills");
+						missing.Add("CustomStats");
 					}
 					if (Tough is null)
 					{
@@ -4430,7 +4430,7 @@ namespace Pokerole.Core{
 					Etiquette!.Value,
 					Intimidate!.Value,
 					Perform!.Value,
-					CustomSkills!,
+					CustomStats!,
 					Tough!.Value,
 					Cool!.Value,
 					Beauty!.Value,
@@ -6635,7 +6635,7 @@ namespace Pokerole.Core{
 		/// </summary>
 		public EvolutionKind Kind { get; }
 		/// <summary>
-		/// Further details about how the evolution works. This could be a level number, name of an item, or just about anything really...
+		/// Further details about how the evolution works in JSON. This could be a level number, name of an item, or just about anything really...
 		/// </summary>
 		public string Details { get; }
 		[XmlType(nameof(EvolutionEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
@@ -6697,7 +6697,7 @@ namespace Pokerole.Core{
 				set => Kind = value;
 			}
 			/// <summary>
-			/// Further details about how the evolution works. This could be a level number, name of an item, or just about anything really...
+			/// Further details about how the evolution works in JSON. This could be a level number, name of an item, or just about anything really...
 			/// </summary>
 			[XmlElement(IsNullable = false)]
 			public string? Details { get; set; }

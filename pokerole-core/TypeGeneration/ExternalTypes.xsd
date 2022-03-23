@@ -57,9 +57,9 @@
 		<xs:sequence>
 			<xs:element name="DataId" type="DataId"/>
 			<xs:element name="Name" type="xs:string"/>
-			<!--Base scemas don't need to know about "IsBuiltInSkill"-->
-			<xs:element name="SkillCategory" type="SkillCategory"/>
-			<xs:element name="SkillExclusivity" type ="SkillExclusivity"/>
+			<!--Base scemas don't need to know about "IsBuiltInStat"-->
+			<xs:element name="StatCategory" type="StatCategory"/>
+			<xs:element name="StatExclusivity" type ="StatExclusivity"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="IEffect"/>
@@ -71,14 +71,14 @@
 			<xs:enumeration value="Support"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="SkillExclusivity" final="restriction">
+	<xs:simpleType name="StatExclusivity" final="restriction">
 		<xs:restriction base="xs:NMTOKEN">
 			<xs:enumeration value="None"/>
 			<xs:enumeration value="Pokemon"/>
 			<xs:enumeration value="Trainer"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="SkillCategory" final="restriction">
+	<xs:simpleType name="StatCategory" final="restriction">
 		<xs:restriction base="xs:NMTOKEN">
 			<xs:enumeration value="Primary"/>
 			<xs:enumeration value="SocialAttribute"/>

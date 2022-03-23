@@ -235,7 +235,7 @@ namespace Pokerole.Tools.InitUpdate
 				"Thunderous Kick",
 				"Fiery Wrath"
 			};
-			IStat noneSkill = StatManager.GetBuiltInSkill(BuiltInStat.None);
+			IStat noneStat = StatManager.GetBuiltInStat(BuiltInStat.None);
 			ITypeDefinition normalType = TypeManager.GetBuiltInType(BuiltInType.Normal);
 			foreach (var moveName in missingMoves)
 			{
@@ -251,8 +251,8 @@ namespace Pokerole.Tools.InitUpdate
 					Type = normalType.ItemReference,
 					Description = MOVE_MISSING_DESCRIP,
 					MoveCategory = MoveCategory.Invalid,
-					PrimaryAccuracySkill = noneSkill.ItemReference,
-					SecondaryAccuracySkill = noneSkill.ItemReference,
+					PrimaryAccuracyStat = noneStat.ItemReference,
+					SecondaryAccuracyStat = noneStat.ItemReference,
 
 				};
 				data.Moves.Add(builder);
@@ -314,15 +314,15 @@ namespace Pokerole.Tools.InitUpdate
 			builder.MoveCategory = category;
 			builder.Power = int.Parse(fields[3]);
 
-			//damage skill. Can be empty
+			//damage stat. Can be empty
 			item = fields[4];
-			BuiltInStat skill;
-			IStat skillDef;
+			BuiltInStat stat;
+			IStat statDef;
 			if (!String.IsNullOrEmpty(item))
 			{
-				skill = ParseEnum<BuiltInStat>(item);
-				skillDef = StatManager.GetBuiltInSkill(skill);
-				builder.DamageSkill = new ItemReference<IStat>(skillDef.DataId, skillDef.Name);
+				stat = ParseEnum<BuiltInStat>(item);
+				statDef = StatManager.GetBuiltInStat(stat);
+				builder.DamageStat = new ItemReference<IStat>(statDef.DataId, statDef.Name);
 			}
 			//damage 2
 			item = fields[5];
@@ -334,9 +334,9 @@ namespace Pokerole.Tools.InitUpdate
 				{
 					item = item.Replace("missing", "", StringComparison.OrdinalIgnoreCase);
 				}
-				skill = ParseEnum<BuiltInStat>(item);
-				skillDef = StatManager.GetBuiltInSkill(skill);
-				builder.SecondaryDamageSkill = new ItemReference<IStat>(skillDef.DataId, skillDef.Name);
+				stat = ParseEnum<BuiltInStat>(item);
+				statDef = StatManager.GetBuiltInStat(stat);
+				builder.SecondaryDamageStat = new ItemReference<IStat>(statDef.DataId, statDef.Name);
 				builder.SecondaryDamageIsNegative = negative;
 			}
 
@@ -354,20 +354,20 @@ namespace Pokerole.Tools.InitUpdate
 			if (item.Contains("/"))
 			{
 				//has two variants
-				skill = BuiltInStat.Varies;
+				stat = BuiltInStat.Varies;
 			}
 			else
 			{
-				skill = String.IsNullOrEmpty(item) ? BuiltInStat.None : ParseEnum<BuiltInStat>(item);
+				stat = String.IsNullOrEmpty(item) ? BuiltInStat.None : ParseEnum<BuiltInStat>(item);
 			}
-			skillDef = StatManager.GetBuiltInSkill(skill);
-			builder.PrimaryAccuracySkill = new ItemReference<IStat>(skillDef.DataId, skillDef.Name);
+			statDef = StatManager.GetBuiltInStat(stat);
+			builder.PrimaryAccuracyStat = new ItemReference<IStat>(statDef.DataId, statDef.Name);
 			builder.PrimaryAccuracyIsNegative = negative;
 
 			item = fields[7];
-			skill = String.IsNullOrEmpty(item) ? BuiltInStat.None : ParseEnum<BuiltInStat>(item);
-			skillDef = StatManager.GetBuiltInSkill(skill);
-			builder.SecondaryAccuracySkill = new ItemReference<IStat>(skillDef.DataId, skillDef.Name);
+			stat = String.IsNullOrEmpty(item) ? BuiltInStat.None : ParseEnum<BuiltInStat>(item);
+			statDef = StatManager.GetBuiltInStat(stat);
+			builder.SecondaryAccuracyStat = new ItemReference<IStat>(statDef.DataId, statDef.Name);
 
 			//target
 			item = fields[8];
