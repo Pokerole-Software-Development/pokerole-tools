@@ -117,7 +117,7 @@
 							<xs:documentation>Whether or not this move is ranged</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="PrimaryAccuracySkill" type="ex:ItemReference" ex:genericType="ex:ISkill"
+					<xs:element name="PrimaryAccuracySkill" type="ex:ItemReference" ex:genericType="ex:IStat"
 								ex:isDbLazy="true">
 						<xs:annotation>
 							<xs:documentation>Primary skill used for rolling accuracy</xs:documentation>
@@ -128,19 +128,19 @@
 							<xs:documentation>If true, points missing in the primary skill are used for accuracy</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SecondaryAccuracySkill" type="ex:ItemReference" ex:genericType="ex:ISkill"
+					<xs:element name="SecondaryAccuracySkill" type="ex:ItemReference" ex:genericType="ex:IStat"
 								ex:isDbLazy="true">
 						<xs:annotation>
 							<xs:documentation>Secondary skill used for rolling accuracy</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<!--<xs:element name="Accuracy" ex:isDbLazy="true" ex:listItemType="ex:ItemReference" ex:genericType="ex:ISkill">
+					<!--<xs:element name="Accuracy" ex:isDbLazy="true" ex:listItemType="ex:ItemReference" ex:genericType="ex:IStat">
 						<xs:annotation>
 							<xs:documentation>Skills used to roll accuracy for this move</xs:documentation>
 						</xs:annotation>
 						<xs:complexType>
 							<xs:sequence>
-								<xs:element name="Skill" maxOccurs="unbounded" type="ex:ItemReference" ex:genericType="ex:ISkill" ex:isDbLazy="true" minOccurs="1"/>
+								<xs:element name="Skill" maxOccurs="unbounded" type="ex:ItemReference" ex:genericType="ex:IStat" ex:isDbLazy="true" minOccurs="1"/>
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>-->
@@ -149,12 +149,12 @@
 							<xs:documentation>How many more successes are needed for this attack to hit</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="DamageSkill" type="ex:ItemReference" ex:genericType="ex:ISkill" nillable="true">
+					<xs:element name="DamageSkill" type="ex:ItemReference" ex:genericType="ex:IStat" nillable="true">
 						<xs:annotation>
 							<xs:documentation>Skill used to roll damage for this move if any</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SecondaryDamageSkill" type="ex:ItemReference" ex:genericType="ex:ISkill" nillable="true">
+					<xs:element name="SecondaryDamageSkill" type="ex:ItemReference" ex:genericType="ex:IStat" nillable="true">
 						<xs:annotation>
 							<xs:documentation>Skill used to roll additional damage for this move if any</xs:documentation>
 						</xs:annotation>
@@ -1318,7 +1318,7 @@
 			</xs:element>
 			<xs:element name="Details" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>Further details about how the evolution works. This could be a level number, name of an item, or just about anything really...</xs:documentation>
+					<xs:documentation>Further details about how the evolution works in JSON. This could be a level number, name of an item, or just about anything really...</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>

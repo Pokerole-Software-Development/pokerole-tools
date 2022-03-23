@@ -53,7 +53,7 @@
 			<xs:element name="Name" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="ISkill">
+	<xs:complexType name="IStat">
 		<xs:sequence>
 			<xs:element name="DataId" type="DataId"/>
 			<xs:element name="Name" type="xs:string"/>

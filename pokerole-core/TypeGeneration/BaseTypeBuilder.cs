@@ -22,12 +22,12 @@ namespace Pokerole.Core{
 			ItemReference<ITypeDefinition> type,
 			MoveTarget moveTarget,
 			bool ranged,
-			ItemReference<ISkill> primaryAccuracySkill,
+			ItemReference<IStat> primaryAccuracySkill,
 			bool primaryAccuracyIsNegative,
-			ItemReference<ISkill> secondaryAccuracySkill,
+			ItemReference<IStat> secondaryAccuracySkill,
 			int reducedAccuracy,
-			ItemReference<ISkill>? damageSkill,
-			ItemReference<ISkill>? secondaryDamageSkill,
+			ItemReference<IStat>? damageSkill,
+			ItemReference<IStat>? secondaryDamageSkill,
 			bool secondaryDamageIsNegative,
 			int damageModifier,
 			bool hasSpecialAccuracyMod,
@@ -89,7 +89,7 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Primary skill used for rolling accuracy
 		/// </summary>
-		public ItemReference<ISkill> PrimaryAccuracySkill { get; }
+		public ItemReference<IStat> PrimaryAccuracySkill { get; }
 		/// <summary>
 		/// If true, points missing in the primary skill are used for accuracy
 		/// </summary>
@@ -97,7 +97,7 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Secondary skill used for rolling accuracy
 		/// </summary>
-		public ItemReference<ISkill> SecondaryAccuracySkill { get; }
+		public ItemReference<IStat> SecondaryAccuracySkill { get; }
 		/// <summary>
 		/// How many more successes are needed for this attack to hit
 		/// </summary>
@@ -105,11 +105,11 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Skill used to roll damage for this move if any
 		/// </summary>
-		public ItemReference<ISkill>? DamageSkill { get; }
+		public ItemReference<IStat>? DamageSkill { get; }
 		/// <summary>
 		/// Skill used to roll additional damage for this move if any
 		/// </summary>
-		public ItemReference<ISkill>? SecondaryDamageSkill { get; }
+		public ItemReference<IStat>? SecondaryDamageSkill { get; }
 		/// <summary>
 		/// If true, points missing in the secondary skill are used for damage
 		/// </summary>
@@ -255,15 +255,15 @@ namespace Pokerole.Core{
 			/// Primary skill used for rolling accuracy
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<ISkill>? PrimaryAccuracySkill { get; set; }
+			public ItemReference<IStat>? PrimaryAccuracySkill { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			[XmlElement("PrimaryAccuracySkill", IsNullable = false)]
-			public ItemReference<ISkill>.Builder? PrimaryAccuracySkillXmlAccessor
+			public ItemReference<IStat>.Builder? PrimaryAccuracySkillXmlAccessor
 			{
-				get => PrimaryAccuracySkill is null ? null : new ItemReference<ISkill>.Builder(PrimaryAccuracySkill ?? default);
+				get => PrimaryAccuracySkill is null ? null : new ItemReference<IStat>.Builder(PrimaryAccuracySkill ?? default);
 				set => PrimaryAccuracySkill = value?.Build();
 			}
 
@@ -285,15 +285,15 @@ namespace Pokerole.Core{
 			/// Secondary skill used for rolling accuracy
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<ISkill>? SecondaryAccuracySkill { get; set; }
+			public ItemReference<IStat>? SecondaryAccuracySkill { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			[XmlElement("SecondaryAccuracySkill", IsNullable = false)]
-			public ItemReference<ISkill>.Builder? SecondaryAccuracySkillXmlAccessor
+			public ItemReference<IStat>.Builder? SecondaryAccuracySkillXmlAccessor
 			{
-				get => SecondaryAccuracySkill is null ? null : new ItemReference<ISkill>.Builder(SecondaryAccuracySkill ?? default);
+				get => SecondaryAccuracySkill is null ? null : new ItemReference<IStat>.Builder(SecondaryAccuracySkill ?? default);
 				set => SecondaryAccuracySkill = value?.Build();
 			}
 
@@ -315,15 +315,15 @@ namespace Pokerole.Core{
 			/// Skill used to roll damage for this move if any
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<ISkill>? DamageSkill { get; set; }
+			public ItemReference<IStat>? DamageSkill { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			[XmlElement("DamageSkill", IsNullable = false)]
-			public ItemReference<ISkill>.Builder? DamageSkillXmlAccessor
+			public ItemReference<IStat>.Builder? DamageSkillXmlAccessor
 			{
-				get => DamageSkill is null ? null : new ItemReference<ISkill>.Builder(DamageSkill ?? default);
+				get => DamageSkill is null ? null : new ItemReference<IStat>.Builder(DamageSkill ?? default);
 				set => DamageSkill = value?.Build();
 			}
 
@@ -331,15 +331,15 @@ namespace Pokerole.Core{
 			/// Skill used to roll additional damage for this move if any
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<ISkill>? SecondaryDamageSkill { get; set; }
+			public ItemReference<IStat>? SecondaryDamageSkill { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			[XmlElement("SecondaryDamageSkill", IsNullable = false)]
-			public ItemReference<ISkill>.Builder? SecondaryDamageSkillXmlAccessor
+			public ItemReference<IStat>.Builder? SecondaryDamageSkillXmlAccessor
 			{
-				get => SecondaryDamageSkill is null ? null : new ItemReference<ISkill>.Builder(SecondaryDamageSkill ?? default);
+				get => SecondaryDamageSkill is null ? null : new ItemReference<IStat>.Builder(SecondaryDamageSkill ?? default);
 				set => SecondaryDamageSkill = value?.Build();
 			}
 

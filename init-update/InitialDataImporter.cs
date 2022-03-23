@@ -235,7 +235,7 @@ namespace Pokerole.Tools.InitUpdate
 				"Thunderous Kick",
 				"Fiery Wrath"
 			};
-			ISkill noneSkill = SkillManager.GetBuiltInSkill(BuiltInSkill.None);
+			IStat noneSkill = StatManager.GetBuiltInSkill(BuiltInStat.None);
 			ITypeDefinition normalType = TypeManager.GetBuiltInType(BuiltInType.Normal);
 			foreach (var moveName in missingMoves)
 			{
@@ -316,13 +316,13 @@ namespace Pokerole.Tools.InitUpdate
 
 			//damage skill. Can be empty
 			item = fields[4];
-			BuiltInSkill skill;
-			ISkill skillDef;
+			BuiltInStat skill;
+			IStat skillDef;
 			if (!String.IsNullOrEmpty(item))
 			{
-				skill = ParseEnum<BuiltInSkill>(item);
-				skillDef = SkillManager.GetBuiltInSkill(skill);
-				builder.DamageSkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
+				skill = ParseEnum<BuiltInStat>(item);
+				skillDef = StatManager.GetBuiltInSkill(skill);
+				builder.DamageSkill = new ItemReference<IStat>(skillDef.DataId, skillDef.Name);
 			}
 			//damage 2
 			item = fields[5];
@@ -334,9 +334,9 @@ namespace Pokerole.Tools.InitUpdate
 				{
 					item = item.Replace("missing", "", StringComparison.OrdinalIgnoreCase);
 				}
-				skill = ParseEnum<BuiltInSkill>(item);
-				skillDef = SkillManager.GetBuiltInSkill(skill);
-				builder.SecondaryDamageSkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
+				skill = ParseEnum<BuiltInStat>(item);
+				skillDef = StatManager.GetBuiltInSkill(skill);
+				builder.SecondaryDamageSkill = new ItemReference<IStat>(skillDef.DataId, skillDef.Name);
 				builder.SecondaryDamageIsNegative = negative;
 			}
 
@@ -354,20 +354,20 @@ namespace Pokerole.Tools.InitUpdate
 			if (item.Contains("/"))
 			{
 				//has two variants
-				skill = BuiltInSkill.Varies;
+				skill = BuiltInStat.Varies;
 			}
 			else
 			{
-				skill = String.IsNullOrEmpty(item) ? BuiltInSkill.None : ParseEnum<BuiltInSkill>(item);
+				skill = String.IsNullOrEmpty(item) ? BuiltInStat.None : ParseEnum<BuiltInStat>(item);
 			}
-			skillDef = SkillManager.GetBuiltInSkill(skill);
-			builder.PrimaryAccuracySkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
+			skillDef = StatManager.GetBuiltInSkill(skill);
+			builder.PrimaryAccuracySkill = new ItemReference<IStat>(skillDef.DataId, skillDef.Name);
 			builder.PrimaryAccuracyIsNegative = negative;
 
 			item = fields[7];
-			skill = String.IsNullOrEmpty(item) ? BuiltInSkill.None : ParseEnum<BuiltInSkill>(item);
-			skillDef = SkillManager.GetBuiltInSkill(skill);
-			builder.SecondaryAccuracySkill = new ItemReference<ISkill>(skillDef.DataId, skillDef.Name);
+			skill = String.IsNullOrEmpty(item) ? BuiltInStat.None : ParseEnum<BuiltInStat>(item);
+			skillDef = StatManager.GetBuiltInSkill(skill);
+			builder.SecondaryAccuracySkill = new ItemReference<IStat>(skillDef.DataId, skillDef.Name);
 
 			//target
 			item = fields[8];
@@ -2708,10 +2708,10 @@ namespace Pokerole.Tools.InitUpdate
 		private void ReadEvolutionTrees(List<(DexEntry.Builder, String kind, String value)> evolutionCauses)
 		{
 			//load ShadeSlayer's scrape
+			List<(DexEntry.Builder root, DexEntry.Builder from, String misc, DexEntry.Builder to)> rawList =
+				new List<(DexEntry.Builder, DexEntry.Builder, string, DexEntry.Builder)>();
 			using (TextFieldParser csvParser = new TextFieldParser(Path.Combine(processedInputs, "pokeEvoListFixed.csv")))
 			{
-				List<(DexEntry.Builder root, DexEntry.Builder from, String misc, DexEntry.Builder to)> rawList =
-					new List<(DexEntry.Builder, DexEntry.Builder, string, DexEntry.Builder)>();
 				csvParser.Delimiters = new String[]{ "," };
 				csvParser.HasFieldsEnclosedInQuotes = true;
 				Regex regex = new Regex("#(\\d+) (.+)");
@@ -2742,8 +2742,12 @@ namespace Pokerole.Tools.InitUpdate
 					var to = Parse(parts[3]);
 					rawList.Add((root, from, misc, to));
 				}
-				here;
+				GC.KeepAlive(null);
 			}
+			//read baby list
+
+			var byRoot = rawList.ToLookup(item => item.root, (item) => (item.from, item.to, item.misc));
+
 		}
 
 

@@ -1,0 +1,259 @@
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Text;
+using System.Threading;
+
+namespace Pokerole.Core
+{
+
+	public static class StatManager
+	{
+		private static bool initted = false;
+		private static readonly Object initLock = new object();
+		private static readonly List<IStat> skillList = new List<IStat>();
+		private static readonly IReadOnlyList<IStat> readonlySkills = skillList.AsReadOnly();
+		private static readonly Dictionary<BuiltInStat, IStat> builtInSkillImplementations =
+			new Dictionary<BuiltInStat, IStat>(30);
+		private static readonly IReadOnlyDictionary<BuiltInStat, Guid> baseTypeGuids =
+			new ReadOnlyDictionary<BuiltInStat, Guid>(new Dictionary<BuiltInStat, Guid>
+			{
+#region Skills
+				{ BuiltInStat.Strength, Guid.Parse("aee02cc8-60ee-4916-8320-282a307103ba") },
+				{ BuiltInStat.Dexterity, Guid.Parse("e4f0fbba-eeea-45e9-9e1e-24c68d3653d5") },
+				{ BuiltInStat.Vitality, Guid.Parse("36800f3e-de5f-4316-bfad-427569707974") },
+				{ BuiltInStat.Special, Guid.Parse("ef3c7e05-d222-489c-9898-f063773787af") },
+				{ BuiltInStat.Insight, Guid.Parse("93ee2cee-e910-401d-bfb1-41c7458b5872") },
+				{ BuiltInStat.Tough, Guid.Parse("c55d3235-baa5-4345-8865-824ef09ca063") },
+				{ BuiltInStat.Cool, Guid.Parse("2c7f0ce1-2dc4-4400-a538-63e7f0beaddb") },
+				{ BuiltInStat.Beauty, Guid.Parse("7a873215-4d94-4e17-8a99-de852a5159db") },
+				{ BuiltInStat.Cute, Guid.Parse("25035da9-c8a2-4bf2-a9ce-e25356f03877") },
+				{ BuiltInStat.Clever, Guid.Parse("c86835a3-f974-40e6-959d-150f6e54f88e") },
+				{ BuiltInStat.Brawl, Guid.Parse("56fd77c7-0aeb-450e-b94e-60ec0a698e04") },
+				{ BuiltInStat.Channel, Guid.Parse("643ef7b7-fe3f-451a-ae8b-263c137c188e") },
+				{ BuiltInStat.Clash, Guid.Parse("4306fa61-44cf-4655-b0a4-b572a4e7abfa") },
+				{ BuiltInStat.Evasion, Guid.Parse("18874376-3dc1-4a3e-9ce4-4f46045b106b") },
+				{ BuiltInStat.Throw, Guid.Parse("7213861f-92c4-4e8f-b8f5-6d24261cddce") },
+				{ BuiltInStat.Weapons, Guid.Parse("4dc76c9d-7ebc-4822-bb9c-c8d0a098f84c") },
+				{ BuiltInStat.Alert, Guid.Parse("1603f97f-a8f2-4f3c-8358-406641a61959") },
+				{ BuiltInStat.Athletic, Guid.Parse("bee1700a-966e-4164-bc78-dc8ac23ff9e3") },
+				{ BuiltInStat.Nature, Guid.Parse("c953af2a-e106-4b55-aeb8-6e8644b7ab70") },
+				{ BuiltInStat.Stealth, Guid.Parse("bf82a4f2-45ce-45df-ad24-afeb691d1378") },
+				{ BuiltInStat.Allure, Guid.Parse("157395de-ae48-43f7-8581-dc6159a161ac") },
+				{ BuiltInStat.Empathy, Guid.Parse("861971d9-7707-4a4c-8117-4d5e42c16289") },
+				{ BuiltInStat.Etiquette, Guid.Parse("84d5d104-b042-4df0-b910-4ddfddc9ed32") },
+				{ BuiltInStat.Intimidate, Guid.Parse("c2edd061-c645-4f45-83df-29a92c3a101c") },
+				{ BuiltInStat.Perform, Guid.Parse("7ec5ccfd-cc2f-4b39-8d69-dca877d65ec9") },
+				{ BuiltInStat.Crafts, Guid.Parse("f76ae46a-d152-4df2-8616-a301ce873823") },
+				{ BuiltInStat.Lore, Guid.Parse("2800112c-8a65-4ef1-b092-5a668c3bf861") },
+				{ BuiltInStat.Medicine, Guid.Parse("404911a0-8d74-4b1b-918c-16a938a38349") },
+				{ BuiltInStat.Science, Guid.Parse("5717accb-d70e-43ea-9a26-fd8da623c497") },
+				{ BuiltInStat.Happiness, Guid.Parse("9d882c06-536a-48ae-b8d4-68cf2175e889") },
+				{ BuiltInStat.Loyalty, Guid.Parse("e44f6385-7cfc-4169-98ee-499ab945febd") }, 
+				{ BuiltInStat.Will, Guid.Parse("82fd7a85-126a-4f73-962e-af0a62edf97d") }, 
+				{ BuiltInStat.None, Guid.Parse("6de5dac7-0b13-4c58-9f6a-892cc71a580c") },
+				{ BuiltInStat.Varies, Guid.Parse("f5c6817e-2dc4-4494-8dfb-aeddef0fd80c") },
+				{ BuiltInStat.SameAsTheCopiedMove, Guid.Parse("d6557cfa-c0d5-406c-a8f3-d492a2fd5ef3") },
+	#endregion
+			});
+		public static IReadOnlyList<IStat> RegisteredSkills
+		{
+			get
+			{
+				CheckInit();
+				return readonlySkills;
+			}
+		}
+		public static IStat GetBuiltInSkill(BuiltInStat skill)
+		{
+			CheckInit();
+			if (!builtInSkillImplementations.TryGetValue(skill, out IStat? item))
+			{
+				throw new ArgumentException($"'{skill}' is not a valid built-in skill or has not been registered");
+			}
+			return item;
+		}
+
+		public static ISkillBuilder CreateSkillBuilder()
+		{
+			throw new NotImplementedException("Support for custom skills is not implemented yet");
+		}
+
+		private static void CheckInit()
+		{
+			if (!initted)
+			{
+				lock (initLock)
+				{
+					if (!initted)
+					{
+						Init();
+					}
+				}
+			}
+		}
+
+		private static void Init()
+		{
+			//just in case....
+			skillList.Clear();
+			builtInSkillImplementations.Clear();
+			BuiltInStat[] builtInSkills = (BuiltInStat[])Enum.GetValues(typeof(BuiltInStat));
+			if (skillList.Capacity < builtInSkills.Length)
+			{
+				skillList.Capacity = builtInSkills.Length;
+			}
+			foreach (var skill in builtInSkills)
+			{
+				var instance = ConstructSkillInstance(skill);
+				builtInSkillImplementations[skill] = instance;
+				skillList.Add(instance);
+			}
+			initted = true;
+		}
+
+		private static BuiltInSkillImpl ConstructSkillInstance(BuiltInStat skill)
+		{
+			var exclusivity = skill switch
+			{
+				BuiltInStat.Special or BuiltInStat.Channel or BuiltInStat.Happiness or BuiltInStat.Loyalty =>
+					SkillExclusivity.Pokemon,
+				BuiltInStat.Throw or BuiltInStat.Weapons or BuiltInStat.Crafts or BuiltInStat.Lore or
+					BuiltInStat.Medicine or BuiltInStat.Science => SkillExclusivity.Trainer,
+				_ => SkillExclusivity.None,
+			};
+			var category = skill switch
+			{
+				BuiltInStat.Strength or BuiltInStat.Dexterity or BuiltInStat.Vitality or BuiltInStat.Special or
+					BuiltInStat.Insight => SkillCategory.Primary,
+				BuiltInStat.Tough or BuiltInStat.Cool or BuiltInStat.Beauty or BuiltInStat.Cute or
+					BuiltInStat.Clever => SkillCategory.SocialAttribute,
+				BuiltInStat.Brawl or BuiltInStat.Channel or BuiltInStat.Clash or BuiltInStat.Evasion or
+					BuiltInStat.Throw or BuiltInStat.Weapons => SkillCategory.Fight,
+				BuiltInStat.Alert or BuiltInStat.Athletic or BuiltInStat.Nature or BuiltInStat.Stealth =>
+					SkillCategory.Survival,
+				BuiltInStat.Allure or BuiltInStat.Empathy or BuiltInStat.Etiquette or BuiltInStat.Intimidate or
+					BuiltInStat.Perform => SkillCategory.Contest,
+				BuiltInStat.Crafts or BuiltInStat.Lore or BuiltInStat.Medicine or BuiltInStat.Science =>
+					SkillCategory.Knowledge,
+				BuiltInStat.Happiness or BuiltInStat.Loyalty => SkillCategory.HappinesOrLoyalty,
+				BuiltInStat.Will or BuiltInStat.None or BuiltInStat.Varies or BuiltInStat.SameAsTheCopiedMove => 
+					SkillCategory.Other,
+				_ => throw new InvalidOperationException($"Unknown base skill: {skill}"),
+			};
+			return new BuiltInSkillImpl(skill, exclusivity, category);
+		}
+
+		private class BuiltInSkillImpl : SkillImpl
+		{
+			private readonly BuiltInStat skill;
+			private readonly DataId dataId;
+			internal BuiltInSkillImpl(BuiltInStat skill, SkillExclusivity exclusivity, SkillCategory category)
+				: base(exclusivity, category)
+			{
+				this.skill = skill;
+				dataId = new DataId((int)skill, baseTypeGuids[skill]);
+			}
+			public override DataId DataId => dataId;
+			public override bool IsBuiltInSkill => true;
+			public override string Name => skill.ToString();
+		}
+		private abstract class SkillImpl : IStat
+		{
+			private readonly SkillCategory category;
+			private readonly SkillExclusivity exclusivity;
+			protected SkillImpl(SkillExclusivity exclusivity, SkillCategory category)
+			{
+				this.category = category;
+				this.exclusivity = exclusivity;
+			}
+			public abstract DataId DataId { get; }
+			public abstract string Name { get; }
+			public abstract bool IsBuiltInSkill { get; }
+			public SkillCategory SkillCategory => category;
+			public SkillExclusivity SkillExclusivity => exclusivity;
+			public ItemReference<IStat> ItemReference => new ItemReference<IStat>(DataId, Name);
+		}
+	}
+
+	public interface ISkillBuilder
+	{
+	}
+
+	public interface IStat : IDataItem<IStat>
+	{
+		String Name { get; }
+		bool IsBuiltInSkill { get; }
+		SkillCategory SkillCategory { get; }
+		SkillExclusivity SkillExclusivity { get; }
+		//ItemReference<IStat> ItemReference { get; }
+	}
+	public enum SkillExclusivity
+	{
+		None,
+		Pokemon,
+		Trainer
+	}
+	public enum SkillCategory
+	{
+		Primary,
+		//Cool, Cute, etc.
+		SocialAttribute,
+		Fight,
+		Survival,
+		Contest,
+		Knowledge,
+		HappinesOrLoyalty,
+		Other,
+		Extra
+	}
+	public enum BuiltInStat
+	{
+		//primary attributes
+		Strength,
+		Dexterity,
+		Vitality,
+		Special,//pokemon only
+		Insight,
+		//Primary Social
+		Tough,
+		Cool,
+		Beauty,
+		Cute,
+		Clever,
+		//Fight
+		Brawl,
+		Channel,//p
+		Clash,
+		Evasion,
+		Throw,//t
+		Weapons,//t
+		//Survival
+		Alert,
+		Athletic,
+		Nature,
+		Stealth,
+		//Contest Skills
+		Allure,
+		Empathy,//apparently this exists but doesn't?
+		Etiquette,
+		Intimidate,
+		Perform,
+		//Knowledge
+		Crafts,
+		Lore,
+		Medicine,
+		Science,
+		//Other?
+		Happiness,
+		Loyalty,
+		Will,
+		Varies,
+		None,
+		SameAsTheCopiedMove
+
+	}
+}
