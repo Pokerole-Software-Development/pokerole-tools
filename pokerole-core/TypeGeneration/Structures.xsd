@@ -450,6 +450,11 @@
 							<xs:documentation>Primary display image of a shiny instance of this Pokémon</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="IsBaby" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>Is this a baby pokemon?</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="SpriteShinyImage" type="ex:ItemReference" ex:genericType="ImageRef" nillable="true">
 						<xs:annotation>
 							<xs:documentation>Smaller sprite image of a shiny instance of this Pokémon</xs:documentation>

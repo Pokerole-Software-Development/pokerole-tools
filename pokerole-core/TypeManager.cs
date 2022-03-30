@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 
 namespace Pokerole.Core
@@ -255,6 +256,74 @@ namespace Pokerole.Core
 				throw new ArgumentException($"'{type}' is not a valid built-in type or has not been registered");
 			}
 			return item;
+		}
+		public static (List<ITypeDefinition> resistances, List<ITypeDefinition> weaknesses,
+			List<ITypeDefinition> immunities) CalculateEffectiveness(bool offensive, params ITypeDefinition[] definitions)
+		{
+			return CalculateEffectiveness(offensive, (IEnumerable<ITypeDefinition>)definitions);
+		}
+		public static (List<ITypeDefinition> resistances, List<ITypeDefinition> weaknesses,
+			List<ITypeDefinition> immunities) CalculateEffectiveness(bool offensive, IEnumerable<ITypeDefinition> definitions)
+		{
+			//null value indicates immunity. 0 indicated a canceled value
+			Dictionary<ITypeDefinition, int?> results = new Dictionary<ITypeDefinition, int?>(10);
+			foreach (var def in definitions)
+			{
+				foreach (TypeEffectiveness kind in (TypeEffectiveness[])Enum.GetValues(typeof(TypeEffectiveness)))
+				{
+					var entries = offensive ? def.GetOffensiveEffectiveness(kind) : def.GetDefensiveEffectiveness(kind);
+					foreach (var entry in entries)
+					{
+						if (!results.TryGetValue(entry, out int? count))
+						{
+							count = 0;
+						}
+						//if (count == null)trivia: null + <any> = null
+						//{use built-in null handling
+						//	//immune
+						//	continue;
+						//}
+						switch (kind)
+						{
+							case TypeEffectiveness.Normal:
+								//should not be here....
+								continue;
+							case TypeEffectiveness.SuperEffective:
+								count++;
+								break;
+							case TypeEffectiveness.Ineffective:
+								count--;
+								break;
+							case TypeEffectiveness.NoEffect:
+								count = null;
+								break;
+							default:
+								throw new InvalidOperationException();
+						}
+						results[entry] = count;
+					}
+				}
+			}
+			List<ITypeDefinition> resistances = new List<ITypeDefinition>(results.Count);
+			List<ITypeDefinition> weaknesses = new List<ITypeDefinition>(results.Count);
+			List<ITypeDefinition> immunities = new List<ITypeDefinition>(results.Count);
+			foreach (var pair in results)
+			{
+				//note: do nothing if Value == 0
+				if (pair.Value == null)
+				{
+					immunities.Add(pair.Key);
+				}
+				else if (pair.Value > 0)
+				{
+					weaknesses.AddRange(Enumerable.Repeat(pair.Key, pair.Value.Value));
+				}
+				else if (pair.Value < 0)
+				{
+					resistances.AddRange(Enumerable.Repeat(pair.Key, -pair.Value.Value));
+				}
+			}
+			return (resistances, weaknesses, immunities);
 		}
 
 		private static EffectivenessCache GetTypeEffectiveness(ITypeDefinition type, bool offensive,

@@ -1282,6 +1282,7 @@ namespace Pokerole.Core{
 			List<ItemReference<ImageRef>> additionalShinyImages,
 			ItemReference<ImageRef> spriteImage,
 			ItemReference<ImageRef>? shinyImage,
+			bool isBaby,
 			ItemReference<ImageRef>? spriteShinyImage,
 			ItemReference<ImageRef>? primaryFemaleImage,
 			List<ItemReference<ImageRef>> additionalFemaleImages,
@@ -1331,6 +1332,7 @@ namespace Pokerole.Core{
 			AdditionalShinyImages = new List<ItemReference<ImageRef>>(additionalShinyImages).AsReadOnly();
 			SpriteImage = spriteImage;
 			ShinyImage = shinyImage;
+			IsBaby = isBaby;
 			SpriteShinyImage = spriteShinyImage;
 			PrimaryFemaleImage = primaryFemaleImage;
 			AdditionalFemaleImages = new List<ItemReference<ImageRef>>(additionalFemaleImages).AsReadOnly();
@@ -1434,6 +1436,10 @@ namespace Pokerole.Core{
 		/// Primary display image of a shiny instance of this Pokémon
 		/// </summary>
 		public ItemReference<ImageRef>? ShinyImage { get; }
+		/// <summary>
+		/// Is this a baby pokemon?
+		/// </summary>
+		public bool IsBaby { get; }
 		/// <summary>
 		/// Smaller sprite image of a shiny instance of this Pokémon
 		/// </summary>
@@ -1596,6 +1602,7 @@ namespace Pokerole.Core{
 				AdditionalShinyImages = new List<ItemReference<ImageRef>>(dexEntry.AdditionalShinyImages);
 				SpriteImage = dexEntry.SpriteImage;
 				ShinyImage = dexEntry.ShinyImage;
+				IsBaby = dexEntry.IsBaby;
 				SpriteShinyImage = dexEntry.SpriteShinyImage;
 				PrimaryFemaleImage = dexEntry.PrimaryFemaleImage;
 				AdditionalFemaleImages = new List<ItemReference<ImageRef>>(dexEntry.AdditionalFemaleImages);
@@ -1890,6 +1897,20 @@ namespace Pokerole.Core{
 				set => ShinyImage = value?.Build();
 			}
 
+			/// <summary>
+			/// Is this a baby pokemon?
+			/// </summary>
+			[XmlIgnore]
+			public bool? IsBaby { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("IsBaby", IsNullable = false)]
+			public bool IsBabyNullableXmlAccessor
+			{
+				get => IsBaby ?? default;
+				set => IsBaby = value;
+			}
 			/// <summary>
 			/// Smaller sprite image of a shiny instance of this Pokémon
 			/// </summary>
@@ -2581,6 +2602,10 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
+					if (IsBaby is null)
+					{
+						return false;
+					}
 					if (AdditionalFemaleImages is null)
 					{
 						return false;
@@ -2675,7 +2700,7 @@ namespace Pokerole.Core{
 			{
 				get
 				{
-					List<String> missing = new List<String>(35);
+					List<String> missing = new List<String>(36);
 					if (DexNum is null)
 					{
 						missing.Add("DexNum");
@@ -2731,6 +2756,10 @@ namespace Pokerole.Core{
 					if (SpriteImage is null)
 					{
 						missing.Add("SpriteImage");
+					}
+					if (IsBaby is null)
+					{
+						missing.Add("IsBaby");
 					}
 					if (AdditionalFemaleImages is null)
 					{
@@ -2848,6 +2877,7 @@ namespace Pokerole.Core{
 					AdditionalShinyImages!,
 					SpriteImage!.Value,
 					ShinyImage,
+					IsBaby!.Value,
 					SpriteShinyImage,
 					PrimaryFemaleImage,
 					AdditionalFemaleImages!,

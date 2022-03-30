@@ -2707,6 +2707,8 @@ namespace Pokerole.Tools.InitUpdate
 		}
 		private void ReadEvolutionTrees(List<(DexEntry.Builder, String kind, String value)> evolutionCauses)
 		{
+			Dictionary<DexEntry.Builder, (String kind, String value)> evolutionCauseDict = evolutionCauses.ToDictionary(
+				item => item.Item1, item => (item.kind, item.value));
 			//load ShadeSlayer's scrape
 			List<(DexEntry.Builder root, DexEntry.Builder from, String misc, DexEntry.Builder to)> rawList =
 				new List<(DexEntry.Builder, DexEntry.Builder, string, DexEntry.Builder)>();
@@ -2742,11 +2744,59 @@ namespace Pokerole.Tools.InitUpdate
 					var to = Parse(parts[3]);
 					rawList.Add((root, from, misc, to));
 				}
-				GC.KeepAlive(null);
 			}
-			//read baby list
-
 			var byRoot = rawList.ToLookup(item => item.root, (item) => (item.from, item.to, item.misc));
+			//read baby list
+			Dictionary<int, (int resultWithoutItem, String? babyItem, int adult1, int adult2, int adult3)>
+				babyList = new Dictionary<int, (int resultWithoutItem, string? babyItem, int adult1, int adult2, int adult3)>();
+			foreach (String line in File.ReadLines(Path.Combine(processedInputs, "Babu Dex - Sheet1.tsv")))
+			{
+				String[] parts = line.Split('\t');
+				int babyDex = int.Parse(parts[0]);
+				if (!int.TryParse(parts[1], out int resultWithoutItem))
+				{
+					resultWithoutItem = -1;
+				}
+				String? breedItem = parts[2];
+				if (String.IsNullOrEmpty(breedItem))
+				{
+					breedItem = null;
+				}
+				int adult1 = int.Parse(parts[3]);
+				if (!int.TryParse(parts[4], out int adult2))
+				{
+					adult2 = -1;
+				}
+				if (!int.TryParse(parts[4], out int adult3))
+				{
+					adult3 = -1;
+				}
+				babyList.Add(babyDex, (resultWithoutItem, breedItem, adult1, adult2, adult3));
+			}
+			foreach (var items in byRoot)
+			{
+				var root = items.Key;
+				EvolutionTree.Builder tree = new EvolutionTree.Builder();
+				tree.Name = $"{root.Name} Line";
+				tree.Root = root.ItemReference;
+				if (babyList.TryGetValue(root.DexNum!.Value, out var babyVals)) {
+					root.IsBaby = true;
+					var (resultWithoutItem, babyItem, adult1, adult2, adult3) = babyVals;
+					if (babyItem != null)
+					{
+						if (resultWithoutItem < 1)
+						{
+							throw new InvalidOperationException("Item specified without alt root!");
+						}
+						tree.BabyEvolutionItem = new ItemReference<Item>(default, babyItem);
+						tree.NonBabyRoot = data.DexEntries.Where(ValidPredicate).First(item =>
+								item.DexNum == resultWithoutItem).ItemReference;
+					}
+				}
+
+
+			}
+
 
 		}
 
