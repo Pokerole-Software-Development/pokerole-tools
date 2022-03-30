@@ -112,9 +112,6 @@
 				foreach (XmlAttribute unhandled in item.UnhandledAttributes)
 				{
 					switch (unhandled.LocalName){
-						case "isDbLazy":
-							field.isDbLazy = XmlConvert.ToBoolean(unhandled.Value);
-							break;
 						//case "keyType":
 							//keyType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
 							//break;

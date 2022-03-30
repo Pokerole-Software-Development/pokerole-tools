@@ -104,7 +104,6 @@
 		public String documentation;
 		public string name;
 		public bool referById = false;
-		public bool isDbLazy;
 		//public bool isDict;
 		//public bool isList;
 		public FieldType type;
