@@ -2893,7 +2893,10 @@ namespace Pokerole.Core{
 			ItemReference<Ability>? overiddenAblity,
 			ItemReference<ITypeDefinition>? overridenType1,
 			ItemReference<ITypeDefinition>? overridenType2,
-			ItemReference<ITypeDefinition>? overridenType3,
+			List<ItemReference<ITypeDefinition>> additionalTypes,
+			List<ItemReference<ITypeDefinition>> manualResistances,
+			List<ItemReference<ITypeDefinition>> manualWeaknesses,
+			List<ItemReference<ITypeDefinition>> manualImmunities,
 			int hP,
 			int willPoints,
 			ItemReference<Item> heldItem,
@@ -2944,7 +2947,10 @@ namespace Pokerole.Core{
 			OveriddenAblity = overiddenAblity;
 			OverridenType1 = overridenType1;
 			OverridenType2 = overridenType2;
-			OverridenType3 = overridenType3;
+			AdditionalTypes = new List<ItemReference<ITypeDefinition>>(additionalTypes).AsReadOnly();
+			ManualResistances = new List<ItemReference<ITypeDefinition>>(manualResistances).AsReadOnly();
+			ManualWeaknesses = new List<ItemReference<ITypeDefinition>>(manualWeaknesses).AsReadOnly();
+			ManualImmunities = new List<ItemReference<ITypeDefinition>>(manualImmunities).AsReadOnly();
 			HP = hP;
 			WillPoints = willPoints;
 			HeldItem = heldItem;
@@ -3012,17 +3018,29 @@ namespace Pokerole.Core{
 		/// </summary>
 		public ItemReference<Ability>? OveriddenAblity { get; }
 		/// <summary>
-		/// Override of this Mon's first type if applicable
+		/// Override of this Mon's first type if applicable. To cancel this type, set this to "Typeless"
 		/// </summary>
 		public ItemReference<ITypeDefinition>? OverridenType1 { get; }
 		/// <summary>
-		/// Override of this Mon's second type if applicable
+		/// Override of this Mon's second type if applicable. To cancel this type, set this to "Typeless"
 		/// </summary>
 		public ItemReference<ITypeDefinition>? OverridenType2 { get; }
 		/// <summary>
-		/// Additional type added to this mon such as by Trick-Or-Treat
+		/// Any additional types added to this mon, such as by Trick-Or-Treat
 		/// </summary>
-		public ItemReference<ITypeDefinition>? OverridenType3 { get; }
+		public IReadOnlyList<ItemReference<ITypeDefinition>> AdditionalTypes { get; }
+		/// <summary>
+		/// Any additional resistances the Gm may add to the character. (E.G. You are now resistant to Fairy type.) List the type more than once to increase the effect
+		/// </summary>
+		public IReadOnlyList<ItemReference<ITypeDefinition>> ManualResistances { get; }
+		/// <summary>
+		/// Any additional weaknesses the Gm may add to the character. (E.G. You are now weak to Fairy type.) List the type more than once to increase the effect
+		/// </summary>
+		public IReadOnlyList<ItemReference<ITypeDefinition>> ManualWeaknesses { get; }
+		/// <summary>
+		/// Any additional immunities the Gm may add to the character. (E.G. You are now immune to Fairy type.) Listing the type more than once has no effect.
+		/// </summary>
+		public IReadOnlyList<ItemReference<ITypeDefinition>> ManualImmunities { get; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
@@ -3197,6 +3215,10 @@ namespace Pokerole.Core{
 		{
 			public Builder()
 			{
+				AdditionalTypes = new List<ItemReference<ITypeDefinition>>(10);
+				ManualResistances = new List<ItemReference<ITypeDefinition>>(10);
+				ManualWeaknesses = new List<ItemReference<ITypeDefinition>>(10);
+				ManualImmunities = new List<ItemReference<ITypeDefinition>>(10);
 				Status = new List<MonStatus>(10);
 				Moves = new List<MoveEntry>(10);
 				CustomStats = new List<CustomStatEntry>(10);
@@ -3213,7 +3235,10 @@ namespace Pokerole.Core{
 				OveriddenAblity = monInstance.OveriddenAblity;
 				OverridenType1 = monInstance.OverridenType1;
 				OverridenType2 = monInstance.OverridenType2;
-				OverridenType3 = monInstance.OverridenType3;
+				AdditionalTypes = new List<ItemReference<ITypeDefinition>>(monInstance.AdditionalTypes);
+				ManualResistances = new List<ItemReference<ITypeDefinition>>(monInstance.ManualResistances);
+				ManualWeaknesses = new List<ItemReference<ITypeDefinition>>(monInstance.ManualWeaknesses);
+				ManualImmunities = new List<ItemReference<ITypeDefinition>>(monInstance.ManualImmunities);
 				HP = monInstance.HP;
 				WillPoints = monInstance.WillPoints;
 				HeldItem = monInstance.HeldItem;
@@ -3331,7 +3356,7 @@ namespace Pokerole.Core{
 			}
 
 			/// <summary>
-			/// Override of this Mon's first type if applicable
+			/// Override of this Mon's first type if applicable. To cancel this type, set this to "Typeless"
 			/// </summary>
 			[XmlIgnore]
 			public ItemReference<ITypeDefinition>? OverridenType1 { get; set; }
@@ -3347,7 +3372,7 @@ namespace Pokerole.Core{
 			}
 
 			/// <summary>
-			/// Override of this Mon's second type if applicable
+			/// Override of this Mon's second type if applicable. To cancel this type, set this to "Typeless"
 			/// </summary>
 			[XmlIgnore]
 			public ItemReference<ITypeDefinition>? OverridenType2 { get; set; }
@@ -3363,21 +3388,145 @@ namespace Pokerole.Core{
 			}
 
 			/// <summary>
-			/// Additional type added to this mon such as by Trick-Or-Treat
+			/// Any additional types added to this mon, such as by Trick-Or-Treat
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<ITypeDefinition>? OverridenType3 { get; set; }
+			public List<ItemReference<ITypeDefinition>> AdditionalTypes { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("OverridenType3", IsNullable = false)]
-			public ItemReference<ITypeDefinition>.Builder? OverridenType3XmlAccessor
+			[XmlArray("AdditionalTypes", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<ITypeDefinition>.Builder[] AdditionalTypesBuilder
 			{
-				get => OverridenType3 is null ? null : new ItemReference<ITypeDefinition>.Builder(OverridenType3 ?? default);
-				set => OverridenType3 = value?.Build();
+				get
+				{
+					if (AdditionalTypes == null)
+					{
+						return Array.Empty<ItemReference<ITypeDefinition>.Builder>();
+					}
+					return AdditionalTypes.Select(item=>new ItemReference<ITypeDefinition>.Builder(item)).ToArray();
+				}
+				set
+				{
+					AdditionalTypes?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (AdditionalTypes == null)
+					{
+						AdditionalTypes = new List<ItemReference<ITypeDefinition>>(value.Length);
+					}
+					ItemBuilder<ItemReference<ITypeDefinition>>.BuildList(value, AdditionalTypes);
+				}
 			}
-
+			/// <summary>
+			/// Any additional resistances the Gm may add to the character. (E.G. You are now resistant to Fairy type.) List the type more than once to increase the effect
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<ITypeDefinition>> ManualResistances { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("ManualResistances", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<ITypeDefinition>.Builder[] ManualResistancesBuilder
+			{
+				get
+				{
+					if (ManualResistances == null)
+					{
+						return Array.Empty<ItemReference<ITypeDefinition>.Builder>();
+					}
+					return ManualResistances.Select(item=>new ItemReference<ITypeDefinition>.Builder(item)).ToArray();
+				}
+				set
+				{
+					ManualResistances?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (ManualResistances == null)
+					{
+						ManualResistances = new List<ItemReference<ITypeDefinition>>(value.Length);
+					}
+					ItemBuilder<ItemReference<ITypeDefinition>>.BuildList(value, ManualResistances);
+				}
+			}
+			/// <summary>
+			/// Any additional weaknesses the Gm may add to the character. (E.G. You are now weak to Fairy type.) List the type more than once to increase the effect
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<ITypeDefinition>> ManualWeaknesses { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("ManualWeaknesses", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<ITypeDefinition>.Builder[] ManualWeaknessesBuilder
+			{
+				get
+				{
+					if (ManualWeaknesses == null)
+					{
+						return Array.Empty<ItemReference<ITypeDefinition>.Builder>();
+					}
+					return ManualWeaknesses.Select(item=>new ItemReference<ITypeDefinition>.Builder(item)).ToArray();
+				}
+				set
+				{
+					ManualWeaknesses?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (ManualWeaknesses == null)
+					{
+						ManualWeaknesses = new List<ItemReference<ITypeDefinition>>(value.Length);
+					}
+					ItemBuilder<ItemReference<ITypeDefinition>>.BuildList(value, ManualWeaknesses);
+				}
+			}
+			/// <summary>
+			/// Any additional immunities the Gm may add to the character. (E.G. You are now immune to Fairy type.) Listing the type more than once has no effect.
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<ITypeDefinition>> ManualImmunities { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("ManualImmunities", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<ITypeDefinition>.Builder[] ManualImmunitiesBuilder
+			{
+				get
+				{
+					if (ManualImmunities == null)
+					{
+						return Array.Empty<ItemReference<ITypeDefinition>.Builder>();
+					}
+					return ManualImmunities.Select(item=>new ItemReference<ITypeDefinition>.Builder(item)).ToArray();
+				}
+				set
+				{
+					ManualImmunities?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (ManualImmunities == null)
+					{
+						ManualImmunities = new List<ItemReference<ITypeDefinition>>(value.Length);
+					}
+					ItemBuilder<ItemReference<ITypeDefinition>>.BuildList(value, ManualImmunities);
+				}
+			}
 			/// <summary>
 			/// Someone didn't document this item...
 			/// </summary>
@@ -4015,6 +4164,22 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
+					if (AdditionalTypes is null)
+					{
+						return false;
+					}
+					if (ManualResistances is null)
+					{
+						return false;
+					}
+					if (ManualWeaknesses is null)
+					{
+						return false;
+					}
+					if (ManualImmunities is null)
+					{
+						return false;
+					}
 					if (HP is null)
 					{
 						return false;
@@ -4193,7 +4358,7 @@ namespace Pokerole.Core{
 			{
 				get
 				{
-					List<String> missing = new List<String>(46);
+					List<String> missing = new List<String>(50);
 					if (Picture is null)
 					{
 						missing.Add("Picture");
@@ -4209,6 +4374,22 @@ namespace Pokerole.Core{
 					if (Ability is null)
 					{
 						missing.Add("Ability");
+					}
+					if (AdditionalTypes is null)
+					{
+						missing.Add("AdditionalTypes");
+					}
+					if (ManualResistances is null)
+					{
+						missing.Add("ManualResistances");
+					}
+					if (ManualWeaknesses is null)
+					{
+						missing.Add("ManualWeaknesses");
+					}
+					if (ManualImmunities is null)
+					{
+						missing.Add("ManualImmunities");
 					}
 					if (HP is null)
 					{
@@ -4400,7 +4581,10 @@ namespace Pokerole.Core{
 					OveriddenAblity,
 					OverridenType1,
 					OverridenType2,
-					OverridenType3,
+					AdditionalTypes!,
+					ManualResistances!,
+					ManualWeaknesses!,
+					ManualImmunities!,
 					HP!.Value,
 					WillPoints!.Value,
 					HeldItem!.Value,

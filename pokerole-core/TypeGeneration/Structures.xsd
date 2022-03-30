@@ -692,20 +692,58 @@
 					<xs:element name="OverridenType1" type="ex:ItemReference" ex:genericType="ex:ITypeDefinition"
 								nillable="true">
 						<xs:annotation>
-							<xs:documentation>Override of this Mon's first type if applicable</xs:documentation>
+							<xs:documentation>Override of this Mon's first type if applicable. To cancel this type, set this to "Typeless"</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="OverridenType2" type="ex:ItemReference" ex:genericType="ex:ITypeDefinition"
 								nillable="true">
 						<xs:annotation>
-							<xs:documentation>Override of this Mon's second type if applicable</xs:documentation>
+							<xs:documentation>Override of this Mon's second type if applicable. To cancel this type, set this to "Typeless"</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="OverridenType3" type="ex:ItemReference" ex:genericType="ex:ITypeDefinition"
-								nillable="true">
+					<xs:element name="AdditionalTypes" ex:listItemType="ex:ItemReference"
+								ex:genericType="ex:ITypeDefinition">
 						<xs:annotation>
-							<xs:documentation>Additional type added to this mon such as by Trick-Or-Treat</xs:documentation>
+							<xs:documentation>Any additional types added to this mon, such as by Trick-Or-Treat</xs:documentation>
 						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="ManualResistances" ex:listItemType="ex:ItemReference"
+								ex:genericType="ex:ITypeDefinition">
+						<xs:annotation>
+							<xs:documentation>Any additional resistances the Gm may add to the character. (E.G. You are now resistant to Fairy type.) List the type more than once to increase the effect</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="ManualWeaknesses" ex:listItemType="ex:ItemReference"
+								ex:genericType="ex:ITypeDefinition">
+						<xs:annotation>
+							<xs:documentation>Any additional weaknesses the Gm may add to the character. (E.G. You are now weak to Fairy type.) List the type more than once to increase the effect</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="ManualImmunities" ex:listItemType="ex:ItemReference"
+								ex:genericType="ex:ITypeDefinition">
+						<xs:annotation>
+							<xs:documentation>Any additional immunities the Gm may add to the character. (E.G. You are now immune to Fairy type.) Listing the type more than once has no effect.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
 					</xs:element>
 					<xs:element name="HP" type="xs:int">
 						<xs:annotation>

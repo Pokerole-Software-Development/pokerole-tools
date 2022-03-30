@@ -132,7 +132,7 @@ namespace Pokerole.Tools.InitUpdate
 			if (val == "any")
 			{
 				//"Any Move" support
-				type = BuiltInType.Normal;
+				type = BuiltInType.Typeless;
 			}
 			else
 			{
@@ -236,7 +236,7 @@ namespace Pokerole.Tools.InitUpdate
 				"Fiery Wrath"
 			};
 			IStat noneStat = StatManager.GetBuiltInStat(BuiltInStat.None);
-			ITypeDefinition normalType = TypeManager.GetBuiltInType(BuiltInType.Normal);
+			ITypeDefinition typelessType = TypeManager.GetBuiltInType(BuiltInType.Typeless);
 			foreach (var moveName in missingMoves)
 			{
 				if (moves.ContainsKey(moveName) || movesByName.ContainsKey(moveName))
@@ -248,7 +248,7 @@ namespace Pokerole.Tools.InitUpdate
 				{
 					DataId = new DataId(null, Guid.NewGuid()),
 					Name = moveName,
-					Type = normalType.ItemReference,
+					Type = typelessType.ItemReference,
 					Description = MOVE_MISSING_DESCRIP,
 					MoveCategory = MoveCategory.Invalid,
 					PrimaryAccuracyStat = noneStat.ItemReference,
