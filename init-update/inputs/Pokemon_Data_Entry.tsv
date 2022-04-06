@@ -824,7 +824,7 @@ Rhydon occasionally goes for a swim
 in rivers and even magma pools. Its
 great resistance prevents it from
 taking any damage."
-113,Chansey,,Leveled With Item,"{ item : ""Oval Stone"" }",Egg Pokémon,"There are only females in this species.
+113,Chansey,,Level,"{ item : ""Oval Stone"" }",Egg Pokémon,"There are only females in this species.
 Chansey lays a nutritive egg every
 day. These eggs are fed to the sick
 to give them strength. It is a loving
@@ -882,7 +882,7 @@ swims through water by spinning
 its star-shaped body as if it were a
 propeller on a ship. The core at the
 center glows with different colors."
-122,Mr. Mime,,Leveled Knowing Move,"{ move : ""Mimic"" }",Barrier Pokémon,"You don’t find this Pokémon, it finds
+122,Mr. Mime,,Level,"{ move : ""Mimic"" }",Barrier Pokémon,"You don’t find this Pokémon, it finds
 you. It is really smart and amuses
 itself by showing people its power
 to create barriers with pantomime.
@@ -1289,7 +1289,7 @@ when submerged. Azumarril uses its
 sensitive ears to locate prey even
 underwater. They are not aggressive
 and even get close to humans."
-185,Sudowoodo,,Leveled Knowing Move,"{ move : ""Mimic"" }",Imitation Pokémon,"Sudowoodo camouflages itself as
+185,Sudowoodo,,Level,"{ move : ""Mimic"" }",Imitation Pokémon,"Sudowoodo camouflages itself as
 a tree to avoid being attacked by
 enemies. However, because its arms
 remain green throughout the year,
@@ -3141,7 +3141,7 @@ pointy icicles that hail upon its
 enemies in a blizzard. The angrier it
 becomes the longer the storm will
 last."
-461,Weavile,,Leveled With Item,"{ item : ""Razor Claw"" }",Sharp Claw Pokémon,"They live in cold regions, forming
+461,Weavile,,Level,"{ item : ""Razor Claw"" }",Sharp Claw Pokémon,"They live in cold regions, forming
 groups of four that hunt prey
 with impressive coordination. They
 leave claw marks and patterns to
@@ -3207,7 +3207,7 @@ this Pokémon. It can control its body
 temperature to below zero, freezing
 its fur and making it extremely
 tough."
-472,Gliscor,,Leveled With Item,"{ item : ""Razor Fang"" }",Fang Scorp Pokémon,"Its flight is soundless. It uses its
+472,Gliscor,,Level,"{ item : ""Razor Fang"" }",Fang Scorp Pokémon,"Its flight is soundless. It uses its
 lengthy tail to carry off its prey, then
 uses its long fangs to do the rest.
 It is more playful than aggressive
@@ -5562,13 +5562,13 @@ to protect itself from birds and
 predators. The apple serves as its
 food source and the flavor of it will
 determine its evolution."
-841,Flapple,,With Item,"{ item : ""Tart Apple"" }",Apple Wing Pokémon,"It grew inside a sour apple, and thus
+841,Flapple,,Item,"{ item : ""Tart Apple"" }",Apple Wing Pokémon,"It grew inside a sour apple, and thus
 developed an acid that can cause
 chemical burns. It uses the discarded
 apple skin to fly or disguise itself as a
 rancid apple. They are loners as not
 many like how it looks or smells."
-842,Appletun,,With Item,"{ item : ""Sweet Apple"" }",Apple Nectar Pokémon,"Eating a sweet apple caused its
+842,Appletun,,Item,"{ item : ""Sweet Apple"" }",Apple Nectar Pokémon,"Eating a sweet apple caused its
 evolution. A nectarous scent wafts
 from its body, luring in the bug
 Pokémon it preys on, but it also
@@ -5664,7 +5664,7 @@ a cold, leftover cup of tea. It absorbs
 the life-force of those who drink it
 but it tastes so bad that it gets spat
 out immediately."
-855,Polteageist,,With Item,"{ item : ""Cracked Pot"" }",Black Tea Pokémon,"This species lives in old ceramic
+855,Polteageist,,Item,"{ item : ""Cracked Pot"" }",Black Tea Pokémon,"This species lives in old ceramic
 teapots. They struggle to find
 real antiques, for most tea sets
 nowadays are just imitations. Never
