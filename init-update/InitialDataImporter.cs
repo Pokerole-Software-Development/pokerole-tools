@@ -2573,7 +2573,8 @@ namespace Pokerole.Tools.InitUpdate
 
 			using (TextFieldParser tsvParser = new TextFieldParser(inputPath))
 			{
-				tsvParser.SetDelimiters(new string[] { "\t" });
+				//stupid Google Docs can't export a tsv without losing line returns...
+				tsvParser.SetDelimiters(new string[] { "," });
 				tsvParser.HasFieldsEnclosedInQuotes = true;
 				bool first = true;
 				while (!tsvParser.EndOfData)
@@ -2791,7 +2792,7 @@ namespace Pokerole.Tools.InitUpdate
 						tree.BabyEvolutionItem = new ItemReference<Item>(default, babyItem);
 						tree.NonBabyRoot = data.DexEntries.Where(ValidPredicate).First(item =>
 								item.DexNum == resultWithoutItem).ItemReference;
-					}
+					}ddfsdfsfd
 				}
 
 
