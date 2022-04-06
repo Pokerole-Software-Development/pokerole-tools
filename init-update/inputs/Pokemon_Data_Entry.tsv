@@ -4,13 +4,13 @@ birth. As it grows older the seed
 also grows larger. It is known to be
 a well-behaved and loyal Pokémon,
 but pretty rare to find in the wild."
-2,Ivysaur,,Level,Medium,Seed Pokémon,"There is a bud on this Pokémon's
+2,Ivysaur,,Level,"{ speed : ""Medium"" }",Seed Pokémon,"There is a bud on this Pokémon's
 back. To support its weight, Ivysaur's
 legs and trunk grow thick and
 strong. It becomes kind of a loner
 after evolving and may stray away
 from its group to take sunbaths."
-3,Venusaur,,Level,Medium,Seed Pokémon,"Venusaur's flower is said to take on
+3,Venusaur,,Level,"{ speed : ""Medium"" }",Seed Pokémon,"Venusaur's flower is said to take on
 vivid colors if it gets plenty of sun
 light. The flower’s aroma soothes
 the emotions of others.\
@@ -28,12 +28,12 @@ force. If it is healthy and happy, the
 flame burns brightly.\
 It needs proper care and discipline
 or else it may rebel later on."
-5,Charmeleon,,Level,Medium,Flame Pokémon,"It turns aggressive after evolving, it
+5,Charmeleon,,Level,"{ speed : ""Medium"" }",Flame Pokémon,"It turns aggressive after evolving, it
 is very hot-headed by nature, so it
 constantly starts fights. When it’s
 excited, the flame at the tip of its
 tail flares with a bluish white color."
-6,Charizard,,Level,Medium,Flame Pokémon,"A Charizard flies around looking
+6,Charizard,,Level,"{ speed : ""Medium"" }",Flame Pokémon,"A Charizard flies around looking
 for strong opponents. It breathes
 intense flames that can melt any
 material. However, it will never touch
@@ -57,13 +57,13 @@ to minimize resistance in water
 enabling Squirtle to swim at high
 speeds. It’s usually a calm and easy
 going Pokémon."
-8,Wartortle,,Level,Medium,Turtle Pokémon,"Its large tail is covered with rich,
+8,Wartortle,,Level,"{ speed : ""Medium"" }",Turtle Pokémon,"Its large tail is covered with rich,
 thick fur that deepens in color with
 age. The scratches on its shell are
 evidence of this Pokémon’s tough
 attitude in battle. It is a good hunter
 underwater."
-9,Blastoise,,Level,Medium,Shellfish Pokemon,"The jets of water it spouts from
+9,Blastoise,,Level,"{ speed : ""Medium"" }",Shellfish Pokemon,"The jets of water it spouts from
 the rocket cannons on its shell
 have been recorded to punch
 through steel. It is confident on its
@@ -81,13 +81,13 @@ to devour leaves bigger than itself
 without hesitation. It releases a foul
 odor from its antennae if it feels
 threatened."
-11,Metapod,,Level,Fast,Cocoon Pokémon,"Its shell can be as hard as an iron
+11,Metapod,,Level,"{ speed : ""Fast"" }",Cocoon Pokémon,"Its shell can be as hard as an iron
 slab. A Metapod does not move very
 much because it is preparing its soft
 innards for evolution inside the shell.
 It is known as one of the fastest
 evolving Pokémon in the world."
-12,Butterfree,,Level,Fast,Butterfly Pokémon,"It can be found in forests and plains.
+12,Butterfree,,Level,"{ speed : ""Fast"" }",Butterfly Pokémon,"It can be found in forests and plains.
 It loves the honey in some flowers
 even with tiny amounts of pollen.
 Its wings are covered by dust that
@@ -98,12 +98,12 @@ its head for defense. It has an acute
 sense of smell to find food, and its
 bright-colored body is intended to
 warn off predators."
-14,Kakuna,,Level,Fast,Cocoon Pokémon,"It remains virtually immobile while it
+14,Kakuna,,Level,"{ speed : ""Fast"" }",Cocoon Pokémon,"It remains virtually immobile while it
 clings to a tree. On the inside, it is
 preparing for evolution by rising the
 temperature of its shell. Beware of
 Beedrills that may roam close to it."
-15,Beedrill,,Level,Fast,Poison Bee Pokémon,"Beedrill are extremely territorial.
+15,Beedrill,,Level,"{ speed : ""Fast"" }",Poison Bee Pokémon,"Beedrill are extremely territorial.
 For safety reasons, no one should
 ever approach their nest.
 If disturbed, they will attack in swarm.
@@ -121,13 +121,13 @@ seen around cities and plains too.
 It’s a docile Pokémon that tends to
 avoid trouble. It flaps its wings to
 lure prey out of hiding."
-17,Pidgeotto,,Level,Medium,Bird Pokémon,"Each Pidgeotto claims a large
+17,Pidgeotto,,Level,"{ speed : ""Medium"" }",Bird Pokémon,"Each Pidgeotto claims a large
 meadow area as its territory. This
 Pokémon flies around, patrolling
 its home and will attack any intruders
 with its sharp claws. It will challenge
 itself to fly a bit higher every day."
-18,Pidgeot,,Level,Medium,Bird Pokémon,"This Pokémon’s plumage is made of
+18,Pidgeot,,Level,"{ speed : ""Medium"" }",Bird Pokémon,"This Pokémon’s plumage is made of
 beautiful glossy feathers. Pidgeot
 is an excellent hunter with well
 developed wing muscles that make
@@ -151,13 +151,13 @@ destroyed the region’s ecosystem.
 Attempts to exterminate this
 Pokémon made it more vicious than
 its regular counterpart."
-20,Raticate,,Level,Medium,Mouse Pokémon,"Raticate's sturdy fangs grow quickly.
+20,Raticate,,Level,"{ speed : ""Medium"" }",Mouse Pokémon,"Raticate's sturdy fangs grow quickly.
 To keep them ground down, it
 gnaws on hard materials. It may
 even chew on the walls of houses.
 Its has water-proof fur, webbed
 feet and its a capable swimmer."
-20,Raticate,Alolan,Level,Medium,Mouse Pokémon,"Alolan Raticate command their
+20,Raticate,Alolan,Level,"{ speed : ""Medium"" }",Mouse Pokémon,"Alolan Raticate command their
 Rattata underlings to bring them
 food every night.
 Five star restaurants often struggle
@@ -169,7 +169,7 @@ short wings to dart around at high
 speed. It is a little short-tempered
 - if disturbed, it will shriek, calling its
 flock for aid."
-22,Fearow,,Level,Medium,Beak Pokémon,"Fearrows soar around wastelands
+22,Fearow,,Level,"{ speed : ""Medium"" }",Beak Pokémon,"Fearrows soar around wastelands
 and fields. It has the stamina to fly
 all day. It is easily annoyed and ill
 tempered. It attacks using its sharp
@@ -180,24 +180,24 @@ It’s jaw can detach itself to swallow
 any prey whole. It coils and sleeps
 after eating. Ekans grow bigger with
 age."
-24,Arbok,,Level,Medium,Cobra Pokémon,"This Pokémon has an incredibly
+24,Arbok,,Level,"{ speed : ""Medium"" }",Cobra Pokémon,"This Pokémon has an incredibly
 strong constricting power. Once
 it wraps its body around its foe,
 escaping is almost impossible. The
 pattern on its body glows in the
 dark like a terrifying face."
-25,Pikachu,,Stat,Happiness 4,Mouse Pokémon,"Lives in small groups in forests but
+25,Pikachu,,Stat,"{ stat : ""Happiness"", value : 4 }",Mouse Pokémon,"Lives in small groups in forests but
 they tend to stay hidden. It stores
 electricity in the electric sacs on its
 cheeks and uses its tail to ground
 the excess charge. They can be
 stubborn and wary of strangers."
-26,Raichu,,With Stone,With Thunder Stone,Mouse Pokémon,"When electricity builds on its body,
+26,Raichu,,Stone,"{ item : ""Thunder Stone"" }",Mouse Pokémon,"When electricity builds on its body,
 it starts to emit a faint glow and
 it becomes more aggressive than it
 normally is. They live in forests but
 are rare to find in the wild."
-26,Raichu,Alolan,WIth Stone,With Thunder Stone,Mouse Pokémon,"Scientists were baffled to discover
+26,Raichu,Alolan,Stone,"{ item : ""Thunder Stone"" }",Mouse Pokémon,"Scientists were baffled to discover
 Raichu's evolution in the Alola Region.
 There is no explanation as to how
 it gained Psychic abilities, but diet
@@ -215,13 +215,13 @@ had to change their types to survive.
 They now depend on snow to roll
 around, without it they are unable
 to curl up into a ball."
-28,Sandslash,,Level,Medium,Mouse Pokémon,"It’s less shy than its first stage. It
+28,Sandslash,,Level,"{ speed : ""Medium"" }",Mouse Pokémon,"It’s less shy than its first stage. It
 curls up in a ball to protect itself
 from enemy attacks. Surprisingly, it is
 a good climber that uses its sharp
 claws for grip and drilling tunnels
 underground."
-28,Sandslash,Alolan,Level,Medium,Mouse Pokémon,"These Pokémon make their burrows
+28,Sandslash,Alolan,Level,"{ speed : ""Medium"" }",Mouse Pokémon,"These Pokémon make their burrows
 on Alola's ice caverns, hidden in
 plain sight. Careful with its spikes,
 any puncture into the skin and you
@@ -233,13 +233,13 @@ are mellow Pokémon. To protect
 herself, she secretes a powerful
 toxin through her body. Her horn is
 small but venomous to the touch."
-30,Nidorina,,Level,Medium,Poison Pin Pokémon,"Nidorinas are jealous creatures.
+30,Nidorina,,Level,"{ speed : ""Medium"" }",Poison Pin Pokémon,"Nidorinas are jealous creatures.
 They don’t like other females near
 their mates. Otherwise, they are
 very social creatures. When it’s
 around friends or family, its barbs
 are tucked away to prevent injury."
-31,Nidoqueen,,With Stone,With Moon Stone,Drill Pokémon,"Motherly by nature, it uses its scaly
+31,Nidoqueen,,Stone,"{ item : ""Moon Stone"" }",Drill Pokémon,"Motherly by nature, it uses its scaly
 rugged body to seal the entrance
 of its nest and protect its young
 from predators. There are records
@@ -251,25 +251,25 @@ small body is covered in spikes that
 are drenched in venom when he’s
 threatened. He will defend his mate
 and home fiercely."
-33,Nidorino,,Level,Medium,Poison Pin Pokémon,"An independent and fierce
+33,Nidorino,,Level,"{ speed : ""Medium"" }",Poison Pin Pokémon,"An independent and fierce
 creature. It roams alone in search
 for a mate and will compete with
 other males around. It will violently
 charge with a venom drenched
 horn against intruders."
-34,Nidoking,,With Stone,With Moon Stone,Drill Pokémon,"It is recognized by its rock-hard hide
+34,Nidoking,,Stone,"{ item : ""Moon Stone"" }",Drill Pokémon,"It is recognized by its rock-hard hide
 and its extended horn. Be careful
 with the horn as it contains venom.
 There are records of one trampling
 and destroying a radio tower that
 was being built on his territory."
-35,Clefairy,,Stat,Happiness 4,Fairy Pokémon,"Very rare to find. Clefairies are said
+35,Clefairy,,Stat,"{ stat : ""Happiness"", value : 4 }",Fairy Pokémon,"Very rare to find. Clefairies are said
 to come from the moon. They are
 drawn to the light of this celestial
 body and come out of hiding at
 night to dance and play in the
 moonlight."
-36,Clefable,,With Stone,With Moon Stone,Fairy Pokémon,"There are not many records about it
+36,Clefable,,Stone,"{ item : ""Moon Stone"" }",Fairy Pokémon,"There are not many records about it
 in the wild. They are timid but playful.
 Clefable uses its wings to skip lightly
 as if it was flying. Its bouncy step lets
@@ -287,25 +287,25 @@ to survive. Alola’s local name for this
 Pokémon is Keokeo.
 They use their tails as a fan to cool
 themselves in hot climates."
-38,Ninetales,,With Stone,With Fire Stone,Fox Pokémon,"It is known to understand human
+38,Ninetales,,Stone,"{ item : ""Fire Stone"" }",Fox Pokémon,"It is known to understand human
 speech. It is very valued for its
 exuberant golden fur and the
 mystical power of its nine tails. It is,
 however, known to hold a grudge
 against those who mistreat it."
-38,Ninetales,Alolan,With Stone,With Ice Stone,Fox Pokémon,"In old times, Alolan natives revered
+38,Ninetales,Alolan,Stone,"{ item : ""Ice Stone"" }",Fox Pokémon,"In old times, Alolan natives revered
 this Pokémon as a god incarnate.
 It is usually calm and benevolent, but
 it can be ruthless when disturbed,
 leaving its foes as a cold block
 of ice in the snow."
-39,Jigglypuff,,Stat,Happiness 4,Balloon Pokémon,"They live in grassy fields near the
+39,Jigglypuff,,Stat,"{ stat : ""Happiness"", value : 4 }",Balloon Pokémon,"They live in grassy fields near the
 mountains. To climb they inflate
 their bodies and bounce up. It
 captivates foes with its huge, round
 eyes, then lulls them to sleep by
 singing a sweet soothing melody."
-40,Wigglytuff,,With Stone,With Moon Stone,Balloon Pokémon,"Its fur is extremely fine and conveys
+40,Wigglytuff,,Stone,"{ item : ""Moon Stone"" }",Balloon Pokémon,"Its fur is extremely fine and conveys
 an image of luxury. Its body is soft
 and rubbery. When angered, it will
 suck the air and inflate itself to an
@@ -317,7 +317,7 @@ sun will make it unhealthy. It is blind
 but uses echolocation to find its
 way. At night, they leave their cave
 to feed on fruit and bug Pokémon."
-42,Golbat,,Level,Medium,Bat Pokémon,"A stealthy Pokémon who loves the
+42,Golbat,,Level,"{ speed : ""Medium"" }",Bat Pokémon,"A stealthy Pokémon who loves the
 dark. Its fangs can puncture even a
 thick hide. It loves to feast on the
 blood of people and Pokémon alike.
@@ -329,13 +329,13 @@ itself in the ground, leaving only its
 leaves exposed to avoid detection
 by its predators. You can locate it
 by the smell its leaves release."
-44,Gloom,,Level,Medium,Weed Pokémon,"A horribly noxious honey drools from
+44,Gloom,,Level,"{ speed : ""Medium"" }",Weed Pokémon,"A horribly noxious honey drools from
 its mouth. One whiff of the honey
 can result in sickness. Some fans are
 said to enjoy its overwhelming stink,
 though. You can control this foul
 smell with lots of love and care."
-45,Vileplume,,With Stone,With Leaf/Sun Stone,Flower Pokémon,"It lives in marshlands and jungles
+45,Vileplume,,Stone,"{ item : ""Leaf Stone"" }",Flower Pokémon,"It lives in marshlands and jungles
 where it’s often mistaken for local
 flora. The air around a Vileplume
 turns yellow with the powder it
@@ -347,7 +347,7 @@ large by drawing nutrients from this
 Bug Pokémon. They are valued as
 a medicine for prolonging life. Paras
 can be found in humid areas."
-47,Parasect,,Level,Medium,Mushroom Pokémon,"Their personality changes after
+47,Parasect,,Level,"{ speed : ""Medium"" }",Mushroom Pokémon,"Their personality changes after
 evolution since the mushroom
 takes over its mind. Its body is now a
 husk devoid of nutrients. To survive
@@ -359,7 +359,7 @@ never fail to spot even minuscule
 prey. Sometimes Venonat uses its
 powers to confuse travelers and
 make them lose their way."
-49,Venomoth,,Level,Slow,Poison Moth Pokémon,"They are plentiful in forests but only
+49,Venomoth,,Level,"{ speed : ""Slow"" }",Poison Moth Pokémon,"They are plentiful in forests but only
 come out at night. They possess
 an incredible eyesight and are
 attracted to light sources. Their
@@ -377,13 +377,13 @@ on its head are used perceive its
 surroundings while burrowed, do
 not cut them or Diglett will become
 very sick."
-51,Dugtrio,,Level,Medium,Mole Pokémon,"Because the triplets originally split
+51,Dugtrio,,Level,"{ speed : ""Medium"" }",Mole Pokémon,"Because the triplets originally split
 from one body, they think exactly
 alike. They work together to dig
 endlessly through the ground.
 They are known for destroying the
 foundations of roads and buildings."
-51,Dugtrio,Alolan,Level,Medium,Mole Pokémon,"Thanks to its golden mane, this
+51,Dugtrio,Alolan,Level,"{ speed : ""Medium"" }",Mole Pokémon,"Thanks to its golden mane, this
 Pokémon has been revered as a
 feminine deity. The triplets groom
 each other to help keep the hair
@@ -401,13 +401,13 @@ this caused them to become
 incredibly greedy and pampered.
 Nowadays they are feral, but their
 prideful nature remained."
-53,Persian,,Level,Medium,Classy Cat Pokémon,"They are proud and temperamental.
+53,Persian,,Level,"{ speed : ""Medium"" }",Classy Cat Pokémon,"They are proud and temperamental.
 They scratch their trainers with little
 to no provocation whatsoever.
 Their elegance and grace is very
 valued, although they can be
 vicious hunters."
-53,Persian,Alolan,Level,Medium,Classy Cat Pokémon,"They were bred for their silky fur
+53,Persian,Alolan,Level,"{ speed : ""Medium"" }",Classy Cat Pokémon,"They were bred for their silky fur
 and round faces, not for their
 temperament. This is an extremely
 proud Pokémon who will look down
@@ -419,7 +419,7 @@ always tormented by headaches
 that worsen when it uses psychic
 powers. Psyducks seem unaware of
 their own power."
-55,Golduck,,Level,Medium,Duck Pokémon,"A Golduck is an adept swimmer and
+55,Golduck,,Level,"{ speed : ""Medium"" }",Duck Pokémon,"A Golduck is an adept swimmer and
 can be found near most bodies
 of water. Its forehead shimmers with
 light when using its psychic abilities.
@@ -430,7 +430,7 @@ of fruit trees. Light and agile on its
 feet and ferocious in temperament.
 When it gets angry, it goes into a
 frenzy and cannot be controlled."
-57,Primeape,,Level,Slow,Pig Monkey Pokémon,"It grows angry if you see its eyes
+57,Primeape,,Level,"{ speed : ""Slow"" }",Pig Monkey Pokémon,"It grows angry if you see its eyes
 and gets angrier if you run. If you
 fight it will go mad with rage.
 Not many trainers are capable of
@@ -442,7 +442,7 @@ them a place working as police
 Pokémon. They are uncommon in
 the wild but some packs can be
 seen in hot environments."
-59,Arcanine,,With Stone,With Fire Stone,Legendary Pokémon,"Its proud and regal appearance
+59,Arcanine,,Stone,"{ item : ""Fire Stone"" }",Legendary Pokémon,"Its proud and regal appearance
 has made it be revered by people
 of ancient societies. Its magnificent
 bark conveys a sense of majesty.
@@ -454,13 +454,13 @@ legs take some weeks to develop
 after it hatches, making it inept at
 walking. It is, however, a very fast
 swimmer."
-61,Poliwhirl,,Level,Medium,Tadpole Pokémon,"Though it is skilled at walking, it
+61,Poliwhirl,,Level,"{ speed : ""Medium"" }",Tadpole Pokémon,"Though it is skilled at walking, it
 prefers to live underwater where
 there’s less danger. It sweats to
 keep its skin moist. Thanks to this, it
 can easily slip out of the clutches of
 any enemy."
-62,Poliwrath,,With Stone/Trade,With Water Stone/Trade,Tadpole Pokémon,"It’s not common to find it in the wild.
+62,Poliwrath,,Stone,"{ item : ""Water Stone"" }",Tadpole Pokémon,"It’s not common to find it in the wild.
 Most sightings take place when it is
 on land. Once he is inside the water,
 it will swim far away. This Pokémon
@@ -472,13 +472,13 @@ Psychic abilities are still developing,
 it can sleep up to 18 hours a day or
 else it won’t be able to use them.
 When in danger, it teleports away."
-64,Kadabra,,Level,Medium,Psi Pokémon,"Kadabra holds a silver spoon in its
+64,Kadabra,,Level,"{ speed : ""Medium"" }",Psi Pokémon,"Kadabra holds a silver spoon in its
 hand. The spoon is used to amplify
 the alpha waves of its brain.
 When this Pokémon walks in, objects
 near to it go crazy, moving in ways
 they shouldn’t."
-65,Alakazam,,Trade,Trade,Psi Pokémon,"A Pokémon that can memorize
+65,Alakazam,,Trade,,Psi Pokémon,"A Pokémon that can memorize
 anything and never forgets what
 it learns. Over time it becomes too
 smart to allow anyone to be its
@@ -496,13 +496,13 @@ and hurling Rock Pokémon around
 to build stronger muscles. Even with
 its small size, it can compete against
 expert humans and win."
-67,Machoke,,Level,Medium,Superpower Pokémon,"Even with its strong frame and
+67,Machoke,,Level,"{ speed : ""Medium"" }",Superpower Pokémon,"Even with its strong frame and
 power, it is a humble and helpful
 Pokémon. Many of them work for
 human companies. On their days
 off you can see them heading to
 the wild to train together."
-68,Machamp,,Trade,Trade,Superpower Pokémon,"There are a few roaming in the
+68,Machamp,,Trade,,Superpower Pokémon,"There are a few roaming in the
 mountains. Machamp has the power
 to hurl anything aside.
 However, trying to do any work that
@@ -514,13 +514,13 @@ It is carnivorous and will try to eat
 anything smaller than itself.
 It digests its prey with an acid
 substance on its mouth."
-70,Weepinbell,,Level,Medium,Flycatcher Pokémon,"It sprays its stun powder to immobilize
+70,Weepinbell,,Level,"{ speed : ""Medium"" }",Flycatcher Pokémon,"It sprays its stun powder to immobilize
 a prey coming close to it, then
 eats it calmly. If the prey is bigger
 than itself, it uses its sharp leaves to
 slice it into smaller pieces. Beware of
 the toxic liquid in its mouth."
-71,Victreebel,,With Stone,With Leaf Stone,Flycatcher Pokémon,"They live together in small groups
+71,Victreebel,,Stone,"{ item : ""Leaf Stone"" }",Flycatcher Pokémon,"They live together in small groups
 at tropical areas. Victreebel uses a
 sweet honey-like smell to lure and
 attract prey. They also use their
@@ -532,7 +532,7 @@ startled. It is a surprisingly intelligent
 Pokémon and can use its tentacles
 to briefly establish a link between its
 mind and another creature."
-73,Tentacruel,,Level,Slow,Jellyfish Pokémon,"Lives in rock formations at the
+73,Tentacruel,,Level,"{ speed : ""Slow"" }",Jellyfish Pokémon,"Lives in rock formations at the
 bottom of the ocean. It can grow
 tentacles at will and uses them to
 immobilize prey. Records exist of a
@@ -550,25 +550,25 @@ Electric chargers on its body.
 They tend to disguise themselves as
 regular rocks, caution is advised as
 they shock you if you step on them."
-75,Graveler,,Level,Medium,Rock Pokémon,"It walks slowly, but it can get a nice
+75,Graveler,,Level,"{ speed : ""Medium"" }",Rock Pokémon,"It walks slowly, but it can get a nice
 speed by rolling downhill.
 It is good at climbing. Groups of
 them have been seen clinging from
 rock formations and cliffs to eat the
 tasty rocks covered in moss."
-75,Graveler,Alolan,Level,Medium,Rock Pokémon,"These Pokémon charge themselves
+75,Graveler,Alolan,Level,"{ speed : ""Medium"" }",Rock Pokémon,"These Pokémon charge themselves
 by rolling around, it is dangerous if
 two of them collide, a loud noise
 and a flash of light will be seen and
 heard at great distance.
 They feed on golden dravite."
-76,Golem,,Trade,Trade,Megaton Pokémon,"It is rare to see in the wild since
+76,Golem,,Trade,,Megaton Pokémon,"It is rare to see in the wild since
 it lives high on the mountains. It
 withdraws its head and legs as if it
 were a turtle to roll around. There
 have been cases of Golem that
 resist dynamite blasts unscathed."
-76,Golem,Alolan,Trade,Trade,Megaton Pokémon,"The Alolan variant of Golem does
+76,Golem,Alolan,Trade,,Megaton Pokémon,"The Alolan variant of Golem does
 not roll around like its counterpart,
 instead it loads rocks into the
 charger on its head and shoots
@@ -580,7 +580,7 @@ Soon after it’s born, its flames begin
 to burn. It is weak at first but soon
 begins to develop a great speed
 chasing after its parents."
-78,Rapidash,,Level,Medium,Fire Horse Pokémon,"It lives happily on prairies.
+78,Rapidash,,Level,"{ speed : ""Medium"" }",Fire Horse Pokémon,"It lives happily on prairies.
 It loves speed competitions - a herd
 can often be seen running alongside
 a train. It can regulate the heat of
@@ -592,7 +592,7 @@ react to any stimuli. Its tail seeps a
 sweet substance it uses to lure prey
 to eat. When the tip turns white
 shellders will be attracted to it."
-80,Slowbro,,Level,Slow,Hermit Crab Pokémon,"This Pokémon fused with a Shellder
+80,Slowbro,,Level,"{ speed : ""Slow"" }",Hermit Crab Pokémon,"This Pokémon fused with a Shellder
 that bit into its tail. It’s a slow
 swimmer and doesn’t react to pain
 but Shellder tends to keep it out of
@@ -609,7 +609,7 @@ magnetic fields. It is not aggressive
 and usually defends itself with a
 screech or a weak electric impulse
 to deter other from attacking."
-82,Magneton,,Level,Medium,Magnet Pokémon,"Sometimes three Magnemites fuse
+82,Magneton,,Level,"{ speed : ""Medium"" }",Magnet Pokémon,"Sometimes three Magnemites fuse
 into this Pokémon; other times
 a single one sprouts two others.
 This species is greatly affected by
@@ -627,7 +627,7 @@ along. While one is eating or sleeping,
 the other one is alert for predators.
 It is known that they share a brain
 and their ideas are connected."
-85,Dodrio,,Level,Slow,Triple Bird Pokémon,"A third head comes to change the
+85,Dodrio,,Level,"{ speed : ""Slow"" }",Triple Bird Pokémon,"A third head comes to change the
 dynamic the two original had. It is
 common to see the three heads
 fighting. Each one has its own
@@ -639,7 +639,7 @@ its head to break up the ice.
 It sleeps a lot during the day,
 being most active at dawn when
 the temperature starts to cool."
-87,Dewgong,,Level,Slow,Sea Lion Pokémon,"Its body is covered with a pure white
+87,Dewgong,,Level,"{ speed : ""Slow"" }",Sea Lion Pokémon,"Its body is covered with a pure white
 fur. The colder the weather, the
 more active it becomes. It hunts at
 night and it’s excellent at catching
@@ -657,13 +657,13 @@ like a counterintuitive measure but
 ended up solving the problem. But
 now Grimer are incredibly noxious,
 much more toxic than usual."
-89,Muk,,Level,Slow,Sludge Pokémon,"It gathers on polluted areas to eat
+89,Muk,,Level,"{ speed : ""Slow"" }",Sludge Pokémon,"It gathers on polluted areas to eat
 filth. Its body is made of a powerful
 poison that kills any plant. Touching
 it can cause a fever that will require
 bed rest. A good diet may reduce
 Muk's toxicity."
-89,Muk,Alolan,Level,Slow,Sludge Pokémon,"It is as friendly as it is toxic, be careful
+89,Muk,Alolan,Level,"{ speed : ""Slow"" }",Sludge Pokémon,"It is as friendly as it is toxic, be careful
 for it tries to hug others regularly. A
 good diet does not help reduce its
 toxicity levels, it only makes it cranky
@@ -675,7 +675,7 @@ attracted to sweet substances.
 When frightened it will shut its clam
 and lock it to be almost impossible
 to open."
-91,Cloyster,,Level,Medium,Bivalve Pokémon,"If it lives in seas with harsh currents,
+91,Cloyster,,Level,"{ speed : ""Medium"" }",Bivalve Pokémon,"If it lives in seas with harsh currents,
 it will grow larger and sharper
 spikes on its shells than those
 who live on calm waters. Its shell is
@@ -687,13 +687,13 @@ it. It has been seen in abandoned
 places scaring people and other
 pokemon for fun. It is elusive and
 escapes through the walls."
-93,Haunter,,Level,Medium,Gas Pokémon,"Haunter is a dangerous Pokémon.
+93,Haunter,,Level,"{ speed : ""Medium"" }",Gas Pokémon,"Haunter is a dangerous Pokémon.
 it will try to lick you with its tongue
 to steal your life away. If you get
 the feeling of being watched in
 darkness when nobody is around, it
 means a Haunter is there."
-94,Gengar,,Trade,Trade,Shadow Pokémon,"This Pokémon is mischievous but it
+94,Gengar,,Trade,,Shadow Pokémon,"This Pokémon is mischievous but it
 can be downright evil. It takes joy
 in casting curses upon innocents
 and eating the life of people and
@@ -717,7 +717,7 @@ fondness to the dreams of young
 children. Once the victim is deep in
 slumber it will extract and eat the
 dream through the nose."
-97,Hypno,,Level,Slow,Hypnosis Pokémon,"Old children stories tell of an Hypno
+97,Hypno,,Level,"{ speed : ""Slow"" }",Hypnosis Pokémon,"Old children stories tell of an Hypno
 who takes away naughty kids and
 feasts on their dreams until they
 are old men. They have an urge to
@@ -729,7 +729,7 @@ They can be seen squabbling with
 each other over food and territory.
 They usually avoid humans but will
 fight if provoked."
-99,Kingler,,Level,Slow,Pincer Pokémon,"Its pincers grow peculiarly large. If it
+99,Kingler,,Level,"{ speed : ""Slow"" }",Pincer Pokémon,"Its pincers grow peculiarly large. If it
 lifts the pincers too fast, it may lose
 its balance and stagger. If one of its
 pincers is damaged, it will detach it
@@ -741,7 +741,7 @@ and unexplained resemblance to
 a Pokéball. Since it explodes at the
 slightest provocation, even veteran
 trainers treat it with caution."
-101,Electrode,,Level,Slow,Ball Pokémon,"It is known for causing blackouts in
+101,Electrode,,Level,"{ speed : ""Slow"" }",Ball Pokémon,"It is known for causing blackouts in
 the cities. After evolving it explodes
 as a form to release excess electricity
 or simply to amuse itself.
@@ -753,13 +753,13 @@ seed. It gathers in packs of six that
 have a mental link with each other.
 Each one of them has a different
 personality."
-103,Exeggutor,,With Stone,With Leaf Stone,Coconut Pokémon,"Originally from tropical areas.
+103,Exeggutor,,Stone,"{ item : ""Leaf Stone"" }",Coconut Pokémon,"Originally from tropical areas.
 Exeggutor's heads grow larger with
 strong sunlight. Each head thinks
 independently. They are friendly
 and provide their shade to other
 Pokémon."
-103,Exeggutor,Alolan,With Stone,With Leaf Stone,Coconut Pokémon,"Alola is the native region for this
+103,Exeggutor,Alolan,Stone,"{ item : ""Leaf Stone"" }",Coconut Pokémon,"Alola is the native region for this
 Pokémon, only in there it can evolve
 into this form. With this size, its
 Psychic abilities are rarely needed
@@ -771,25 +771,25 @@ its mother or someone dear to it.
 Lives in the mountains where it cries
 at night due to the sadness it feels.
 It is distrustful of humans."
-105,Marowak,,Level,Slow,Bone Keeper Pokémon,"Its rough past has hardened its
+105,Marowak,,Level,"{ speed : ""Slow"" }",Bone Keeper Pokémon,"Its rough past has hardened its
 heart. Now tenacious and violent,
 this Pokémon will use its Bone club as
 a weapon against foes. Marowak's
 den is usually full of the bones it has
 collected."
-105,Marowak,Alolan,Level,Slow,Bone Keeper Pokémon,"Alola has many predators for an
+105,Marowak,Alolan,Level,"{ speed : ""Slow"" }",Bone Keeper Pokémon,"Alola has many predators for an
 orphaned Cubone, so its mother’s
 spirit lingered close to protect her
 baby. This otherworldly influence
 made Marowak fiercer and changed
 its type completely."
-106,Hitmonlee,,Stat,Strength Max,Kicking Pokémon,"Kicking Pokémon
+106,Hitmonlee,,Stat,"{ stat : ""Strength"", value : -1 }",Kicking Pokémon,"Kicking Pokémon
 Its legs freely stretch and contract.
 It bowls over foes with devastating
 kicks. It is very disciplined and trains
 every day. It is very rare in the wild,
 and it is mostly found in urban areas"
-107,Hitmonchan,,Stat,Vitality Max,Punching Pokémon,"It specializes in punching as fast as
+107,Hitmonchan,,Stat,"{ stat : ""Vitality"", value : -1 }",Punching Pokémon,"It specializes in punching as fast as
 it can. Using a corkscrew motion,
 it can even drill through concrete
 with it’s bare hands. This Pokémon
@@ -806,7 +806,7 @@ gases to float like a balloon. When
 it gets nervous it releases a sickly
 green gas. Breathing this gas will
 give you a bad case of sniffles."
-110,Weezing,,Level,Slow,Poison Gas Pokémon,"They are considered a pest in
+110,Weezing,,Level,"{ speed : ""Slow"" }",Poison Gas Pokémon,"They are considered a pest in
 urban areas. They wait until night to
 roam and eat from the trash cans in
 the neighborhood. If it finds a filthy
@@ -818,13 +818,13 @@ hide and it tramples any threats by
 running towards them. It is not very
 smart, though. It can keep trampling
 things for hours just because."
-112,Rhydon,,Level,Slow,Drill Pokémon,"It has a horn that serves as a drill
+112,Rhydon,,Level,"{ speed : ""Slow"" }",Drill Pokémon,"It has a horn that serves as a drill
 for destroying rocks and boulders.
 Rhydon occasionally goes for a swim
 in rivers and even magma pools. Its
 great resistance prevents it from
 taking any damage."
-113,Chansey,,Leveled With Item,With Oval Stone,Egg Pokémon,"There are only females in this species.
+113,Chansey,,Leveled With Item,"{ item : ""Oval Stone"" }",Egg Pokémon,"There are only females in this species.
 Chansey lays a nutritive egg every
 day. These eggs are fed to the sick
 to give them strength. It is a loving
@@ -854,7 +854,7 @@ If it senses danger, it spits a murky
 ink and flees. It has been seen
 shooting down flying bugs to eat
 them."
-117,Seadra,,Level,Slow,Dragon Pokémon,"The poisonous barbs all over its body
+117,Seadra,,Level,"{ speed : ""Slow"" }",Dragon Pokémon,"The poisonous barbs all over its body
 are highly valued as ingredients for
 making traditional medicine.
 It will show no mercy if anything
@@ -865,7 +865,7 @@ free in rivers and ponds. If one of
 these Pokémon is placed in an
 aquarium, it will shatter the glass
 with its horn and make its escape."
-119,Seaking,,Level,Slow,Goldfish Pokémon,"In the autumn, Seaking males can
+119,Seaking,,Level,"{ speed : ""Slow"" }",Goldfish Pokémon,"In the autumn, Seaking males can
 be seen doing courtship dances to
 females. After getting a mate both
 will be seen swimming powerfully up
@@ -876,13 +876,13 @@ with stars. The core at its center
 glows to communicate with others.
 If a part of its body is injured it can
 regrow it in a few days."
-121,Starmie,,With Stone,With Water Stone,Mysterious Pokémon,"This Pokémon has been given the
+121,Starmie,,Stone,"{ item : ""Water Stone"" }",Mysterious Pokémon,"This Pokémon has been given the
 nickname “the gem of the sea.” It
 swims through water by spinning
 its star-shaped body as if it were a
 propeller on a ship. The core at the
 center glows with different colors."
-122,Mr. Mime,,Leveled Knowing Move,Mimic,Barrier Pokémon,"You don’t find this Pokémon, it finds
+122,Mr. Mime,,Leveled Knowing Move,"{ move : ""Mimic"" }",Barrier Pokémon,"You don’t find this Pokémon, it finds
 you. It is really smart and amuses
 itself by showing people its power
 to create barriers with pantomime.
@@ -900,13 +900,13 @@ sound like human speech. However,
 it is impossible to tell what it is trying
 to say. The way it moves and talks
 induce others to dance."
-125,Electabuzz,,Level,Medium,Electric Pokémon,"A violent Pokémon. It searches for
+125,Electabuzz,,Level,"{ speed : ""Medium"" }",Electric Pokémon,"A violent Pokémon. It searches for
 spots where it can feed on electricity
 and has been seen absorbing lightning
 from the sky.
 It’s competitive and aggressive with
 others."
-126,Magmar,,Level,Medium,Spitfire Pokémon,"It can be found living in volcanic
+126,Magmar,,Level,"{ speed : ""Medium"" }",Spitfire Pokémon,"It can be found living in volcanic
 areas. In battle, Magmar blows out
 intense flames all over its body
 to intimidate the opponent. This
@@ -936,7 +936,7 @@ eat. It’s only capable of flopping and
 splashing. However, it can survive in
 any body of water no matter how
 polluted it is."
-130,Gyarados,,Level,Slow,Atrocious Pokémon,"It’s rarely seen in the wild. This huge
+130,Gyarados,,Level,"{ speed : ""Slow"" }",Atrocious Pokémon,"It’s rarely seen in the wild. This huge
 and vicious Pokémon is known
 for the destruction it leaves in its
 wake. In ancient literature, there is a
@@ -966,19 +966,19 @@ makeup that suddenly mutates to
 fit its environment. Radiation from
 various stones causes this Pokémon
 to evolve."
-134,Vaporeon,,With Stone,With Water Stone,Bubble Jet Pokémon,"Vaporeon underwent through a
+134,Vaporeon,,Stone,"{ item : ""Water Stone"" }",Bubble Jet Pokémon,"Vaporeon underwent through a
 strange mutation, it grew fins and
 gills that allow it to live underwater.
 This Pokémon has the ability to
 become translucent when it dives
 underwater."
-135,Jolteon,,With Stone,With Thunder Stone,Lightning Pokémon,"This Pokémon evolved after being
+135,Jolteon,,Stone,"{ item : ""Thunder Stone"" }",Lightning Pokémon,"This Pokémon evolved after being
 affected by electric radiation.
 Every hair on its body starts to stand
 sharply if it becomes charged with
 electricity. It shoots lightning from all
 around its body."
-136,Flareon,,With Stone,With Fire Stone,Flame Pokémon,"A few have been seen in volcanic
+136,Flareon,,Stone,"{ item : ""Fire Stone"" }",Flame Pokémon,"A few have been seen in volcanic
 areas but just like its counterparts
 is more common to see it being the
 pet of wealthy people. Its flaming
@@ -996,7 +996,7 @@ from fossils by science. If attacked,
 it withdraws into its hard shell. It is
 not found in the wild anymore, but
 fossils can be found in the sea."
-139,Omastar,,Level,Slow,Spiral Pokémon,"An Omastar used its tentacles to
+139,Omastar,,Level,"{ speed : ""Slow"" }",Spiral Pokémon,"An Omastar used its tentacles to
 ensnare and capture its prey. It is
 believed to have become extinct
 because the shell grew too large,
@@ -1008,7 +1008,7 @@ However, in extremely rare cases,
 living specimens have been found.
 The Pokémon has not changed at
 all for 300 million years."
-141,Kabutops,,Level,Slow,Shellfish Pokémon,"Kabutops swarmed underwater
+141,Kabutops,,Level,"{ speed : ""Slow"" }",Shellfish Pokémon,"Kabutops swarmed underwater
 to hunt for prey. It was apparently
 evolving from being a water dweller
 to living on land. It’s evident from
@@ -1026,7 +1026,7 @@ it had millions of years ago with
 its body covered in sharp rocks. It
 is very aggressive and will attack
 anything that moves."
-143,Snorlax,,Stat,Happiness 4,Sleeping Pokémon,"Snorlax's typical day consists of
+143,Snorlax,,Stat,"{ stat : ""Happiness"", value : 4 }",Sleeping Pokémon,"Snorlax's typical day consists of
 eating and sleeping. It is such a
 docile Pokémon that children use
 its big belly as a place to play. It only
@@ -1056,13 +1056,13 @@ then a small colony was found
 underwater. It is still extremely rare
 to find. It sheds skin and grows larger
 every day."
-148,Dragonair,,Level,Slow,Dragon Pokémon,"It is said to live in seas and lakes.
+148,Dragonair,,Level,"{ speed : ""Slow"" }",Dragon Pokémon,"It is said to live in seas and lakes.
 Even though it has no wings, it has
 been depicted flying. There were
 legends of this Pokémon controlling
 the weather and ending the storms
 to leave a rainbow behind."
-149,Dragonite,,Level,Slow,Dragon Pokémon,"Very few people have ever seen this
+149,Dragonite,,Level,"{ speed : ""Slow"" }",Dragon Pokémon,"Very few people have ever seen this
 Pokémon. Its intelligence matches
 that of humans. There are records of
 a Pokémon with a similar description
@@ -1093,13 +1093,13 @@ to keep foes at bay. The sweet
 fragrance from its leaf, has a strong
 calming and relaxing effect on
 people and Pokémon."
-153,Bayleef,,Level,Medium,Leaf Pokémon,"A spicy fragrance emanates from
+153,Bayleef,,Level,"{ speed : ""Medium"" }",Leaf Pokémon,"A spicy fragrance emanates from
 around its neck that makes it feisty
 and impetuous. It sheds its leaves
 every couple of weeks after the
 aroma diminishes and its mood also
 becomes calmer."
-154,Meganium,,Level,Medium,Herb Pokémon,"Meganium's breath has the power
+154,Meganium,,Level,"{ speed : ""Medium"" }",Herb Pokémon,"Meganium's breath has the power
 to revive dead grass and plants.
 The aroma that comes from its
 petals contains a substance that
@@ -1111,12 +1111,12 @@ They’ll burn vigorously if Cyndaquil
 is angry otherwise they’ll remain
 unlit. It lives in hot dens inside of
 mountains and volcanoes."
-156,Quilava,,Level,Medium,Volcano Pokémon,"It intimidates foes with intense gusts
+156,Quilava,,Level,"{ speed : ""Medium"" }",Volcano Pokémon,"It intimidates foes with intense gusts
 of flames and superheated air.
 Beware if a Quilava turns its back
 on you, it is planing on using a fire
 move."
-157,Typhlosion,,Level,Medium,Volcano Pokémon,"Very rare to see in the wild. It hides
+157,Typhlosion,,Level,"{ speed : ""Medium"" }",Volcano Pokémon,"Very rare to see in the wild. It hides
 behind a shimmering heat haze
 created using its fire.
 Typhlosion can create eruptions
@@ -1128,13 +1128,13 @@ think it is just playfully nipping, its
 bite has enough strength to cause
 a serious injury. It needs proper
 discipline to control its biting urges"
-159,Croconaw,,Level,Medium,Big Jaw Pokémon,"This Pokémon is really tenacious.
+159,Croconaw,,Level,"{ speed : ""Medium"" }",Big Jaw Pokémon,"This Pokémon is really tenacious.
 Once it bites something it won’t let
 go until it tears it down - even if its
 trainer is ordering to let go. If it loses
 any of it’s fangs, they’ll regrow in a
 few days. It’s a very wild Pokémon."
-160,Feraligatr,,Level,Medium,Big Jaw Pokémon,"While in the water, it opens its big
+160,Feraligatr,,Level,"{ speed : ""Medium"" }",Big Jaw Pokémon,"While in the water, it opens its big
 jaw to intimidate anyone coming
 close. Whenever it bites, it shakes
 its head and savagely rolls to tear
@@ -1146,7 +1146,7 @@ Sentret is always vigilant for any
 threat. It is very friendly among its
 kind and suffers a lot if separated
 from its pack."
-162,Furret,,Level,Medium,Long Body Pokémon,"It lives along its Sentret family and
+162,Furret,,Level,"{ speed : ""Medium"" }",Long Body Pokémon,"It lives along its Sentret family and
 acts as the hunter and caregiver of
 the pack. It can move really fast. If
 it is cornered, it will squirm through
@@ -1158,7 +1158,7 @@ senses the earth’s rotation.
 By using this special organ a Hoothoot
 begins hooting at precisely
 the same time every day."
-164,Noctowl,,Level,Medium,Owl Pokémon,"It can hunt in full darkness without
+164,Noctowl,,Level,"{ speed : ""Medium"" }",Owl Pokémon,"It can hunt in full darkness without
 fail. All Noctowls owe their success
 to their superior vision - that allows
 them to see in minimal light, and to
@@ -1170,7 +1170,7 @@ during the winter. It communicates
 with others through a special scent.
 They often appear covered in the
 morning dew."
-166,Ledian,,Level,Medium,Five Star Pokémon,"When the stars flicker in the night
+166,Ledian,,Level,"{ speed : ""Medium"" }",Five Star Pokémon,"When the stars flicker in the night
 sky, it flutters about scattering a
 glowing powder. The spot patterns
 on its back grow larger or smaller at
@@ -1182,13 +1182,13 @@ for the prey to arrive. It recognizes
 what kind of prey has fallen on its
 web by the vibrations received by
 each one of its eight legs."
-168,Ariados,,Level,Medium,Long Leg Pokémon,"This Pokémon is silent and stealthy.
+168,Ariados,,Level,"{ speed : ""Medium"" }",Long Leg Pokémon,"This Pokémon is silent and stealthy.
 It comes out at night. After attaching
 some silk to its prey, it sets it free.
 Later, it tracks the silk back to the
 prey and its friends. It can form big
 colonies in caves."
-169,Crobat,,Stat,Happiness 4,Bat Pokémon,"Very rare in the wild. People have
+169,Crobat,,Stat,"{ stat : ""Happiness"", value : 4 }",Bat Pokémon,"Very rare in the wild. People have
 called it a vampire. It sneaks up on
 its intended prey using wings that
 barely make a sound. Crobat is a
@@ -1199,7 +1199,7 @@ flash its lights. It is a clumsy but
 friendly Pokémon. Its antennae can
 be used to power up small electric
 appliances."
-171,Lanturn,,Level,Medium,Light Pokémon,"It is known for its soft light glow. They
+171,Lanturn,,Level,"{ speed : ""Medium"" }",Light Pokémon,"It is known for its soft light glow. They
 are not aggressive Pokémon. If you
 look into the dark sea at night you
 can sometimes see this Pokémon’s
@@ -1229,7 +1229,7 @@ and shares them with others, when
 the shell is full it becomes so happy
 that it finally evolves. It is said that
 it’ll bring good fortune to its trainer."
-176,Togetic,,Stat,Happiness 5,Happiness Pokémon,"Although there have been very
+176,Togetic,,Stat,"{ stat : ""Happiness"", value : 5 }",Happiness Pokémon,"Although there have been very
 few sightings of this Pokémon in
 the wild, it is known to appear
 before kind hearted people and
@@ -1241,7 +1241,7 @@ to trees and cactus to peck something
 to eat. If you find one it will
 hold your stare, if you get closer it
 might disappear in an instant."
-178,Xatu,,Level,Medium,Mystic Pokémon,"Xatu is known to stand motionless
+178,Xatu,,Level,"{ speed : ""Medium"" }",Mystic Pokémon,"Xatu is known to stand motionless
 while staring at the sun all day long.
 Some people revere it as a mystical
 Pokémon out of their belief that
@@ -1253,13 +1253,13 @@ the more brightly the lightbulb at
 the tip of its tail glows. Farmers shed
 their wool by the summer but it
 grows back quickly."
-180,Flaafy,,Level,Medium,Wool Pokémon,"Its wool quality changes so that
+180,Flaafy,,Level,"{ speed : ""Medium"" }",Wool Pokémon,"Its wool quality changes so that
 it can generate a higher amount
 of static electricity with a smaller
 amount of wool. The bare and slick
 parts of its hide are shielded with
 small electric impulses."
-181,Ampharos,,Level,Medium,Light Pokémon,"It’s not common to see it in the wild.
+181,Ampharos,,Level,"{ speed : ""Medium"" }",Light Pokémon,"It’s not common to see it in the wild.
 The tip of its tail shines brightly and
 in the old days, people sent light
 signals with the help of this Pokémon.
@@ -1271,31 +1271,31 @@ are awakened. Its wool grows back
 as a silky mane that flows and
 floats with the electricity its body is
 discharging."
-182,Bellossom,,With Stone,With Sun Stone,Flower Pokémon,"They are plentiful in tropical areas.
+182,Bellossom,,Stone,"{ item : ""Sun Stone"" }",Flower Pokémon,"They are plentiful in tropical areas.
 The beauty of the flowers on its
 head depends on how stinky it
 was as a Gloom. Lots of sunshine
 will make the skirt leaves swirl in a
 beautiful and rhythmic dance."
-183,Marill,,Stat,Happiness 4,Aquamouse Pokémon,"Marill's tail acts like a floater.
+183,Marill,,Stat,"{ stat : ""Happiness"", value : 4 }",Aquamouse Pokémon,"Marill's tail acts like a floater.
 Seeing its tail bobbing on the water’s
 surface is a sure indication that this
 Pokémon is diving to feed on algae
 and aquatic plants. This Pokémon is
 curious towards humans."
-184,Azumarill,,Level,Medium,Aquarabbit Pokémon,"It stays in water virtually all day long.
+184,Azumarill,,Level,"{ speed : ""Medium"" }",Aquarabbit Pokémon,"It stays in water virtually all day long.
 Its blue fur makes it difficult to spot
 when submerged. Azumarril uses its
 sensitive ears to locate prey even
 underwater. They are not aggressive
 and even get close to humans."
-185,Sudowoodo,,Leveled Knowing Move,Mimic,Imitation Pokémon,"Sudowoodo camouflages itself as
+185,Sudowoodo,,Leveled Knowing Move,"{ move : ""Mimic"" }",Imitation Pokémon,"Sudowoodo camouflages itself as
 a tree to avoid being attacked by
 enemies. However, because its arms
 remain green throughout the year,
 this Pokémon is easy to identify in
 winter. It’s a little wary of humans."
-186,Politoed,,With Item,With King's Rock,Frog Pokémon,"It lives with Poliwags and Poliwhirls
+186,Politoed,,Trade,{ item : “King's Rock” },Frog Pokémon,"It lives with Poliwags and Poliwhirls
 near ponds and lakes, but there’s
 rarely more than one. Politoed is the
 leader and acts as the king of the
@@ -1307,13 +1307,13 @@ current can lift them up. By the end
 of the winter you can see them flying
 above cities and fields. This means
 that spring is coming soon."
-188,Skiploom,,Level,Medium,Cottonweed Pokémon,"It blooms when the weather is warm.
+188,Skiploom,,Level,"{ speed : ""Medium"" }",Cottonweed Pokémon,"It blooms when the weather is warm.
 If the weather gets cold, the bloom
 will close and it will stop flying.
 This is not an aggressive Pokémon
 but it can cause allergies if it floats
 directly above you."
-189,Jumpluff,,Level,Medium,Cottonweed Pokémon,"It flies along the wind and spreads
+189,Jumpluff,,Level,"{ speed : ""Medium"" }",Cottonweed Pokémon,"It flies along the wind and spreads
 its cotton-like spores all over the
 world to make more offspring. It is
 always looking for warm places, if
@@ -1331,7 +1331,7 @@ dewdrops from under the leaves
 of plants. It tries not to move a lot
 since lots of bird Pokémon prey on
 them."
-192,Sunflora,,With Stone,With Sun Stone,Sun Pokémon,"Sunfloras live in flower patches. They
+192,Sunflora,,Stone,"{ item : ""Sun Stone"" }",Sun Pokémon,"Sunfloras live in flower patches. They
 convert solar energy into nutrition
 and are highly active in the warm
 daytime but suddenly stop moving
@@ -1349,19 +1349,19 @@ when the land has cooled, to find
 something to eat. Under this ideal
 environment it has rarely been seen
 at its evolved stage."
-195,Quagsire,,Level,Medium,Water Fish Pokémon,"You’ll find its home at the bottom
+195,Quagsire,,Level,"{ speed : ""Medium"" }",Water Fish Pokémon,"You’ll find its home at the bottom
 of the river. It hunts by leaving its
 mouth wide open in water and
 waiting for its prey to get in.
 Because it doesn’t move a lot, it
 does not get very hungry."
-196,Espeon,,Special,Happiness 4 + Sunlight,Sun Pokémon,"Espeon is extremely loyal to the
+196,Espeon,,Special,"{ stat : ""Happiness"", value : 4, special : ""Sunlight"" }",Sun Pokémon,"Espeon is extremely loyal to the
 trainer it considers worthy. It is said
 to have developed precognitive
 powers to protect its trainer from
 harm. The orb on its forehead glows
 whenever it uses psychic energy."
-197,Umbreon,,Special,Happiness 4 + Moonlight,Moonlight Pokémon,"Umbreon evolved from exposure to
+197,Umbreon,,Special,"{ stat : ""Happiness"", value : 4, special : ""Moonlight"" }",Moonlight Pokémon,"Umbreon evolved from exposure to
 the moon’s energy pulses. It lurks in
 darkness and waits for its foes to
 move. The rings on its body glow
@@ -1373,7 +1373,7 @@ This Pokémon will steal anything
 that sparkles. They are infamous for
 luring people and get them lost in
 the mountains."
-199,Slowking,,Trade,With King's Rock,Royal Pokémon,"It is extremely rare. The Shellder on
+199,Slowking,,Trade,"{ item : ""King's Rock"" }",Royal Pokémon,"It is extremely rare. The Shellder on
 its head injects a poison that made
 it super intelligent. It takes a lot of
 interest in learning about Pokémon
@@ -1391,7 +1391,7 @@ together, it is said that a strange
 power capable of anything emerges.
 They are all shaped like letters, each
 one of them with a unique power."
-202,Wobbuffet,,Level,Medium,Patient Pokémon,"Wobbuffet looks somewhat deflated
+202,Wobbuffet,,Level,"{ speed : ""Medium"" }",Patient Pokémon,"Wobbuffet looks somewhat deflated
 until it senses an aggressor,
 then it inflates. It will do nothing
 besides endure and counter attacks.
@@ -1409,7 +1409,7 @@ a shield from harm. It waits for bugs
 to eat while hanging from branches.
 If anyone shakes its tree, it falls
 down and explodes. Be very careful."
-205,Forretress,,Level,Medium,Bagworm Pokémon,"It can be found completely rooted
+205,Forretress,,Level,"{ speed : ""Medium"" }",Bagworm Pokémon,"It can be found completely rooted
 to huge tree trunks. It protects
 itself and its tree by scattering
 spiked pieces from its shell and
@@ -1427,7 +1427,7 @@ face, grapples the victim with its
 pincers and clawed hind legs, lastly,
 it injects poison with its tail. Gligar
 can glide without making any noise."
-208,Steelix,,Trade,With Metal Coat,Iron Snake Pokémon,"Some say that when an Onix lives
+208,Steelix,,Trade,"{ item : ""Metal Coat"" }",Iron Snake Pokémon,"Some say that when an Onix lives
 underground for 100 years it’s body
 becomes hard as steel. Steelix lives
 deep underground, tempered by
@@ -1445,7 +1445,7 @@ and playful. Snubbulls are easily
 scared. When threatened by bigger
 foes they run away or make scary
 faces, that makes them sad though."
-210,Granbull,,Level,Medium,Fairy Pokémon,"Granbull is usually a timid creature
+210,Granbull,,Level,"{ speed : ""Medium"" }",Fairy Pokémon,"Granbull is usually a timid creature
 that is easily spooked. Its fangs are
 extremely powerful and scary so no
 one dares to mess with it or its loved
@@ -1457,7 +1457,7 @@ Qwilfish must swallow 2 gallons of
 water to be able to shoot its stings.
 The poison produced by Qwilfish is
 known to cause fainting."
-212,Scizor,,Trade,With Metal Coat,Pincer Pokémon,"Its pincers appear to be two more
+212,Scizor,,Trade,"{ item : ""Metal Coat"" }",Pincer Pokémon,"Its pincers appear to be two more
 heads and its wings are not for
 flying, but to regulate its body
 temperature. Scizor's body can
@@ -1499,7 +1499,7 @@ for winter and concoct their own
 honey by mixing fruits and pollen
 collected by Beedrills. They live in
 forests with their mothers."
-217,Ursaring,,Level,Slow,Hibernator Pokémon,"They are incredibly strong, great
+217,Ursaring,,Level,"{ speed : ""Slow"" }",Hibernator Pokémon,"They are incredibly strong, great
 climbers and posses an amazing
 sense of smell. They snap trees and
 feed on their fruit as they eat quite
@@ -1511,7 +1511,7 @@ together. They are made of molten
 magma instead of blood and flesh.
 Slugmas replenish parts of their
 body by absorbing molted rocks."
-219,Magcargo,,Level,Slow,Lava Pokémon,"Their shell is molten body that
+219,Magcargo,,Level,"{ speed : ""Slow"" }",Lava Pokémon,"Their shell is molten body that
 cooled off and hardened, it may
 appear solid, but it may burst into
 flames with a single touch.
@@ -1523,7 +1523,7 @@ Their favorite food is a mushroom
 that grows under frozen grass. They
 recognize everything by smell as
 their eyes can’t see very well."
-221,Piloswine,,Level,Medium,Swine Pokémon,"Their long hair obscure their sight,
+221,Piloswine,,Level,"{ speed : ""Medium"" }",Swine Pokémon,"Their long hair obscure their sight,
 but they’re sensitive to sound and
 smells. Piloswine's rugged hooves
 prevent it from slipping on icy
@@ -1540,7 +1540,7 @@ its water gun. This ability is used to
 hunt down flying enemies above
 the sea. They can be seen clinging
 into Mantines to travel faster."
-224,Octillery,,Level,Medium,Jet Pokémon,"Octillery sprays ink, traps its foes
+224,Octillery,,Level,"{ speed : ""Medium"" }",Jet Pokémon,"Octillery sprays ink, traps its foes
 with its tentacles and then hits
 them with its rock-hard head. If the
 enemy is too strong, they escape.
@@ -1552,7 +1552,7 @@ are related to the image of Santa
 Claus since they always carry
 presents for their good and naughty
 kids in their bag-looking tail."
-226,Mantine,,Special,Hit by Remoraid,Kite Pokémon,"Mantine swims under water and
+226,Mantine,,Special,{ special : “Hit by Remoraid” },Kite Pokémon,"Mantine swims under water and
 over the waves, gliding for 300 ft
 in the air. They are intelligent and
 docile, traveling elegantly in groups.
@@ -1570,7 +1570,7 @@ to announce that this is their territory
 and bark to communicate tactics.
 Their teamwork is very efficient and
 they rarely welcome strangers."
-229,Houndoom,,Level,Medium,Dark Pokémon,"It is said the pain from its flames never
+229,Houndoom,,Level,"{ speed : ""Medium"" }",Dark Pokémon,"It is said the pain from its flames never
 goes away. Long ago, their howl
 was thought to be the call of the
 grim reaper. Pokémon and people
@@ -1582,7 +1582,7 @@ heat, so much that its claws are
 searing hot and turn red as a result,
 for this reason it can be painful for it
 to walk or run."
-230,Kingdra,,Trade,With Dragon Scale,Dragon Pokémon,"Kingdra sleeps on the seafloor
+230,Kingdra,,Trade,"{ item : ""Dragon Scale"" }",Dragon Pokémon,"Kingdra sleeps on the seafloor
 where it is otherwise devoid of
 life. When a storm arrives, it is said
 to awaken and wander about in
@@ -1594,13 +1594,13 @@ they may hurt others while playing.
 They dig pits at the edge of rivers
 and mark them so everyone knows
 that place is taken."
-232,Donphan,,Level,Medium,Armor Pokémon,"Strong enough to knock down a
+232,Donphan,,Level,"{ speed : ""Medium"" }",Armor Pokémon,"Strong enough to knock down a
 house. They like to attack by rolling
 as a ball at high speed, however
 once they start rolling, they have a
 hard time stopping. Some may keep
 their loving Phanpy nature."
-233,Porygon 2,,Trade,With Upgrade ,Virtual Pokémon,"This man-made Pokémon is an
+233,Porygon 2,,Trade,"{ item : ""Upgrade "" }",Virtual Pokémon,"This man-made Pokémon is an
 upgraded version of Porygon. Used
 for space exploration and planetary
 development, boasting the power
@@ -1624,13 +1624,13 @@ looking to get stronger, fighting
 any enemies even if it looses. They
 attack anyone, any day, anytime,
 everyday, without warning."
-237,Hitmontop,,Stat,Dexterity Max,Handstand Pokémon,"They launch high speed kicks while
+237,Hitmontop,,Stat,"{ stat : ""Dexterity"", value : -1 }",Handstand Pokémon,"They launch high speed kicks while
 spinning so fast that they get drilled
 into the ground. They move quicker
 by spinning than they do walking.
 They are very smart and like to
 perform dance-like kicks."
-238,Smoochum,,Level,Medium,Kiss Pokémon,"They examine their surroundings
+238,Smoochum,,Level,"{ speed : ""Medium"" }",Kiss Pokémon,"They examine their surroundings
 with their lips. They love to smooch,
 but Pokémon dislike their kisses.
 Smoochums are always running
@@ -1654,7 +1654,7 @@ may heal the sick and the injured,
 and they can produce up to 5
 gallons a day. Healing serious injuries
 may require a lot of milk."
-242,Blissey,,Stat,Happiness 5,Happiness Pokémon,"Whoever takes a bite on a Blissey's
+242,Blissey,,Stat,"{ stat : ""Happiness"", value : 5 }",Happiness Pokémon,"Whoever takes a bite on a Blissey's
 egg becomes loving and caring to
 everyone. They are compassionate,
 healing anyone who’s injured. Their
@@ -1680,13 +1680,13 @@ mountain of soil. Only the strongest
 and more ferocious ever come out
 to roam about.
 They hate being disturbed."
-247,Pupitar,,Level,Slow,Hard Shell Pokémon,"Even in their shell, they are fast,
+247,Pupitar,,Level,"{ speed : ""Slow"" }",Hard Shell Pokémon,"Even in their shell, they are fast,
 aggressive and extremely destructive.
 They never stay still. This pupa
 propels itself using a jet of pressurized
 gas. It is bad tempered and very
 aggressive."
-248,Tyranitar,,Level,Slow,Armor Pokémon,"Its body is hardly damaged by any
+248,Tyranitar,,Level,"{ speed : ""Slow"" }",Armor Pokémon,"Its body is hardly damaged by any
 attack, so it’s always eager to fight.
 They are extremely strong, their
 rage can change landscapes.
@@ -1722,13 +1722,13 @@ stress, calmed under pressure and
 collected when endangered. They
 are found protecting the trees
 ferociously."
-253,Grovyle,,Level,Medium,Wood Gecko Pokémon,"Their leaves provide camouflage in
+253,Grovyle,,Level,"{ speed : ""Medium"" }",Wood Gecko Pokémon,"Their leaves provide camouflage in
 the jungles. They appear to fly from
 tree to tree, jumping huge lengths
 with amazing speed. It’s almost
 impossible to catch them once they
 start running away.."
-254,Sceptile,,Level,Medium,Forest Pokémon,"They raise trees with love and care
+254,Sceptile,,Level,"{ speed : ""Medium"" }",Forest Pokémon,"They raise trees with love and care
 and protect the jungles with their
 lives. Their tails can restore a plant’s
 beauty. Sceptiles power is truly
@@ -1746,13 +1746,13 @@ have a flame sac in their belly -
 burning all the time. If you hug them,
 they feel warm, but if you squeeze
 them, they may spit fire."
-256,Combusken,,Level,Medium,Young Fowl Pokémon,"Once Torchic toughened up its
+256,Combusken,,Level,"{ speed : ""Medium"" }",Young Fowl Pokémon,"Once Torchic toughened up its
 legs and thighs, they like to run and
 love to kick. They have an offensive
 instinct to keep attacking no matter
 what. They sqwak loudly every
 morning when they start to train."
-257,Blaziken,,Level,Medium,Blaze Pokémon,"They can jump incredible heights.
+257,Blaziken,,Level,"{ speed : ""Medium"" }",Blaze Pokémon,"They can jump incredible heights.
 As they grow older, their feathers
 combust as new feathers grow back.
 They are courageous fighters and
@@ -1770,13 +1770,13 @@ bury themselves under the mud
 at the water’s edge and at the
 bottom of rivers. They never back
 away even if their foe is bigger."
-259,Marshtomp,,Level,Medium,Mud Fish Pokémon,"A sticky film allows them to live out
+259,Marshtomp,,Level,"{ speed : ""Medium"" }",Mud Fish Pokémon,"A sticky film allows them to live out
 of water. They are seen playing in
 the mud at beaches to rehydrate
 their dry bodies. They are slow
 runners and swimmers but they can
 be fast sliding through the mud."
-260,Swampert,,Level,Medium,Mud Fish Pokémon,"They have an incredible sight that
+260,Swampert,,Level,"{ speed : ""Medium"" }",Mud Fish Pokémon,"They have an incredible sight that
 allows them to see in muddy water.
 They nest in beaches, and shield
 their young with their strong arms.
@@ -1794,7 +1794,7 @@ other Pokémon for dozens of miles
 without loosing track. This Pokémon
 is persistent and tenacious. In the
 wild, they form small hunting packs."
-262,Mightyena,,Level,Medium,Bite Pokémon,"They attack savagely, travel in packs
+262,Mightyena,,Level,"{ speed : ""Medium"" }",Bite Pokémon,"They attack savagely, travel in packs
 and hunt in groups. They will only
 obey trainers that show superior
 skills, which they recognize as the
@@ -1806,7 +1806,7 @@ Due to their innate curiosity, they
 usually find hidden objects.
 Sometimes they play dead to avoid
 being attacked."
-264,Linoone,,Level,Medium,Rushing Pokémon,"Linoones are always running at full
+264,Linoone,,Level,"{ speed : ""Medium"" }",Rushing Pokémon,"Linoones are always running at full
 speed, but they can only do so in
 straight lines. They find it very difficult
 to deal with a curved road. They
@@ -1818,24 +1818,24 @@ Their feet have suction pads to
 climb easily. Wurmples are plentiful
 and live in forests, but they are
 often attacked by bird Pokémon."
-266,Silcoon,,Level,Fast,Cocoon Pokémon,"They tether themselves to tree
+266,Silcoon,,Level,"{ speed : ""Fast"" }",Cocoon Pokémon,"They tether themselves to tree
 branches while they wait to evolve.
 Sometimes they peek from a small
 hole in the cocoon. Silcoons feed
 only on raindrops. If Wrumple lived
 among flowers, it evolves to Silcoon."
-267,Beautifly,,Level,Fast,Butterfly Pokémon,"They can’t resist the pollen of flowers,
+267,Beautifly,,Level,"{ speed : ""Fast"" }",Butterfly Pokémon,"They can’t resist the pollen of flowers,
 if you leave one in the window, a
 Beautifly is sure to come. Despite
 their appearance, they are aggressive,
 they drain living creatures of their
 fluids just as they do with flowers."
-268,Cascoon,,Level,Fast,Cocoon Pokémon,"They hide between huge leaves
+268,Cascoon,,Level,"{ speed : ""Fast"" }",Cocoon Pokémon,"They hide between huge leaves
 and gaps between branches, if they
 were to move, their evolution would
 be weaker. Due to this, Cascoon will
 remain motionless. If Wrumple lived in a dark place, it evolves to Cascoon."
-269,Dustox,,Level,Fast,Poison Moth Pokémon,"They travel in big groups during
+269,Dustox,,Level,"{ speed : ""Fast"" }",Poison Moth Pokémon,"They travel in big groups during
 the night, attracted to bright lights
 and big cities. Their flight releases a
 poisonous shining dust that causes
@@ -1847,13 +1847,13 @@ head is known to act as a ferry for
 smaller Pokémon. The leaf is delicate
 and needs constant watering or
 else Lotad will grow sick."
-271,Lombre,,Level,Medium,Jolly Pokémon,"This nocturnal Pokémon has a
+271,Lombre,,Level,"{ speed : ""Medium"" }",Jolly Pokémon,"This nocturnal Pokémon has a
 mischievous and impish personality.
 While playing pranks on people,
 Lombres are commonly mistaken for
 human children. It enjoys to startle
 unaware swimmers."
-272,Ludicolo,,With Stone,With Water Stone,Carefree Pokémon,"Ludicolo starts dancing at the
+272,Ludicolo,,Stone,"{ item : ""Water Stone"" }",Carefree Pokémon,"Ludicolo starts dancing at the
 sound of music. Pokémon and
 people will dance as well. They are
 said to appear when children sing.
@@ -1864,13 +1864,13 @@ immobile, the young are identical to
 real acorns. They enjoy scaring other
 Pokémon, especially Pidgeys. If they
 fall they are at risk of being eaten."
-274,Nuzleaf,,Level,Medium,Wily Pokémon,"They live inside holes on big trees.
+274,Nuzleaf,,Level,"{ speed : ""Medium"" }",Wily Pokémon,"They live inside holes on big trees.
 Their leaves are played like flutes
 to strike fear and discomfort in lost
 people’s hearts. They like to go out
 and startle people. Their noses are
 really sensitive and frail."
-275,Shiftry,,With Stone,With Leaf Stone,Wicked Pokémon,"Feared as protectors of the forest.
+275,Shiftry,,Stone,"{ item : ""Leaf Stone"" }",Wicked Pokémon,"Feared as protectors of the forest.
 They are said to live atop towering
 trees dating back thousands of
 years, creating terrible wind storms.
@@ -1882,7 +1882,7 @@ However, being just a child, it usually
 feels lonely and cries at night. They
 can be seen migrating south in the
 winter."
-277,Swellow,,Level,Medium,Swallow Pokémon,"They are vain Pokémon, acting with
+277,Swellow,,Level,"{ speed : ""Medium"" }",Swallow Pokémon,"They are vain Pokémon, acting with
 grace and elegance. Swellows are
 seen circling the skies looking for
 prey. They can be incredibly fast.
@@ -1894,7 +1894,7 @@ locations. They nest in sheer cliffs at
 the sea’s edge. They often harass
 fishing boats to steal an easy meal
 for themselves."
-279,Pelipper,,Level,Medium,Water Bird Pokémon,"Pelipper has been seen carrying
+279,Pelipper,,Level,"{ speed : ""Medium"" }",Water Bird Pokémon,"Pelipper has been seen carrying
 eggs and other Pokémon inside its
 massive bill, protecting them from
 predators and storms, transporting
@@ -1905,13 +1905,13 @@ mood of anyone nearby. They
 show if they feel joy and cheer, but
 hide if they sense hostility. They
 dislike fighting and negativity."
-281,Kirlia,,Level,Medium,Emotion Pokémon,"When they use their powers, their
+281,Kirlia,,Level,"{ speed : ""Medium"" }",Emotion Pokémon,"When they use their powers, their
 surroundings are distorted with
 mirages and illusory sceneries from
 the future and the past.
 Kirlias like to dance and dislike to be
 bossed around."
-282,Gardevoir,,Level,Medium,Embrace Pokémon,"If they sense danger, Gardevoir
+282,Gardevoir,,Level,"{ speed : ""Medium"" }",Embrace Pokémon,"If they sense danger, Gardevoir
 unleash a wave of psychic energy.
 They can distort this dimension,
 defy the laws of matter and physics.
@@ -1929,7 +1929,7 @@ ponds, lakes and puddles in towns.
 The tip of its head produces a
 delicious sugary syrup often used in
 desserts and sweets."
-284,Masquerain,,Level,Fast,Eyeball Pokémon,"Their antennas look like terrifying
+284,Masquerain,,Level,"{ speed : ""Fast"" }",Eyeball Pokémon,"Their antennas look like terrifying
 eyes. Masquerains can fly in any
 direction like a helicopter, but their
 wings are soft and fragile, so they
@@ -1941,7 +1941,7 @@ release toxic spores that make
 plants dry up. These spores cause
 serious pain if inhaled. They grow
 taller with moisture and heat."
-286,Breloom,,Level,Medium,Mushroom Pokémon,"Their flexible arms and quick footwork
+286,Breloom,,Level,"{ speed : ""Medium"" }",Mushroom Pokémon,"Their flexible arms and quick footwork
 can put good fighters to
 shame. The seeds on their tail and
 the cap on their head release poison
@@ -1953,13 +1953,13 @@ motionless no matter what.
 It’s rare to see this Pokémon
 doing something, most of them
 never even bother to evolve."
-288,Vigoroth,,Level,Slow,Wild Monkey Pokémon,"They are always agitated, anxious,
+288,Vigoroth,,Level,"{ speed : ""Slow"" }",Wild Monkey Pokémon,"They are always agitated, anxious,
 excited or upset, rampaging over
 anything. They can’t be still and
 they can’t sleep. They get angry if
 they get bored and violent if there
 is no activity for them."
-289,Slaking,,Level,Fast,Lazy Pokémon,"They spend all day sleeping and
+289,Slaking,,Level,"{ speed : ""Fast"" }",Lazy Pokémon,"They spend all day sleeping and
 eating grass that grows within their
 reach. Sometimes they live beneath
 trees, waiting for fruits to fall. They
@@ -1971,13 +1971,13 @@ waiting for evolution. Nincadas
 are nearly blind and cannot stand
 bright lights. They only come out to
 make a cocoon to evolve."
-291,Ninjask,,Level,Medium,Ninja Pokémon,"Due to their speed and stealthiness,
+291,Ninjask,,Level,"{ speed : ""Medium"" }",Ninja Pokémon,"Due to their speed and stealthiness,
 this Pokémon was believed to be
 invisible. They refuse to obey people
 and cry continuously if forced.
 People burn their cocoons as they
 are said to be cursed."
-292,Shedinja,,Level,Medium,Shed Pokémon,"On extremely rare occasions; when
+292,Shedinja,,Level,"{ speed : ""Medium"" }",Shed Pokémon,"On extremely rare occasions; when
 Nincada evolves, the empty cocoon
 comes to life. They don’t move, they
 only float unnaturally around.
@@ -1989,13 +1989,13 @@ start crying loud enough to deafen
 anyone nearby. Their own noise
 scares them even more, so they cry
 harder until their ear covers shut."
-294,Loudred,,Level,Medium,Big Voice Pokémon,"Their ears work as loudspeakers
+294,Loudred,,Level,"{ speed : ""Medium"" }",Big Voice Pokémon,"Their ears work as loudspeakers
 capable of breaking glass or even
 blowing apart a wooden house.
 When it finishes shouting, even they
 are deafened for a while. They have
 noisy competitions in their packs."
-295,Exploud,,Level,Medium,Loud Noise Pokémon,"It is said that some tremors are
+295,Exploud,,Level,"{ speed : ""Medium"" }",Loud Noise Pokémon,"It is said that some tremors are
 caused by the roars of this Pokémon.
 They communicate with soft noises,
 raising their voice only in battle.
@@ -2007,7 +2007,7 @@ he gets knocked down. They have
 a tireless spirit, and never give up
 hope. Makuhitas put all their hearts
 into everything they do."
-297,Hariyama,,Level,Medium,Arm Thrust Pokémon,"They may appear fat, but they
+297,Hariyama,,Level,"{ speed : ""Medium"" }",Arm Thrust Pokémon,"They may appear fat, but they
 are pure muscle. Hariyamas have
 the habit of challenging big looking
 creatures to tests of strength,
@@ -2031,7 +2031,7 @@ without hesitation. They are cute
 by nature, and popular pets, but it’s
 hard to earn their trust in the wild.
 They are quite affectionate."
-301,Delcatty,,With Stone,With Moon Stone,Prim Pokémon,"They like to live without restrictions,
+301,Delcatty,,Stone,"{ item : ""Moon Stone"" }",Prim Pokémon,"They like to live without restrictions,
 spending their time eating and
 sleeping whenever they feel like it.
 Popular among females. Delcatties
@@ -2067,13 +2067,13 @@ trouble by eating rails, bridges and
 vehicles. When they evolve, Arons
 shed their steel armors and develop
 a stronger one."
-305,Lairon,,Level,Medium,Iron Armor Pokémon,"Their armors gets stronger by eating
+305,Lairon,,Level,"{ speed : ""Medium"" }",Iron Armor Pokémon,"Their armors gets stronger by eating
 iron ores and drinking mineral spring
 water, usually nesting close to ponds.
 Lairons often attack human miners.
 They are territorial creatures,
 incredibly stubborn and resilient."
-306,Aggron,,Level,Slow,Iron Armor Pokémon,"Aggron claims ownership of entire
+306,Aggron,,Level,"{ speed : ""Slow"" }",Iron Armor Pokémon,"Aggron claims ownership of entire
 mountains, mercilessly beating up
 anything that crosses their path.
 Aggrons are violent and patrol their
@@ -2090,7 +2090,7 @@ their mind to increase their spiritual
 power, however they lack focus
 and get distracted easily. As part of
 their training, Meditites barely eat."
-308,Medicham,,Level,Medium,Meditate Pokémon,"They are thought to posses a sixth
+308,Medicham,,Level,"{ speed : ""Medium"" }",Meditate Pokémon,"They are thought to posses a sixth
 sense. Some of them can hide
 their presence by lowering their
 ki. Medichams fight with expert
@@ -2108,7 +2108,7 @@ stimulating their legs with voltage,
 Electrike's speed and power is
 greatly increased. They are not very
 common, though."
-310,Manectric,,Level,Medium,Discharge Pokémon,"Their manes are constantly releasing
+310,Manectric,,Level,"{ speed : ""Medium"" }",Discharge Pokémon,"Their manes are constantly releasing
 dangerous sparks that often end
 up in forest fires. When they get in
 battle, thunderclouds show up with
@@ -2144,7 +2144,7 @@ the swarm into drawing geometric
 shapes made of light. Illumises gain
 rank in their group if they make an
 amazing performance."
-315,Roselia,,Stat,Happiness 4,Thorn Pokémon,"They live among rose bushes,
+315,Roselia,,Stat,"{ stat : ""Happiness"", value : 4 }",Thorn Pokémon,"They live among rose bushes,
 shooting sharp poisonous thorns
 to anyone who tries to steal one
 of their flowers. Their aroma brings
@@ -2156,7 +2156,7 @@ their size. Their fluids can corrode
 metal. This Pokémon releases
 hideous and vile gases while it digests
 its food."
-317,Swalot,,Level,Medium,Poison Bag Pokémon,"Swalots spurt toxic fluids from their
+317,Swalot,,Level,"{ speed : ""Medium"" }",Poison Bag Pokémon,"Swalots spurt toxic fluids from their
 pores, and once the prey is weak,
 it gets swallowed whole since they
 have no teeth. They may eat
@@ -2168,7 +2168,7 @@ to bits. However, they are very timid
 when they are on their own. They
 live in rivers in the jungle and dislike
 salt water."
-319,Sharpedo,,Level,Medium,Brutal Pokémon,"Known as the “Bully of the Sea”,
+319,Sharpedo,,Level,"{ speed : ""Medium"" }",Brutal Pokémon,"Known as the “Bully of the Sea”,
 widely feared for its cruelty, malice
 and gangster attitude. They hurt
 Pokémon for fun and sink boats for
@@ -2186,7 +2186,7 @@ inflate like a ball and bounce, then
 startle people by snorting the water
 from their nostrils. This Pokémon
 needs lots of food everyday."
-321,Wailord,,Level,Slow,Float Whale Pokémon,"The largest Pokemon known to date.
+321,Wailord,,Level,"{ speed : ""Slow"" }",Float Whale Pokémon,"The largest Pokemon known to date.
 Wailords weight is really light so they
 can dive almost 10,000 feet with
 one breath. They live in open ocean
@@ -2198,7 +2198,7 @@ get hungry they faint. Numel's body
 is a cauldron of boiling magma. In
 rainy days, the magma cools and its
 speed is lowered."
-323,Camerupt,,Level,Medium,Eruption Pokémon,"Sometimes the humps on their back
+323,Camerupt,,Level,"{ speed : ""Medium"" }",Eruption Pokémon,"Sometimes the humps on their back
 make an eruption when they get
 really angry, otherwise they’d only
 erupt every 10 years. Camerupts
@@ -2222,7 +2222,7 @@ wouldn’t beat anymore. Spoinks
 balance a pearl from Clamperl on
 their head, if it’s lost, they won’t be
 able to control their psychic powers."
-326,Grumpig,,Level,Medium,Manipulate Pokémon,"Grumpigs control their foes with
+326,Grumpig,,Level,"{ speed : ""Medium"" }",Manipulate Pokémon,"Grumpigs control their foes with
 their psychic powers amplified by
 the pearls on their head and a
 hypnotic dance. However, when
@@ -2240,13 +2240,13 @@ tumble down their pit, later to be
 crushed between this Pokemon’s
 jaws. Beware of them as their bite
 can cause serious damage."
-329,Vibrava,,Level,Medium,Vibration Pokémon,"This Pokémon’s vibrations can cause
+329,Vibrava,,Level,"{ speed : ""Medium"" }",Vibration Pokémon,"This Pokémon’s vibrations can cause
 severe headaches or even fainting.
 If their prey faints, they proceed to
 melt them with acid. Vibrava's wings
 are still growing, making it a clumsy
 flier with low endurance."
-330,Flygon,,Level,Slow,Mystic Pokémon,"Known as the “Elemental Spirit of
+330,Flygon,,Level,"{ speed : ""Slow"" }",Mystic Pokémon,"Known as the “Elemental Spirit of
 the Desert”. Their wings create a
 cloud of dust that surrounds this
 Pokémon while flying, while their
@@ -2257,7 +2257,7 @@ aroma to attract prey, if they get
 closer, Cacneas shoot sharp thorns
 to bring them down. They resemble
 cactuses and hide among them."
-332,Cacturne,,Level,Medium,Scarecrow Pokémon,"They only move during the night.
+332,Cacturne,,Level,"{ speed : ""Medium"" }",Scarecrow Pokémon,"They only move during the night.
 If they spot a traveler, Cacturnes
 will stalk them in groups, waiting for
 the exhausted creatures to sleep
@@ -2269,7 +2269,7 @@ that love to be near humans, usually
 sitting on their heads as cotton
 hats. They travel in flocks and live
 near towns during the Spring."
-334,Altaria,,Level,Slow,Humming Pokémon,"Seen as dancing clouds in the sky,
+334,Altaria,,Level,"{ speed : ""Slow"" }",Humming Pokémon,"Seen as dancing clouds in the sky,
 Altarias sing melodies in their sweet
 voices, evoking wonder, beauty and
 dreams to the listeners. They live far
@@ -2311,7 +2311,7 @@ mud with only their whiskers
 exposed, waiting for prey to come. If
 the mud dries, they move back into
 the water."
-340,Wishcash,,Level,Medium,Whiskers Pokémon,"Dangerous and territorial, they claim
+340,Wishcash,,Level,"{ speed : ""Medium"" }",Whiskers Pokémon,"Dangerous and territorial, they claim
 entire ponds as their homes and will
 crush whoever dares to dive in with
 earthquakes. They eat anything
@@ -2323,7 +2323,7 @@ pets. They eventually turned up in
 the wild and reproduced a lot. They
 are resilient and can live in polluted
 water. Beware of their pincers."
-342,Crawdaunt,,Level,Medium,Rogue Pokémon,"Crawdaunt is extremely violent and
+342,Crawdaunt,,Level,"{ speed : ""Medium"" }",Rogue Pokémon,"Crawdaunt is extremely violent and
 territorial. The ponds where it lives
 look like desolated places due
 to them attacking anything that
@@ -2335,7 +2335,7 @@ gathers they create a horrible,
 headache inducing noise at unison.
 Old paintings describe them living
 with people in ancient times."
-344,Claydol,,Level,Medium,Clay Doll Pokémon,"It is made entirely of clay. The first
+344,Claydol,,Level,"{ speed : ""Medium"" }",Clay Doll Pokémon,"It is made entirely of clay. The first
 one was discovered in ruins from
 20,000 years ago. A strange light is
 said to be the source of its life and
@@ -2347,7 +2347,7 @@ rocks at the bottom of the sea. A
 catastrophe led them all to extinction.
 A few fossils were found and some
 were revived by scientists."
-346,Cradily,,Level,Medium,Barnacle Pokémon,"Cradily moves slowly at the bottom
+346,Cradily,,Level,"{ speed : ""Medium"" }",Barnacle Pokémon,"Cradily moves slowly at the bottom
 of the sea. It uses its body as an
 anchor and its tentacles as arms to
 catch prey. Their foes are melted
@@ -2359,7 +2359,7 @@ modern Bug Pokémon. The fossils
 show it lived in big schools and it
 preferred warm waters. Anoriths
 used their claws to catch small prey."
-348,Armaldo,,Level,Medium,Plate Pokémon,"When the waters receded, this
+348,Armaldo,,Level,"{ speed : ""Medium"" }",Plate Pokémon,"When the waters receded, this
 Pokémon was forced to evolve to
 live on land. Evidence suggests that
 its claws could extend to reach the
@@ -2371,7 +2371,7 @@ and a terrible fighter. To make
 things worse, it is actually extremely
 rare. For those reasons, people tend
 to avoid it and it’s usually ignored"
-350,Milotic,,Stat,Beauty 5,Tender Pokémon,"Milotic is considered to be one of
+350,Milotic,,Stat,"{ stat : ""Beauty"", value : 5 }",Tender Pokémon,"Milotic is considered to be one of
 the most beautiful Pokémon in
 existence. It has inspired music,
 paintings and statues. It has the
@@ -2395,7 +2395,7 @@ If they sting you, they’ll fill you with
 a vindictive desire. They don’t have
 bodies under their blanket and they
 are looking for a body to possess"
-354,Banette,,Level,Medium,Marionette Pokémon,"It’s body is usually a discarded doll or
+354,Banette,,Level,"{ speed : ""Medium"" }",Marionette Pokémon,"It’s body is usually a discarded doll or
 toy. Its spirit is made of dark feelings
 and is overrun by the desire of
 revenge towards the kid that threw
@@ -2412,7 +2412,7 @@ follow travelers all night until dawn
 breaks. It loves the crying of little
 children, they can be seen scaring
 kids who misbehaved during the day."
-356,Dusclops,,Level,Medium,Beckon Pokémon,"Its body is hollow. Some paranormal
+356,Dusclops,,Level,"{ speed : ""Medium"" }",Beckon Pokémon,"Its body is hollow. Some paranormal
 experts say there is a spectral
 energy ball inside them but it is not
 confirmed. If it absorbs an object
@@ -2424,7 +2424,7 @@ it has eaten. Mothers prefer Tropius
 fruits to feed their children as it is
 more nutritive and sweet. They are
 mellow and friendly Pokémon."
-358,Chimecho,,Stat,Happiness 4,Wind Chime Pokémon,"They have seven different cries that
+358,Chimecho,,Stat,"{ stat : ""Happiness"", value : 4 }",Wind Chime Pokémon,"They have seven different cries that
 resound with the wind. They can
 create ultrasonic waves when they
 are in danger. Using the suction
@@ -2454,7 +2454,7 @@ It survives by eating snow and ice.
 They form small groups to protect
 themselves from predators. If you
 take their hat off, they will get angry."
-362,Glalie,,Level,Medium (Male),Face Pokémon,"Its body is so hard it was thought
+362,Glalie,,Level,"{ speed : ""Medium"", gender : ""Male"" }",Face Pokémon,"Its body is so hard it was thought
 to be made of rock. They can be
 aggressive if provoked. When they
 hunt, they freeze their prey solid
@@ -2472,13 +2472,13 @@ good floaters. To move on land, they
 roll like balls instead of walking.
 When they are happy, they clap and
 squeal, so they can be really noisy."
-364,Sealeo,,Level,Medium,Ball Roll Pokémon,"They play with the Spheal in the
+364,Sealeo,,Level,"{ speed : ""Medium"" }",Ball Roll Pokémon,"They play with the Spheal in the
 herd by spinning them with their
 noses. When they are not in the wild
 they’ll spin almost any round object,
 even Pokéballs. Sealeos are great
 hunters underwater."
-365,Walrein,,Level,Medium,Ice Break Pokémon,"The leader of the herd is a powerful
+365,Walrein,,Level,"{ speed : ""Medium"" }",Ice Break Pokémon,"The leader of the herd is a powerful
 Walrein. They are very aggressive
 and will protect their herd even at
 the cost of their lives. Their tusks
@@ -2490,13 +2490,13 @@ Clamperl will produce a magnificent
 pearl once in a lifetime. That pearl
 is said to increase psychic powers
 and will sell for a lot of money."
-367,Huntail,,Trade,With Dragon Fang,Deep Sea Pokémon,"It lives at extreme depths of the
+367,Huntail,,Trade,"{ item : ""Dragon Fang"" }",Deep Sea Pokémon,"It lives at extreme depths of the
 sea. Their eyes can see perfectly in
 complete darkness. Huntails light up
 their tail to attract their prey, then
 swallow them whole with a single
 bite."
-368,Gorebyss,,Trade,With Dragon Scale,South Sea Pokémon,"Found in the depths of the southern
+368,Gorebyss,,Trade,"{ item : ""Dragon Scale"" }",South Sea Pokémon,"Found in the depths of the southern
 seas. Their body is built to withstand
 the sea pressure. While it appears
 to be beautiful and harmless, it is a
@@ -2519,12 +2519,12 @@ that makes them dive off cliffs in an
 attempt to fly. Their head is tough
 enough to survive the fall. They are
 very ill tempered and violent."
-372,Shelgon,,Level,Slow,Endurance Pokémon,"The body is covered in a powerful
+372,Shelgon,,Level,"{ speed : ""Slow"" }",Endurance Pokémon,"The body is covered in a powerful
 armor that resembles bones. It hides
 in caves awaiting evolution, enduring
 hunger and harm while its cells
 prepare for its final transformation."
-373,Salamence,,Level,Slow,Dragon Pokémon,"After a lifetime of struggling for a
+373,Salamence,,Level,"{ speed : ""Slow"" }",Dragon Pokémon,"After a lifetime of struggling for a
 dream, it finally grew its wings.
 Salamence, however, is extremely
 dangerous, it scorches entire fields
@@ -2542,13 +2542,13 @@ others, they move in perfect unison.
 It needs to develop a new brain to
 evolve; two of them may merge or it
 could develop a new one with time."
-375,Metang,,Level,Medium,Iron Claw Pokémon,"Its two brains are joined by a
+375,Metang,,Level,"{ speed : ""Medium"" }",Iron Claw Pokémon,"Its two brains are joined by a
 magnetic nervous system. This
 allows Metang to use psychokinetic
 powers. It is able to float and move in
 midair at 60 mph. To evolve further
 it will need more brain power."
-376,Metagross,,Level,Slow,Iron Leg Pokémon,"It has four powerful brains that allow
+376,Metagross,,Level,"{ speed : ""Slow"" }",Iron Leg Pokémon,"It has four powerful brains that allow
 it to react at the speed of a super
 computer. It pins its prey under its
 massive body, then eats it using
@@ -2668,13 +2668,13 @@ shell on its back is made of hardened
 soil and should be moist for it to be
 healthy. It uses photosynthesis to
 get energy."
-388,Grotle,,Level,Medium,Grove Pokémon,"Other Pokémon harass Grotle when
+388,Grotle,,Level,"{ speed : ""Medium"" }",Grove Pokémon,"Other Pokémon harass Grotle when
 the bushes on its back have berries
 or fruit. It patiently waits for others
 to finish eating before moving.
 It loves clear water and it’s good at
 finding cool ponds and springs."
-389,Torterra,,Level,Medium,Continent Pokemon,"Torterras travel in groups, mistaken
+389,Torterra,,Level,"{ speed : ""Medium"" }",Continent Pokemon,"Torterras travel in groups, mistaken
 as moving forests. Many pokémon
 make their nest on its back and live
 there for their entire lives.
@@ -2686,13 +2686,13 @@ them tend to visit human camping sites
 to steal food and objects. They are
 playful and will wreak havoc if they
 want to have fun."
-391,Monferno,,Level,Medium,Playful Pokémon,"It bounces off walls and ceilings to
+391,Monferno,,Level,"{ speed : ""Medium"" }",Playful Pokémon,"It bounces off walls and ceilings to
 launch aerial attacks. They live in
 packs in distant mountains. The size
 of their flame and the blue pattern
 on their faces determine their rank.
 They are small but very strong."
-392,Infernape,,Level,Medium,Flame Pokémon,"Its fire crown showcases its proud
+392,Infernape,,Level,"{ speed : ""Medium"" }",Flame Pokémon,"Its fire crown showcases its proud
 and fiery nature. Infernape won’t
 hesitate to fight bigger foes and will
 take on any challenge they face.
@@ -2704,13 +2704,13 @@ nor accept being taken care of.
 It lives along shores in northern
 countries. It is a good swimmer but
 terrible at walking, it trips over often."
-394,Prinplup,,Level,Medium,Penguin Pokémon,"Prinplups hunt in icy seas. They live
+394,Prinplup,,Level,"{ speed : ""Medium"" }",Penguin Pokémon,"Prinplups hunt in icy seas. They live
 solitary lives because they cannot
 stand company and will never form
 a group or a team. They believe they
 are the most important thing in the
 world, it’s almost irritating."
-395,Empoleon,,Level,Medium,Emperor Pokémon,"They are regal and arrogant. Their
+395,Empoleon,,Level,"{ speed : ""Medium"" }",Emperor Pokémon,"They are regal and arrogant. Their
 beaks slice apart the drifting ice
 while swimming as fast as a jet boat.
 They avoid unnecessary fights, but
@@ -2722,13 +2722,13 @@ live around mountains and fields,
 chasing Bug Pokémon. Everyone
 hates their annoying and strident
 singing."
-397,Staravia,,Level,Medium,Starling Pokémon,"They lead a huge flock and fight
+397,Staravia,,Level,"{ speed : ""Medium"" }",Starling Pokémon,"They lead a huge flock and fight
 other flocks for territory. If you leave
 it alone, it will start to make a horrible
 noise. It is a fierce but bad-mannered
 Pokémon. When they are too weak
 they abandon their flocks."
-398,Staraptor,,Level,Medium,Predator Pokémon,"Staraptor is a savage creature.
+398,Staraptor,,Level,"{ speed : ""Medium"" }",Predator Pokémon,"Staraptor is a savage creature.
 They will never stop attacking even
 if they get injured,and will fight foes
 bigger than themselves. They are
@@ -2740,7 +2740,7 @@ disturb its focus. It is agile, active
 and a great team worker. They live
 in huge packs alongside rivers; the
 dams they build are incredibly sturdy."
-400,Bibarel,,Level,Medium,Beaver Pokémon,"Bibarels build dam streams with bark
+400,Bibarel,,Level,"{ speed : ""Medium"" }",Beaver Pokémon,"Bibarels build dam streams with bark
 and mud. It is known as an industrious
 worker. Their constructions are very
 appreciated by people because a
@@ -2752,7 +2752,7 @@ is roaming close. It communicates
 by making rhythmic sounds with its
 antennae. It is not aggressive and
 feeds on honey and tree sap."
-402,Kricketune,,Level,Fast,Cricket Pokémon,"It can make all kind of sounds with
+402,Kricketune,,Level,"{ speed : ""Fast"" }",Cricket Pokémon,"It can make all kind of sounds with
 its antennae, arms and mouth.
 It signals emotions with different
 tunes but scientists still cannot
@@ -2764,13 +2764,13 @@ in danger, their whole fur shines in a
 flash to blind the foes.
 They live with their parents and
 siblings in small prides."
-404,Luxio,,Level,Medium,Spark Pokémon,"Female Luxios stay with the pride
+404,Luxio,,Level,"{ speed : ""Medium"" }",Spark Pokémon,"Female Luxios stay with the pride
 but males roam in marauding
 groups, trying to become strong
 enough to make their own pride. Its
 claws and teeth are charged with
 electricity, approach with caution."
-405,Luxray,,Level,Medium,Gleam Eyes Pokémon,"It is said that it can see through
+405,Luxray,,Level,"{ speed : ""Medium"" }",Gleam Eyes Pokémon,"It is said that it can see through
 walls. This Pokémon can easily find
 hiding prey and locate its young.
 Male Luxrays can be found roaming
@@ -2782,7 +2782,7 @@ healthy and beautiful, otherwise its
 bud will never bloom.
 If threatened, they will reveal their
 small but poisonous thorns."
-407,Roserade,,With Stone,With Shiny Stone,Bouquet Pokémon,"Luring prey with a sweet scent, it
+407,Roserade,,Stone,"{ item : ""Shiny Stone"" }",Bouquet Pokémon,"Luring prey with a sweet scent, it
 uses the poison on its thorn-filled
 arm-whips to poison, bind and finish
 off the prey. It has a dangerous
@@ -2794,7 +2794,7 @@ headbutts and tramples trees and
 walls with ease. They were plentiful
 100 million years ago. You can’t find
 one nowadays except as a fossil."
-409,Rampardos,,Level,Medium,Head Butt Pokémon,"Its skull withstands any magnitude
+409,Rampardos,,Level,"{ speed : ""Medium"" }",Head Butt Pokémon,"Its skull withstands any magnitude
 of impact. As a result, its brain never
 gets the chance to grow, this may
 have been the cause of its extinction.
@@ -2806,7 +2806,7 @@ armored. As a result, it can eat
 grass and berries without having
 to fight many Pokémon who would
 dare to prey on it."
-411,Bastiodon,,Level,Medium,Shield Pokémon,"They lived in herds, millions of years
+411,Bastiodon,,Level,"{ speed : ""Medium"" }",Shield Pokémon,"They lived in herds, millions of years
 ago. They would line together to
 shield their young. Despite its rough
 and scary exterior, this Pokémon is
@@ -2818,25 +2818,25 @@ It makes a cloak with the materials
 close to it to protect itself from the
 weather. Males evolve into a Mothim
 and females into a Wormadam."
-413,Wormadam,Grass,Level,Fast (Female),Bagworm Pokémon,"When Burmy evolved, its Grass cloak
+413,Wormadam,Grass,Level,"{ speed : ""Fast"", gender : ""Female"" }",Bagworm Pokémon,"When Burmy evolved, its Grass cloak
 became a part of its body. For this
 reason there are many variations in
 body and type. It is a calm Pokémon
 that loves flowers.
 This Pokémon is female only."
-413,Wormadam,Steel,Level,Fast (Female),Bagworm Pokémon,"When Burmy evolved, its Trash cloak
+413,Wormadam,Steel,Level,"{ speed : ""Fast"", gender : ""Female"" }",Bagworm Pokémon,"When Burmy evolved, its Trash cloak
 became a part of its body. For this
 reason there are many variations in
 body and type. It is a calm Pokémon
 that loves foil wrapping.
 This Pokémon is female only."
-413,Wormadam,Ground,Level,Fast (Female),Bagworm Pokémon,"When Burmy evolved, its Sand cloak
+413,Wormadam,Ground,Level,"{ speed : ""Fast"", gender : ""Female"" }",Bagworm Pokémon,"When Burmy evolved, its Sand cloak
 became a part of its body. For this
 reason there are many variations in
 body and type. It is a calm Pokémon
 that loves odd-shaped stones.
 This Pokémon is female only."
-414,Mothim,,Level,Fast (Male),Moth Pokémon,"It flies near the mountains in search
+414,Mothim,,Level,"{ speed : ""Fast"", gender : ""Male"" }",Moth Pokémon,"It flies near the mountains in search
 of honey. It is an opportunist and
 won’t gather any honey by itself,
 instead Mothim steals from Combee
@@ -2848,7 +2848,7 @@ to make honey. It is usually born a
 male. If a female is born, it will grow
 into a Vespiqueen and start its own
 Hive."
-416,Vespiquen,,Level,Slow (Female),Beehive Pokémon,"This Pokémon is female only.
+416,Vespiquen,,Level,"{ speed : ""Slow"", gender : ""Female"" }",Beehive Pokémon,"This Pokémon is female only.
 It raises grubs in the holes in its
 body and secretes pheromones to
 control Combee to fight and gather
@@ -2866,7 +2866,7 @@ tails like a screw, the sack around
 its neck swells to help it float or
 deflates to dive underwater and
 catch prey."
-419,Floatzel,,Level,Medium,Sea Weasel Pokémon,"It floats using its well-developed
+419,Floatzel,,Level,"{ speed : ""Medium"" }",Sea Weasel Pokémon,"It floats using its well-developed
 sack. They roam close to fishing
 spots to steal an easy meal. People
 allow them to hang around their
@@ -2878,7 +2878,7 @@ the energy needed for evolution, but
 this small head is frequently eaten
 by other Pokémon and people so
 it’s hard for them to evolve."
-421,Cherrim,,Level,Fast,Blossom Pokémon,"Cherrims bloom during times of
+421,Cherrim,,Level,"{ speed : ""Fast"" }",Blossom Pokémon,"Cherrims bloom during times of
 strong sunlight, their petals open
 fully and radiant. If the sun is not
 visible, it will remain as a closed bud,
@@ -2890,13 +2890,13 @@ sweet water. Their body is very soft
 and squishy but they can stretch
 long lengths. It releases a purple
 liquid from its body if threatened."
-423,Gastrodon,,Level,Medium,Sea Slug Pokémon,"It has a pliable body without any
+423,Gastrodon,,Level,"{ speed : ""Medium"" }",Sea Slug Pokémon,"It has a pliable body without any
 bones. If any part of its body is torn
 off, it will grow back in minutes.
 There is evidence that it had a hard
 shell on its back for protection in
 prehistoric times."
-424,Ambipom,,Level,Medium,Long Tail Pokémon,"They live in large colonies on the
+424,Ambipom,,Level,"{ speed : ""Medium"" }",Long Tail Pokémon,"They live in large colonies on the
 tallest trees, linking their tails to
 show friendship among herd mates.
 It loves fresh fruit. Ambipom uses its
@@ -2908,7 +2908,7 @@ who mistake it for a real balloon
 often end up missing. Because it
 floats aimlessly, an old folktale calls it
 the “Signpost for Wandering Spirits.”"
-426,Drifblim,,Level,Medium,Blimp Pokémon,"They float in groups in the evenings,
+426,Drifblim,,Level,"{ speed : ""Medium"" }",Blimp Pokémon,"They float in groups in the evenings,
 sometimes carrying people or
 Pokémon. If you notice them, they
 suddenly vanish. No one knows
@@ -2920,7 +2920,7 @@ and uses its soft fur to make nests
 and keep warm. You can see how it
 feels for the position of its ears.
 They are easily scared by humans."
-428,Lopunny,,Stat,Happiness 4,Rabbit Pokémon,"Lopunny is extremely cautious, it
+428,Lopunny,,Stat,"{ stat : ""Happiness"", value : 4 }",Rabbit Pokémon,"Lopunny is extremely cautious, it
 quickly bounds off when it senses
 danger. If they are touched roughly,
 they throw kicks and jump away.
@@ -2932,13 +2932,13 @@ Most of its fur is lost due to constant
 fighting, even its ears are used as
 weapons, whipping foes with heavy
 hits."
-429,Mismagius,,With Stone,With Dusk Stone,Magical Pokémon,"Extremely rare. Their cries sound like
+429,Mismagius,,Stone,"{ item : ""Dusk Stone"" }",Magical Pokémon,"Extremely rare. Their cries sound like
 incantations, hearing them gives you
 bad headaches and hallucinations.
 It is said that some Mismagius are
 benevolent and have granted good
 fortune to people they like."
-430,Honchkrow,,With Stone,With Dusk Stone,Big Boss Pokémon,"It lets out a deep cry to summon
+430,Honchkrow,,Stone,"{ item : ""Dusk Stone"" }",Big Boss Pokémon,"It lets out a deep cry to summon
 Murkrows, which fetch food and
 shiny objects to Honchkrow. It is,
 however, a tyrant to the Murkrow. It
@@ -2950,7 +2950,7 @@ nature, purring in happiness one
 second, then hooking its claws
 into its trainer’s nose. It loves to be
 admired and pampered."
-432,Purgugly,,Level,Medium,Tiger Cat Pokémon,"It becomes wilder and aggressive
+432,Purgugly,,Level,"{ speed : ""Medium"" }",Tiger Cat Pokémon,"It becomes wilder and aggressive
 after evolving. It is known to claim
 other Pokémon nests as its own.
 It will make itself appear bigger and
@@ -2968,7 +2968,7 @@ settlements. They release a foul
 liquid from their rear that stinks for
 days to scare away predators.
 But sometimes they do it just for fun."
-435,Skuntank,,Level,Medium,Skunk Pokémon,"It sprays a reeking fluid from its tail.
+435,Skuntank,,Level,"{ speed : ""Medium"" }",Skunk Pokémon,"It sprays a reeking fluid from its tail.
 The fluid smells worse the longer it
 is allowed to fester. It is vulnerable
 to attacks that come from above
@@ -2980,7 +2980,7 @@ Bronzor have been found within
 the vaults. Bronzors reflect images
 like mirrors, people say that this
 reflection shows the future."
-437,Bronzong,,Level,Medium,Bronze Bell Pokémon,"Ancient people revered Bronzong
+437,Bronzong,,Level,"{ speed : ""Medium"" }",Bronze Bell Pokémon,"Ancient people revered Bronzong
 for bringing the rain and sun at will.
 One became a news sensation
 recently when it was dug up at a
@@ -3022,13 +3022,13 @@ see the fin on its back coming out
 the ground it means it is about to
 attack. It’s very aggressive but kind
 of clumsy. Beware of its big jaws."
-444,Gabite,,Level,Slow,Cave Pokémon,"It hoards a small treasure of sparkly
+444,Gabite,,Level,"{ speed : ""Slow"" }",Cave Pokémon,"It hoards a small treasure of sparkly
 things back in its cave. It will react
 aggressively towards any potential
 thief. It is also an excellent hunter,
 capable of running, swimming and
 gliding extremely fast."
-445,Garchomp,,Level,Slow,Mach Pokémon,"Garchomps are scarce in the wild
+445,Garchomp,,Level,"{ speed : ""Slow"" }",Mach Pokémon,"Garchomps are scarce in the wild
 and very dangerous. It folds its arms
 and uses its fins to fly extremely
 fast at low heights. Territorial and
@@ -3052,7 +3052,7 @@ the ability to see the auras of others,
 through this power it is capable of
 sensing emotions. It won’t get close
 to those with selfish intentions."
-448,Lucario,,Stat,Loyalty 5,Aura Pokémon,"This Pokémon is completely loyal
+448,Lucario,,Stat,"{ stat : ""Loyalty"", value : 5 }",Aura Pokémon,"This Pokémon is completely loyal
 to its trainer. It has the ability to
 not only see the auras but also to
 transform them into energy. It is
@@ -3069,7 +3069,7 @@ small groups. It closes its nostrils and
 submerges under the sand to rest.
 Females have a different coloration,
 usually a darker and duller color."
-450,Hippowdon,,Level,Medium,Heavyweight Pokémon,"It becomes territorial and aggressive
+450,Hippowdon,,Level,"{ speed : ""Medium"" }",Heavyweight Pokémon,"It becomes territorial and aggressive
 after evolving. Its open mouth
 stands over 7 ft. tall.
 There are records of one that came
@@ -3081,7 +3081,7 @@ for an unsuspecting prey to come
 nearby. It will then sting the prey
 and cling to it tenaciously until the
 poison takes effect."
-452,Drapion,,Level,Medium,Ogre Scorp Pokémon,"This Pokémon is very aggressive. It
+452,Drapion,,Level,"{ speed : ""Medium"" }",Ogre Scorp Pokémon,"This Pokémon is very aggressive. It
 can completely rotate its head over
 its body, because of this, Drapion
 has no blind spots. Its venom is
@@ -3093,7 +3093,7 @@ makes croaking sounds.
 The fluid squeezed from its fingers
 is poisonous, but it is a common
 ingredient in medicinal ointments."
-454,Toxicroak,,Level,Medium,Toxic Mouth Pokémon,"The toxin made in its poison sacs
+454,Toxicroak,,Level,"{ speed : ""Medium"" }",Toxic Mouth Pokémon,"The toxin made in its poison sacs
 is pumped into the knuckle claws
 through tubes down its arms. Its
 toxins are so powerful that even a
@@ -3111,7 +3111,7 @@ the nickname “Beautifly of the Sea.”
 The line running down its side can
 store sunlight and glow brightly at
 night."
-457,Lumineon,,Level,Medium,Neon Pokémon,"It lives in the deep-sea bottom.
+457,Lumineon,,Level,"{ speed : ""Medium"" }",Neon Pokémon,"It lives in the deep-sea bottom.
 It attracts prey by flashing the
 patterns on its tail fins. In the wild it
 competes against Lanturn for food.
@@ -3129,7 +3129,7 @@ returns to the summit in the spring.
 They are rarely in contact with
 humans but are sought for the
 frozen berries they grow."
-460,Abomasnow,,Level,Medium,Frosted Tree Pokémon,"There was a legend for a long
+460,Abomasnow,,Level,"{ speed : ""Medium"" }",Frosted Tree Pokémon,"There was a legend for a long
 time that called this Pokémon “The
 Ice Monster”. Now we know it is a
 Pokémon that can cover everything
@@ -3141,91 +3141,91 @@ pointy icicles that hail upon its
 enemies in a blizzard. The angrier it
 becomes the longer the storm will
 last."
-461,Weavile,,Leveled With Item,With Razor Claw,Sharp Claw Pokémon,"They live in cold regions, forming
+461,Weavile,,Leveled With Item,"{ item : ""Razor Claw"" }",Sharp Claw Pokémon,"They live in cold regions, forming
 groups of four that hunt prey
 with impressive coordination. They
 leave claw marks and patterns to
 indicate their territory. It is devious
 and loves to cause trouble."
-462,Magnezone,,Level,Slow,Magnet Area Pokémon,"Magneton only evolves in very
+462,Magnezone,,Level,"{ speed : ""Slow"" }",Magnet Area Pokémon,"Magneton only evolves in very
 specific areas of the globe. It has
 the ability to repel itself from the
 ground using magnetism. If it is
 nervous it pulls all the pieces of
 metal around until it relaxes."
-463,Lickilicky,,Level,Slow,Licking Pokémon,"It uses its tongue as an stretchable
+463,Lickilicky,,Level,"{ speed : ""Slow"" }",Licking Pokémon,"It uses its tongue as an stretchable
 arm. It will wrap prey with it and then
 proceed to eat it. Its saliva causes
 numbness. Try not to touch its
 tongue, it might try to eat you by
 reflex."
-464,Rhyperior,,Trade,With Protector,Drill Pokémon,"They have rarely been seen in the
+464,Rhyperior,,Trade,"{ item : ""Protector"" }",Drill Pokémon,"They have rarely been seen in the
 wild and only in the tallest mountains.
 It has holes on its hands which are
 used like canons to shoot boulders.
 Be careful, they are very aggressive
 but not very smart."
-465,Tangrowth,,Level,Slow,Vine Pokémon,"While it remains still, it appears to be
+465,Tangrowth,,Level,"{ speed : ""Slow"" }",Vine Pokémon,"While it remains still, it appears to be
 a large shrub. Unsuspecting prey
 that wander near get ensnared by
 its vines. In the summer months, its
 vines grow so large that you can’t
 even see its eyes."
-466,Electivire,,Trade,With Electirizer,Thunderbolt Pokémon,"This Pokémon is reckless and has a
+466,Electivire,,Trade,"{ item : ""Electirizer"" }",Thunderbolt Pokémon,"This Pokémon is reckless and has a
 short temper. As its electric charge
 amplifies, blue sparks begin to
 crackle between its horns. It has
 registered charge levels of over
 20,000 Volts."
-467,Magmortar,,Trade,With Magmarizer,Blast Pokémon,"Magmortar is extremely rare, if
+467,Magmortar,,Trade,"{ item : ""Magmarizer"" }",Blast Pokémon,"Magmortar is extremely rare, if
 you’re lucky you can find one living
 directly on volcanic craters. It rises
 the temperature of its body at will
 to the point of bursting into flames.
 The fire it produces is almost white."
-468,Togekiss,,With Stone,With Shiny Stone,Jubilee Pokémon,"Sightings of these Pokémon have
+468,Togekiss,,Stone,"{ item : ""Shiny Stone"" }",Jubilee Pokémon,"Sightings of these Pokémon have
 become rare nowadays. They used
 to visit peaceful regions, bringing
 them gifts of kindness and great
 blessings. But they appear to have
 vanished in this times of conflict."
-469,Yanmega,,Level,Medium,Ogre Darner Pokémon,"It goes back to its prehistoric roots.
+469,Yanmega,,Level,"{ speed : ""Medium"" }",Ogre Darner Pokémon,"It goes back to its prehistoric roots.
 It is a lot more violent than its
 pre-evolved form. Its jaw power is
 incredible and it is adept at biting
 apart foes while flying by at high
 speed. This Pokémon can be brutal"
-470,Leafeon,,With Stone,With Leaf Stone,Verdant Pokémon,"Eevee evolves to Leafeon when it’s
+470,Leafeon,,Stone,"{ item : ""Leaf Stone"" }",Verdant Pokémon,"Eevee evolves to Leafeon when it’s
 living near a special kind of moss.
 Its cells are capable of performing
 photosynthesis. It is a calm Pokémon
 and does not usually fight but its
 leaves are sharp and strong."
-471,Glaceon,,With Stone,With Ice Stone,Fresh Snow Pokémon,"Eevees that are forced to live in
+471,Glaceon,,Stone,"{ item : ""Ice Stone"" }",Fresh Snow Pokémon,"Eevees that are forced to live in
 freezing temperatures evolve into
 this Pokémon. It can control its body
 temperature to below zero, freezing
 its fur and making it extremely
 tough."
-472,Gliscor,,Leveled With Item,With Razor Fang,Fang Scorp Pokémon,"Its flight is soundless. It uses its
+472,Gliscor,,Leveled With Item,"{ item : ""Razor Fang"" }",Fang Scorp Pokémon,"Its flight is soundless. It uses its
 lengthy tail to carry off its prey, then
 uses its long fangs to do the rest.
 It is more playful than aggressive
 but it is dangerous if you get close
 to the enormous claws."
-473,Mamoswine,,Level,Slow,Twin Tusk Pokémon,"It was everywhere during the ice
+473,Mamoswine,,Level,"{ speed : ""Slow"" }",Twin Tusk Pokémon,"It was everywhere during the ice
 age but its population declined
 afterwards. This Pokémon uses
 strong tusks to remove the soil and
 snow and dig up roots and plants to
 eat. It has a bad temper."
-474,Porygon-Z,,Trade,With Dubious Disc,Virtual Pokémon,"A software to explore another
+474,Porygon-Z,,Trade,"{ item : ""Dubious Disc"" }",Virtual Pokémon,"A software to explore another
 dimension was installed on Porygon.
 However, it began acting oddly
 due to glitches in the code. Since
 then, it has a fondness for videos of
 Meowth and Skitty on the internet"
-475,Gallade,,Special,With Dawn Stone (Male),Blade Pokémon,"This Pokémon is male only. He has
+475,Gallade,,Special,"{ item : ""Dawn Stone"", gender : ""Male"" }",Blade Pokémon,"This Pokémon is male only. He has
 an extreme sense of courtesy. In
 a battle, it uses the blades on his
 arms as if they were swords. It is a
@@ -3237,19 +3237,19 @@ large radius and will go help anyone
 in need. It will only attack if it needs
 to defend someone or something. It
 is protective and brave."
-476,Probopass,,Special,A trip to New Mauville,Compass Pokémon,"It exudes strong magnetism from
+476,Probopass,,Special,"{ special : ""A trip to New Mauville"" }",Compass Pokémon,"It exudes strong magnetism from
 all over. It controls three small
 units called Mini-Noses that float
 around and act as arms. It usually
 stays motionless unless attacked or
 provoked."
-477,Dusknoir,,Trade,With Reaper Cloth,Gripper Pokémon,"This feared Pokémon is said to travel
+477,Dusknoir,,Trade,"{ item : ""Reaper Cloth"" }",Gripper Pokémon,"This feared Pokémon is said to travel
 to the other world. Some even
 believe that it takes lost spirits along
 with it. It uses the antenna on it’s
 head to receive messages from the
 deceased."
-478,Froslass,,With Stone,Dawn Stone (Female),Snow Land Pokémon,"This Pokémon is female only.
+478,Froslass,,Stone,"{ item : ""Dawn Stone"", gender : ""Female"" }",Snow Land Pokémon,"This Pokémon is female only.
 Legends in snowy regions say that
 a woman who was lost at an icy
 mountain was reborn as Froslass. It
@@ -3376,13 +3376,13 @@ like being bossed around.
 Being exposed to lots of sunlight
 makes its movements swifter. The
 tail drops if it is not feeling well."
-496,Servine,,Level,Medium,Grass Snake Pokémon,"It moves along the ground by sliding.
+496,Servine,,Level,"{ speed : ""Medium"" }",Grass Snake Pokémon,"It moves along the ground by sliding.
 Its swift movements befuddle its
 foes, then attacks with a vine whip.
 It always keeps itself clean and
 it demands care from its trainer,
 otherwise it will misbehave."
-497,Serperior,,Level,Medium,Regal Pokémon,"It stops enemies dead in their tracks
+497,Serperior,,Level,"{ speed : ""Medium"" }",Regal Pokémon,"It stops enemies dead in their tracks
 with just one intense glare. It is a
 noble and proud Pokémon.
 It is not aggressive but it can be very
@@ -3394,13 +3394,13 @@ pitch-black smoke instead.
 Tepig loves to eat roasted berries
 and its keen sense of smell allows it
 to find them easily."
-499,Pignite,,Level,Medium,Fire Pig Pokémon,"Whatever it eats becomes fuel for
+499,Pignite,,Level,"{ speed : ""Medium"" }",Fire Pig Pokémon,"Whatever it eats becomes fuel for
 the flame on its stomach. When
 it is angered, the intensity of the
 flame increases. It is not common to
 see them the wild. They are mostly
 found living in warm places."
-500,Emboar,,Level,Medium,Mega Fire Pig Pokémon,"Although it has a scary exterior, it is
+500,Emboar,,Level,"{ speed : ""Medium"" }",Mega Fire Pig Pokémon,"Although it has a scary exterior, it is
 a very gentle Pokémon that cares
 deeply for family and friends.
 It can burst its punches and beard
@@ -3412,13 +3412,13 @@ Oshawott uses the scalchop on its
 chest as a tool for multiple purposes
 and as a weapon to slash and fight.
 It is small but brave and daring."
-502,Dewott,,Level,Medium,Discipline Pokémon,"It isolates itself from others and
+502,Dewott,,Level,"{ speed : ""Medium"" }",Discipline Pokémon,"It isolates itself from others and
 trains every day to perform a double
 scalchop slash technique.
 This Pokémon takes itself very
 seriously and won’t back down from
 any challenge."
-503,Samurott,,Level,Medium,Formidable Pokémon,"It uses the horn on it’s head and
+503,Samurott,,Level,"{ speed : ""Medium"" }",Formidable Pokémon,"It uses the horn on it’s head and
 both scimitars attached to it’s
 front legs as weapons. In the late
 spring and fall, they gather on cold
@@ -3430,7 +3430,7 @@ for predators. The group gathers
 food they store on their cheeks to
 bring it back home. They are wary
 and alert all the time."
-505,Watchog,,Level,Fast,Lookout Pokémon,"Their fur has a luminescent property.
+505,Watchog,,Level,"{ speed : ""Fast"" }",Lookout Pokémon,"Their fur has a luminescent property.
 They make the patterns on their
 bodies glow in order to threaten
 predators. Their keen eyesight
@@ -3442,13 +3442,13 @@ to keep as pet. It is very brave and
 smart and will protect it’s trainer
 against any threat. It uses the hair
 on its head to feel its surroundings."
-507,Herdier,,Level,Medium,Loyal Dog Pokémon,"It loyally follows its Trainer’s orders.
+507,Herdier,,Level,"{ speed : ""Medium"" }",Loyal Dog Pokémon,"It loyally follows its Trainer’s orders.
 For ages, they have helped Trainers
 to raise well behaved Pokémon.
 It has black, cape-like fur that is very
 hard and keeps it protected from
 the weather."
-508,Stoutland,,Level,Medium,Big-Hearted Pokémon,"For many years this Pokémon has
+508,Stoutland,,Level,"{ speed : ""Medium"" }",Big-Hearted Pokémon,"For many years this Pokémon has
 helped with rescue missions in hostile
 places. Its outer coat is hard on the
 exterior but soft and silky on the
@@ -3460,7 +3460,7 @@ fun but their victims can’t help but
 forgive them. Their cute act is a
 ruse. People who keep them as pets
 often regret it."
-510,Liepard,,Level,Medium,Cruel Pokémon,"It’s difficult to see one in the
+510,Liepard,,Level,"{ speed : ""Medium"" }",Cruel Pokémon,"It’s difficult to see one in the
 wild. These Pokémon vanish and
 appear attacking unexpectedly.
 Many Trainers are drawn to their
@@ -3472,7 +3472,7 @@ share them with other Pokémon.
 The leaves on it’s head have
 medicinal properties, if it finds a sick
 Pokémon it will offer some to heal it."
-512,Simisage,,With Stone,With Leaf Stone,Thorn Monkey Pokémon,"It becomes somewhat ill tempered
+512,Simisage,,Stone,"{ item : ""Leaf Stone"" }",Thorn Monkey Pokémon,"It becomes somewhat ill tempered
 after it evolves. The leaves on it’s
 head can be made into a bitter but
 effective medicine, however it will
@@ -3484,7 +3484,7 @@ before eating them and helps lost
 people. When angered the tuft of
 hair on it’s head and tail can burst
 into flames."
-514,Simisear,,With Stone,With Fire Stone,Ember Pokémon,"A flame burns on top of its head. It
+514,Simisear,,Stone,"{ item : ""Fire Stone"" }",Ember Pokémon,"A flame burns on top of its head. It
 scatters embers from its head and
 tail to sear its opponents. It loves
 sweets and is not afraid to go near
@@ -3496,7 +3496,7 @@ the water stored in its head tuft.
 Its water is valued by gardeners
 and Grass Pokémon breeders as it
 makes plants grow beautiful."
-516,Simipour,,With Stone,With Water Stone,Geyser Pokémon,"It prefers places with clean water.
+516,Simipour,,Stone,"{ item : ""Water Stone"" }",Geyser Pokémon,"It prefers places with clean water.
 When its tuft runs low, it replenishes
 it by siphoning water up with its tail.
 It is said that if you see a Simipour
@@ -3508,7 +3508,7 @@ When it eats a pleasant dream, it
 expels pink-colored mist. If you
 forgot what you dreamed, a Munna
 must have eaten your dream."
-518,Musharna,,With Stone,With Moon Stone,Drowsing Pokémon,"It communicates with the mist on its
+518,Musharna,,Stone,"{ item : ""Moon Stone"" }",Drowsing Pokémon,"It communicates with the mist on its
 forehead, it can create shapes and
 images from dreams it has eaten.
 It is said that this Pokémon is a link
@@ -3520,13 +3520,13 @@ and they often gather in the parks.
 They are forgetful and not very
 smart, but they always remember
 the way back home."
-520,Tranquil,,Level,Medium,Wild Pigeon Pokémon,"During war and old times people
+520,Tranquil,,Level,"{ speed : ""Medium"" }",Wild Pigeon Pokémon,"During war and old times people
 made use of Tranquil’s sense of
 location to send letters. It will never
 fail to find it’s way back home. They
 like quiet forests and enjoy to relax
 in the peace and quiet."
-521,Unfezant,,Level,Medium,Proud Pokémon,"Males swing the beautiful plumage
+521,Unfezant,,Level,"{ speed : ""Medium"" }",Proud Pokémon,"Males swing the beautiful plumage
 on their heads to threaten others
 and to court females. Although less
 visually appealing, females are better
@@ -3538,7 +3538,7 @@ chasing the lightnings to absorb
 them on their mane. They form big
 herds and use the pattern on their
 skin to confuse predators."
-523,Zebstrika,,Level,Medium,Thunderbolt Pokémon,"It is very ill tempered and wild, there
+523,Zebstrika,,Level,"{ speed : ""Medium"" }",Thunderbolt Pokémon,"It is very ill tempered and wild, there
 have been very few cases of it being
 successfully tamed.
 It can shoot lightning from it’s mane
@@ -3550,13 +3550,13 @@ steel. It is blind, what looks like it’s
 eye is really an ear, for this reason
 it can live in the darkest of caves
 feeding on rocks to grow stronger."
-525,Boldore,,Level,Medium,Ore Pokémon,"It releases the excess of energy in
+525,Boldore,,Level,"{ speed : ""Medium"" }",Ore Pokémon,"It releases the excess of energy in
 the form of red crystals. It is still blind,
 it looks for for water sources inside
 underground caves by using echo
 location. It is a pacific creature that
 keeps to itself most of the time."
-526,Gigalith,,Trade,Trade,Compressed Pokémon,"It is a serious Pokémon that doesn’t
+526,Gigalith,,Trade,,Compressed Pokémon,"It is a serious Pokémon that doesn’t
 interact with others too much.
 It uses the sharp crystals in it’s body
 to recharge using the sun’s energy.
@@ -3568,7 +3568,7 @@ it learns about its surroundings. The
 two small eyes it has get covered
 by its own fur. It clings to trees and
 cave walls to sleep at night."
-528,Swoobat,,Stat,Happiness 4,Courting Pokémon,"They communicate by emitting
+528,Swoobat,,Stat,"{ stat : ""Happiness"", value : 4 }",Courting Pokémon,"They communicate by emitting
 ultrasonic waves through their
 noses. This sound is not perceived
 by humans but it can affect their
@@ -3580,7 +3580,7 @@ It makes its way swiftly through the
 soil by putting both claws together
 and rotating at high speed. It is
 friendly and not afraid of humans."
-530,Excadrill,,Level,Medium,Subterrene Pokémon,"They build maze-like nests deep
+530,Excadrill,,Level,"{ speed : ""Medium"" }",Subterrene Pokémon,"They build maze-like nests deep
 underground. Humans make use of
 their drilling abilities to dig tunnels
 for subway trains. This Pokémon
@@ -3604,13 +3604,13 @@ with construction work as they
 strive to challenge their strength.
 When it can swing the log without
 problems it is close to evolve."
-533,Gurdurr,,Level,Medium,Muscular Pokémon,"This Pokémon is very muscular and
+533,Gurdurr,,Level,"{ speed : ""Medium"" }",Muscular Pokémon,"This Pokémon is very muscular and
 strongly built. It likes to show off it’s
 strength and muscles. Some years
 back a famous wrestler got defeated
 in just a few seconds by one of
 these Pokémon."
-534,Conkeldurr,,Trade,Trade,Muscular Pokémon,"They use concrete pillars as walking
+534,Conkeldurr,,Trade,,Muscular Pokémon,"They use concrete pillars as walking
 canes and swing the pillars freely in
 battle. Anthropology research says
 that this Pokémon may have taught
@@ -3622,13 +3622,13 @@ rainfall. They warn others of danger
 and predators by vibrating their
 cheeks to create a high-pitched
 sound."
-536,Palpitoad,,Level,Medium,Vibration Pokémon,"It lives both in water and land.
+536,Palpitoad,,Level,"{ speed : ""Medium"" }",Vibration Pokémon,"It lives both in water and land.
 It uses its long, sticky tongue to
 capture prey. When they vibrate
 the bumps on their heads, they can
 make waves in the water and even
 earthquake-like vibrations on land."
-537,Seismitoad,,Level,Medium,Vibration Pokémon,"It is only found in a few marshes,
+537,Seismitoad,,Level,"{ speed : ""Medium"" }",Vibration Pokémon,"It is only found in a few marshes,
 and rarely seen on clean water.
 They shoot a paralyzing liquid from
 their head bumps and use the
@@ -3652,13 +3652,13 @@ hood while it is sleeping. The silk they
 produce it’s highly valued to make
 expensive clothing, this makes it a
 popular pet for fashion designers."
-541,Swadloon,,Level,Fast,Leaf-Wrapped Pokémon,"Preferring dark and damp places,
+541,Swadloon,,Level,"{ speed : ""Fast"" }",Leaf-Wrapped Pokémon,"Preferring dark and damp places,
 it spends the entire day inside
 rotting logs. It protects itself from
 the cold by wrapping up in leaves.
 It’s kind of moody and it likes to
 remain undisturbed."
-542,Leavanny,,Stat,Happiness 4,Nurturing Pokémon,"It is a gentle and caring Pokémon.
+542,Leavanny,,Stat,"{ stat : ""Happiness"", value : 4 }",Nurturing Pokémon,"It is a gentle and caring Pokémon.
 Mostly known for making clothes
 out of leaves and silk for any small
 pokémon it finds. It warms and
@@ -3670,13 +3670,13 @@ front and back to locate things
 around. Its bite injects a potent
 venom, enough to deter the large
 bird Pokémon that try to prey on it."
-544,Whirlpede,,Level,Medium,Curlipede Pokémon,"It is usually motionless, when it is
+544,Whirlpede,,Level,"{ speed : ""Medium"" }",Curlipede Pokémon,"It is usually motionless, when it is
 attacked, it rotates at high speed
 and then crashes into its opponent
 with its body full of poison spikes.
 Inside it is storing energy for evolving,
 which normally takes a few months."
-545,Scolipede,,Level,Medium,Megapede Pokémon,"Highly aggressive, it uses the claws
+545,Scolipede,,Level,"{ speed : ""Medium"" }",Megapede Pokémon,"Highly aggressive, it uses the claws
 on its neck to immobilize its prey
 and then inject them with poison
 to finish them off. Be very careful
@@ -3688,7 +3688,7 @@ float, so they take shelter beneath
 big trees. To defend from predators
 they shed their cotton and leave it
 as a decoy while they escape."
-547,Whimsicott,,With Stone,With Sun Stone,Windveiled Pokémon,"Riding whirlwinds, they appear and
+547,Whimsicott,,Stone,"{ item : ""Sun Stone"" }",Windveiled Pokémon,"Riding whirlwinds, they appear and
 disappear. These Pokémon sneak
 through even the smallest gaps
 into houses and cause all sorts of
@@ -3700,7 +3700,7 @@ known to be good for growing
 plants. The leaves on its head can
 be used for medicinal purposes, but
 they are extra bitter."
-549,Liligant,,With Stone,With Sun Stone,Flowering Pokémon,"Even veteran gardeners face a
+549,Liligant,,Stone,"{ item : ""Sun Stone"" }",Flowering Pokémon,"Even veteran gardeners face a
 challenge in getting its beautiful
 flower to bloom as it withers with
 ease. This Pokémon is popular
@@ -3718,13 +3718,13 @@ visible. They don’t prey on anything
 bigger than themselves but can be
 troublesome if they are being leaded
 by one of it’s evolved forms."
-552,Krokorok,,Level,Medium,Desert Croc Pokémon,"The protective membranes shield
+552,Krokorok,,Level,"{ speed : ""Medium"" }",Desert Croc Pokémon,"The protective membranes shield
 their eyes from sandstorms and
 allow them to see in the dark. They
 can be aggressive and territorial
 and love to destroy things with their
 fangs."
-553,Krookodile,,Level,Medium,Intimidation Pokémon,"A very violent Pokémon. They try to
+553,Krookodile,,Level,"{ speed : ""Medium"" }",Intimidation Pokémon,"A very violent Pokémon. They try to
 clamp down on anything that moves
 in front of their eyes and once
 grasped they never let the prey
@@ -3736,7 +3736,7 @@ the flame burns brightly it becomes
 very active running around, when
 the flame is low it falls asleep. Their
 droppings double as a bonfire."
-555,Darmanitan,,Level,Medium,Blazing Pokémon,"This Pokémon is shrouded in mystery
+555,Darmanitan,,Level,"{ speed : ""Medium"" }",Blazing Pokémon,"This Pokémon is shrouded in mystery
 as old writings and mural paintings
 describe it as being blue and using
 psychic powers, but years of study
@@ -3760,7 +3760,7 @@ becomes a shelter until it grows too
 large for it. If the rock breaks, it stays
 anxious and agitated until it finds a
 replacement."
-558,Crustle,,Level,Medium,Stone Home Pokémon,"They carry enormous boulders as
+558,Crustle,,Level,"{ speed : ""Medium"" }",Stone Home Pokémon,"They carry enormous boulders as
 a protective shell. When competing
 for territory, Crustle fight viciously.
 The one whose boulder is broken
@@ -3772,7 +3772,7 @@ rubber-like texture and it can pull it
 all the way up to its head. It bashes
 foes with headbutts and is known
 for making dirty moves on fights."
-560,Scrafty,,Level,Medium,Hoodlum Pokémon,"They form gangs and beat anyone
+560,Scrafty,,Level,"{ speed : ""Medium"" }",Hoodlum Pokémon,"They form gangs and beat anyone
 who trespasses their territory.
 The one with the biggest crest is
 the leader. They throw powerful
@@ -3790,7 +3790,7 @@ the past and was buried with special
 ceremonies. Each one carries a mask
 that looks like the face it had in life.
 A sad Pokémon that weeps often."
-563,Cofagrigus,,Level,Slow,Coffin Pokémon,"This Pokémon has only been seen
+563,Cofagrigus,,Level,"{ speed : ""Slow"" }",Coffin Pokémon,"This Pokémon has only been seen
 few times in the ruins and tombs of
 ancient civilizations. It curses and
 transforms people and Pokémon
@@ -3802,7 +3802,7 @@ thought they also went on land to
 attack prey. One has been cloned
 from a fossil that was found a mile
 deep underwater."
-565,Carracosta,,Level,Medium,Prototurtle Pokémon,"They can live both in ocean and
+565,Carracosta,,Level,"{ speed : ""Medium"" }",Prototurtle Pokémon,"They can live both in ocean and
 land. It can knock out a foe with a
 slap from one of its powerful front
 fins and chew it up whole.
@@ -3814,7 +3814,7 @@ bird Pokémon. Its flight abilities are
 poor so it just hops up by jumping.
 They are ill tempered and will not
 eat processed Pokémon food."
-567,Archeops,,Level,Medium,First Bird Pokémon,"They used to form groups that
+567,Archeops,,Level,"{ speed : ""Medium"" }",First Bird Pokémon,"They used to form groups that
 cooperated to catch prey. From
 the ground, they used a running
 start to take flight. It is believed that
@@ -3826,7 +3826,7 @@ chemical reaction that created this
 Pokémon. It belches a poison gas,
 breathing it will leave you sick in bed
 for a week. It loves filthy places."
-569,Garbodor,,Level,Medium,Trash Heap Pokémon,"They absorb garbage to make it
+569,Garbodor,,Level,"{ speed : ""Medium"" }",Trash Heap Pokémon,"They absorb garbage to make it
 part of their bodies and use it to
 produce toxic substances from
 their finger tips. They like to remain
@@ -3838,7 +3838,7 @@ other Pokémon. They cannot speak
 when transformed and their tail
 remains visible. They ruin reputations
 by creating mischief in disguise."
-571,Zoroark,,Level,Medium,Illusion Fox Pokémon,"They live in groups, their lair’s entrance
+571,Zoroark,,Level,"{ speed : ""Medium"" }",Illusion Fox Pokémon,"They live in groups, their lair’s entrance
 is protected with their illusions and
 mirages. They have been known to
 fool entire towns with their tricks.
@@ -3850,7 +3850,7 @@ well groomed and clean.
 Housewives love to keep them as
 pets because they eagerly help to
 clean the house."
-573,Cinccino,,With Stone,With Shiny Stone,Scarf Pokémon,"Their fur feels amazing to the touch.
+573,Cinccino,,Stone,"{ item : ""Shiny Stone"" }",Scarf Pokémon,"Their fur feels amazing to the touch.
 It produces an oil that repels dust
 and prevents static electricity from
 building up. It loves to be groomed
@@ -3862,13 +3862,13 @@ they are looking at something that
 only they can see. The ribbon-like
 feelers on their body increase their
 psychic power."
-575,Gothorita,,Level,Medium,Manipulate Pokémon,"Starlight is the source of their power.
+575,Gothorita,,Level,"{ speed : ""Medium"" }",Manipulate Pokémon,"Starlight is the source of their power.
 At night, they mark star positions by
 using floating stones. According to
 many old tales, it creates friends for
 itself by controlling sleeping children
 on starry nights."
-576,Gothitelle,,Level,Medium,Astral Body Pokémon,"They can predict the future from the
+576,Gothitelle,,Level,"{ speed : ""Medium"" }",Astral Body Pokémon,"They can predict the future from the
 placement and movement of the
 stars. They get restless if someone
 they know will be in danger. They
@@ -3880,13 +3880,13 @@ in any environment. They drive
 away attackers by unleashing their
 psychic power. They communicate
 with their minds."
-578,Duosion,,Level,Medium,Mitosis Pokémon,"It developed two brains when it
+578,Duosion,,Level,"{ speed : ""Medium"" }",Mitosis Pokémon,"It developed two brains when it
 evolved, due to this it has a split
 personality. At times it may suddenly
 try to take two different actions at
 once. When the two brains finally
 synchronize it shows it’s max power."
-579,Reuniclus,,Level,Medium,Multiplying Pokémon,"These intelligent Pokémon fight by
+579,Reuniclus,,Level,"{ speed : ""Medium"" }",Multiplying Pokémon,"These intelligent Pokémon fight by
 controlling their arms with psychic
 energy. They have been seen
 forming networks of many Reuniclus
@@ -3898,7 +3898,7 @@ water eating their favorite food,
 peat moss. They can shoot a spray
 mist with their feathers to protect
 from any predator that comes."
-581,Swanna,,Level,Medium,White Bird Pokémon,"Swanna come out to dance at
+581,Swanna,,Level,"{ speed : ""Medium"" }",White Bird Pokémon,"Swanna come out to dance at
 dusk. The one dancing in the middle
 is the leader of the flock. Despite
 their elegant and frail appearance,
@@ -3910,13 +3910,13 @@ morning sun. It uses snow to cover
 its head and protect it from melting.
 They are playful and love to make
 snow fall around them."
-583,Vanillish,,Level,Medium,Icy Snow Pokémon,"Snowy mountains are this Pokémon’s
+583,Vanillish,,Level,"{ speed : ""Medium"" }",Icy Snow Pokémon,"Snowy mountains are this Pokémon’s
 habitat. It conceals itself from enemy
 eyes by creating many small ice
 bundles and hiding around them.
 It may attach itself to the ceiling of
 ice caves to hide around the ice."
-584,Vanilluxe,,Level,Medium,Snowstorm Pokémon,"It grew a new head with evolution,
+584,Vanilluxe,,Level,"{ speed : ""Medium"" }",Snowstorm Pokémon,"It grew a new head with evolution,
 and they get along really well. They
 need to drink a lot of water in order
 to keep cool outside a gelid weather.
@@ -3928,7 +3928,7 @@ according to the season and can
 be affected by temperature as well.
 It usually stays hidden in tall grass
 while its mother is away."
-586,Sawsbuck,,Level,Medium,Season Pokémon,"The plants growing on its horns
+586,Sawsbuck,,Level,"{ speed : ""Medium"" }",Season Pokémon,"The plants growing on its horns
 change according to the season.
 They live in herds that migrate in
 search of grass. The leaders of the
@@ -3946,7 +3946,7 @@ away. This Pokémon targets Shelmet
 as they compete for food. It only
 evolves when it has a Shelmet's
 shell as its new home."
-589,Escavalier,,Level,Medium,Cavalry Pokémon,"Wearing the shell covering it stole
+589,Escavalier,,Level,"{ speed : ""Medium"" }",Cavalry Pokémon,"Wearing the shell covering it stole
 from a Shelmet, it defends itself and
 attacks with two stings. It can fly
 to move around but its wings are
@@ -3958,7 +3958,7 @@ itself. In recent times this pattern
 has started to look like a Pokéball.
 It releases toxic spores in the air
 that help it move around safely."
-591,Amoonguss,,Level,Medium,Mushroom Pokémon,"In ancient times the tip of their caps
+591,Amoonguss,,Level,"{ speed : ""Medium"" }",Mushroom Pokémon,"In ancient times the tip of their caps
 had two eye-like patterns and it
 made a swaying motion to lure
 prey to itself, but as they became
@@ -3970,7 +3970,7 @@ This Pokémon paralizes a swimming
 victim and wraps them, dragging
 them to the bottom of the sea.
 Females have pink shade."
-593,Jellicent,,Level,Medium,Floating Pokémon,"Its body is mostly seawater. It feeds
+593,Jellicent,,Level,"{ speed : ""Medium"" }",Floating Pokémon,"Its body is mostly seawater. It feeds
 on the life energy of its victims. It is
 regal, pompous, and hates orders.
 The fate of the ships and crew that
@@ -3988,7 +3988,7 @@ and absorbs the static electricity
 of their fur. In the cities they suck
 electricity from the outlets they find,
 skyrocketting the power bill."
-596,Galvantula,,Level,Medium,EleSpider Pokémon,"They employ an electrically charged
+596,Galvantula,,Level,"{ speed : ""Medium"" }",EleSpider Pokémon,"They employ an electrically charged
 web to trap their prey. While it is
 immobilized by shock, they leisurely
 consume it. They usually live alone
@@ -4000,7 +4000,7 @@ the rocks. When threatened, they
 attack by shooting a barrage of
 spikes, which gives them a chance
 to escape by rolling away."
-598,Ferrothorn,,Level,Medium,Thorn Pod Pokémon,"It attaches itself to cave ceilings by
+598,Ferrothorn,,Level,"{ speed : ""Medium"" }",Thorn Pod Pokémon,"It attaches itself to cave ceilings by
 swinging around its spiky feelers.
 It shoots spikes at targets passing
 beneath. It is incredibly resilient and
@@ -4012,13 +4012,13 @@ bodies and spinning around will
 generate the energy they need to
 live. Their only way to communicate is
 through their eyes."
-600,Klang,,Level,Medium,Gear Pokémon,"Minigear and big gear comprise its
+600,Klang,,Level,"{ speed : ""Medium"" }",Gear Pokémon,"Minigear and big gear comprise its
 body. If the minigear is detached
 it will turn off both gears.
 It communicates with others by
 rotating. When its angry or afraid, it
 rotates faster."
-601,Klinklang,,Level,Medium,Gear Pokémon,"The gear with the red core rotates
+601,Klinklang,,Level,"{ speed : ""Medium"" }",Gear Pokémon,"The gear with the red core rotates
 at high speed for a quick energy
 charge. The mini gears shoot rays
 through the spikes around it.
@@ -4030,13 +4030,13 @@ organ at their sides but they can’t
 generate their own power. They
 only discharge electricity if they are
 in danger."
-603,Eelektrik,,Level,Medium,EleFish Pokémon,"These Pokémon have a really big
+603,Eelektrik,,Level,"{ speed : ""Medium"" }",EleFish Pokémon,"These Pokémon have a really big
 appetite. When they spot their prey,
 they coil around it and shock it with
 their electricity-generating organs,
 which are the yellow circles on it’s
 skin."
-604,Eelektross,,With Stone,With Thunder Stone,EleFish Pokémon,"They crawl out of the water and
+604,Eelektross,,Stone,"{ item : ""Thunder Stone"" }",EleFish Pokémon,"They crawl out of the water and
 attack anyone on shore by sucking
 them into their mouths, shocking
 them, and dragging them back into
@@ -4048,7 +4048,7 @@ it appeared far in the desert about
 came from space. It uses its strong
 psychic power to squeeze its foe’s
 brain, causing awful headaches."
-606,Beheeyem,,Level,Medium,Cerebral Pokémon,"Apparently, it communicates by
+606,Beheeyem,,Level,"{ speed : ""Medium"" }",Cerebral Pokémon,"Apparently, it communicates by
 flashing its three fingers, but the
 patterns haven’t been decoded. It
 uses psychic power to control an
@@ -4060,13 +4060,13 @@ life force from others. They trick lost
 people into thinking they are helping
 them find their way in the dark but
 those who follow them never return."
-608,Lampent,,Level,Medium,Lamp Pokémon,"This ominous Pokémon is very feared.
+608,Lampent,,Level,"{ speed : ""Medium"" }",Lamp Pokémon,"This ominous Pokémon is very feared.
 It always arrives at someone’s final
 moments and steals their spirit.
 It hangs close to hospitals and other
 places simply waiting. It is said that if
 it gets your soul you will never rest."
-609,Chandelure,,With Stone,With Dusk Stone,Luring Pokémon,"It consumes the spirits of the living,
+609,Chandelure,,Stone,"{ item : ""Dusk Stone"" }",Luring Pokémon,"It consumes the spirits of the living,
 puts people in a hypnotic trance
 and consumes them with fire.
 Being consumed in Chandelure's
@@ -4078,13 +4078,13 @@ tusk breaks, a new one grows back
 quickly. They fight each other to see
 who’s got the sharpest tusks. Only
 the strongest ever evolve."
-611,Fraxure,,Level,Slow,Axe Jaw Pokémon,"Their tusks can shatter rocks.
+611,Fraxure,,Level,"{ speed : ""Slow"" }",Axe Jaw Pokémon,"Their tusks can shatter rocks.
 Territory battles between Fraxure
 can be intensely violent. The tusks
 don’t grow back anymore, if you find
 a Fraxure with both tusks whole, it
 means it’s one of the strongest."
-612,Haxorus,,Level,Slow,Axe Jaw Pokémon,"Their sturdy tusks will stay sharp
+612,Haxorus,,Level,"{ speed : ""Slow"" }",Axe Jaw Pokémon,"Their sturdy tusks will stay sharp
 even if they are used to cut steel.
 These Pokémon are covered in hard
 armor. They incredibly aggressive,
@@ -4096,7 +4096,7 @@ couple of seasons. Their running
 nose is used to practice their ice
 powers. In fact, when they get sick
 their nose is completely dry."
-614,Beartic,,Level,Medium,Freezing Pokémon,"They the cold northern seas
+614,Beartic,,Level,"{ speed : ""Medium"" }",Freezing Pokémon,"They the cold northern seas
 and create pathways across the
 ocean's water by freezing their
 own breath. They dive in the sea to
@@ -4114,7 +4114,7 @@ sticky, poisonous liquid. It competes
 with Karrablast for food and shelter.
 If it loses its shell the distress may kill
 it, only those who survive evolve."
-617,Accelgor,,Level,Medium,Shell Out Pokémon,"Having removed its heavy shell, it
+617,Accelgor,,Level,"{ speed : ""Medium"" }",Shell Out Pokémon,"Having removed its heavy shell, it
 becomes very light and swift. When
 its body dries out, it weakens. To
 prevent dehydration, it wraps itself
@@ -4132,7 +4132,7 @@ new techniques. They use their
 sharp claws to damage their foes.
 Only those Mienfoo that excel at
 fighting in the group evolve."
-620,Mienshao,,Level,Medium,Martial Arts Pokémon,"By the time they evolve they already
+620,Mienshao,,Level,"{ speed : ""Medium"" }",Martial Arts Pokémon,"By the time they evolve they already
 have many years of experience in
 fighting. They use the long fur on
 their arms as a whip to strike their
@@ -4150,7 +4150,7 @@ have been created by the science
 of an ancient and mysterious
 civilization. The energy inside of it
 comes from an unknown source."
-623,Golurk,,Level,Medium,Automaton Pokémon,"It is said that Golurk were ordered
+623,Golurk,,Level,"{ speed : ""Medium"" }",Automaton Pokémon,"It is said that Golurk were ordered
 to protect people and Pokémon by
 the ancient people who created
 them. There are records of only one
@@ -4162,7 +4162,7 @@ inflict damage by sinking their
 blades. If battling dulls the blades,
 it sharpens them on stones by the
 river. It takes them years to evolve."
-625,Bisharp,,Level,Medium,Sword Blade Pokémon,"It leads a group of Pawniard. It battles
+625,Bisharp,,Level,"{ speed : ""Medium"" }",Sword Blade Pokémon,"It leads a group of Pawniard. It battles
 to become the boss, but will be driven
 from the group if it loses. They are
 ruthless leaders and merciless with
@@ -4180,7 +4180,7 @@ they hatch. They will challenge
 even strong opponents, without
 fear. Their frequent fights help
 them become stronger."
-628,Braviary,,Level,Slow,Valiant Pokémon,"Brave, strong, loyal, and selfless; this
+628,Braviary,,Level,"{ speed : ""Slow"" }",Valiant Pokémon,"Brave, strong, loyal, and selfless; this
 Pokémon embodies the virtues of
 what a Pokémon companion should
 be. They are very rare and valued
@@ -4192,7 +4192,7 @@ from birth until they can finally fly.
 They feed on the carrion meat the
 mothers bring back to the nest and
 keep the bones to make accessories."
-630,Mandibuzz,,Level,Medium,Bone Vulture Pokémon,"They fly in circles around the sky
+630,Mandibuzz,,Level,"{ speed : ""Medium"" }",Bone Vulture Pokémon,"They fly in circles around the sky
 when they spot prey. They carry
 the carcass back to their nest with
 ease. They like to look beautiful
@@ -4216,13 +4216,13 @@ It constantly bumps into things and
 attacks anything close to it. Their
 bodies are covered in wounds and
 they are very aggressive."
-634,Zweilous,,Level,Slow,Hostile Pokémon,"The two heads do not get along
+634,Zweilous,,Level,"{ speed : ""Slow"" }",Hostile Pokémon,"The two heads do not get along
 with each other as they compete
 for food. For this reason , Zweilous
 usually eats more than it should.
 Touching it carelessly can get you
 attacked by one or both heads."
-635,Hydreigon,,Level,Slow,Brutal Pokémon,"This brutal Pokémon flies in the sky.
+635,Hydreigon,,Level,"{ speed : ""Slow"" }",Brutal Pokémon,"This brutal Pokémon flies in the sky.
 Anything that moves seems like a
 foe to it, triggering its aggression.
 The heads on its arms do not have
@@ -4234,7 +4234,7 @@ shoot fire from their horns to repel
 attacks from enemies. It becomes a
 flaming cocoon for months before it
 finally evolves."
-637,Volcarona,,Level,Medium,Sun Pokémon,"A sea of fire engulfs the surroundings
+637,Volcarona,,Level,"{ speed : ""Medium"" }",Sun Pokémon,"A sea of fire engulfs the surroundings
 of its battles, since it uses six wings
 to scatter blazing scales. There are
 stories of how its fire saved villages
@@ -4355,13 +4355,13 @@ been found on chestnut trees. Their
 heads are covered by spikes and if
 there’s a threat they roll into balls to
 protect themselves."
-651,Quilladin,,Level,Medium,Spiny Armor Pokémon,"It strengthens its lower body by
+651,Quilladin,,Level,"{ speed : ""Medium"" }",Spiny Armor Pokémon,"It strengthens its lower body by
 running into sturdy things. It is a kind
 Pokémon that relies on its sturdy
 shell and sharp quills to deflect any
 foe trying to attack it. They never
 start a fight."
-652,Chesnaught,,Level,Medium,Spiny Armor Pokémon,"These Pokémon are known for
+652,Chesnaught,,Level,"{ speed : ""Medium"" }",Spiny Armor Pokémon,"These Pokémon are known for
 taking defensive stances instead of
 charging into battle.
 Many stories tell how during the old
@@ -4373,13 +4373,13 @@ hot air out of its ears. It likes to keep
 twigs and sticks nearby to munch
 them instead of snacks. They make
 good pets but they are pretty rare."
-654,Braixen,,Level,Medium,Fox Pokémon,"Using friction from its tail fur, it
+654,Braixen,,Level,"{ speed : ""Medium"" }",Fox Pokémon,"Using friction from its tail fur, it
 sets the twig it carries on fire and
 launches into battle. The flame on
 the twig is used to send signals and
 to create patters out of the embers.
 It is said the twig is a magic wand."
-655,Delphox,,Level,Medium,Fox Pokémon,"It swirls its twig to create amazing
+655,Delphox,,Level,"{ speed : ""Medium"" }",Fox Pokémon,"It swirls its twig to create amazing
 flamethrowers. It gazes into the
 flame at the tip of its stick to
 achieve a focused state and
@@ -4391,13 +4391,13 @@ its happy-go-lucky air, it keeps a
 watchful eye on its surroundings.
 It needs good discipline or it will be
 bad mannered with others."
-657,Frogadier,,Level,Medium,Bubble Frog Pokémon,"It is incredibly hard to catch. It starts
+657,Frogadier,,Level,"{ speed : ""Medium"" }",Bubble Frog Pokémon,"It is incredibly hard to catch. It starts
 practicing its skills by throwing foam
 covered pebbles at foes. Many
 trainers find this rebellious stage
 very challenging to handle and end
 up being its targets of practice."
-658,Greninja,,Level,Medium,Ninja Pokémon,"It appears and vanishes with a ninja’s
+658,Greninja,,Level,"{ speed : ""Medium"" }",Ninja Pokémon,"It appears and vanishes with a ninja’s
 grace. It toys with its enemies using
 swift movements, then slices them
 with throwing sharp water stars.
@@ -4415,7 +4415,7 @@ that they can sever thick roots easily.
 They reproduce quickly and a
 handful of them can ravage a field
 of vegetables in just a few hours."
-660,Diggersby,,Level,Medium,Digging Pokémon,"A powerful excavator, its ears can
+660,Diggersby,,Level,"{ speed : ""Medium"" }",Digging Pokémon,"A powerful excavator, its ears can
 reduce dense bedrock to rubble.
 After it has finished digging, it just
 lounges lazily. Some of them have
@@ -4427,13 +4427,13 @@ and feather movements.
 But despite the beauty of its lilting
 voice it is merciless to intruders that
 come close to its nest."
-662,Fletchinder,,Level,Medium,Ember Pokémon,"From its beak, it expels embers to
+662,Fletchinder,,Level,"{ speed : ""Medium"" }",Ember Pokémon,"From its beak, it expels embers to
 set tall grass on fire, then it pounces
 on the bewildered prey that pop
 out of the grass. Its body becomes
 engulfed in flames when it starts to
 battle. It is a fierce Pokémon."
-663,Talonflame,,Level,Medium,Scorching Pokémon,"They soar over desert canyons. If
+663,Talonflame,,Level,"{ speed : ""Medium"" }",Scorching Pokémon,"They soar over desert canyons. If
 they spot prey they launch down at
 full speed to deliver a finishing blow.
 They are excellent hunters, with
@@ -4445,13 +4445,13 @@ able to live in any region or climate.
 Whenever it is under attack it spews
 a black powder that causes paralysis
 on contact."
-665,Spewpa,,Level,Fast,Scatterdust Pokémon,"It remains hidden inside old logs.
+665,Spewpa,,Level,"{ speed : ""Fast"" }",Scatterdust Pokémon,"It remains hidden inside old logs.
 When predators attack, it quickly
 bristles the fur covering its body to
 scare them. Bird Pokémon have a
 hard time trying to eat it with all the
 dust it releases as protection."
-666,Vivillon,,Level,Fast,Scale Pokémon,"The patterns on this Pokémon’s
+666,Vivillon,,Level,"{ speed : ""Fast"" }",Scale Pokémon,"The patterns on this Pokémon’s
 wings depend on the climate it
 grows and the flowers it feeds on.
 A famous Pokémon breeder made
@@ -4463,7 +4463,7 @@ their enemies. Some of them set off
 from their pride to live alone. Only
 those who develop a full mane get
 to lead their own pride."
-668,Pyroar,,Level,Medium,Royal Pokémon,"The male with the largest fire mane
+668,Pyroar,,Level,"{ speed : ""Medium"" }",Royal Pokémon,"The male with the largest fire mane
 is the leader of the pride. The
 females have a long mane strip.
 Whenever they roar they also let out
@@ -4475,13 +4475,13 @@ the wild. They pick a flower as soon
 as they are born and it becomes
 a part of their body. These small
 Pokémon are shy but adorable."
-670,Floette,,Level,Fast,Fairy Pokémon,"It flutters around flower meadows
+670,Floette,,Level,"{ speed : ""Fast"" }",Fairy Pokémon,"It flutters around flower meadows
 and takes care of buds that are
 starting to wilt. People who fill their
 gardens with their preferred flower
 receive its visit every spring. They
 are loyal and caring Pokémon."
-671,Florges,,With Stone,With Shiny Stone,Garden Pokémon,"In times long past, castle rulers
+671,Florges,,Stone,"{ item : ""Shiny Stone"" }",Garden Pokémon,"In times long past, castle rulers
 would invite Florges to create flower
 gardens to embellish their domains.
 Florges claim beautiful meadows as
@@ -4493,7 +4493,7 @@ humans. If it has sunshine and water
 it doesn’t need to eat - the leaves
 on its back will produce the energy
 for it."
-673,Gogoat,,Level,Medium,Mount Pokémon,"In the wild, they inhabit mountain
+673,Gogoat,,Level,"{ speed : ""Medium"" }",Mount Pokémon,"In the wild, they inhabit mountain
 regions with the leader of the herd
 decided by a battle of clashing
 horns. People rely on Gogoat to get
@@ -4505,7 +4505,7 @@ to be taken seriously. It has a hard
 time due to its cute appearance, for
 this reason it may start hanging out
 with the wrong crowd."
-675,Pangoro,,Level,Medium,Daunting Pokémon,"Although this pokemon has a violent
+675,Pangoro,,Level,"{ speed : ""Medium"" }",Daunting Pokémon,"Although this pokemon has a violent
 temperament, it won’t put up with
 bullying. It charges ahead and slams
 its opponents like a berserker, totally
@@ -4523,7 +4523,7 @@ ears to keep energy from escaping.
 It still does not control its power and
 could destroy something without
 realizing it."
-678,Meowstic,,Level,Medium,Constraint Pokémon,"The eye patterns on the interior of
+678,Meowstic,,Level,"{ speed : ""Medium"" }",Constraint Pokémon,"The eye patterns on the interior of
 its ears emit psychic energy. It keeps
 them tightly covered because the
 power can be overwhelming.
@@ -4535,13 +4535,13 @@ of warriors who died in battle. It is a
 cursed sword that seeks revenge
 and bloodshed. It will drain the life
 energy of anyone that wields it."
-680,Doublade,,Level,Slow,Sword Pokémon,"Both swords share a telepathic link
+680,Doublade,,Level,"{ speed : ""Slow"" }",Sword Pokémon,"Both swords share a telepathic link
 to coordinate attacks and slash
 their enemies to shreds. They feed
 on the rage of their wielder and
 promise to make him unbeatable at
 the cost of his flesh and soul."
-681,Aegislash,,With Stone,With Dusk Stone,Royal Sword Pokémon,"The legend tells of how this Pokémon
+681,Aegislash,,Stone,"{ item : ""Dusk Stone"" }",Royal Sword Pokémon,"The legend tells of how this Pokémon
 lead the first King of Kalos to victory.
 A crushing grip can be felt on the
 arm of the wielder.
@@ -4559,7 +4559,7 @@ that would waft a fragrance they
 liked. They are popular today for
 this same reason. They are said to
 attract the opposite gender to you."
-683,Aromatisse,,Trade,With Sachet,Fragance Pokémon,"Its scent is so overpowering that
+683,Aromatisse,,Trade,"{ item : ""Sachet"" }",Fragance Pokémon,"Its scent is so overpowering that
 makes it difficult to simply be in close
 proximity to it. It emits scents that its
 foes dislike in order to gain an edge
@@ -4571,7 +4571,7 @@ sticky and sweet as cotton candy.
 To entangle its opponents in battle,
 it extrudes white and sticky threads
 but the foes end up eating them."
-685,Slurpuff,,Trade,With Whipped Dream,Meringue Pokémon,"This Pokémon lives in human cities
+685,Slurpuff,,Trade,"{ item : ""Whipped Dream"" }",Meringue Pokémon,"This Pokémon lives in human cities
 and towns. It has an extremely
 keen sense of smell.
 It puts its sensitive nose to use by
@@ -4583,7 +4583,7 @@ confuse predators and give it the
 opportunity to scuttle away. From
 time to time it likes to float upside
 down, it means it’s close to evolving."
-687,Malamar,,Level,Medium,Overturning Pokémon,"It lures prey close with hypnotic
+687,Malamar,,Level,"{ speed : ""Medium"" }",Overturning Pokémon,"It lures prey close with hypnotic
 motions, then wraps its tentacles
 around it before finishing it off to
 eat it. This Pokémon are difficult to
@@ -4595,7 +4595,7 @@ get along, one of them will move to
 a different rock. They eat the sea
 weed that washes up on the shore
 and help each other to survive."
-689,Barbaracle,,Level,Medium,Collective Pokémon,"When they evolve, the two Binacle
+689,Barbaracle,,Level,"{ speed : ""Medium"" }",Collective Pokémon,"When they evolve, the two Binacle
 multiply into seven. They all defend
 the rock they live in but each one
 has a mind of their own and will
@@ -4607,7 +4607,7 @@ approaches unaware. It needs to
 store a lot of energy to be able to
 evolve so it takes them a long time.
 Touching one will give you a fever."
-691,Dragalge,,Level,Slow,Mock Kelp Pokémon,"Their poison is strong enough to
+691,Dragalge,,Level,"{ speed : ""Slow"" }",Mock Kelp Pokémon,"Their poison is strong enough to
 eat through the hull of a tanker,
 and they spit it indiscriminately at
 anything that enters their territory.
@@ -4619,7 +4619,7 @@ flying prey by shooting water from
 their massive claws. Their shell
 is very though but their meat is
 delicious."
-693,Clawitzer,,Level,Medium,Howitzer Pokémon,"They can be seen swimming
+693,Clawitzer,,Level,"{ speed : ""Medium"" }",Howitzer Pokémon,"They can be seen swimming
 backwards using their launcher as
 A propulsor, but they usually stay at
 the bottom of the sea. Their meat
@@ -4631,7 +4631,7 @@ their energy by basking their frills
 since food is scarce where they live.
 They run pretty fast as to not burn
 themselves with the hot sand."
-695,Heliolisk,,With Stone,With Sun Stone,Generator Pokémon,"They flare their frills and generate
+695,Heliolisk,,Stone,"{ item : ""Sun Stone"" }",Generator Pokémon,"They flare their frills and generate
 energy. A single Heliolisk is able to
 generate enough power to light a
 skyscraper. Due to this, electricity
@@ -4643,7 +4643,7 @@ doesn’t like, it throws a tantrum and
 runs wild. Many of the researchers
 that brought it back were attacked
 by its powerful jaws."
-697,Tyrantrum,,Level,Slow,Despot Pokémon,"Nothing could stop this Pokémon
+697,Tyrantrum,,Level,"{ speed : ""Slow"" }",Despot Pokémon,"Nothing could stop this Pokémon
 100 million years ago, it was a
 prehistoric king. Thanks to its giant
 jaws, which could shred thick metal
@@ -4655,13 +4655,13 @@ frozen for over 100 million years.
 This calm Pokémon lived in the
 cold lands where violent predators
 like Tyrantrum couldn’t reach it."
-699,Aurorus,,Level,Medium,Tundra Pokémon,"It produced a freezing cold mist from
+699,Aurorus,,Level,"{ speed : ""Medium"" }",Tundra Pokémon,"It produced a freezing cold mist from
 the crystals on its sides and relied
 on size to deter predators. It also
 created tall walls of ice to block
 them. The one restored from the
 fossil is calm and has adapted well."
-700,Sylveon,,Stat,Loyalty 5,Intertwining Pokémon,"This rare and adorable Pokémon
+700,Sylveon,,Stat,"{ stat : ""Loyalty"", value : 5 }",Intertwining Pokémon,"This rare and adorable Pokémon
 emanates a soothing aura to calm
 disturbances. It is said that only the
 Trainers who form an unbreakable
@@ -4691,13 +4691,13 @@ damp and shady places, so its body
 doesn’t dry out. It’s covered in a
 slimy membrane that makes things
 slide off of it."
-705,Sliggoo,,Level,Medium,Soft Tissue Pokémon,"It drives away foes by releasing a
+705,Sliggoo,,Level,"{ speed : ""Medium"" }",Soft Tissue Pokémon,"It drives away foes by releasing a
 sticky and corrosive liquid. Its eyes
 devolved and it became blind,
 now it uses its four horns to sense
 sounds and smells, rather than
 using its ears or nose."
-706,Goodra,,Level,Medium,Dragon Pokémon,"Definitely the friendliest of all
+706,Goodra,,Level,"{ speed : ""Medium"" }",Dragon Pokémon,"Definitely the friendliest of all
 Dragons. This Pokémon will hug its
 beloved Trainer, leaving them
 covered in sticky slime. In areas with
@@ -4715,7 +4715,7 @@ the spirits of children who were lost
 in the forest. They prefer to live in
 abandoned woods and lure people
 to the darkness to play with them."
-709,Trevenant,,Trade,Trade,Elder Tree Pokémon,"Using its roots as a nervous system
+709,Trevenant,,Trade,,Elder Tree Pokémon,"Using its roots as a nervous system
 it controls the trees in the forest.
 It’s kind to the Pokémon that reside
 inside its body but it is ruthless to
@@ -4727,7 +4727,7 @@ pumpkin body is inhabited by a spirit
 trapped in this world. As the sun
 sets, it becomes restless and active.
 Don’t ever follow their light at night."
-711,Gourgeist,,Trade,Trade,Pumpkin Pokémon,"They wander in the town streets
+711,Gourgeist,,Trade,,Pumpkin Pokémon,"They wander in the town streets
 every new moon. It wraps its prey
 on its arms and sings joyfully as it
 observes the suffering of the victim.
@@ -4739,7 +4739,7 @@ ice that shields its body and uses
 cold air to repair any cracks with
 new ice. They are wary of humans
 as they rarely get to see one."
-713,Avalugg,,Level,Slow,Iceberg Pokémon,"They carry their Bergmite offspring
+713,Avalugg,,Level,"{ speed : ""Slow"" }",Iceberg Pokémon,"They carry their Bergmite offspring
 on their backs. Its Ice body is hard
 as steel and its cumbersome frame
 crushes anything that stands in its
@@ -4751,7 +4751,7 @@ enormous ears can emit ultrasonic
 waves that cause dizziness. Groups
 of them can even take on prey
 several times their size."
-715,Noivern,,Level,Slow,Sound Wave Pokémon,"They fly during the new moon and
+715,Noivern,,Level,"{ speed : ""Slow"" }",Sound Wave Pokémon,"They fly during the new moon and
 attack careless prey. Nothing can
 beat them in a battle in the dark.
 To keep them calm you should feed
@@ -4813,13 +4813,13 @@ through its feathers, then at night
 becomes more active. It likes to
 keep sight of its trainer at all times,
 rotating its head 180° to do so."
-723,Dartrix,,Level,Medium,Blade Quill Pokémon,"Dartix are vain creatures, they dislike
+723,Dartrix,,Level,"{ speed : ""Medium"" }",Blade Quill Pokémon,"Dartix are vain creatures, they dislike
 it when their feathers are ruffled,
 even stopping midfight to groom
 them. Despite its elegant demeanor
 it hides an awkward personality,
 prone to panic and clumsiness."
-724,Decidueye,,Level,Medium,Arrow Quill Pokémob,"This Pokémon can shoot its own
+724,Decidueye,,Level,"{ speed : ""Medium"" }",Arrow Quill Pokémob,"This Pokémon can shoot its own
 feathers as arrows in just a split of
 second. They are usually calm and
 collected but they are easily startled
@@ -4831,13 +4831,13 @@ oils and its rough tongue lights them
 every time it grooms itself.
 Not recommended as a pet for they
 can cause house fires easily."
-726,Torracat,,Level,Medium,Fire Cat Pokémon,"The bell on its neck glows and
+726,Torracat,,Level,"{ speed : ""Medium"" }",Fire Cat Pokémon,"The bell on its neck glows and
 chimes when it shots fire through it.
 Although it acts spoiled with its
 Trainer, it is a capable and relentless
 brawler, it will keep battling until its
 foes lose their fighting spirits."
-727,Incineroar,,Level,Medium,Heel Pokémon,"It has a bad reputation, some of
+727,Incineroar,,Level,"{ speed : ""Medium"" }",Heel Pokémon,"It has a bad reputation, some of
 them have attacked the opposing
 Trainer during battles. They are also
 prone to disobey their own Trainer,
@@ -4849,13 +4849,13 @@ them around, it is tenacious and
 diligent to train. They are agile
 swimmers and prefer acrobatic
 stunts to move on the ground."
-729,Brionne,,Level,Medium,Pop Star Pokémon,"In the wild, each pack has their own
+729,Brionne,,Level,"{ speed : ""Medium"" }",Pop Star Pokémon,"In the wild, each pack has their own
 songs and dances, Brionne practice
 them in the moonlight.
 It is cheerful and not timid at all, it
 forms friendships easily through
 dance movements."
-730,Primarina,,Level,Medium,Soloist Pokémon,"All modern Primarina sing a song that
+730,Primarina,,Level,"{ speed : ""Medium"" }",Soloist Pokémon,"All modern Primarina sing a song that
 has been passed down through
 generations. Legend says that you
 can hear their true song when you
@@ -4867,13 +4867,13 @@ rock. They eat berries and shoot
 the seeds to defend themselves.
 Pikipek don’t sing, but communicate
 with pecking sounds."
-732,Trumbeak,,Level,Medium,Bugle Beak Pokémon,"This Pokémon bends its beak to
+732,Trumbeak,,Level,"{ speed : ""Medium"" }",Bugle Beak Pokémon,"This Pokémon bends its beak to
 produce a variety of sounds, much
 to the annoyance of the neighbors.
 It also shoots a burst of berry seeds
 to its foes, prey, or an unsuspecting
 passerby."
-733,Toucannon,,Level,Medium,Blade Quill Pokémon,"It can store and expel an extremely
+733,Toucannon,,Level,"{ speed : ""Medium"" }",Blade Quill Pokémon,"It can store and expel an extremely
 hot gas through its beak that ignites
 easily. The berry seeds it shoots can
 pierce boulders, leaving perfectly
@@ -4885,7 +4885,7 @@ It spends all day searching for prey
 and it’s constantly hungry. when the
 sun sets it falls asleep right where it
 was standing."
-735,Gumshoos,,Level,Medium,Stakeout Pokémon,"Alolan Ratatta became nocturnal
+735,Gumshoos,,Level,"{ speed : ""Medium"" }",Stakeout Pokémon,"Alolan Ratatta became nocturnal
 to evade this Pokémon, as it is their
 main Predator. Gumshoos now go
 hungry for days before they find
@@ -4897,13 +4897,13 @@ themselves from bird Pokémon
 who may prey on them. When
 they are ready to evolve they bury
 themselves underground."
-737,Charjabug,,Level,Fast,Battery Pokémon,"Whatever this Pokémon eats is
+737,Charjabug,,Level,"{ speed : ""Fast"" }",Battery Pokémon,"Whatever this Pokémon eats is
 transformed to electricity. People
 often use them to power up small
 appliances in their homes.
 This Pokémon rarely moves since it
 is preparing to evolve."
-738,Vikavolt,,Level,Medium,Stag Beetle Pokémon,"The electricity it shoots through its
+738,Vikavolt,,Level,"{ speed : ""Medium"" }",Stag Beetle Pokémon,"The electricity it shoots through its
 jaws is very dangerous, it zaps bird
 Pokémon trying to eat it.
 Its flight is peculiar, for it bends in a
@@ -4915,7 +4915,7 @@ venture more into the land where
 they fight for ripe berries. They
 punch with their pincers, which are
 delicious with butter by the way."
-740,Crabominable,,Level,Medium,Woolly Crab Pokémon,"Crawbrawlers who get lost in the
+740,Crabominable,,Level,"{ speed : ""Medium"" }",Woolly Crab Pokémon,"Crawbrawlers who get lost in the
 snowy mountains of Alola are
 forced to evolve into a more suited
 form. Crabominables are not very
@@ -4951,7 +4951,7 @@ They are attracted to happy and
 joyful people, the story says that
 Cutiefly see their auras and they
 resemble flowers."
-743,Ribombee,,Level,Medium,Bee Fly Pokémon,"The pollen puff of a happy Ribombee
+743,Ribombee,,Level,"{ speed : ""Medium"" }",Bee Fly Pokémon,"The pollen puff of a happy Ribombee
 are very nutritious and valuable
 supplements in Alola. It dislikes rain,
 for it wets its hair and makes it unable
@@ -4963,19 +4963,19 @@ them to find their trainers easily.
 However, as they age they become
 wilder and rebellious. Do not let
 them roam alone at night."
-745,Lycanroc,Midday,Level,Medium (Day),Wolf Pokémon,"A well-disciplined Rockruff will evolve
+745,Lycanroc,Midday,Level,"{ speed : ""Medium"", special : ""Day"" }",Wolf Pokémon,"A well-disciplined Rockruff will evolve
 at Dawn.
 This Pokémon is very Loyal and
 trustworthy. It can climb mountains
 fast and is a quick runner. The rocks
 on its mane are its main weapons."
-745,Lycanroc,Dusk,Level,Medium (Dawn),Wolf Pokémon,"An independent but loyal Rockruff
+745,Lycanroc,Dusk,Level,"{ speed : ""Medium"", special : ""Dawn"" }",Wolf Pokémon,"An independent but loyal Rockruff
 will evolve at dusk.
 This evolved for is very hard to
 achieve. An intense fighting spirit
 lies underneath its calm exterior.
 Prone to act on its own."
-745,Lycanroc,Midnight,Level,Medium (Night),Wolf Pokémon,"A poorly-behaved Rockruff will
+745,Lycanroc,Midnight,Level,"{ speed : ""Medium"", special : ""Night"" }",Wolf Pokémon,"A poorly-behaved Rockruff will
 evolve at midnight.
 This Pokémon is savage and has no
 regard for its own safety. It taunts
@@ -4999,7 +4999,7 @@ prey to sting. They are pretty toxic
 and attack with their ten barbed
 tentacles. Corsolas are one of its
 favorite meals."
-748,Toxapex,,Level,Medium,Brutal Star Pokémon,"It crawls through the ocean floor,
+748,Toxapex,,Level,"{ speed : ""Medium"" }",Brutal Star Pokémon,"It crawls through the ocean floor,
 using its tentacles as a fortress. Its
 venom has the victim suffering for
 three days and nights, and even if
@@ -5011,7 +5011,7 @@ pull themselves forward. They enjoy
 prancing in muddy places and will
 become stubborn and disobedient
 if denied that pleasure."
-750,Mudsdale,,Level,Medium,Draft Horse Pokémon,"Hard tempered and resilient. The
+750,Mudsdale,,Level,"{ speed : ""Medium"" }",Draft Horse Pokémon,"Hard tempered and resilient. The
 hooves of this Pokémon stomp
 through concrete, while it is not very
 fast it can keep a steady pace for
@@ -5022,7 +5022,7 @@ Its water bubble allows it to breath
 outside of its pool and serves as a
 weapon to hunt or defend itself. As
 it grows its bubble grows as well."
-752,Araquanid,,Level,Medium,Water Bubble Pokémon,"It’s debated whether this is a caring
+752,Araquanid,,Level,"{ speed : ""Medium"" }",Water Bubble Pokémon,"It’s debated whether this is a caring
 or cruel Pokémon. It looks around for
 any vulnerable or weak pokémon,
 tenderly carries them and deposits
@@ -5034,7 +5034,7 @@ they become active and search for
 another spot to sleep.
 Their arms are made or sharp grass
 leaves to defend themselves."
-754,Lurantis,,Level,Medium,Bloom Sickle Pokémon,"Considered to be one of the mos
+754,Lurantis,,Level,"{ speed : ""Medium"" }",Bloom Sickle Pokémon,"Considered to be one of the mos
 beautiful Grass Pokémon due to
 its lovely coloration. They require a
 lot of maintenance and constant
@@ -5046,7 +5046,7 @@ They root into a tree and use its
 nutrients to power their light, when
 the tree is all dried up they are
 ready to evolve."
-756,Shiinotic,,Level,Medium,Illuminating Pokémon,"Forests where Shiinotic live are
+756,Shiinotic,,Level,"{ speed : ""Medium"" }",Illuminating Pokémon,"Forests where Shiinotic live are
 treacherous to travel. People tell
 stories about strange lights that put
 others into a deep slumber who are
@@ -5058,7 +5058,7 @@ careful as this gas smells sweet and
 specially appealing for the males of
 any species. Only female Salandit
 are known to evolve."
-758,Salazzle,,Level,Medium (Female),Toxic Lizard Pokémon,"This Pokémon is Female only.
+758,Salazzle,,Level,"{ speed : ""Medium"", gender : ""Female"" }",Toxic Lizard Pokémon,"This Pokémon is Female only.
 It releases a powerful toxic gas
 that is filled with pheromones that
 help her keep her reverse harem of
@@ -5070,7 +5070,7 @@ but its mother or Trainer touches
 it, it will respond by angrily flailing
 its arms around. They are popular
 pets but owners always regret."
-760,Bewear,,Level,Medium,Strong Arm Pokémon,"They may look friendly but their
+760,Bewear,,Level,"{ speed : ""Medium"" }",Strong Arm Pokémon,"They may look friendly but their
 brute strength makes them very
 dangerous. Many Trainers have
 been severely injured and even
@@ -5082,13 +5082,13 @@ unfortunately attracts predators to
 it, when it escapes, it looks as if it’s
 happily skipping around so it rarely
 gets help."
-762,Steenee,,Level,Medium,Fruit Pokémon,"Its sweet aroma keeps attracting
+762,Steenee,,Level,"{ speed : ""Medium"" }",Fruit Pokémon,"Its sweet aroma keeps attracting
 predators but it fends them away
 with its hard and bitter head leaves.
 It likes to be taken seriously and can
 be hard to deal with, if you make it
 mad you’ll receive a kick."
-763,Tsareena,,Level,Medium,Fruit Pokémon,"Tsareena's elegant appearance is
+763,Tsareena,,Level,"{ speed : ""Medium"" }",Fruit Pokémon,"Tsareena's elegant appearance is
 only matched by its boastful fight
 spirit. It is known for disobeying any
 Trainer giving it orders it dislikes, and
@@ -5118,7 +5118,7 @@ startled and will shoot a stenchy liquid as
 a warning. Even so, they are highly
 valued due to their ability to eat
 and clean any garbage."
-768,Golisopod,,Level,Slow,Hard Scale Pokémon,"This Pokémon is a rare sight, for
+768,Golisopod,,Level,"{ speed : ""Slow"" }",Hard Scale Pokémon,"This Pokémon is a rare sight, for
 most Wimpods never evolve and
 when they do, Golisopod spend
 most of their lives in deep sea caves,
@@ -5130,7 +5130,7 @@ puts their hand inside its mouth will
 have its vital energy absorbed and
 its mind possessed to add more
 sand until they collapse."
-770,Palossand,,Level,Slow,Sand Castle Pokémon,"The possessed people shaped
+770,Palossand,,Level,"{ speed : ""Slow"" }",Sand Castle Pokémon,"The possessed people shaped
 this Pokémon into a castle, buried
 beneath the sand where it stands
 are the remains of all its victims.
@@ -5148,7 +5148,7 @@ three specimens exist in cryogenic
 stasis, but they are deemed too
 dangerous even with a limiter helmet
 on. They must never be reanimated."
-773,Silvally,,Level,Slow,Synthetic Pokémon,"Pokédex has no data.
+773,Silvally,,Level,"{ speed : ""Slow"" }",Synthetic Pokémon,"Pokédex has no data.
 It was seen in the company of a
 boy. It appears to be a perfected
 or evolved form of Type: Null. The
@@ -5214,13 +5214,13 @@ valiant and hard-working Pokémon
 they retain their independent nature.
 It uses the scale on its head for both
 attack and defense."
-783,Hakamo-o,,Level,Slow,Scaly Pokémon,"The scales on its body are shed and
+783,Hakamo-o,,Level,"{ speed : ""Slow"" }",Scaly Pokémon,"The scales on its body are shed and
 regrow sharper each time. It is a
 courageous and diligent Pokémon
 who always lets out a war cry
 before the battle. Any marks on its
 scale armor is worn with pride."
-784,Kommo-o,,Level,Slow,Scaly Pokémon,"It completed its harsh training and
+784,Kommo-o,,Level,"{ speed : ""Slow"" }",Scaly Pokémon,"It completed its harsh training and
 returns to the mountain where it
 was born to look after the young
 Jangmo-o, watching them from afar.
@@ -5249,12 +5249,12 @@ who is said to be the ocean itself."
 a telescope. It is rumored to be a
 Pokémon from another world, but
 no specific details are known."
-790,Cosmoem,,Level,Unknown,No Data,"The creature observed through the
+790,Cosmoem,,Level,"{ speed : ""Unknown"" }",No Data,"The creature observed through the
 telescope changed shapes and
 remained motionless for the rest of
 the investigation. A strange energy
 was gathering on its core."
-791,Solgaleo,,Level,Unknown,No Data,"There are legends about a being
+791,Solgaleo,,Level,"{ speed : ""Unknown"" }",No Data,"There are legends about a being
 that radiated with the sun, on its
 forehead a third eye that connected
 to another dimension."
@@ -5372,7 +5372,7 @@ spaces. They live in groups, but
 when the time comes, one strong
 Meltan will absorb all the others and
 evolve."
-809,Melmetal,,Level,Unknown,Hex Nut Pokémon,"There is an ancient myth that a
+809,Melmetal,,Level,"{ speed : ""Unknown"" }",Hex Nut Pokémon,"There is an ancient myth that a
 Pokémon once taught a group of
 humans how to work the iron, melt
 it and shape it into tools; but it was
@@ -5384,13 +5384,13 @@ then uses the stick to create rhythmic
 beats that makes plan glow and
 grow. Grookey are enthusiastic and
 kind creatures that love music."
-811,Thwakey,,Level,Medium,Beat Pokémon,"Thwakeys are passionate about
+811,Thwakey,,Level,"{ speed : ""Medium"" }",Beat Pokémon,"Thwakeys are passionate about
 their drumming, they can get so
 caught up in their music that they
 don’t notice the battle is already
 over. The faster they can beat their
 drums, the stronger they are."
-812,Rillaboom,,Level,Medium,Drummer Pokémon,"The leader owns the largest drum
+812,Rillaboom,,Level,"{ speed : ""Medium"" }",Drummer Pokémon,"The leader owns the largest drum
 among its troop and has the best
 drumming technique which makes
 roots sprout to attack its foes. But
@@ -5402,13 +5402,13 @@ one side to another for hours.
 There are heat pads on its feet and
 nose, as it runs or battles they can
 get burning hot."
-814,Raboot,,Level,Medium,Rabbit Pokémon,"This Pokémon loves to kick and
+814,Raboot,,Level,"{ speed : ""Medium"" }",Rabbit Pokémon,"This Pokémon loves to kick and
 trains each day to get better at it.
 Its fur is now very thick, some
 debate it is to protect it from the
 cold weather others say it is to
 produce hotter flames."
-815,Cinderace,,Level,Medium,Striker Pokémon,"They are confident and boastful of
+815,Cinderace,,Level,"{ speed : ""Medium"" }",Striker Pokémon,"They are confident and boastful of
 their abilities. They take a pebble and
 light it on fire to create a scorching
 weapon they kick towards their foes.
@@ -5420,13 +5420,13 @@ in shallow pools of water.. When
 it feels threatened it cries and its
 tears pack release a chemical that
 will make its foes cry too."
-817,Drizzile,,Level,Medium,Water Lizard Pokémon,"Its demeanor changes drastically
+817,Drizzile,,Level,"{ speed : ""Medium"" }",Water Lizard Pokémon,"Its demeanor changes drastically
 from shy to aloof and lazy. It can
 create water balloons with the
 moisture secreted from its paws. It is
 incredibly intelligent and is known to
 lay traps for others in the wild."
-818,Inteleon,,Level,Medium,Secret Agent Pokémon,"Its fingertips can create quick jets
+818,Inteleon,,Level,"{ speed : ""Medium"" }",Secret Agent Pokémon,"Its fingertips can create quick jets
 of water that travel at incredibly
 high speeds, these jets can even
 pierce thick metal plates. It usually
@@ -5438,7 +5438,7 @@ they can get very anxious if its
 cheeks are empty. If you feed one
 of them they will follow you and call
 for others so you feed them as well."
-820,Greedent,,Level,Medium,Greedy Pokémon,"They are a little dim-witted as
+820,Greedent,,Level,"{ speed : ""Medium"" }",Greedy Pokémon,"They are a little dim-witted as
 they think on nothing but eating.
 Greedent hide and store berries
 on their tails, many of them fall of,
@@ -5450,13 +5450,13 @@ larger than themselves, and even if
 they are defeated they don’t give
 up and try again later. They use
 their small size as an advantage."
-822,Corvisquire,,Level,Medium,Raven Pokémon,"They are smart enough to use tools
+822,Corvisquire,,Level,"{ speed : ""Medium"" }",Raven Pokémon,"They are smart enough to use tools
 in battle, these Pokémon have been
 seen picking up rocks and flinging
 them or using ropes to wrap up foes.
 They choose their battles carefully
 and do not retreat."
-823,Corviknight,,Level,Medium,Raven Pokémon,"With their great intellect and flying
+823,Corviknight,,Level,"{ speed : ""Medium"" }",Raven Pokémon,"With their great intellect and flying
 skills, these Pokémon very successfully take the place as the kings of
 the Galarian sky. When they fly, they
 cast giant shadows that strike fear
@@ -5467,13 +5467,13 @@ assess its surroundings. They are
 very smart and easy to teach but
 they are not very strong and other
 Pokémon bully them often."
-825,Dottler,,Level,Fast,Radome Pokémon,"It grows into its final stage inside a
+825,Dottler,,Level,"{ speed : ""Fast"" }",Radome Pokémon,"It grows into its final stage inside a
 hard shell. It barely moves and it won’t
 eat or drink during this time, due
 to this many believe it to be dead
 until its psychic powers awaken and
 it starts communicating telepathically."
-826,Orbeetle,,Level,Medium,Seven Spot Pokémon,"It’s famous for its high intelligence
+826,Orbeetle,,Level,"{ speed : ""Medium"" }",Seven Spot Pokémon,"It’s famous for its high intelligence
 and the large size of its brain. It has
 immense psychic power. They patrol
 their territory as floating sentries,
@@ -5485,7 +5485,7 @@ with swipes of its tail so it’s very
 difficult to track one. They have
 thrived in the cities and come at
 night to steal from stores."
-828,Thievul,,Level,Medium,Fox Pokémon,"They have long been hunted down
+828,Thievul,,Level,"{ speed : ""Medium"" }",Fox Pokémon,"They have long been hunted down
 by packs of Boltund because of all
 the trouble they cause in human
 settlements. They are experts at
@@ -5497,7 +5497,7 @@ them while they sing a joyful song.
 Afterwards their flowers bloom and
 glow. This delightful display makes it
 very popular among Trainers."
-830,Eldegoss,,Level,Medium,Cotton Bloom Pokémon,"The cotton it produces has a glossy
+830,Eldegoss,,Level,"{ speed : ""Medium"" }",Cotton Bloom Pokémon,"The cotton it produces has a glossy
 finish so clothes made with it are
 insanely expensive. In nature they
 are calm and selfless Pokémon who
@@ -5509,7 +5509,7 @@ from high mountain cliffs. They need
 to be sheared or their wool will be
 too heavy to move. A sweater made
 with this wool will last for a lifetime."
-832,Dubwool,,Level,Medium,Sheep Pokémon,"Humble and calm, their wool has
+832,Dubwool,,Level,"{ speed : ""Medium"" }",Sheep Pokémon,"Humble and calm, their wool has
 springy properties. A king in ancient
 times ordered a carpet made from
 100 Dubwool, when it was done, those
@@ -5521,7 +5521,7 @@ Apparently its gums are itchy and
 the only way to soothe them is
 biting and chewing on stuff. It is
 kinda cranky but relatively harmless."
-834,Drednaw,,Level,Medium,Bite Pokémon,"It stays immobile near rivers and
+834,Drednaw,,Level,"{ speed : ""Medium"" }",Bite Pokémon,"It stays immobile near rivers and
 lakes, disguised as a rock until it
 snaps at an unsuspecting prey.
 Once something is trapped by its
@@ -5533,7 +5533,7 @@ dog. When it runs, it generates
 electricity from the base of its tail. It
 loves to fetch balls and if you give it
 some treats it will love you forever."
-836,Boltund,,Level,Medium,Dog Pokémon,"It sends electricity through its legs
+836,Boltund,,Level,"{ speed : ""Medium"" }",Dog Pokémon,"It sends electricity through its legs
 to boost their speed, it easily breaks
 50 mph. They get destructive and
 stressed if you do not take them
@@ -5545,12 +5545,12 @@ coal only it moves like a unicycle.
 When it gets angry it glows burning
 hot but when it’s happy it lets out soft
 crackles and keeps a steady warmth."
-838,Carkol,,Level,Medium,Coal Pokémon,"It rolls its legs, their heavy weight
+838,Carkol,,Level,"{ speed : ""Medium"" }",Coal Pokémon,"It rolls its legs, their heavy weight
 creates parallel trackmarks that allow them to travel faster through
 caves and tunnels. In old times,
 people used Carkol's coal as fuel for
 they can hold fire for a long time."
-839,Coalossal,,Level,Medium,Coal Pokémon,"They are usually calm creatures, if
+839,Coalossal,,Level,"{ speed : ""Medium"" }",Coal Pokémon,"They are usually calm creatures, if
 they see you are kind they’ll share
 their warmth with you but if you
 enrage one you risk being burned
@@ -5562,13 +5562,13 @@ to protect itself from birds and
 predators. The apple serves as its
 food source and the flavor of it will
 determine its evolution."
-841,Flapple,,With Item,With Tart Apple,Apple Wing Pokémon,"It grew inside a sour apple, and thus
+841,Flapple,,With Item,"{ item : ""Tart Apple"" }",Apple Wing Pokémon,"It grew inside a sour apple, and thus
 developed an acid that can cause
 chemical burns. It uses the discarded
 apple skin to fly or disguise itself as a
 rancid apple. They are loners as not
 many like how it looks or smells."
-842,Appletun,,With Item,With Sweet Apple,Apple Nectar Pokémon,"Eating a sweet apple caused its
+842,Appletun,,With Item,"{ item : ""Sweet Apple"" }",Apple Nectar Pokémon,"Eating a sweet apple caused its
 evolution. A nectarous scent wafts
 from its body, luring in the bug
 Pokémon it preys on, but it also
@@ -5580,7 +5580,7 @@ be left alone. They spew sand from
 their nostrils and while the foe is
 blinded, they burrow back into the
 ground to hide."
-844,Sandaconda,,Level,Slow,Sand Snake Pokémon,"It has a sack that can carry up to 220
+844,Sandaconda,,Level,"{ speed : ""Slow"" }",Sand Snake Pokémon,"It has a sack that can carry up to 220
 lbs of sand, the way it coils allow it to
 spray the sand to its foes. If it sack
 ever runs out of sand it becomes limp
@@ -5610,7 +5610,7 @@ After they have eaten their swim
 becomes sluggish and they are
 at risk of being eaten themselves.
 They are proud of their pointed jaw."
-847,Barraskewda,,Level,Medium,Skewer Pokémon,"This Pokémon has a jaw that’s as
+847,Barraskewda,,Level,"{ speed : ""Medium"" }",Skewer Pokémon,"This Pokémon has a jaw that’s as
 sharp as a spear and as strong as
 steel. Apparently Barraskewda's
 flesh is surprisingly tasty, too.
@@ -5622,13 +5622,13 @@ the brighter their skin color becomes.
 They need a lot of nurturing but are
 bad tempered and ill mannered so
 not many take the task."
-849,Toxtricity,Amped Form,Level,Slow (Extrovert),Punk Pokémon,"Commonly called “Amped Form”, its
+849,Toxtricity,Amped Form,Level,"{ speed : ""Slow"", special : ""Extrovert"" }",Punk Pokémon,"Commonly called “Amped Form”, its
 nature determines its evolution, If a
 Toxel is extroverted it will evolve to
 be a short-tempered Toxtricity. They
 emit high pitched sounds and let out
 powerful discharges to provoke others."
-849,Toxtricity,Low Key Form,Level,Slow (Introvert),Punk Pokémon,"Commonly called “Low Key Form”,
+849,Toxtricity,Low Key Form,Level,"{ speed : ""Slow"", special : ""Introvert"" }",Punk Pokémon,"Commonly called “Low Key Form”,
 its nature determines its evolution,
 If a Toxel is introverted it will evolve
 to be a chill Toxtricity. They emit low
@@ -5640,7 +5640,7 @@ yellow sections on its belly get very
 hot. It wraps prey with its body
 heated to cook them, the it nibbles
 them down until nothing remains."
-851,Centiskorch,,Level,Slow,Radiator Pokémon,"It lashes its body like a whip and
+851,Centiskorch,,Level,"{ speed : ""Slow"" }",Radiator Pokémon,"It lashes its body like a whip and
 launches itself at enemies, while its
 burning body is already dangerous
 on its own, this excessively hostile
@@ -5652,7 +5652,7 @@ them with its tentacles, despite this,
 the tentacles tear off easily, but
 don’t be alarmed for they’ll regrow
 in a few days."
-853,Grapploct,,Level,Medium,Jujitsu Pokémon,"A body made up of nothing but
+853,Grapploct,,Level,"{ speed : ""Medium"" }",Jujitsu Pokémon,"A body made up of nothing but
 muscle makes its tentacles very
 powerful. They come out of the
 ocean to find opponents to battle,
@@ -5664,7 +5664,7 @@ a cold, leftover cup of tea. It absorbs
 the life-force of those who drink it
 but it tastes so bad that it gets spat
 out immediately."
-855,Polteageist,,With Item,With Cracked Pot,Black Tea Pokémon,"This species lives in old ceramic
+855,Polteageist,,With Item,"{ item : ""Cracked Pot"" }",Black Tea Pokémon,"This species lives in old ceramic
 teapots. They struggle to find
 real antiques, for most tea sets
 nowadays are just imitations. Never
@@ -5676,19 +5676,19 @@ you don’t have a calm disposition, it
 will never warm up to you. They get
 overwhelmed in places with many
 people, preferring to hide alone."
-857,Hattrem,,Level,Medium,Serene Pokémon,"It may seem friendly but it is actually
+857,Hattrem,,Level,"{ speed : ""Medium"" }",Serene Pokémon,"It may seem friendly but it is actually
 quite the loner. No matter who you
 are, if you bring strong emotions
 near it, it will silence you violently by
 hitting you with its braids. It dislikes
 crowded places."
-858,Hatterene,,Level,Medium,Silent Pokémon,"If you’re too loud around it, you risk
+858,Hatterene,,Level,"{ speed : ""Medium"" }",Silent Pokémon,"If you’re too loud around it, you risk
 being torn apart by the claws on its
 tentacle. This Pokémon is also known
 as the Forest Witch. It is very sensitive
 to the emotions of others if it senses
 doubt, fear or anger it will attack you."
-110,Weezing,Galarian,Level,Slow,Poison Gas Pokémon,"This Pokémon eats the contamination
+110,Weezing,Galarian,Level,"{ speed : ""Slow"" }",Poison Gas Pokémon,"This Pokémon eats the contamination
 in the air, and instead of droppings, it
 expels clean air.
 Its Galar Form was first spotted long
@@ -5699,13 +5699,13 @@ emanations produced by people
 and Pokémon when they feel annoyed. It thrives off this negative
 energy. They love to take things
 that don’t belong to them."
-860,Morgrem,,Level,Medium,Devious Pokémon,"When it gets down on all fours as
+860,Morgrem,,Level,"{ speed : ""Medium"" }",Devious Pokémon,"When it gets down on all fours as
 if to beg for forgiveness, it’s trying
 to lure opponents in so that it can
 stab them with its spear-like hair.
 It lures people into the woods to rob
 them and get them lost."
-861,Grimmsnarl,,Level,Medium,Bulk Up Pokémon,"Its hairs work like muscle fibers.
+861,Grimmsnarl,,Level,"{ speed : ""Medium"" }",Bulk Up Pokémon,"Its hairs work like muscle fibers.
 When its hairs unfurl, they latch on
 to opponents, ensnaring them as
 tentacles would. They often make
@@ -5717,13 +5717,13 @@ Pokémon, they will purposely run
 into them to start a fight. The only
 way to calm them down is with a lot
 of loud noise."
-264,Linoone,Galarian,Level,Medium,Rush Pokémon,"It uses its long tongue to taunt
+264,Linoone,Galarian,Level,"{ speed : ""Medium"" }",Rush Pokémon,"It uses its long tongue to taunt
 its opponents. Once the foe is
 enraged, this Pokémon hurls itself at
 it, tackling them forcefully. They are
 bad-mannered and enjoy to thrash
 things about."
-862,Obstagoon,,Level,Medium,Blocking Pokémon,"Its voice has a very loud volume and
+862,Obstagoon,,Level,"{ speed : ""Medium"" }",Blocking Pokémon,"Its voice has a very loud volume and
 it is a noisy and rude Pokémon.
 Obstagoon has a tendency to take
 on a threatening posture and shout
@@ -5735,7 +5735,7 @@ ships on long travels through the
 sea, living for so long in such harsh
 conditions toughened it up so much
 that parts of it have turned to iron."
-863,Perrserker,,Level,Medium,Viking Pokémon,"What appears to be an iron
+863,Perrserker,,Level,"{ speed : ""Medium"" }",Viking Pokémon,"What appears to be an iron
 helmet is actually hardened hair.
 Unlike other Meowth evolutions,
 Perrserker does not want riches and
@@ -5746,7 +5746,7 @@ through shallow ocean waters because this Pokémon looks like a
 stone and it will curse you if you kick
 it. Sudden climate change wiped
 out this ancient kind of Corsola."
-864,Cursola,,Level,Medium,Coral Pokémon,"The ectoplasm serves as protection
+864,Cursola,,Level,"{ speed : ""Medium"" }",Coral Pokémon,"The ectoplasm serves as protection
 for its soul, do not touch it or you’ll
 become stiff as stone. This Pokémon
 longs for the days where coral reefs
@@ -5758,7 +5758,7 @@ allowed Farfetch'd fare better than
 their Kanto counterparts. It has also
 made them hardier and warrior-like.
 They are still delicious, though."
-865,Sirfetch'd,,Special,Score 3 Critical hits in 1 battle,Wild Duck Pokémon,"Only Farfetch’d that have survived
+865,Sirfetch'd,,Special,"{ special : ""Score 3 Critical hits in 1 battle"" }",Wild Duck Pokémon,"Only Farfetch’d that have survived
 many battles can go thought this
 evolution. They are very proud of
 their leek spear and leafen shield,
@@ -5776,7 +5776,7 @@ walls that suddenly turn to ice, as
 they evolve they start creating ice
 floors that allow them to tap-dance,
 which they enjoy more than anything."
-866,Mr. Rime,,Level,Medium,Comedian Pokémon,"It’s highly skilled at tap-dancing.
+866,Mr. Rime,,Level,"{ speed : ""Medium"" }",Comedian Pokémon,"It’s highly skilled at tap-dancing.
 It waves its cane of ice in time, its
 amusing movements make it very
 popular and they love to entertain
@@ -5788,7 +5788,7 @@ Darumaka uses low temperatures as
 energy, making it very energetic on
 winter. It is playful and likes to throw
 Snowballs."
-555,Darmanitan,Galarian,With Stone,With Ice Stone,Zen Charm Pokémon,"The Galarian form of Darmanitan.
+555,Darmanitan,Galarian,Stone,"{ item : ""Ice Stone"" }",Zen Charm Pokémon,"The Galarian form of Darmanitan.
 They walk into towns during the
 blizzards to steal food.
 Darmanitans seem mean, but they
@@ -5804,7 +5804,7 @@ was drawn to the dark energy of
 a spirit. The clay slab seems to be
 absorbing Yamask's power that’s
 why it is so pale."
-867,Runerigus,,Special,Walk near a rune Painting,Grudge Pokémon,"A powerful curse was woven into
+867,Runerigus,,Special,"{ special : ""Walk near a rune Painting"" }",Grudge Pokémon,"A powerful curse was woven into
 an ancient rune painting, the spirit
 of Yamask is absorbed by this curse
 and it evolves into a Runerigs. Do not
@@ -5815,7 +5815,7 @@ is made of cream, Finding one in
 your kitchen means Good Fortune.
 Give them berries and whip them
 with a whisk so they can evolve."
-869,Alcremie,,Special,Berry & spin,Cream Pokémon,"There is a vast number of recipes
+869,Alcremie,,Special,"{ special : ""Berry & spin"" }",Cream Pokémon,"There is a vast number of recipes
 to evolve an Alcremie, changing
 their color and flavor, some are
 sweet, some are sour but they are
@@ -5827,7 +5827,7 @@ Their miraculous horn can heal most
 wounds and sense the purity in your
 heart, if you hold evil, you’ll never see
 this Pokémon in the wild."
-78,Rapidash,Galarian,Level,Medium,Unique Horn Pokémonn,"Those with evil in their hearts will be
+78,Rapidash,Galarian,Level,"{ speed : ""Medium"" }",Unique Horn Pokémonn,"Those with evil in their hearts will be
 disdained by this proud and beautiful
 Pokémon as it dashes on the air using
 its psychic power. It is said that only
@@ -5851,7 +5851,7 @@ body to branches, disguising itself
 as an icicle while it sleeps.
 It feeds only of snow, if it melts it will
 freeze it again to continue eating."
-873,Frosmoth,,Stat,Happiness 5,Frost Moth Pokémon,"It shows no mercy to any who
+873,Frosmoth,,Stat,"{ stat : ""Happiness"", value : 5 }",Frost Moth Pokémon,"It shows no mercy to any who
 desecrates its snowfields and
 mountains. It will fly around on its icy
 wings, causing a blizzard to chase
@@ -5893,7 +5893,7 @@ body tarnishes in the rain, turning
 a vibrant green color. Its trunk is
 specially designed to dig the ground,
 in the wild they uproot trees to eat."
-879,Copperajah,,Level,Medium,Copperderm Pokémon,"They originally came from another
+879,Copperajah,,Level,"{ speed : ""Medium"" }",Copperderm Pokémon,"They originally came from another
 region long ago, worked together
 with humans helping them pave
 new roads and building cities. They
@@ -5935,13 +5935,13 @@ to inhabit back when it was alive in
 prehistoric seas. Alone they do not
 pose much of a threat but if they
 gather in packs you’ll be in trouble."
-886,Drakloak,,Level,Slow,Caretaker Pokémon,"It battles alongside Dreepy and
+886,Drakloak,,Level,"{ speed : ""Slow"" }",Caretaker Pokémon,"It battles alongside Dreepy and
 dotes on them until they evolve.
 Without a Dreepy to place on
 its head and care for, it gets so
 uneasy it’ll try to substitute it with any
 Pokémon it finds"
-887,Dragapult,,Level,Slow,Stealth Pokémon,"When it isn’t battling, it keeps
+887,Dragapult,,Level,"{ speed : ""Slow"" }",Stealth Pokémon,"When it isn’t battling, it keeps
 Dreepy in the holes on its horns.
 Once a fight starts, it launches the
 Dreepy like supersonic missiles. The
