@@ -37,6 +37,11 @@
 			<xs:element name="DataId" type="DataId"/>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="MutableBaseDataItem" abstract="true">
+		<xs:sequence>
+			<xs:element name="DataId" type="DataId"/>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="ItemReference">
 		<xs:sequence>
 			<xs:element name="DataId" type="DataId"/>

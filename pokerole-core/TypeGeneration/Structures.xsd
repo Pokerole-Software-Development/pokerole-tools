@@ -667,7 +667,7 @@
 	</xs:complexType>
 	<xs:complexType name="MonInstance">
 		<xs:complexContent>
-			<xs:extension base="ex:BaseDataItem">
+			<xs:extension base="ex:MutableBaseDataItem">
 				<xs:sequence>
 					<xs:element name="Picture" type="ex:ItemReference" ex:genericType="ImageRef">
 						<xs:annotation>
@@ -1019,7 +1019,7 @@
 	</xs:complexType>
 	<xs:complexType name="Trainer">
 		<xs:complexContent>
-			<xs:extension base="ex:BaseDataItem">
+			<xs:extension base="ex:MutableBaseDataItem">
 				<xs:sequence>
 					<xs:element name="CharacterName" type="xs:string" />
 					<xs:element name="PlayerName" type="xs:string" />
@@ -1201,7 +1201,7 @@
 	</xs:complexType>
 	<xs:complexType name="Backpack">
 		<xs:complexContent>
-			<xs:extension base="ex:BaseDataItem">
+			<xs:extension base="ex:MutableBaseDataItem">
 				<xs:sequence>
 					<xs:element name="PotionCount" type="xs:int"/>
 					<xs:element name="SuperPotionCount" type="xs:int"/>
@@ -1244,7 +1244,7 @@
 	</xs:complexType>
 	<xs:complexType name="Rival">
 		<xs:complexContent>
-			<xs:extension base="ex:BaseDataItem">
+			<xs:extension base="ex:MutableBaseDataItem">
 				<xs:sequence>
 					<xs:element name="Picture" type="ImageRef">
 						<xs:annotation>

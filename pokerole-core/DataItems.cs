@@ -64,15 +64,21 @@ namespace Pokerole.Core
 	public readonly struct ItemReference<T> : IEquatable<ItemReference<T>> where T : IDataItem<T>
 	{
 		public ItemReference(DataId id) : this(id, null) { }
-		public ItemReference(DataId id, String? name)
+		public ItemReference(DataId id, String? name): this(id, name, false) { }
+		public ItemReference(DataId id, String? name, bool builtIn)
 		{
 			DataId = id;
 			DisplayName = name;
+			BuiltIn = builtIn;
 		}
 		[XmlAttribute]
 		public String? DisplayName { get; }
 		[XmlElement(IsNullable = false)]
 		public DataId DataId { get; }
+		/// <summary>
+		/// Hint to the caller about whether or not this ItemReference references something built-in like the Normal Type
+		/// </summary>
+		public bool BuiltIn { get; }
 
 		public override bool Equals(object? obj) => obj is ItemReference<T> reference && Equals(reference);
 
@@ -103,19 +109,31 @@ namespace Pokerole.Core
 			//	set => DataId = value.Build();
 			//}
 			public String? DisplayName { get; set; }
+			//Note: NOT serializing BuiltIn since it should always be false for serialized data and true for
+			//built-in data
+			/// <summary>
+			/// Hint to the caller about whether or not this ItemRefernce references something built-in like the Normal Type
+			/// </summary>
+			public bool BuiltIn { get; set; }
 			public Builder() { }
 			public Builder(ItemReference<T> item)
 			{
 				DataId = item.DataId;
 				DisplayName = item.DisplayName;
+				BuiltIn = item.BuiltIn;
 			}
 			//an empty instance of this struct is technically valid
 			public override bool IsValid => true;
 			public override ItemReference<T> Build()
 			{
-				return new ItemReference<T>(DataId, DisplayName);
+				return new ItemReference<T>(DataId, DisplayName, BuiltIn);
 			}
 			public override List<string> MissingValues => new List<string>(0);
+			public override (string, object?)[] Values => new (string, object?)[] {
+				(nameof(DataId), DataId),
+				(nameof(DisplayName), DisplayName),
+				(nameof(BuiltIn), BuiltIn)
+			};
 
 			public XmlSchema? GetSchema() => null;
 			public void ReadXml(XmlReader reader)
@@ -139,9 +157,17 @@ namespace Pokerole.Core
 			}
 		}
 	}
-	public interface IDataItem<T> where T : IDataItem<T>
+	//non-generic interface for reflection handling
+	public interface IDataItem
 	{
 		public DataId DataId { get; }
+		/// <summary>
+		/// Get the values of this instance. Faster than reflection, hopefully
+		/// </summary>
+		(String, Object?)[] Values { get; }
+	}
+	public interface IDataItem<T> : IDataItem where T : IDataItem<T>
+	{
 		public ItemReference<T> ItemReference { get; }
 	}
 	public abstract record BaseDataItem<T> : IDataItem<T> where T : BaseDataItem<T>
@@ -160,6 +186,25 @@ namespace Pokerole.Core
 		{
 			dataId = id;
 		}
+		public abstract (String, Object?)[] Values { get; }
+	}
+	public abstract class MutableBaseDataItem<T> : IDataItem<T> where T : MutableBaseDataItem<T>
+	{
+		private readonly DataId dataId;
+		public DataId DataId => dataId;
+		public abstract ItemReference<T> ItemReference { get; }
+		/// <summary>
+		/// Whether or not this item is out of date. If true, you should replace this instance with a fresher one from
+		/// wherever you get your data (like a database)
+		/// </summary>
+		public bool OutOfDate { get; private set; }
+		public void MarkOutOfDate() => OutOfDate = true;
+
+		protected MutableBaseDataItem(DataId id)
+		{
+			dataId = id;
+		}
+		public abstract (String, Object?)[] Values { get; }
 	}
 	//for reflection convinience
 	public interface IItemBuilder
@@ -174,6 +219,7 @@ namespace Pokerole.Core
 		/// What it the type of item that this builder makes?
 		/// </summary>
 		Type BuilderType { get; }
+		(String, Object?)[] Values { get; }
 	}
 	public abstract class ItemBuilder<T> : IItemBuilder
 	{
@@ -204,6 +250,8 @@ namespace Pokerole.Core
 		public abstract List<String> MissingValues { get; }
 
 		public Type BuilderType => typeof(T);
+
+		public abstract (string, object?)[] Values { get; }
 	}
 	public abstract class DataItemBuilder<T> : ItemBuilder<T> where T : IDataItem<T>
 	{

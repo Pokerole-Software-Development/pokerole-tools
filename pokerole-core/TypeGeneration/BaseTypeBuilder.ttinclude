@@ -98,6 +98,7 @@
 		public String name;
 		public XmlSchemaComplexType definition;
 		public List<FieldDef> fields;
+		public bool isMutable;
 	}
 	class FieldDef{
 		public bool isAttribute;

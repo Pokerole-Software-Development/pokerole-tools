@@ -52,11 +52,13 @@
 			continue;
 		}
 		XmlSchemaType baseType = typeDef.BaseXmlSchemaType;
-		bool isDataItem = baseType.Name == "BaseDataItem";
+		bool isDataItem = baseType.Name == "BaseDataItem" || baseType.Name == "MutableBaseDataItem";
+		bool isMutable = baseType.Name == "MutableBaseDataItem";
 		ClassDef def = new ClassDef();
 		def.definition = typeDef;
 		def.isDataItem = isDataItem;
 		def.name = typeDef.Name;
+		def.isMutable = isMutable;
 		def.isReferenceType = IsReferenceType(schemaSet, typeDef.QualifiedName);
 		classes[def.name] = def;
 	}
@@ -155,12 +157,21 @@ namespace Pokerole.Core{
 	foreach	(ClassDef classDef in classes.Values)
 	{
 		StringBuilder constructorArgBuilder = new StringBuilder(classDef.fields.Count * 20);
+		String mutableAccessor = classDef.isMutable ? "set; " : "";
 		if (classDef.isDataItem)
 		{
+			if (classDef.isMutable){
+#>	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public partial class <#=classDef.name#> : MutableBaseDataItem<<#=classDef.name#>>
+	{
+<#
+			}
+			else{
 #>	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
 	public partial record <#=classDef.name#> : BaseDataItem<<#=classDef.name#>>
 	{
 <#
+			}
 		}
 		else if (!classDef.isReferenceType){
 #>	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
@@ -217,7 +228,16 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// <#= !String.IsNullOrEmpty(field.documentation) ? field.documentation : "Someone didn't document this item..." #>
 		/// </summary>
-		public <#= field.type.GetTypeDeclaration(true, false) #> <#=field.name#> { get; }
+		public <#= field.type.GetTypeDeclaration(true, false) #> <#=field.name#> { get; <#=mutableAccessor#>}
+<#		}
+		if (classDef.isDataItem){
+#>
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+<#
+			foreach(FieldDef field in classDef.fields){
+				WriteLine("\t\t\t(nameof({0}), {0}),", field.name);
+			}
+#>		};
 <#		}
 		//if (!classDef.isDataItem)
 		//{
@@ -391,6 +411,12 @@ namespace Pokerole.Core{
 			}
 <#		
 		}#>
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+<#
+		foreach(FieldDef field in classDef.fields){
+			WriteLine("\t\t\t\t(nameof({0}), {0}),", field.name);
+		}
+#>			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="<#=classDef.name#>"/>. <see cref="Build"/> will throw an exception if this returns false.

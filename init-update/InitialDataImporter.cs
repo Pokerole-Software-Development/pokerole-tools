@@ -2792,11 +2792,10 @@ namespace Pokerole.Tools.InitUpdate
 						tree.BabyEvolutionItem = new ItemReference<Item>(default, babyItem);
 						tree.NonBabyRoot = data.DexEntries.Where(ValidPredicate).First(item =>
 								item.DexNum == resultWithoutItem).ItemReference;
-					}ddfsdfsfd
+					}
 				}
-
-
 			}
+			throw new NotImplementedException();
 
 
 		}

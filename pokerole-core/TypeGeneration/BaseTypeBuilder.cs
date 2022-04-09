@@ -134,6 +134,27 @@ namespace Pokerole.Core{
 		/// List of effects this move causes when it hits
 		/// </summary>
 		public IReadOnlyList<string> Effects { get; }
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+			(nameof(Name), Name),
+			(nameof(Description), Description),
+			(nameof(Power), Power),
+			(nameof(MoveCategory), MoveCategory),
+			(nameof(Type), Type),
+			(nameof(MoveTarget), MoveTarget),
+			(nameof(Ranged), Ranged),
+			(nameof(PrimaryAccuracyStat), PrimaryAccuracyStat),
+			(nameof(PrimaryAccuracyIsNegative), PrimaryAccuracyIsNegative),
+			(nameof(SecondaryAccuracyStat), SecondaryAccuracyStat),
+			(nameof(ReducedAccuracy), ReducedAccuracy),
+			(nameof(DamageStat), DamageStat),
+			(nameof(SecondaryDamageStat), SecondaryDamageStat),
+			(nameof(SecondaryDamageIsNegative), SecondaryDamageIsNegative),
+			(nameof(DamageModifier), DamageModifier),
+			(nameof(HasSpecialAccuracyMod), HasSpecialAccuracyMod),
+			(nameof(HasSpecialDamageMod), HasSpecialDamageMod),
+			(nameof(AdditionalInfo), AdditionalInfo),
+			(nameof(Effects), Effects),
+		};
 		[XmlType(nameof(Move), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<Move>
@@ -409,6 +430,27 @@ namespace Pokerole.Core{
 			/// </summary>
 			[XmlElement(IsNullable = false)]
 			public List<string> Effects { get; set; }
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Name), Name),
+				(nameof(Description), Description),
+				(nameof(Power), Power),
+				(nameof(MoveCategory), MoveCategory),
+				(nameof(Type), Type),
+				(nameof(MoveTarget), MoveTarget),
+				(nameof(Ranged), Ranged),
+				(nameof(PrimaryAccuracyStat), PrimaryAccuracyStat),
+				(nameof(PrimaryAccuracyIsNegative), PrimaryAccuracyIsNegative),
+				(nameof(SecondaryAccuracyStat), SecondaryAccuracyStat),
+				(nameof(ReducedAccuracy), ReducedAccuracy),
+				(nameof(DamageStat), DamageStat),
+				(nameof(SecondaryDamageStat), SecondaryDamageStat),
+				(nameof(SecondaryDamageIsNegative), SecondaryDamageIsNegative),
+				(nameof(DamageModifier), DamageModifier),
+				(nameof(HasSpecialAccuracyMod), HasSpecialAccuracyMod),
+				(nameof(HasSpecialDamageMod), HasSpecialDamageMod),
+				(nameof(AdditionalInfo), AdditionalInfo),
+				(nameof(Effects), Effects),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Move"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -626,6 +668,10 @@ namespace Pokerole.Core{
 		/// Item Description
 		/// </summary>
 		public string Description { get; }
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+			(nameof(Name), Name),
+			(nameof(Description), Description),
+		};
 		[XmlType(nameof(Item), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<Item>
@@ -652,6 +698,10 @@ namespace Pokerole.Core{
 			/// </summary>
 			[XmlElement(IsNullable = false)]
 			public string? Description { get; set; }
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Name), Name),
+				(nameof(Description), Description),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Item"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -757,6 +807,10 @@ namespace Pokerole.Core{
 				get => Value ?? default;
 				set => Value = value;
 			}
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Stat), Stat),
+				(nameof(Value), Value),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="CustomStatEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -839,6 +893,11 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public string? FilePath { get; }
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+			(nameof(Filename), Filename),
+			(nameof(Data), Data),
+			(nameof(FilePath), FilePath),
+		};
 		[XmlType(nameof(ImageRef), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<ImageRef>
@@ -871,6 +930,11 @@ namespace Pokerole.Core{
 			/// </summary>
 			[XmlElement(IsNullable = true)]
 			public string? FilePath { get; set; }
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Filename), Filename),
+				(nameof(Data), Data),
+				(nameof(FilePath), FilePath),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="ImageRef"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -982,6 +1046,10 @@ namespace Pokerole.Core{
 				set => TargetEvolution = value?.Build();
 			}
 
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Item), Item),
+				(nameof(TargetEvolution), TargetEvolution),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="MegaEvolutionEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -1094,6 +1162,10 @@ namespace Pokerole.Core{
 				set => Move = value?.Build();
 			}
 
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Rank), Rank),
+				(nameof(Move), Move),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="MoveEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -1206,6 +1278,10 @@ namespace Pokerole.Core{
 				set => Ability = value?.Build();
 			}
 
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Hidden), Hidden),
+				(nameof(Ability), Ability),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="AbilityEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -1564,6 +1640,57 @@ namespace Pokerole.Core{
 		/// List of moves that this Pokémon can learn
 		/// </summary>
 		public IReadOnlyList<MoveEntry> MoveSet { get; }
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+			(nameof(DexNum), DexNum),
+			(nameof(SuggestedStarter), SuggestedStarter),
+			(nameof(PrimaryType), PrimaryType),
+			(nameof(SecondaryType), SecondaryType),
+			(nameof(Name), Name),
+			(nameof(Variant), Variant),
+			(nameof(AverageHeight), AverageHeight),
+			(nameof(AverageWeight), AverageWeight),
+			(nameof(Category), Category),
+			(nameof(DexDescription), DexDescription),
+			(nameof(SuggestedRank), SuggestedRank),
+			(nameof(BaseHp), BaseHp),
+			(nameof(PrimaryImage), PrimaryImage),
+			(nameof(AdditionalImages), AdditionalImages),
+			(nameof(AdditionalShinyImages), AdditionalShinyImages),
+			(nameof(SpriteImage), SpriteImage),
+			(nameof(ShinyImage), ShinyImage),
+			(nameof(IsBaby), IsBaby),
+			(nameof(SpriteShinyImage), SpriteShinyImage),
+			(nameof(PrimaryFemaleImage), PrimaryFemaleImage),
+			(nameof(AdditionalFemaleImages), AdditionalFemaleImages),
+			(nameof(AdditionalShinyFemaleImages), AdditionalShinyFemaleImages),
+			(nameof(SpriteFemaleImage), SpriteFemaleImage),
+			(nameof(ShinyFemaleImage), ShinyFemaleImage),
+			(nameof(SpriteShinyFemaleImage), SpriteShinyFemaleImage),
+			(nameof(AdditionalSpriteImages), AdditionalSpriteImages),
+			(nameof(AdditionalShinySpriteImages), AdditionalShinySpriteImages),
+			(nameof(AdditionalFemaleSpriteImages), AdditionalFemaleSpriteImages),
+			(nameof(AdditionalShinyFemaleSpriteImages), AdditionalShinyFemaleSpriteImages),
+			(nameof(Abilities), Abilities),
+			(nameof(BaseEvolution), BaseEvolution),
+			(nameof(PrimaryEggGroup), PrimaryEggGroup),
+			(nameof(SecondaryEggGroup), SecondaryEggGroup),
+			(nameof(BreedingCounterpart), BreedingCounterpart),
+			(nameof(EvolutionTree), EvolutionTree),
+			(nameof(MegaEvolutionBaseEntry), MegaEvolutionBaseEntry),
+			(nameof(MegaEvolutions), MegaEvolutions),
+			(nameof(MaxStrength), MaxStrength),
+			(nameof(StartingStrength), StartingStrength),
+			(nameof(MaxDexterity), MaxDexterity),
+			(nameof(StartingDexterity), StartingDexterity),
+			(nameof(MaxVitality), MaxVitality),
+			(nameof(StartingVitality), StartingVitality),
+			(nameof(MaxSpecial), MaxSpecial),
+			(nameof(StartingSpecial), StartingSpecial),
+			(nameof(MaxInsight), MaxInsight),
+			(nameof(StartingInsight), StartingInsight),
+			(nameof(GenderType), GenderType),
+			(nameof(MoveSet), MoveSet),
+		};
 		[XmlType(nameof(DexEntry), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<DexEntry>
@@ -2534,6 +2661,57 @@ namespace Pokerole.Core{
 					ItemBuilder<MoveEntry>.BuildList(value, MoveSet);
 				}
 			}
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(DexNum), DexNum),
+				(nameof(SuggestedStarter), SuggestedStarter),
+				(nameof(PrimaryType), PrimaryType),
+				(nameof(SecondaryType), SecondaryType),
+				(nameof(Name), Name),
+				(nameof(Variant), Variant),
+				(nameof(AverageHeight), AverageHeight),
+				(nameof(AverageWeight), AverageWeight),
+				(nameof(Category), Category),
+				(nameof(DexDescription), DexDescription),
+				(nameof(SuggestedRank), SuggestedRank),
+				(nameof(BaseHp), BaseHp),
+				(nameof(PrimaryImage), PrimaryImage),
+				(nameof(AdditionalImages), AdditionalImages),
+				(nameof(AdditionalShinyImages), AdditionalShinyImages),
+				(nameof(SpriteImage), SpriteImage),
+				(nameof(ShinyImage), ShinyImage),
+				(nameof(IsBaby), IsBaby),
+				(nameof(SpriteShinyImage), SpriteShinyImage),
+				(nameof(PrimaryFemaleImage), PrimaryFemaleImage),
+				(nameof(AdditionalFemaleImages), AdditionalFemaleImages),
+				(nameof(AdditionalShinyFemaleImages), AdditionalShinyFemaleImages),
+				(nameof(SpriteFemaleImage), SpriteFemaleImage),
+				(nameof(ShinyFemaleImage), ShinyFemaleImage),
+				(nameof(SpriteShinyFemaleImage), SpriteShinyFemaleImage),
+				(nameof(AdditionalSpriteImages), AdditionalSpriteImages),
+				(nameof(AdditionalShinySpriteImages), AdditionalShinySpriteImages),
+				(nameof(AdditionalFemaleSpriteImages), AdditionalFemaleSpriteImages),
+				(nameof(AdditionalShinyFemaleSpriteImages), AdditionalShinyFemaleSpriteImages),
+				(nameof(Abilities), Abilities),
+				(nameof(BaseEvolution), BaseEvolution),
+				(nameof(PrimaryEggGroup), PrimaryEggGroup),
+				(nameof(SecondaryEggGroup), SecondaryEggGroup),
+				(nameof(BreedingCounterpart), BreedingCounterpart),
+				(nameof(EvolutionTree), EvolutionTree),
+				(nameof(MegaEvolutionBaseEntry), MegaEvolutionBaseEntry),
+				(nameof(MegaEvolutions), MegaEvolutions),
+				(nameof(MaxStrength), MaxStrength),
+				(nameof(StartingStrength), StartingStrength),
+				(nameof(MaxDexterity), MaxDexterity),
+				(nameof(StartingDexterity), StartingDexterity),
+				(nameof(MaxVitality), MaxVitality),
+				(nameof(StartingVitality), StartingVitality),
+				(nameof(MaxSpecial), MaxSpecial),
+				(nameof(StartingSpecial), StartingSpecial),
+				(nameof(MaxInsight), MaxInsight),
+				(nameof(StartingInsight), StartingInsight),
+				(nameof(GenderType), GenderType),
+				(nameof(MoveSet), MoveSet),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="DexEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -2913,7 +3091,7 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record MonInstance : BaseDataItem<MonInstance>
+	public partial class MonInstance : MutableBaseDataItem<MonInstance>
 	{
 		public MonInstance(DataId dataId,
 			ItemReference<ImageRef> picture,
@@ -3030,215 +3208,270 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Picture of this Pokémon
 		/// </summary>
-		public ItemReference<ImageRef> Picture { get; }
+		public ItemReference<ImageRef> Picture { get; set; }
 		/// <summary>
 		/// The DexEntry that currently defines this Pokémon
 		/// </summary>
-		public ItemReference<DexEntry> Definition { get; }
+		public ItemReference<DexEntry> Definition { get; set; }
 		/// <summary>
 		/// The name of this Pokémon
 		/// </summary>
-		public string Name { get; }
+		public string Name { get; set; }
 		/// <summary>
 		/// This Pokémon's usual ability
 		/// </summary>
-		public ItemReference<Ability> Ability { get; }
+		public ItemReference<Ability> Ability { get; set; }
 		/// <summary>
 		/// This Pokémon's current ability if it isn't the usual ability, such as what happens when one gets hit by simple beam
 		/// </summary>
-		public ItemReference<Ability>? OveriddenAblity { get; }
+		public ItemReference<Ability>? OveriddenAblity { get; set; }
 		/// <summary>
 		/// Override of this Mon's first type if applicable. To cancel this type, set this to "Typeless"
 		/// </summary>
-		public ItemReference<ITypeDefinition>? OverridenType1 { get; }
+		public ItemReference<ITypeDefinition>? OverridenType1 { get; set; }
 		/// <summary>
 		/// Override of this Mon's second type if applicable. To cancel this type, set this to "Typeless"
 		/// </summary>
-		public ItemReference<ITypeDefinition>? OverridenType2 { get; }
+		public ItemReference<ITypeDefinition>? OverridenType2 { get; set; }
 		/// <summary>
 		/// Any additional types added to this mon, such as by Trick-Or-Treat
 		/// </summary>
-		public IReadOnlyList<ItemReference<ITypeDefinition>> AdditionalTypes { get; }
+		public IReadOnlyList<ItemReference<ITypeDefinition>> AdditionalTypes { get; set; }
 		/// <summary>
 		/// Any additional resistances the Gm may add to the character. (E.G. You are now resistant to Fairy type.) List the type more than once to increase the effect
 		/// </summary>
-		public IReadOnlyList<ItemReference<ITypeDefinition>> ManualResistances { get; }
+		public IReadOnlyList<ItemReference<ITypeDefinition>> ManualResistances { get; set; }
 		/// <summary>
 		/// Any additional weaknesses the Gm may add to the character. (E.G. You are now weak to Fairy type.) List the type more than once to increase the effect
 		/// </summary>
-		public IReadOnlyList<ItemReference<ITypeDefinition>> ManualWeaknesses { get; }
+		public IReadOnlyList<ItemReference<ITypeDefinition>> ManualWeaknesses { get; set; }
 		/// <summary>
 		/// Any additional immunities the Gm may add to the character. (E.G. You are now immune to Fairy type.) Listing the type more than once has no effect.
 		/// </summary>
-		public IReadOnlyList<ItemReference<ITypeDefinition>> ManualImmunities { get; }
+		public IReadOnlyList<ItemReference<ITypeDefinition>> ManualImmunities { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int HP { get; }
+		public int HP { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int WillPoints { get; }
+		public int WillPoints { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public ItemReference<Item> HeldItem { get; }
+		public ItemReference<Item> HeldItem { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public IReadOnlyList<MonStatus> Status { get; }
+		public IReadOnlyList<MonStatus> Status { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int EvasionDice { get; }
+		public int EvasionDice { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int ClashDice { get; }
+		public int ClashDice { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Defence { get; }
+		public int Defence { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int SpecialDefence { get; }
+		public int SpecialDefence { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public Rank Rank { get; }
+		public Rank Rank { get; set; }
 		/// <summary>
 		/// List of moves this Pokémon knows
 		/// </summary>
-		public IReadOnlyList<MoveEntry> Moves { get; }
+		public IReadOnlyList<MoveEntry> Moves { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public Height Height { get; }
+		public Height Height { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public Weight Weight { get; }
+		public Weight Weight { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Strength { get; }
+		public int Strength { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Dexterity { get; }
+		public int Dexterity { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Vitality { get; }
+		public int Vitality { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Special { get; }
+		public int Special { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Insight { get; }
+		public int Insight { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Brawl { get; }
+		public int Brawl { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Channel { get; }
+		public int Channel { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Clash { get; }
+		public int Clash { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Evasion { get; }
+		public int Evasion { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Alert { get; }
+		public int Alert { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Athletic { get; }
+		public int Athletic { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Nature { get; }
+		public int Nature { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Stealth { get; }
+		public int Stealth { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Allure { get; }
+		public int Allure { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Etiquette { get; }
+		public int Etiquette { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Intimidate { get; }
+		public int Intimidate { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Perform { get; }
+		public int Perform { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public IReadOnlyList<CustomStatEntry> CustomStats { get; }
+		public IReadOnlyList<CustomStatEntry> CustomStats { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Tough { get; }
+		public int Tough { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Cool { get; }
+		public int Cool { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Beauty { get; }
+		public int Beauty { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Clever { get; }
+		public int Clever { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Cute { get; }
+		public int Cute { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public Nature MonNature { get; }
+		public Nature MonNature { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Happiness { get; }
+		public int Happiness { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Loyalty { get; }
+		public int Loyalty { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int BattleCount { get; }
+		public int BattleCount { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int VicoryCount { get; }
+		public int VicoryCount { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public IReadOnlyList<string> Accessories { get; }
+		public IReadOnlyList<string> Accessories { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public IReadOnlyList<string> Ribbons { get; }
+		public IReadOnlyList<string> Ribbons { get; set; }
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+			(nameof(Picture), Picture),
+			(nameof(Definition), Definition),
+			(nameof(Name), Name),
+			(nameof(Ability), Ability),
+			(nameof(OveriddenAblity), OveriddenAblity),
+			(nameof(OverridenType1), OverridenType1),
+			(nameof(OverridenType2), OverridenType2),
+			(nameof(AdditionalTypes), AdditionalTypes),
+			(nameof(ManualResistances), ManualResistances),
+			(nameof(ManualWeaknesses), ManualWeaknesses),
+			(nameof(ManualImmunities), ManualImmunities),
+			(nameof(HP), HP),
+			(nameof(WillPoints), WillPoints),
+			(nameof(HeldItem), HeldItem),
+			(nameof(Status), Status),
+			(nameof(EvasionDice), EvasionDice),
+			(nameof(ClashDice), ClashDice),
+			(nameof(Defence), Defence),
+			(nameof(SpecialDefence), SpecialDefence),
+			(nameof(Rank), Rank),
+			(nameof(Moves), Moves),
+			(nameof(Height), Height),
+			(nameof(Weight), Weight),
+			(nameof(Strength), Strength),
+			(nameof(Dexterity), Dexterity),
+			(nameof(Vitality), Vitality),
+			(nameof(Special), Special),
+			(nameof(Insight), Insight),
+			(nameof(Brawl), Brawl),
+			(nameof(Channel), Channel),
+			(nameof(Clash), Clash),
+			(nameof(Evasion), Evasion),
+			(nameof(Alert), Alert),
+			(nameof(Athletic), Athletic),
+			(nameof(Nature), Nature),
+			(nameof(Stealth), Stealth),
+			(nameof(Allure), Allure),
+			(nameof(Etiquette), Etiquette),
+			(nameof(Intimidate), Intimidate),
+			(nameof(Perform), Perform),
+			(nameof(CustomStats), CustomStats),
+			(nameof(Tough), Tough),
+			(nameof(Cool), Cool),
+			(nameof(Beauty), Beauty),
+			(nameof(Clever), Clever),
+			(nameof(Cute), Cute),
+			(nameof(MonNature), MonNature),
+			(nameof(Happiness), Happiness),
+			(nameof(Loyalty), Loyalty),
+			(nameof(BattleCount), BattleCount),
+			(nameof(VicoryCount), VicoryCount),
+			(nameof(Accessories), Accessories),
+			(nameof(Ribbons), Ribbons),
+		};
 		[XmlType(nameof(MonInstance), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<MonInstance>
@@ -4166,6 +4399,61 @@ namespace Pokerole.Core{
 			/// </summary>
 			[XmlElement(IsNullable = false)]
 			public List<string> Ribbons { get; set; }
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Picture), Picture),
+				(nameof(Definition), Definition),
+				(nameof(Name), Name),
+				(nameof(Ability), Ability),
+				(nameof(OveriddenAblity), OveriddenAblity),
+				(nameof(OverridenType1), OverridenType1),
+				(nameof(OverridenType2), OverridenType2),
+				(nameof(AdditionalTypes), AdditionalTypes),
+				(nameof(ManualResistances), ManualResistances),
+				(nameof(ManualWeaknesses), ManualWeaknesses),
+				(nameof(ManualImmunities), ManualImmunities),
+				(nameof(HP), HP),
+				(nameof(WillPoints), WillPoints),
+				(nameof(HeldItem), HeldItem),
+				(nameof(Status), Status),
+				(nameof(EvasionDice), EvasionDice),
+				(nameof(ClashDice), ClashDice),
+				(nameof(Defence), Defence),
+				(nameof(SpecialDefence), SpecialDefence),
+				(nameof(Rank), Rank),
+				(nameof(Moves), Moves),
+				(nameof(Height), Height),
+				(nameof(Weight), Weight),
+				(nameof(Strength), Strength),
+				(nameof(Dexterity), Dexterity),
+				(nameof(Vitality), Vitality),
+				(nameof(Special), Special),
+				(nameof(Insight), Insight),
+				(nameof(Brawl), Brawl),
+				(nameof(Channel), Channel),
+				(nameof(Clash), Clash),
+				(nameof(Evasion), Evasion),
+				(nameof(Alert), Alert),
+				(nameof(Athletic), Athletic),
+				(nameof(Nature), Nature),
+				(nameof(Stealth), Stealth),
+				(nameof(Allure), Allure),
+				(nameof(Etiquette), Etiquette),
+				(nameof(Intimidate), Intimidate),
+				(nameof(Perform), Perform),
+				(nameof(CustomStats), CustomStats),
+				(nameof(Tough), Tough),
+				(nameof(Cool), Cool),
+				(nameof(Beauty), Beauty),
+				(nameof(Clever), Clever),
+				(nameof(Cute), Cute),
+				(nameof(MonNature), MonNature),
+				(nameof(Happiness), Happiness),
+				(nameof(Loyalty), Loyalty),
+				(nameof(BattleCount), BattleCount),
+				(nameof(VicoryCount), VicoryCount),
+				(nameof(Accessories), Accessories),
+				(nameof(Ribbons), Ribbons),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="MonInstance"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -4681,6 +4969,10 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public string Effect { get; }
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+			(nameof(Name), Name),
+			(nameof(Effect), Effect),
+		};
 		[XmlType(nameof(Ability), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<Ability>
@@ -4707,6 +4999,10 @@ namespace Pokerole.Core{
 			/// </summary>
 			[XmlElement(IsNullable = false)]
 			public string? Effect { get; set; }
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Name), Name),
+				(nameof(Effect), Effect),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Ability"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -4767,7 +5063,7 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record Trainer : BaseDataItem<Trainer>
+	public partial class Trainer : MutableBaseDataItem<Trainer>
 	{
 		public Trainer(DataId dataId,
 			string characterName,
@@ -4856,159 +5152,200 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public string CharacterName { get; }
+		public string CharacterName { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public string PlayerName { get; }
+		public string PlayerName { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public Rank Rank { get; }
+		public Rank Rank { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public string Age { get; }
+		public string Age { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public string Concept { get; }
+		public string Concept { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public Nature TrainerNature { get; }
+		public Nature TrainerNature { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public string Money { get; }
+		public string Money { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int HP { get; }
+		public int HP { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int WillPoints { get; }
+		public int WillPoints { get; set; }
 		/// <summary>
 		/// Pokemon in this trainer's party
 		/// </summary>
-		public IReadOnlyList<ItemReference<MonInstance>> Party { get; }
+		public IReadOnlyList<ItemReference<MonInstance>> Party { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Strength { get; }
+		public int Strength { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Dexterity { get; }
+		public int Dexterity { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Vitality { get; }
+		public int Vitality { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Insight { get; }
+		public int Insight { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Tough { get; }
+		public int Tough { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Cool { get; }
+		public int Cool { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Beauty { get; }
+		public int Beauty { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Clever { get; }
+		public int Clever { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Cute { get; }
+		public int Cute { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Brawl { get; }
+		public int Brawl { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Throw { get; }
+		public int Throw { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Evasion { get; }
+		public int Evasion { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Weapons { get; }
+		public int Weapons { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Alert { get; }
+		public int Alert { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Athletic { get; }
+		public int Athletic { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Nature { get; }
+		public int Nature { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Stealth { get; }
+		public int Stealth { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Allure { get; }
+		public int Allure { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Etiquette { get; }
+		public int Etiquette { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Intimidate { get; }
+		public int Intimidate { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Perform { get; }
+		public int Perform { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Crafts { get; }
+		public int Crafts { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Lore { get; }
+		public int Lore { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Medicine { get; }
+		public int Medicine { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int Science { get; }
+		public int Science { get; set; }
 		/// <summary>
 		/// Achivements this trainer has accomplished
 		/// </summary>
-		public IReadOnlyList<string> Achievements { get; }
+		public IReadOnlyList<string> Achievements { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int MonSeen { get; }
+		public int MonSeen { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int MonCaught { get; }
+		public int MonCaught { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public ItemReference<Backpack> Backpack { get; }
+		public ItemReference<Backpack> Backpack { get; set; }
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+			(nameof(CharacterName), CharacterName),
+			(nameof(PlayerName), PlayerName),
+			(nameof(Rank), Rank),
+			(nameof(Age), Age),
+			(nameof(Concept), Concept),
+			(nameof(TrainerNature), TrainerNature),
+			(nameof(Money), Money),
+			(nameof(HP), HP),
+			(nameof(WillPoints), WillPoints),
+			(nameof(Party), Party),
+			(nameof(Strength), Strength),
+			(nameof(Dexterity), Dexterity),
+			(nameof(Vitality), Vitality),
+			(nameof(Insight), Insight),
+			(nameof(Tough), Tough),
+			(nameof(Cool), Cool),
+			(nameof(Beauty), Beauty),
+			(nameof(Clever), Clever),
+			(nameof(Cute), Cute),
+			(nameof(Brawl), Brawl),
+			(nameof(Throw), Throw),
+			(nameof(Evasion), Evasion),
+			(nameof(Weapons), Weapons),
+			(nameof(Alert), Alert),
+			(nameof(Athletic), Athletic),
+			(nameof(Nature), Nature),
+			(nameof(Stealth), Stealth),
+			(nameof(Allure), Allure),
+			(nameof(Etiquette), Etiquette),
+			(nameof(Intimidate), Intimidate),
+			(nameof(Perform), Perform),
+			(nameof(Crafts), Crafts),
+			(nameof(Lore), Lore),
+			(nameof(Medicine), Medicine),
+			(nameof(Science), Science),
+			(nameof(Achievements), Achievements),
+			(nameof(MonSeen), MonSeen),
+			(nameof(MonCaught), MonCaught),
+			(nameof(Backpack), Backpack),
+		};
 		[XmlType(nameof(Trainer), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<Trainer>
@@ -5580,6 +5917,47 @@ namespace Pokerole.Core{
 				set => Backpack = value?.Build();
 			}
 
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(CharacterName), CharacterName),
+				(nameof(PlayerName), PlayerName),
+				(nameof(Rank), Rank),
+				(nameof(Age), Age),
+				(nameof(Concept), Concept),
+				(nameof(TrainerNature), TrainerNature),
+				(nameof(Money), Money),
+				(nameof(HP), HP),
+				(nameof(WillPoints), WillPoints),
+				(nameof(Party), Party),
+				(nameof(Strength), Strength),
+				(nameof(Dexterity), Dexterity),
+				(nameof(Vitality), Vitality),
+				(nameof(Insight), Insight),
+				(nameof(Tough), Tough),
+				(nameof(Cool), Cool),
+				(nameof(Beauty), Beauty),
+				(nameof(Clever), Clever),
+				(nameof(Cute), Cute),
+				(nameof(Brawl), Brawl),
+				(nameof(Throw), Throw),
+				(nameof(Evasion), Evasion),
+				(nameof(Weapons), Weapons),
+				(nameof(Alert), Alert),
+				(nameof(Athletic), Athletic),
+				(nameof(Nature), Nature),
+				(nameof(Stealth), Stealth),
+				(nameof(Allure), Allure),
+				(nameof(Etiquette), Etiquette),
+				(nameof(Intimidate), Intimidate),
+				(nameof(Perform), Perform),
+				(nameof(Crafts), Crafts),
+				(nameof(Lore), Lore),
+				(nameof(Medicine), Medicine),
+				(nameof(Science), Science),
+				(nameof(Achievements), Achievements),
+				(nameof(MonSeen), MonSeen),
+				(nameof(MonCaught), MonCaught),
+				(nameof(Backpack), Backpack),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Trainer"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -5973,7 +6351,7 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record Backpack : BaseDataItem<Backpack>
+	public partial class Backpack : MutableBaseDataItem<Backpack>
 	{
 		public Backpack(DataId dataId,
 			int potionCount,
@@ -5996,27 +6374,35 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int PotionCount { get; }
+		public int PotionCount { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int SuperPotionCount { get; }
+		public int SuperPotionCount { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public int HyperPotionCount { get; }
+		public int HyperPotionCount { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public IReadOnlyList<ItemReference<Item>> BattleItems { get; }
+		public IReadOnlyList<ItemReference<Item>> BattleItems { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public IReadOnlyList<ItemReference<Item>> OtherItems { get; }
+		public IReadOnlyList<ItemReference<Item>> OtherItems { get; set; }
 		/// <summary>
 		/// Someone didn't document this item...
 		/// </summary>
-		public IReadOnlyList<string> Badges { get; }
+		public IReadOnlyList<string> Badges { get; set; }
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+			(nameof(PotionCount), PotionCount),
+			(nameof(SuperPotionCount), SuperPotionCount),
+			(nameof(HyperPotionCount), HyperPotionCount),
+			(nameof(BattleItems), BattleItems),
+			(nameof(OtherItems), OtherItems),
+			(nameof(Badges), Badges),
+		};
 		[XmlType(nameof(Backpack), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<Backpack>
@@ -6158,6 +6544,14 @@ namespace Pokerole.Core{
 			/// </summary>
 			[XmlElement(IsNullable = false)]
 			public List<string> Badges { get; set; }
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(PotionCount), PotionCount),
+				(nameof(SuperPotionCount), SuperPotionCount),
+				(nameof(HyperPotionCount), HyperPotionCount),
+				(nameof(BattleItems), BattleItems),
+				(nameof(OtherItems), OtherItems),
+				(nameof(Badges), Badges),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Backpack"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -6290,6 +6684,10 @@ namespace Pokerole.Core{
 			/// </summary>
 			[XmlElement(IsNullable = false)]
 			public string? Description { get; set; }
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Name), Name),
+				(nameof(Description), Description),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="UnlikeAbility"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -6346,7 +6744,7 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record Rival : BaseDataItem<Rival>
+	public partial class Rival : MutableBaseDataItem<Rival>
 	{
 		public Rival(DataId dataId,
 			ImageRef picture,
@@ -6385,59 +6783,75 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Your Rival's better looking picture
 		/// </summary>
-		public ImageRef Picture { get; }
+		public ImageRef Picture { get; set; }
 		/// <summary>
 		/// Your Rival's Higher rank
 		/// </summary>
-		public Rank Rank { get; }
+		public Rank Rank { get; set; }
 		/// <summary>
 		/// Your Rival's Famous Name
 		/// </summary>
-		public string Name { get; }
+		public string Name { get; set; }
 		/// <summary>
 		/// Your Rival's Believed Age
 		/// </summary>
-		public string Age { get; }
+		public string Age { get; set; }
 		/// <summary>
 		/// Your Rival's Cooler Concept
 		/// </summary>
-		public string Concept { get; }
+		public string Concept { get; set; }
 		/// <summary>
 		/// Your Rival's Awesome Nature
 		/// </summary>
-		public Nature Nature { get; }
+		public Nature Nature { get; set; }
 		/// <summary>
 		/// Your Rival's Money (loaded btw)
 		/// </summary>
-		public string Money { get; }
+		public string Money { get; set; }
 		/// <summary>
 		/// Your Rival's untouchable hit points
 		/// </summary>
-		public int HP { get; }
+		public int HP { get; set; }
 		/// <summary>
 		/// Your Rival's seemingly endless willpoints
 		/// </summary>
-		public int WillPoints { get; }
+		public int WillPoints { get; set; }
 		/// <summary>
 		/// Your Rival's elite Pokemon party
 		/// </summary>
-		public IReadOnlyList<ItemReference<MonInstance>> Party { get; }
+		public IReadOnlyList<ItemReference<MonInstance>> Party { get; set; }
 		/// <summary>
 		/// Your relationship with your rival
 		/// </summary>
-		public string Relationship { get; }
+		public string Relationship { get; set; }
 		/// <summary>
 		/// Your Rival's Backgrounds
 		/// </summary>
-		public IReadOnlyList<RivalBackground> Backgrounds { get; }
+		public IReadOnlyList<RivalBackground> Backgrounds { get; set; }
 		/// <summary>
 		/// Your Rival's Attitude towards you
 		/// </summary>
-		public RivalAttitudes Attitude { get; }
+		public RivalAttitudes Attitude { get; set; }
 		/// <summary>
 		/// Your Rival's Unlike-Abilities
 		/// </summary>
-		public IReadOnlyList<UnlikeAbility> UnlilkeAbilities { get; }
+		public IReadOnlyList<UnlikeAbility> UnlilkeAbilities { get; set; }
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+			(nameof(Picture), Picture),
+			(nameof(Rank), Rank),
+			(nameof(Name), Name),
+			(nameof(Age), Age),
+			(nameof(Concept), Concept),
+			(nameof(Nature), Nature),
+			(nameof(Money), Money),
+			(nameof(HP), HP),
+			(nameof(WillPoints), WillPoints),
+			(nameof(Party), Party),
+			(nameof(Relationship), Relationship),
+			(nameof(Backgrounds), Backgrounds),
+			(nameof(Attitude), Attitude),
+			(nameof(UnlilkeAbilities), UnlilkeAbilities),
+		};
 		[XmlType(nameof(Rival), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<Rival>
@@ -6656,6 +7070,22 @@ namespace Pokerole.Core{
 					ItemBuilder<UnlikeAbility>.BuildList(value, UnlilkeAbilities);
 				}
 			}
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Picture), Picture),
+				(nameof(Rank), Rank),
+				(nameof(Name), Name),
+				(nameof(Age), Age),
+				(nameof(Concept), Concept),
+				(nameof(Nature), Nature),
+				(nameof(Money), Money),
+				(nameof(HP), HP),
+				(nameof(WillPoints), WillPoints),
+				(nameof(Party), Party),
+				(nameof(Relationship), Relationship),
+				(nameof(Backgrounds), Backgrounds),
+				(nameof(Attitude), Attitude),
+				(nameof(UnlilkeAbilities), UnlilkeAbilities),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Rival"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -6915,6 +7345,12 @@ namespace Pokerole.Core{
 			/// </summary>
 			[XmlElement(IsNullable = false)]
 			public string? Details { get; set; }
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(From), From),
+				(nameof(To), To),
+				(nameof(Kind), Kind),
+				(nameof(Details), Details),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="EvolutionEntry"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -7039,6 +7475,15 @@ namespace Pokerole.Core{
 		/// Evolution entries of this tree
 		/// </summary>
 		public IReadOnlyList<EvolutionEntry> EvolutionEntries { get; }
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+			(nameof(Name), Name),
+			(nameof(BabyEvolutionItem), BabyEvolutionItem),
+			(nameof(BreedCounterpart), BreedCounterpart),
+			(nameof(BabyItem), BabyItem),
+			(nameof(NonBabyRoot), NonBabyRoot),
+			(nameof(Root), Root),
+			(nameof(EvolutionEntries), EvolutionEntries),
+		};
 		[XmlType(nameof(EvolutionTree), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<EvolutionTree>
@@ -7182,6 +7627,15 @@ namespace Pokerole.Core{
 					ItemBuilder<EvolutionEntry>.BuildList(value, EvolutionEntries);
 				}
 			}
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Name), Name),
+				(nameof(BabyEvolutionItem), BabyEvolutionItem),
+				(nameof(BreedCounterpart), BreedCounterpart),
+				(nameof(BabyItem), BabyItem),
+				(nameof(NonBabyRoot), NonBabyRoot),
+				(nameof(Root), Root),
+				(nameof(EvolutionEntries), EvolutionEntries),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="EvolutionTree"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -7300,6 +7754,10 @@ namespace Pokerole.Core{
 				get => Value ?? default;
 				set => Value = value;
 			}
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Units), Units),
+				(nameof(Value), Value),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Height"/>. <see cref="Build"/> will throw an exception if this returns false.
@@ -7401,6 +7859,10 @@ namespace Pokerole.Core{
 				get => Value ?? default;
 				set => Value = value;
 			}
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Units), Units),
+				(nameof(Value), Value),
+			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
 			/// <see cref="Weight"/>. <see cref="Build"/> will throw an exception if this returns false.
