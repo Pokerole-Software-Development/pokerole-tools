@@ -23,6 +23,7 @@
 	<!--For xsd things-->
 	<xs:attribute name="genericType" type="xs:QName"/>
 	<xs:attribute name="listItemType" type="xs:QName"/>
+	<xs:attribute name="hasBuiltIn" type="xs:boolean"/>
 	<!--<xs:attribute name="isDict" type="xs:boolean"/>-->
 	<!--<xs:attribute name="keyType" type="xs:QName"/>
 	<xs:attribute name="valueType" type="xs:QName"/>-->

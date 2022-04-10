@@ -1421,4 +1421,17 @@
 		<xs:attribute name="Units" type="xs:string"/>
 		<xs:attribute name="Value" type="xs:double"/>
 	</xs:complexType>
+	<xs:complexType name="TypeDefinition" ex:hasBuiltIn="true">
+		<xs:complexContent>
+			<xs:extension base="ex:BaseDataItem">
+				<xs:sequence>
+					<xs:element name="Name" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Type Name</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 </xs:schema>
