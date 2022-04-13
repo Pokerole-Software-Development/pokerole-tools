@@ -84,11 +84,13 @@
 		return result;
 	}
 	static String NormalizeType(String input){
-		if (input == "boolean"){
-			return "bool";
-		}
-		if (input == "base64Binary"){
-			return "byte[]";
+		switch (input){
+			case "boolean":
+				return "bool";
+			case "base64Binary":
+				return "byte[]";
+			case "color":
+				return "Color";
 		}
 		return input;
 	}
@@ -108,6 +110,7 @@
 		//public bool isDict;
 		//public bool isList;
 		public FieldType type;
+		public String proxyType;
 		//public String keyType, valueType;
 		//public String listType;
 		//public String genericType;

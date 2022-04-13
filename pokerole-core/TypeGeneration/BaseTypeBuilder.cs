@@ -9,6 +9,8 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.Diagnostics;
 using System.ComponentModel;
+using System.Drawing;
+using Pokerole.Core.TypeGeneration;
 
 namespace Pokerole.Core{
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
@@ -7915,6 +7917,129 @@ namespace Pokerole.Core{
 				return new Weight(
 					Units!,
 					Value!.Value);
+			}
+		}
+	}
+	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public partial record TypeDefinition : BaseDataItem<TypeDefinition>
+	{
+		public TypeDefinition(DataId dataId,
+			string name,
+			Color backgroundColor) : base(dataId)
+		{
+			Name = name;
+			BackgroundColor = backgroundColor;
+		}
+
+		public override ItemReference<TypeDefinition> ItemReference => new ItemReference<TypeDefinition>(DataId, Name);
+
+		/// <summary>
+		/// Type Name
+		/// </summary>
+		public string Name { get; }
+		/// <summary>
+		/// Background Color for this type in html notation
+		/// </summary>
+		public Color BackgroundColor { get; }
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+			(nameof(Name), Name),
+			(nameof(BackgroundColor), BackgroundColor),
+		};
+		[XmlType(nameof(TypeDefinition), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
+		public partial class Builder : DataItemBuilder<TypeDefinition>
+		{
+			public Builder()
+			{			}
+			public Builder(TypeDefinition typeDefinition)
+			{
+				DataId = typeDefinition.DataId;
+				Name = typeDefinition.Name;
+				BackgroundColor = typeDefinition.BackgroundColor;
+			}
+
+			public override ItemReference<TypeDefinition>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<TypeDefinition>(DataId.Value, Name);
+
+			/// <summary>
+			/// Type Name
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Name { get; set; }
+			/// <summary>
+			/// Background Color for this type in html notation
+			/// </summary>
+			[XmlIgnore]
+			public Color? BackgroundColor { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("BackgroundColor", IsNullable = false, Type = typeof(HtmlColor))]
+			public Color BackgroundColorNullableXmlAccessor
+			{
+				get => BackgroundColor ?? default;
+				set => BackgroundColor = value;
+			}
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Name), Name),
+				(nameof(BackgroundColor), BackgroundColor),
+			};
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="TypeDefinition"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public override bool IsValid
+			{
+				get
+				{
+					if (DataId is null)
+					{
+						return false;
+					}
+					if (Name is null)
+					{
+						return false;
+					}
+					if (BackgroundColor is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public override List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(2);
+					if (Name is null)
+					{
+						missing.Add("Name");
+					}
+					if (BackgroundColor is null)
+					{
+						missing.Add("BackgroundColor");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="TypeDefinition"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="TypeDefinition"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public override TypeDefinition Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new TypeDefinition(DataId!.Value,
+					Name!,
+					BackgroundColor!.Value);
 			}
 		}
 	}

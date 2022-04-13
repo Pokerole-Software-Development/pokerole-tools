@@ -109,6 +109,7 @@
 			}
 			FieldType genericType = null;
 			FieldType listType = null;
+			String proxyType = null;
 			if (item.UnhandledAttributes != null)
 			{
 				foreach (XmlAttribute unhandled in item.UnhandledAttributes)
@@ -126,6 +127,9 @@
 						case "genericType":
 							genericType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
 							break;
+						case "proxyType":
+							proxyType = unhandled.InnerText;
+							break;
 						default:
 							this.Host.LogErrors(new CompilerErrorCollection(){
 								new CompilerError(structuresPath, item.LineNumber, item.LinePosition,
@@ -138,6 +142,7 @@
 			field.type = FieldType.ResolveType(genericType, listType, item.SchemaTypeName,
 				schemaSet, classes);
 			field.type.isNullable = item.IsNillable;
+			field.proxyType = proxyType;
 			def.fields.Add(field);
 		}
 	}
@@ -150,6 +155,8 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.Diagnostics;
 using System.ComponentModel;
+using System.Drawing;
+using Pokerole.Core.TypeGeneration;
 
 namespace Pokerole.Core{
 <#
@@ -317,11 +324,14 @@ namespace Pokerole.Core{
 			}
 			else if (field.isAttribute)
 			{
-				Write("XmlAttribute()");
+				Write(String.IsNullOrEmpty(field.proxyType) ? "XmlAttribute()" : "XmlAttribute(Type = typeof({0}))",
+					field.proxyType);
 			}
 			else
 			{
-				Write("XmlElement(IsNullable = {0})", field.type.isNullable ? "true" : "false");
+				Write(String.IsNullOrEmpty(field.proxyType) ? "XmlElement(IsNullable = {0})" :
+					"XmlElement(IsNullable = {0}, Type = typeof({1}))",
+					field.type.isNullable ? "true" : "false");
 			}
 #>]
 			public <#= field.type.GetTypeDeclaration(false, true) #> <#=field.name#> { get; set; }
@@ -332,7 +342,8 @@ namespace Pokerole.Core{
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[<#=field.isAttribute ? "XmlAttribute" : "XmlElement"#>("<#=field.name#>"<#=field.isAttribute ? "" : ", IsNullable = false"#>)]
+			[<#=field.isAttribute ? "XmlAttribute" : "XmlElement"#>("<#=field.name#>"<#=field.isAttribute ? "" :
+ ", IsNullable = false"#><#=String.IsNullOrEmpty(field.proxyType) ? "" : String.Format(", Type = typeof({0})", field.proxyType)#>)]
 			public <#=field.type.GetTypeDeclaration(false, false)#> <#=field.name#>NullableXmlAccessor
 			{
 				get => <#=field.name#> ?? default;

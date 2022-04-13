@@ -1425,11 +1425,29 @@
 		<xs:complexContent>
 			<xs:extension base="ex:BaseDataItem">
 				<xs:sequence>
+					<!--Not including "IsBuiltInType" since built-in ones will never be serialized-->
 					<xs:element name="Name" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>Type Name</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="BackgroundColor" type="ex:color" ex:proxyType="HtmlColor" nillable="true">
+						<xs:annotation>
+							<xs:documentation>Background Color for this type in html notation</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<xs:element name="Weaknesses" ex:listItemType="ex:ItemReference" ex:genericType="TypeDefinition">
+						<xs:annotation>
+							<xs:documentation>Types this type is weak to</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" ex:genericType="TypeDefinition"/>
+							</xs:sequence>
+						</xs:complexType>here
+					</xs:element>
+					
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

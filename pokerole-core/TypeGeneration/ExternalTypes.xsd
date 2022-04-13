@@ -20,10 +20,17 @@
 	<xs:simpleType name="intOrEmpty">
 		<xs:union memberTypes="xs:int emptyString" />
 	</xs:simpleType>
+	<xs:simpleType name="color">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A web html color</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
 	<!--For xsd things-->
 	<xs:attribute name="genericType" type="xs:QName"/>
 	<xs:attribute name="listItemType" type="xs:QName"/>
 	<xs:attribute name="hasBuiltIn" type="xs:boolean"/>
+	<xs:attribute name="proxyType" type="xs:string"/>
 	<!--<xs:attribute name="isDict" type="xs:boolean"/>-->
 	<!--<xs:attribute name="keyType" type="xs:QName"/>
 	<xs:attribute name="valueType" type="xs:QName"/>-->

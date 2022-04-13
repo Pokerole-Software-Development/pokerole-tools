@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -65,7 +66,7 @@ namespace Pokerole.Core
 	{
 		public ItemReference(DataId id) : this(id, null) { }
 		public ItemReference(DataId id, String? name): this(id, name, false) { }
-		public ItemReference(DataId id, String? name, bool builtIn)
+		internal ItemReference(DataId id, String? name, bool builtIn)
 		{
 			DataId = id;
 			DisplayName = name;
@@ -109,12 +110,10 @@ namespace Pokerole.Core
 			//	set => DataId = value.Build();
 			//}
 			public String? DisplayName { get; set; }
-			//Note: NOT serializing BuiltIn since it should always be false for serialized data and true for
-			//built-in data
 			/// <summary>
 			/// Hint to the caller about whether or not this ItemRefernce references something built-in like the Normal Type
 			/// </summary>
-			public bool BuiltIn { get; set; }
+			public bool BuiltIn { get; internal set; }
 			public Builder() { }
 			public Builder(ItemReference<T> item)
 			{
@@ -142,6 +141,19 @@ namespace Pokerole.Core
 				if (reader.HasAttributes)
 				{
 					DisplayName = reader.GetAttribute(nameof(DisplayName));
+					String rawBultIn = reader.GetAttribute(nameof(BuiltIn));
+					//would bool.TryParse, but that doesn't cover all Xml Cases
+					if (!String.IsNullOrEmpty(rawBultIn))
+					{
+						try
+						{
+							BuiltIn = XmlConvert.ToBoolean(rawBultIn);
+						}
+						catch (FormatException)
+						{
+							BuiltIn = false;
+						}
+					}
 				}
 				reader.ReadStartElement();
 				DataId = ((DataId.Builder)DataId.dataIdSerializer.Deserialize(reader)).Build();
@@ -152,6 +164,7 @@ namespace Pokerole.Core
 				if (!String.IsNullOrEmpty(DisplayName))
 				{
 					writer.WriteAttributeString(nameof(DisplayName), DisplayName);
+					writer.WriteAttributeString(nameof(BuiltIn), BuiltIn.ToString());
 				}
 				DataId.dataIdSerializer.Serialize(writer, new DataId.Builder(DataId));
 			}
