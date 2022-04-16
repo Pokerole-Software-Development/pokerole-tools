@@ -331,7 +331,7 @@ namespace Pokerole.Core{
 			{
 				Write(String.IsNullOrEmpty(field.proxyType) ? "XmlElement(IsNullable = {0})" :
 					"XmlElement(IsNullable = {0}, Type = typeof({1}))",
-					field.type.isNullable ? "true" : "false");
+					field.type.isNullable ? "true" : "false", field.proxyType);
 			}
 #>]
 			public <#= field.type.GetTypeDeclaration(false, true) #> <#=field.name#> { get; set; }

@@ -7925,10 +7925,16 @@ namespace Pokerole.Core{
 	{
 		public TypeDefinition(DataId dataId,
 			string name,
-			Color backgroundColor) : base(dataId)
+			Color? backgroundColor,
+			List<ItemReference<TypeDefinition>> weaknesses,
+			List<ItemReference<TypeDefinition>> resistances,
+			List<ItemReference<TypeDefinition>> immunities) : base(dataId)
 		{
 			Name = name;
 			BackgroundColor = backgroundColor;
+			Weaknesses = new List<ItemReference<TypeDefinition>>(weaknesses).AsReadOnly();
+			Resistances = new List<ItemReference<TypeDefinition>>(resistances).AsReadOnly();
+			Immunities = new List<ItemReference<TypeDefinition>>(immunities).AsReadOnly();
 		}
 
 		public override ItemReference<TypeDefinition> ItemReference => new ItemReference<TypeDefinition>(DataId, Name);
@@ -7940,22 +7946,44 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Background Color for this type in html notation
 		/// </summary>
-		public Color BackgroundColor { get; }
+		public Color? BackgroundColor { get; }
+		/// <summary>
+		/// Types this type is weak to
+		/// </summary>
+		public IReadOnlyList<ItemReference<TypeDefinition>> Weaknesses { get; }
+		/// <summary>
+		/// Types this type is resistant to
+		/// </summary>
+		public IReadOnlyList<ItemReference<TypeDefinition>> Resistances { get; }
+		/// <summary>
+		/// Types this type is immune to
+		/// </summary>
+		public IReadOnlyList<ItemReference<TypeDefinition>> Immunities { get; }
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 			(nameof(Name), Name),
 			(nameof(BackgroundColor), BackgroundColor),
+			(nameof(Weaknesses), Weaknesses),
+			(nameof(Resistances), Resistances),
+			(nameof(Immunities), Immunities),
 		};
 		[XmlType(nameof(TypeDefinition), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
 		[DebuggerDisplay("{ItemReference}")]
 		public partial class Builder : DataItemBuilder<TypeDefinition>
 		{
 			public Builder()
-			{			}
+			{
+				Weaknesses = new List<ItemReference<TypeDefinition>>(10);
+				Resistances = new List<ItemReference<TypeDefinition>>(10);
+				Immunities = new List<ItemReference<TypeDefinition>>(10);
+			}
 			public Builder(TypeDefinition typeDefinition)
 			{
 				DataId = typeDefinition.DataId;
 				Name = typeDefinition.Name;
 				BackgroundColor = typeDefinition.BackgroundColor;
+				Weaknesses = new List<ItemReference<TypeDefinition>>(typeDefinition.Weaknesses);
+				Resistances = new List<ItemReference<TypeDefinition>>(typeDefinition.Resistances);
+				Immunities = new List<ItemReference<TypeDefinition>>(typeDefinition.Immunities);
 			}
 
 			public override ItemReference<TypeDefinition>? ItemReference => !DataId.HasValue ? null :
@@ -7969,20 +7997,119 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// Background Color for this type in html notation
 			/// </summary>
-			[XmlIgnore]
+			[XmlElement(IsNullable = true, Type = typeof(HtmlColor))]
 			public Color? BackgroundColor { get; set; }
+			/// <summary>
+			/// Types this type is weak to
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<TypeDefinition>> Weaknesses { get; set; }
+			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("BackgroundColor", IsNullable = false, Type = typeof(HtmlColor))]
-			public Color BackgroundColorNullableXmlAccessor
+			[XmlArray("Weaknesses", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<TypeDefinition>.Builder[] WeaknessesBuilder
 			{
-				get => BackgroundColor ?? default;
-				set => BackgroundColor = value;
+				get
+				{
+					if (Weaknesses == null)
+					{
+						return Array.Empty<ItemReference<TypeDefinition>.Builder>();
+					}
+					return Weaknesses.Select(item=>new ItemReference<TypeDefinition>.Builder(item)).ToArray();
+				}
+				set
+				{
+					Weaknesses?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (Weaknesses == null)
+					{
+						Weaknesses = new List<ItemReference<TypeDefinition>>(value.Length);
+					}
+					ItemBuilder<ItemReference<TypeDefinition>>.BuildList(value, Weaknesses);
+				}
+			}
+			/// <summary>
+			/// Types this type is resistant to
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<TypeDefinition>> Resistances { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("Resistances", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<TypeDefinition>.Builder[] ResistancesBuilder
+			{
+				get
+				{
+					if (Resistances == null)
+					{
+						return Array.Empty<ItemReference<TypeDefinition>.Builder>();
+					}
+					return Resistances.Select(item=>new ItemReference<TypeDefinition>.Builder(item)).ToArray();
+				}
+				set
+				{
+					Resistances?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (Resistances == null)
+					{
+						Resistances = new List<ItemReference<TypeDefinition>>(value.Length);
+					}
+					ItemBuilder<ItemReference<TypeDefinition>>.BuildList(value, Resistances);
+				}
+			}
+			/// <summary>
+			/// Types this type is immune to
+			/// </summary>
+			[XmlIgnore]
+			public List<ItemReference<TypeDefinition>> Immunities { get; set; }
+			
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlArray("Immunities", IsNullable = false)]
+			[XmlArrayItem("ItemReference")]
+			public ItemReference<TypeDefinition>.Builder[] ImmunitiesBuilder
+			{
+				get
+				{
+					if (Immunities == null)
+					{
+						return Array.Empty<ItemReference<TypeDefinition>.Builder>();
+					}
+					return Immunities.Select(item=>new ItemReference<TypeDefinition>.Builder(item)).ToArray();
+				}
+				set
+				{
+					Immunities?.Clear();
+					if (value == null)
+					{
+						return;
+					}
+					if (Immunities == null)
+					{
+						Immunities = new List<ItemReference<TypeDefinition>>(value.Length);
+					}
+					ItemBuilder<ItemReference<TypeDefinition>>.BuildList(value, Immunities);
+				}
 			}
 			public override (String, Object?)[] Values => new (String, Object?)[] {
 				(nameof(Name), Name),
 				(nameof(BackgroundColor), BackgroundColor),
+				(nameof(Weaknesses), Weaknesses),
+				(nameof(Resistances), Resistances),
+				(nameof(Immunities), Immunities),
 			};
 			/// <summary>
 			/// Whether or not all of the required Properites of this instance are set to build a new
@@ -8000,7 +8127,15 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
-					if (BackgroundColor is null)
+					if (Weaknesses is null)
+					{
+						return false;
+					}
+					if (Resistances is null)
+					{
+						return false;
+					}
+					if (Immunities is null)
 					{
 						return false;
 					}
@@ -8014,14 +8149,22 @@ namespace Pokerole.Core{
 			{
 				get
 				{
-					List<String> missing = new List<String>(2);
+					List<String> missing = new List<String>(4);
 					if (Name is null)
 					{
 						missing.Add("Name");
 					}
-					if (BackgroundColor is null)
+					if (Weaknesses is null)
 					{
-						missing.Add("BackgroundColor");
+						missing.Add("Weaknesses");
+					}
+					if (Resistances is null)
+					{
+						missing.Add("Resistances");
+					}
+					if (Immunities is null)
+					{
+						missing.Add("Immunities");
 					}
 					return missing;
 				}
@@ -8039,7 +8182,165 @@ namespace Pokerole.Core{
 				}
 				return new TypeDefinition(DataId!.Value,
 					Name!,
-					BackgroundColor!.Value);
+					BackgroundColor,
+					Weaknesses!,
+					Resistances!,
+					Immunities!);
+			}
+		}
+	}
+	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public partial record Stat : BaseDataItem<Stat>
+	{
+		public Stat(DataId dataId,
+			string name,
+			StatExclusivity exclusivity,
+			StatCategory category) : base(dataId)
+		{
+			Name = name;
+			Exclusivity = exclusivity;
+			Category = category;
+		}
+
+		public override ItemReference<Stat> ItemReference => new ItemReference<Stat>(DataId, Name);
+
+		/// <summary>
+		/// Name of the skill
+		/// </summary>
+		public string Name { get; }
+		/// <summary>
+		/// Type of exclusivity of this stat. None if there is none
+		/// </summary>
+		public StatExclusivity Exclusivity { get; }
+		/// <summary>
+		/// Name of the skill
+		/// </summary>
+		public StatCategory Category { get; }
+		public override (String, Object?)[] Values => new (String, Object?)[] {
+			(nameof(Name), Name),
+			(nameof(Exclusivity), Exclusivity),
+			(nameof(Category), Category),
+		};
+		[XmlType(nameof(Stat), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		[DebuggerDisplay("{ItemReference}")]
+		public partial class Builder : DataItemBuilder<Stat>
+		{
+			public Builder()
+			{			}
+			public Builder(Stat stat)
+			{
+				DataId = stat.DataId;
+				Name = stat.Name;
+				Exclusivity = stat.Exclusivity;
+				Category = stat.Category;
+			}
+
+			public override ItemReference<Stat>? ItemReference => !DataId.HasValue ? null :
+					new ItemReference<Stat>(DataId.Value, Name);
+
+			/// <summary>
+			/// Name of the skill
+			/// </summary>
+			[XmlElement(IsNullable = false)]
+			public string? Name { get; set; }
+			/// <summary>
+			/// Type of exclusivity of this stat. None if there is none
+			/// </summary>
+			[XmlIgnore]
+			public StatExclusivity? Exclusivity { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Exclusivity", IsNullable = false)]
+			public StatExclusivity ExclusivityNullableXmlAccessor
+			{
+				get => Exclusivity ?? default;
+				set => Exclusivity = value;
+			}
+			/// <summary>
+			/// Name of the skill
+			/// </summary>
+			[XmlIgnore]
+			public StatCategory? Category { get; set; }
+			[Browsable(false)]
+			[DebuggerHidden]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			[XmlElement("Category", IsNullable = false)]
+			public StatCategory CategoryNullableXmlAccessor
+			{
+				get => Category ?? default;
+				set => Category = value;
+			}
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+				(nameof(Name), Name),
+				(nameof(Exclusivity), Exclusivity),
+				(nameof(Category), Category),
+			};
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="Stat"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public override bool IsValid
+			{
+				get
+				{
+					if (DataId is null)
+					{
+						return false;
+					}
+					if (Name is null)
+					{
+						return false;
+					}
+					if (Exclusivity is null)
+					{
+						return false;
+					}
+					if (Category is null)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public override List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(3);
+					if (Name is null)
+					{
+						missing.Add("Name");
+					}
+					if (Exclusivity is null)
+					{
+						missing.Add("Exclusivity");
+					}
+					if (Category is null)
+					{
+						missing.Add("Category");
+					}
+					return missing;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="Stat"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="Stat"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public override Stat Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new Stat(DataId!.Value,
+					Name!,
+					Exclusivity!.Value,
+					Category!.Value);
 			}
 		}
 	}

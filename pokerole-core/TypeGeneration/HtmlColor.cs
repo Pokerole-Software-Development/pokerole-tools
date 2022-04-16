@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Pokerole.Core.TypeGeneration
 {
+	//derived from https://stackoverflow.com/a/4322461/1366594
 	public class HtmlColor
 	{
 		private Color c;

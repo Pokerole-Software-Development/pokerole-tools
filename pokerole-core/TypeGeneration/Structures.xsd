@@ -1436,7 +1436,6 @@
 							<xs:documentation>Background Color for this type in html notation</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-
 					<xs:element name="Weaknesses" ex:listItemType="ex:ItemReference" ex:genericType="TypeDefinition">
 						<xs:annotation>
 							<xs:documentation>Types this type is weak to</xs:documentation>
@@ -1445,9 +1444,51 @@
 							<xs:sequence>
 								<xs:element name="ItemReference" type="ex:ItemReference" ex:genericType="TypeDefinition"/>
 							</xs:sequence>
-						</xs:complexType>here
+						</xs:complexType>
 					</xs:element>
-					
+					<xs:element name="Resistances" ex:listItemType="ex:ItemReference" ex:genericType="TypeDefinition">
+						<xs:annotation>
+							<xs:documentation>Types this type is resistant to</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" ex:genericType="TypeDefinition"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Immunities" ex:listItemType="ex:ItemReference" ex:genericType="TypeDefinition">
+						<xs:annotation>
+							<xs:documentation>Types this type is immune to</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ItemReference" type="ex:ItemReference" ex:genericType="TypeDefinition"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Stat">
+		<xs:complexContent>
+			<xs:extension base="ex:BaseDataItem">
+				<xs:sequence>
+					<xs:element name="Name" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Name of the skill</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Exclusivity" type="ex:StatExclusivity">
+						<xs:annotation>
+							<xs:documentation>Type of exclusivity of this stat. None if there is none</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Category" type="ex:StatCategory">
+						<xs:annotation>
+							<xs:documentation>Name of the skill</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
