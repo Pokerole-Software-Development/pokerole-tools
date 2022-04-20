@@ -248,6 +248,15 @@ namespace Pokerole.Core
 		{
 			throw new NotImplementedException("Support for custom types is not implemented yet");
 		}
+		public static ItemReference<ITypeDefinition> GetBuiltInTypeReference(BuiltInType type)
+		{
+			if (!baseTypeGuids.TryGetValue(type, out Guid guid))
+			{
+				throw new ArgumentException($"'{type}' is not a valid built-in type or has not been registered");
+			}
+			//true for now???
+			return new ItemReference<ITypeDefinition>(new DataId(null, guid), type.ToString(), true);
+		}
 		public static ITypeDefinition GetBuiltInType(BuiltInType type)
 		{
 			CheckInit();
