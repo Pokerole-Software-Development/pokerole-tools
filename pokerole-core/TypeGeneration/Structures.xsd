@@ -17,13 +17,7 @@
 	<xs:element name="PokeroleData">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="CustomTypes">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="CustomType" type="ex:ITypeDefinition" maxOccurs="unbounded" minOccurs="0"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
+				<xs:element name="CustomTypeTable" type="ex:TypeTableData" nillable="true"/>
 				<xs:element name="Moves">
 					<xs:complexType>
 						<xs:sequence>
@@ -117,7 +111,7 @@
 							<xs:documentation>Whether or not this move is ranged</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="PrimaryAccuracyStat" type="ex:ItemReference" ex:genericType="ex:IStat">
+					<xs:element name="PrimaryAccuracyStat" type="ex:ItemReference" ex:genericType="Stat">
 						<xs:annotation>
 							<xs:documentation>Primary stat used for rolling accuracy</xs:documentation>
 						</xs:annotation>
@@ -127,18 +121,18 @@
 							<xs:documentation>If true, points missing in the primary stat are used for accuracy</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SecondaryAccuracyStat" type="ex:ItemReference" ex:genericType="ex:IStat">
+					<xs:element name="SecondaryAccuracyStat" type="ex:ItemReference" ex:genericType="Stat">
 						<xs:annotation>
 							<xs:documentation>Secondary stat used for rolling accuracy</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<!--<xs:element name="Accuracy" ex:listItemType="ex:ItemReference" ex:genericType="ex:IStat">
+					<!--<xs:element name="Accuracy" ex:listItemType="ex:ItemReference" ex:genericType="Stat">
 						<xs:annotation>
 							<xs:documentation>Stats used to roll accuracy for this move</xs:documentation>
 						</xs:annotation>
 						<xs:complexType>
 							<xs:sequence>
-								<xs:element name="Stat" maxOccurs="unbounded" type="ex:ItemReference" ex:genericType="ex:IStat" minOccurs="1"/>
+								<xs:element name="Stat" maxOccurs="unbounded" type="ex:ItemReference" ex:genericType="Stat" minOccurs="1"/>
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>-->
@@ -147,12 +141,12 @@
 							<xs:documentation>How many more successes are needed for this attack to hit</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="DamageStat" type="ex:ItemReference" ex:genericType="ex:IStat" nillable="true">
+					<xs:element name="DamageStat" type="ex:ItemReference" ex:genericType="Stat" nillable="true">
 						<xs:annotation>
 							<xs:documentation>Stat used to roll damage for this move if any</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SecondaryDamageStat" type="ex:ItemReference" ex:genericType="ex:IStat" nillable="true">
+					<xs:element name="SecondaryDamageStat" type="ex:ItemReference" ex:genericType="Stat" nillable="true">
 						<xs:annotation>
 							<xs:documentation>Stat used to roll additional damage for this move if any</xs:documentation>
 						</xs:annotation>

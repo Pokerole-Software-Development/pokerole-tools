@@ -376,6 +376,15 @@ namespace Pokerole.Core
 			public abstract bool IsBuiltInType { get; }
 			public abstract string Name { get; }
 			public abstract Color? BackgroundColor { get; }
+			//anything more makes things complicated....
+
+			public (String, Object?)[] Values => new (string, object?)[]{
+					(nameof(DataId), DataId),
+					(nameof(Name), Name),
+					(nameof(BackgroundColor), BackgroundColor)
+				};
+
+
 
 			public ItemReference<ITypeDefinition> ItemReference => new ItemReference<ITypeDefinition>(DataId, Name);
 

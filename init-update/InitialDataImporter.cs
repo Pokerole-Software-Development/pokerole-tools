@@ -235,7 +235,7 @@ namespace Pokerole.Tools.InitUpdate
 				"Thunderous Kick",
 				"Fiery Wrath"
 			};
-			IStat noneStat = StatManager.GetBuiltInStat(BuiltInStat.None);
+			Stat noneStat = StatManager.GetBuiltInStat(BuiltInStat.None);
 			ITypeDefinition typelessType = TypeManager.GetBuiltInType(BuiltInType.Typeless);
 			foreach (var moveName in missingMoves)
 			{
@@ -322,7 +322,7 @@ namespace Pokerole.Tools.InitUpdate
 			{
 				stat = ParseEnum<BuiltInStat>(item);
 				statDef = StatManager.GetBuiltInStat(stat);
-				builder.DamageStat = new ItemReference<IStat>(statDef.DataId, statDef.Name);
+				builder.DamageStat = new ItemReference<Stat>(statDef.DataId, statDef.Name);
 			}
 			//damage 2
 			item = fields[5];
@@ -336,7 +336,7 @@ namespace Pokerole.Tools.InitUpdate
 				}
 				stat = ParseEnum<BuiltInStat>(item);
 				statDef = StatManager.GetBuiltInStat(stat);
-				builder.SecondaryDamageStat = new ItemReference<IStat>(statDef.DataId, statDef.Name);
+				builder.SecondaryDamageStat = new ItemReference<Stat>(statDef.DataId, statDef.Name);
 				builder.SecondaryDamageIsNegative = negative;
 			}
 
@@ -361,13 +361,13 @@ namespace Pokerole.Tools.InitUpdate
 				stat = String.IsNullOrEmpty(item) ? BuiltInStat.None : ParseEnum<BuiltInStat>(item);
 			}
 			statDef = StatManager.GetBuiltInStat(stat);
-			builder.PrimaryAccuracyStat = new ItemReference<IStat>(statDef.DataId, statDef.Name);
+			builder.PrimaryAccuracyStat = new ItemReference<Stat>(statDef.DataId, statDef.Name);
 			builder.PrimaryAccuracyIsNegative = negative;
 
 			item = fields[7];
 			stat = String.IsNullOrEmpty(item) ? BuiltInStat.None : ParseEnum<BuiltInStat>(item);
 			statDef = StatManager.GetBuiltInStat(stat);
-			builder.SecondaryAccuracyStat = new ItemReference<IStat>(statDef.DataId, statDef.Name);
+			builder.SecondaryAccuracyStat = new ItemReference<Stat>(statDef.DataId, statDef.Name);
 
 			//target
 			item = fields[8];

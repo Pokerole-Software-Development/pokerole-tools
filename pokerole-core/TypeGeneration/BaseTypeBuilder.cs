@@ -24,12 +24,12 @@ namespace Pokerole.Core{
 			ItemReference<ITypeDefinition> type,
 			MoveTarget moveTarget,
 			bool ranged,
-			ItemReference<IStat> primaryAccuracyStat,
+			ItemReference<Stat> primaryAccuracyStat,
 			bool primaryAccuracyIsNegative,
-			ItemReference<IStat> secondaryAccuracyStat,
+			ItemReference<Stat> secondaryAccuracyStat,
 			int reducedAccuracy,
-			ItemReference<IStat>? damageStat,
-			ItemReference<IStat>? secondaryDamageStat,
+			ItemReference<Stat>? damageStat,
+			ItemReference<Stat>? secondaryDamageStat,
 			bool secondaryDamageIsNegative,
 			int damageModifier,
 			bool hasSpecialAccuracyMod,
@@ -91,7 +91,7 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Primary stat used for rolling accuracy
 		/// </summary>
-		public ItemReference<IStat> PrimaryAccuracyStat { get; }
+		public ItemReference<Stat> PrimaryAccuracyStat { get; }
 		/// <summary>
 		/// If true, points missing in the primary stat are used for accuracy
 		/// </summary>
@@ -99,7 +99,7 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Secondary stat used for rolling accuracy
 		/// </summary>
-		public ItemReference<IStat> SecondaryAccuracyStat { get; }
+		public ItemReference<Stat> SecondaryAccuracyStat { get; }
 		/// <summary>
 		/// How many more successes are needed for this attack to hit
 		/// </summary>
@@ -107,11 +107,11 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// Stat used to roll damage for this move if any
 		/// </summary>
-		public ItemReference<IStat>? DamageStat { get; }
+		public ItemReference<Stat>? DamageStat { get; }
 		/// <summary>
 		/// Stat used to roll additional damage for this move if any
 		/// </summary>
-		public ItemReference<IStat>? SecondaryDamageStat { get; }
+		public ItemReference<Stat>? SecondaryDamageStat { get; }
 		/// <summary>
 		/// If true, points missing in the secondary stat are used for damage
 		/// </summary>
@@ -278,15 +278,15 @@ namespace Pokerole.Core{
 			/// Primary stat used for rolling accuracy
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<IStat>? PrimaryAccuracyStat { get; set; }
+			public ItemReference<Stat>? PrimaryAccuracyStat { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			[XmlElement("PrimaryAccuracyStat", IsNullable = false)]
-			public ItemReference<IStat>.Builder? PrimaryAccuracyStatXmlAccessor
+			public ItemReference<Stat>.Builder? PrimaryAccuracyStatXmlAccessor
 			{
-				get => PrimaryAccuracyStat is null ? null : new ItemReference<IStat>.Builder(PrimaryAccuracyStat ?? default);
+				get => PrimaryAccuracyStat is null ? null : new ItemReference<Stat>.Builder(PrimaryAccuracyStat ?? default);
 				set => PrimaryAccuracyStat = value?.Build();
 			}
 
@@ -308,15 +308,15 @@ namespace Pokerole.Core{
 			/// Secondary stat used for rolling accuracy
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<IStat>? SecondaryAccuracyStat { get; set; }
+			public ItemReference<Stat>? SecondaryAccuracyStat { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			[XmlElement("SecondaryAccuracyStat", IsNullable = false)]
-			public ItemReference<IStat>.Builder? SecondaryAccuracyStatXmlAccessor
+			public ItemReference<Stat>.Builder? SecondaryAccuracyStatXmlAccessor
 			{
-				get => SecondaryAccuracyStat is null ? null : new ItemReference<IStat>.Builder(SecondaryAccuracyStat ?? default);
+				get => SecondaryAccuracyStat is null ? null : new ItemReference<Stat>.Builder(SecondaryAccuracyStat ?? default);
 				set => SecondaryAccuracyStat = value?.Build();
 			}
 
@@ -338,15 +338,15 @@ namespace Pokerole.Core{
 			/// Stat used to roll damage for this move if any
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<IStat>? DamageStat { get; set; }
+			public ItemReference<Stat>? DamageStat { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			[XmlElement("DamageStat", IsNullable = false)]
-			public ItemReference<IStat>.Builder? DamageStatXmlAccessor
+			public ItemReference<Stat>.Builder? DamageStatXmlAccessor
 			{
-				get => DamageStat is null ? null : new ItemReference<IStat>.Builder(DamageStat ?? default);
+				get => DamageStat is null ? null : new ItemReference<Stat>.Builder(DamageStat ?? default);
 				set => DamageStat = value?.Build();
 			}
 
@@ -354,15 +354,15 @@ namespace Pokerole.Core{
 			/// Stat used to roll additional damage for this move if any
 			/// </summary>
 			[XmlIgnore]
-			public ItemReference<IStat>? SecondaryDamageStat { get; set; }
+			public ItemReference<Stat>? SecondaryDamageStat { get; set; }
 			
 			[Browsable(false)]
 			[DebuggerHidden]
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			[XmlElement("SecondaryDamageStat", IsNullable = false)]
-			public ItemReference<IStat>.Builder? SecondaryDamageStatXmlAccessor
+			public ItemReference<Stat>.Builder? SecondaryDamageStatXmlAccessor
 			{
-				get => SecondaryDamageStat is null ? null : new ItemReference<IStat>.Builder(SecondaryDamageStat ?? default);
+				get => SecondaryDamageStat is null ? null : new ItemReference<Stat>.Builder(SecondaryDamageStat ?? default);
 				set => SecondaryDamageStat = value?.Build();
 			}
 

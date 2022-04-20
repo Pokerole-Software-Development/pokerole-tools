@@ -304,6 +304,10 @@ namespace Pokerole.Core
 			}
 		}
 	}
+	public partial record Stat
+	{
+		public virtual bool IsBuiltIn => false;
+	}
 	public partial record EvolutionTree
 	{
 		/// <summary>
