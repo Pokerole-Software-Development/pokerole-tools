@@ -358,6 +358,8 @@ namespace Pokerole.Core
 					Name = type.ToString(),
 					BackgroundColor = color
 				};
+				//grabbbing uuids from this to avoid having to hard code them in the payload above
+				entry.DataId = TypeManager.GetBuiltInTypeReference(type).DataId;
 				(BuiltInType[]?, List<ItemReference<ITypeDefinition>>)[] lazyList =
 				{
 					(weakness, entry.Weaknesses),
@@ -385,6 +387,7 @@ namespace Pokerole.Core
 		public String Name { get; set; } = "";
 		[XmlElement(type: typeof(HtmlColor))]
 		public Color? BackgroundColor { get; set; }
+		public DataId DataId { get; set; } = default;
 		public List<ItemReference<ITypeDefinition>> Resistances { get; set; } = new List<ItemReference<ITypeDefinition>>();
 		public List<ItemReference<ITypeDefinition>> Weaknesses { get; set; } = new List<ItemReference<ITypeDefinition>>();
 		public List<ItemReference<ITypeDefinition>> Immunities { get; set; } = new List<ItemReference<ITypeDefinition>>();

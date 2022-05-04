@@ -3,6 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,30 @@ namespace Pokerole.Core
 		private static readonly Dictionary<ITypeDefinition, HashSet<EffectivenessNode>>
 			defensiveTypeEffectivenessDictionary = new Dictionary<ITypeDefinition, HashSet<EffectivenessNode>>(20);
 		private static readonly Object initLock = new object();
+		private static readonly IReadOnlyDictionary<BuiltInType, Guid> baseTypeGuids =
+			new ReadOnlyDictionary<BuiltInType, Guid>(new Dictionary<BuiltInType, Guid>
+			{
+				{ BuiltInType.Normal, Guid.Parse("710bfdd6-99e7-46fe-b70b-8974198027d6") },
+				{ BuiltInType.Typeless, Guid.Parse("c684acad-7bc7-48d9-8794-9747ce2fd369") },
+				{ BuiltInType.Fire, Guid.Parse("2639b94f-8e09-4677-b8cf-cf582c0c7cf6") },
+				{ BuiltInType.Fighting, Guid.Parse("f648ba4f-c048-4cde-9213-af66fd0846dd") },
+				{ BuiltInType.Water, Guid.Parse("72b046c4-6656-4b78-964e-bd901eb2cd21") },
+				{ BuiltInType.Flying, Guid.Parse("e4b50b65-678d-42de-9481-79777de6a305") },
+				{ BuiltInType.Grass, Guid.Parse("da456900-6cb9-44fb-8d38-2765809539d2") },
+				{ BuiltInType.Poison, Guid.Parse("a7560579-4d50-49c0-bf3f-240cef481463") },
+				{ BuiltInType.Electric, Guid.Parse("402bd9f6-3d3d-46ce-bc35-3874fad7c644") },
+				{ BuiltInType.Ground, Guid.Parse("2659fc24-54a6-498e-b0a2-dda4677246d7") },
+				{ BuiltInType.Psychic, Guid.Parse("7209d2a4-e796-4b15-a7ad-569670390ea2") },
+				{ BuiltInType.Rock, Guid.Parse("555ced86-dda5-4361-b31f-ba917f2b3ecf") },
+				{ BuiltInType.Ice, Guid.Parse("34a04bf1-c17a-4345-ac37-f54bd89535f0") },
+				{ BuiltInType.Bug, Guid.Parse("04a95a1a-ff84-4906-bbff-9e8e6d2c7ac5") },
+				{ BuiltInType.Dragon, Guid.Parse("f15029fa-b047-46ad-b388-12112b98253c") },
+				{ BuiltInType.Ghost, Guid.Parse("17b137d5-7509-4ac7-aa60-6d99b6e3b0c9") },
+				{ BuiltInType.Dark, Guid.Parse("5a76513e-176b-4687-8fdf-604882fef10a") },
+				{ BuiltInType.Steel, Guid.Parse("5223656b-9629-4728-b82e-92eddd4b74e8") },
+				{ BuiltInType.Fairy, Guid.Parse("9d5f2e81-b827-4cb7-a81e-b7b71a551d86") },
+
+			});
 		public static IReadOnlyList<ITypeDefinition> RegisteredTypes
 		{
 			get
