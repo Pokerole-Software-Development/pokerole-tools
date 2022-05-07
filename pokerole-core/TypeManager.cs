@@ -417,7 +417,9 @@ namespace Pokerole.Core
 					(nameof(Name), Name),
 					(nameof(BackgroundColor), BackgroundColor)
 				};
-
+			public bool Mutable => false;//you need something more than just a builder
+			public bool HasBuilder => false;
+			public DataKind Kind => DataKind.TypeDefinition;
 
 
 			public ItemReference<ITypeDefinition> ItemReference => new ItemReference<ITypeDefinition>(DataId, Name);

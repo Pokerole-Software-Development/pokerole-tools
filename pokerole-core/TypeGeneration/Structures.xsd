@@ -1415,11 +1415,11 @@
 		<xs:attribute name="Units" type="xs:string"/>
 		<xs:attribute name="Value" type="xs:double"/>
 	</xs:complexType>
-	<xs:complexType name="TypeDefinition" ex:hasBuiltIn="true">
+	<!--<xs:complexType name="TypeDefinition" ex:hasBuiltIn="true">
 		<xs:complexContent>
 			<xs:extension base="ex:BaseDataItem">
 				<xs:sequence>
-					<!--Not including "IsBuiltInType" since built-in ones will never be serialized-->
+					--><!--Not including "IsBuiltInType" since built-in ones will never be serialized--><!--
 					<xs:element name="Name" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>Type Name</xs:documentation>
@@ -1463,7 +1463,7 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
-	</xs:complexType>
+	</xs:complexType>-->
 	<xs:complexType name="Stat">
 		<xs:complexContent>
 			<xs:extension base="ex:BaseDataItem">

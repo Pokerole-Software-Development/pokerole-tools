@@ -136,6 +136,7 @@ namespace Pokerole.Core{
 		/// List of effects this move causes when it hits
 		/// </summary>
 		public IReadOnlyList<string> Effects { get; }
+		public override DataKind Kind => DataKind.Move;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 			(nameof(Name), Name),
 			(nameof(Description), Description),
@@ -670,6 +671,7 @@ namespace Pokerole.Core{
 		/// Item Description
 		/// </summary>
 		public string Description { get; }
+		public override DataKind Kind => DataKind.Item;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 			(nameof(Name), Name),
 			(nameof(Description), Description),
@@ -895,6 +897,7 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public string? FilePath { get; }
+		public override DataKind Kind => DataKind.ImageRef;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 			(nameof(Filename), Filename),
 			(nameof(Data), Data),
@@ -1642,6 +1645,7 @@ namespace Pokerole.Core{
 		/// List of moves that this Pokémon can learn
 		/// </summary>
 		public IReadOnlyList<MoveEntry> MoveSet { get; }
+		public override DataKind Kind => DataKind.DexEntry;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 			(nameof(DexNum), DexNum),
 			(nameof(SuggestedStarter), SuggestedStarter),
@@ -3419,6 +3423,7 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public IReadOnlyList<string> Ribbons { get; set; }
+		public override DataKind Kind => DataKind.MonInstance;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 			(nameof(Picture), Picture),
 			(nameof(Definition), Definition),
@@ -4971,6 +4976,7 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public string Effect { get; }
+		public override DataKind Kind => DataKind.Ability;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 			(nameof(Name), Name),
 			(nameof(Effect), Effect),
@@ -5307,6 +5313,7 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public ItemReference<Backpack> Backpack { get; set; }
+		public override DataKind Kind => DataKind.Trainer;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 			(nameof(CharacterName), CharacterName),
 			(nameof(PlayerName), PlayerName),
@@ -6397,6 +6404,7 @@ namespace Pokerole.Core{
 		/// Someone didn't document this item...
 		/// </summary>
 		public IReadOnlyList<string> Badges { get; set; }
+		public override DataKind Kind => DataKind.Backpack;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 			(nameof(PotionCount), PotionCount),
 			(nameof(SuperPotionCount), SuperPotionCount),
@@ -6838,6 +6846,7 @@ namespace Pokerole.Core{
 		/// Your Rival's Unlike-Abilities
 		/// </summary>
 		public IReadOnlyList<UnlikeAbility> UnlilkeAbilities { get; set; }
+		public override DataKind Kind => DataKind.Rival;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 			(nameof(Picture), Picture),
 			(nameof(Rank), Rank),
@@ -7477,6 +7486,7 @@ namespace Pokerole.Core{
 		/// Evolution entries of this tree
 		/// </summary>
 		public IReadOnlyList<EvolutionEntry> EvolutionEntries { get; }
+		public override DataKind Kind => DataKind.EvolutionTree;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 			(nameof(Name), Name),
 			(nameof(BabyEvolutionItem), BabyEvolutionItem),
@@ -7921,275 +7931,6 @@ namespace Pokerole.Core{
 		}
 	}
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public partial record TypeDefinition : BaseDataItem<TypeDefinition>
-	{
-		public TypeDefinition(DataId dataId,
-			string name,
-			Color? backgroundColor,
-			List<ItemReference<TypeDefinition>> weaknesses,
-			List<ItemReference<TypeDefinition>> resistances,
-			List<ItemReference<TypeDefinition>> immunities) : base(dataId)
-		{
-			Name = name;
-			BackgroundColor = backgroundColor;
-			Weaknesses = new List<ItemReference<TypeDefinition>>(weaknesses).AsReadOnly();
-			Resistances = new List<ItemReference<TypeDefinition>>(resistances).AsReadOnly();
-			Immunities = new List<ItemReference<TypeDefinition>>(immunities).AsReadOnly();
-		}
-
-		public override ItemReference<TypeDefinition> ItemReference => new ItemReference<TypeDefinition>(DataId, Name);
-
-		/// <summary>
-		/// Type Name
-		/// </summary>
-		public string Name { get; }
-		/// <summary>
-		/// Background Color for this type in html notation
-		/// </summary>
-		public Color? BackgroundColor { get; }
-		/// <summary>
-		/// Types this type is weak to
-		/// </summary>
-		public IReadOnlyList<ItemReference<TypeDefinition>> Weaknesses { get; }
-		/// <summary>
-		/// Types this type is resistant to
-		/// </summary>
-		public IReadOnlyList<ItemReference<TypeDefinition>> Resistances { get; }
-		/// <summary>
-		/// Types this type is immune to
-		/// </summary>
-		public IReadOnlyList<ItemReference<TypeDefinition>> Immunities { get; }
-		public override (String, Object?)[] Values => new (String, Object?)[] {
-			(nameof(Name), Name),
-			(nameof(BackgroundColor), BackgroundColor),
-			(nameof(Weaknesses), Weaknesses),
-			(nameof(Resistances), Resistances),
-			(nameof(Immunities), Immunities),
-		};
-		[XmlType(nameof(TypeDefinition), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		[DebuggerDisplay("{ItemReference}")]
-		public partial class Builder : DataItemBuilder<TypeDefinition>
-		{
-			public Builder()
-			{
-				Weaknesses = new List<ItemReference<TypeDefinition>>(10);
-				Resistances = new List<ItemReference<TypeDefinition>>(10);
-				Immunities = new List<ItemReference<TypeDefinition>>(10);
-			}
-			public Builder(TypeDefinition typeDefinition)
-			{
-				DataId = typeDefinition.DataId;
-				Name = typeDefinition.Name;
-				BackgroundColor = typeDefinition.BackgroundColor;
-				Weaknesses = new List<ItemReference<TypeDefinition>>(typeDefinition.Weaknesses);
-				Resistances = new List<ItemReference<TypeDefinition>>(typeDefinition.Resistances);
-				Immunities = new List<ItemReference<TypeDefinition>>(typeDefinition.Immunities);
-			}
-
-			public override ItemReference<TypeDefinition>? ItemReference => !DataId.HasValue ? null :
-					new ItemReference<TypeDefinition>(DataId.Value, Name);
-
-			/// <summary>
-			/// Type Name
-			/// </summary>
-			[XmlElement(IsNullable = false)]
-			public string? Name { get; set; }
-			/// <summary>
-			/// Background Color for this type in html notation
-			/// </summary>
-			[XmlElement(IsNullable = true, Type = typeof(HtmlColor))]
-			public Color? BackgroundColor { get; set; }
-			/// <summary>
-			/// Types this type is weak to
-			/// </summary>
-			[XmlIgnore]
-			public List<ItemReference<TypeDefinition>> Weaknesses { get; set; }
-			
-			[Browsable(false)]
-			[DebuggerHidden]
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlArray("Weaknesses", IsNullable = false)]
-			[XmlArrayItem("ItemReference")]
-			public ItemReference<TypeDefinition>.Builder[] WeaknessesBuilder
-			{
-				get
-				{
-					if (Weaknesses == null)
-					{
-						return Array.Empty<ItemReference<TypeDefinition>.Builder>();
-					}
-					return Weaknesses.Select(item=>new ItemReference<TypeDefinition>.Builder(item)).ToArray();
-				}
-				set
-				{
-					Weaknesses?.Clear();
-					if (value == null)
-					{
-						return;
-					}
-					if (Weaknesses == null)
-					{
-						Weaknesses = new List<ItemReference<TypeDefinition>>(value.Length);
-					}
-					ItemBuilder<ItemReference<TypeDefinition>>.BuildList(value, Weaknesses);
-				}
-			}
-			/// <summary>
-			/// Types this type is resistant to
-			/// </summary>
-			[XmlIgnore]
-			public List<ItemReference<TypeDefinition>> Resistances { get; set; }
-			
-			[Browsable(false)]
-			[DebuggerHidden]
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlArray("Resistances", IsNullable = false)]
-			[XmlArrayItem("ItemReference")]
-			public ItemReference<TypeDefinition>.Builder[] ResistancesBuilder
-			{
-				get
-				{
-					if (Resistances == null)
-					{
-						return Array.Empty<ItemReference<TypeDefinition>.Builder>();
-					}
-					return Resistances.Select(item=>new ItemReference<TypeDefinition>.Builder(item)).ToArray();
-				}
-				set
-				{
-					Resistances?.Clear();
-					if (value == null)
-					{
-						return;
-					}
-					if (Resistances == null)
-					{
-						Resistances = new List<ItemReference<TypeDefinition>>(value.Length);
-					}
-					ItemBuilder<ItemReference<TypeDefinition>>.BuildList(value, Resistances);
-				}
-			}
-			/// <summary>
-			/// Types this type is immune to
-			/// </summary>
-			[XmlIgnore]
-			public List<ItemReference<TypeDefinition>> Immunities { get; set; }
-			
-			[Browsable(false)]
-			[DebuggerHidden]
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlArray("Immunities", IsNullable = false)]
-			[XmlArrayItem("ItemReference")]
-			public ItemReference<TypeDefinition>.Builder[] ImmunitiesBuilder
-			{
-				get
-				{
-					if (Immunities == null)
-					{
-						return Array.Empty<ItemReference<TypeDefinition>.Builder>();
-					}
-					return Immunities.Select(item=>new ItemReference<TypeDefinition>.Builder(item)).ToArray();
-				}
-				set
-				{
-					Immunities?.Clear();
-					if (value == null)
-					{
-						return;
-					}
-					if (Immunities == null)
-					{
-						Immunities = new List<ItemReference<TypeDefinition>>(value.Length);
-					}
-					ItemBuilder<ItemReference<TypeDefinition>>.BuildList(value, Immunities);
-				}
-			}
-			public override (String, Object?)[] Values => new (String, Object?)[] {
-				(nameof(Name), Name),
-				(nameof(BackgroundColor), BackgroundColor),
-				(nameof(Weaknesses), Weaknesses),
-				(nameof(Resistances), Resistances),
-				(nameof(Immunities), Immunities),
-			};
-			/// <summary>
-			/// Whether or not all of the required Properites of this instance are set to build a new
-			/// <see cref="TypeDefinition"/>. <see cref="Build"/> will throw an exception if this returns false.
-			/// </summary>
-			public override bool IsValid
-			{
-				get
-				{
-					if (DataId is null)
-					{
-						return false;
-					}
-					if (Name is null)
-					{
-						return false;
-					}
-					if (Weaknesses is null)
-					{
-						return false;
-					}
-					if (Resistances is null)
-					{
-						return false;
-					}
-					if (Immunities is null)
-					{
-						return false;
-					}
-					return true;
-				}
-			}
-			/// <summary>
-			/// Which properties of this instance are not set, but should be set. Generally for debugging.
-			/// </summary>
-			public override List<String> MissingValues
-			{
-				get
-				{
-					List<String> missing = new List<String>(4);
-					if (Name is null)
-					{
-						missing.Add("Name");
-					}
-					if (Weaknesses is null)
-					{
-						missing.Add("Weaknesses");
-					}
-					if (Resistances is null)
-					{
-						missing.Add("Resistances");
-					}
-					if (Immunities is null)
-					{
-						missing.Add("Immunities");
-					}
-					return missing;
-				}
-			}
-			/// <summary>
-			/// Build and instance of <see cref="TypeDefinition"/> from this Builder
-			/// </summary>
-			/// <returns>A new instance of <see cref="TypeDefinition"/></returns>
-			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
-			/// have been set</exception>
-			public override TypeDefinition Build(){
-				if (!IsValid)
-				{
-					throw new InvalidOperationException("Not all required fields were set");
-				}
-				return new TypeDefinition(DataId!.Value,
-					Name!,
-					BackgroundColor,
-					Weaknesses!,
-					Resistances!,
-					Immunities!);
-			}
-		}
-	}
-	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
 	public partial record Stat : BaseDataItem<Stat>
 	{
 		public Stat(DataId dataId,
@@ -8216,6 +7957,7 @@ namespace Pokerole.Core{
 		/// Name of the skill
 		/// </summary>
 		public StatCategory Category { get; }
+		public override DataKind Kind => DataKind.Stat;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 			(nameof(Name), Name),
 			(nameof(Exclusivity), Exclusivity),
@@ -8343,5 +8085,24 @@ namespace Pokerole.Core{
 					Category!.Value);
 			}
 		}
+	}
+	public enum DataKind
+	{
+		//Hardcoded entries since they are not in the schema
+		TypeDefinition,
+		Effect,
+		Rank, //plan on converting that from an enum at some point in time
+		//end of hardcoded values
+		Move,
+		Item,
+		ImageRef,
+		DexEntry,
+		MonInstance,
+		Ability,
+		Trainer,
+		Backpack,
+		Rival,
+		EvolutionTree,
+		Stat,
 	}
 }

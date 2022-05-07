@@ -178,6 +178,12 @@ namespace Pokerole.Core
 		/// Get the values of this instance. Faster than reflection, hopefully
 		/// </summary>
 		(String, Object?)[] Values { get; }
+		public DataKind Kind { get; }
+		/// <summary>
+		/// Whether or not this instance is mutable without needing to create a new instance from a builder
+		/// </summary>
+		public bool Mutable { get; }
+		public bool HasBuilder { get; }
 	}
 	public interface IDataItem<T> : IDataItem where T : IDataItem<T>
 	{
@@ -200,6 +206,9 @@ namespace Pokerole.Core
 			dataId = id;
 		}
 		public abstract (String, Object?)[] Values { get; }
+		public abstract DataKind Kind { get; }
+		public bool Mutable => false;
+		public bool HasBuilder => true;
 	}
 	public abstract class MutableBaseDataItem<T> : IDataItem<T> where T : MutableBaseDataItem<T>
 	{
@@ -218,6 +227,9 @@ namespace Pokerole.Core
 			dataId = id;
 		}
 		public abstract (String, Object?)[] Values { get; }
+		public abstract DataKind Kind { get; }
+		public bool Mutable => true;
+		public bool HasBuilder => true;
 	}
 	//for reflection convinience
 	public interface IItemBuilder

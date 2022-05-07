@@ -238,6 +238,7 @@ namespace Pokerole.Core{
 <#		}
 		if (classDef.isDataItem){
 #>
+		public override DataKind Kind => DataKind.<#=classDef.name#>;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 <#
 			foreach(FieldDef field in classDef.fields){
@@ -540,7 +541,20 @@ namespace Pokerole.Core{
 			}
 		}
 	}
-<#}
-
+<#}#>
+	public enum DataKind
+	{
+		//Hardcoded entries since they are not in the schema
+		TypeDefinition,
+		Effect,
+		Rank, //plan on converting that from an enum at some point in time
+		//end of hardcoded values
+<#
+	foreach	(ClassDef classDef in classes.Values){
+		if (classDef.isDataItem){
+			WriteLine("\t\t{0},", classDef.name);
+		}
+	}
 #>
+	}
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pokerole-core", "pokerole-core\pokerole-core.csproj", "{D680FC67-904C-43C6-94B9-C34AB36F7D11}"
 EndProject
@@ -16,11 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfHandler", "PdfHandler\Pd
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "init-update", "init-update\init-update.csproj", "{86AE1390-54FB-4567-B34B-F5BC476D3B6E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DebugDexViewer", "DebugDexViewer\DebugDexViewer.csproj", "{475D5E89-2AE7-4404-831D-937352AF3641}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsDEBUG-DexViewer", "WinFormsDEBUG-DexViewer\WinFormsDEBUG-DexViewer.csproj", "{931F119D-7104-4FA5-8BAD-BB7D740ECCE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsDEBUG-DexViewer", "WinFormsDEBUG-DexViewer\WinFormsDEBUG-DexViewer.csproj", "{931F119D-7104-4FA5-8BAD-BB7D740ECCE6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pokerole-common", "pokerole-common\pokerole-common.csproj", "{0A2BD35D-FF33-4945-BA1F-43BE13A8554B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pokerole-common", "pokerole-common\pokerole-common.csproj", "{0A2BD35D-FF33-4945-BA1F-43BE13A8554B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,10 +38,6 @@ Global
 		{86AE1390-54FB-4567-B34B-F5BC476D3B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86AE1390-54FB-4567-B34B-F5BC476D3B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86AE1390-54FB-4567-B34B-F5BC476D3B6E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{475D5E89-2AE7-4404-831D-937352AF3641}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{475D5E89-2AE7-4404-831D-937352AF3641}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{475D5E89-2AE7-4404-831D-937352AF3641}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{475D5E89-2AE7-4404-831D-937352AF3641}.Release|Any CPU.Build.0 = Release|Any CPU
 		{931F119D-7104-4FA5-8BAD-BB7D740ECCE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{931F119D-7104-4FA5-8BAD-BB7D740ECCE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{931F119D-7104-4FA5-8BAD-BB7D740ECCE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
