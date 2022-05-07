@@ -1,17 +1,17 @@
-﻿<#@ template debug="true" hostspecific="true" language="C#" #>
-<#@ assembly name="System.Core" #>
-<#@ assembly name="System.Xml"#>
-<#@ assembly name="System.Xml.Linq"#>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="System.Xml.Linq" #>
-<#@ import namespace="System.Xml" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Xml.Schema" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="System.IO" #>
-<#@ import namespace="System.CodeDom.Compiler" #><#+
+﻿<#@ template debug="true" hostspecific="true" language="C#"
+#><#@ assembly name="System.Core"
+#><#@ assembly name="System.Xml"
+#><#@ assembly name="System.Xml.Linq"
+#><#@ import namespace="System.Linq"
+#><#@ import namespace="System.Text"
+#><#@ import namespace="System.Collections.Generic"
+#><#@ import namespace="System.Xml.Linq"
+#><#@ import namespace="System.Xml"
+#><#@ import namespace="System.Linq"
+#><#@ import namespace="System.Xml.Schema"
+#><#@ import namespace="System.Collections.Generic"
+#><#@ import namespace="System.IO"
+#><#@ import namespace="System.CodeDom.Compiler" #><#+
 // * This Source Code Form is subject to the terms of the Mozilla Public
 // * License, v. 2.0. If a copy of the MPL was not distributed with this
 // * file, You can obtain one at https://mozilla.org/MPL/2.0/.
