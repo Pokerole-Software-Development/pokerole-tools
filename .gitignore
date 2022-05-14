@@ -360,3 +360,15 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+#From Foundry .gitignore
+# IDE
+.idea/
+
+# Node Modules
+node_modules/
+npm-debug.log
+
+# Foundry
+*.lock
+jsconfig.json
+foundry

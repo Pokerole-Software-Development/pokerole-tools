@@ -16,6 +16,144 @@
 // * License, v. 2.0. If a copy of the MPL was not distributed with this
 // * file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+	//not using ValueTuple's since the Devart editor apparently can't handle those...
+	struct Data { public XmlSchema primarySchema; public Dictionary<String, ClassDef> classes; }
+	Data CompileSchema(){
+		XmlSchemaSet schemaSet = new XmlSchemaSet();
+		String structuresPath = this.Host.ResolvePath("Structures.xsd");
+		XmlSchema primarySchema = XmlSchema.Read(new FileStream(structuresPath, FileMode.Open), null);
+		schemaSet.Add(primarySchema);
+		String[] additionalSchemaFiles = {
+			"ExternalTypes.xsd",
+			"MissingTypes.xsd"
+		};
+		foreach (var filename in additionalSchemaFiles){
+			schemaSet.Add(XmlSchema.Read(new FileStream(this.Host.ResolvePath(filename), FileMode.Open), null));
+		}
+		schemaSet.Compile();
+		if (!schemaSet.IsCompiled || !primarySchema.IsCompiled){
+			throw new InvalidOperationException("Schema failed to compile");
+		}
+		var schemaItems = primarySchema.Items;
+
+		Dictionary<String, ClassDef> classes = new Dictionary<String, ClassDef>();
+		foreach	(XmlSchemaObject item in schemaItems){
+			XmlSchemaComplexType typeDef = item as XmlSchemaComplexType;
+			if (typeDef == null){
+				XmlSchemaElement element= item as XmlSchemaElement;
+				if (element != null && element.Name == "PokeroleData")
+				{
+					//skip that one
+					continue;
+				}
+				String message = "Handling of type not implemnted: " + item;
+				this.Host.LogErrors(new CompilerErrorCollection(){
+					new CompilerError(structuresPath, item.LineNumber, item.LinePosition, "Unknown type", message)
+				});
+				continue;
+			}
+			XmlSchemaType baseType = typeDef.BaseXmlSchemaType;
+			bool isDataItem = baseType.Name == "BaseDataItem" || baseType.Name == "MutableBaseDataItem";
+			bool isMutable = baseType.Name == "MutableBaseDataItem";
+			ClassDef def = new ClassDef();
+			def.definition = typeDef;
+			def.isDataItem = isDataItem;
+			def.name = typeDef.Name;
+			def.isMutable = isMutable;
+			def.isReferenceType = IsReferenceType(schemaSet, typeDef.QualifiedName);
+			classes[def.name] = def;
+		}
+		//parse things further since we now know all classes in the template file
+		foreach (var def in classes.Values){
+			XmlSchemaComplexType typeDef = def.definition;
+			XmlSchemaSequence sequence = def.definition.ContentTypeParticle as XmlSchemaSequence;
+			def.fields = new List<FieldDef>((sequence == null ? 0 : sequence.Items.Count) + typeDef.Attributes.Count);
+			foreach (XmlSchemaAttribute attr in typeDef.Attributes)
+			{
+				FieldDef field = new FieldDef();
+				field.name = attr.Name;
+				field.isAttribute = true;
+				field.type = new FieldType(NormalizeType(attr.SchemaTypeName.Name),
+					IsReferenceType(schemaSet, attr.SchemaTypeName));
+				if (attr.Annotation != null)
+				{
+					XmlSchemaDocumentation documentation = attr.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
+					if (documentation != null){
+						XmlNode node = documentation.Markup.FirstOrDefault();
+						if (node != null){
+							field.documentation = node.InnerText;
+						}
+					}
+				}
+				def.fields.Add(field);
+			}
+			if (sequence == null)
+			{
+				continue;
+			}
+			foreach	(XmlSchemaElement item in sequence.Items){
+				if (item.Name == "DataId"){
+					//skip that one. It will be present in the base class
+					continue;
+				}
+				FieldDef field = new FieldDef();
+				field.name = item.Name;
+				if (item.Annotation != null)
+				{
+					XmlSchemaDocumentation documentation = item.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
+					if (documentation != null){
+						XmlNode node = documentation.Markup.FirstOrDefault();
+						if (node != null){
+							field.documentation = node.InnerText;
+						}
+					}
+				}
+				FieldType genericType = null;
+				FieldType listType = null;
+				String proxyType = null;
+				if (item.UnhandledAttributes != null)
+				{
+					foreach (XmlAttribute unhandled in item.UnhandledAttributes)
+					{
+						switch (unhandled.LocalName){
+							//case "keyType":
+								//keyType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
+								//break;
+							//case "valueType":
+								//valueType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
+								//break;
+							case "listItemType":
+								listType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
+								break;
+							case "genericType":
+								genericType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
+								break;
+							case "proxyType":
+								proxyType = unhandled.InnerText;
+								break;
+							default:
+								this.Host.LogErrors(new CompilerErrorCollection(){
+									new CompilerError(structuresPath, item.LineNumber, item.LinePosition,
+									"Unknown attribute", String.Format("Attribute '{0}' is unknown", unhandled.LocalName))
+									});
+								break;
+						}
+					}
+				}
+				field.type = FieldType.ResolveType(genericType, listType, item.SchemaTypeName,
+					schemaSet, classes);
+				field.type.isNullable = item.IsNillable;
+				field.proxyType = proxyType;
+				def.fields.Add(field);
+			}
+		}
+		Data result;
+		result.classes = classes;
+		result.primarySchema = primarySchema;
+		return result;
+	}
+
+
 	static bool IsReferenceType(XmlSchemaSet schemaSet, XmlQualifiedName name)
 	{
 		switch (name.Name){

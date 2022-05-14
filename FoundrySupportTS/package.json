@@ -1,0 +1,29 @@
+{
+  "name": "Pokerole",
+  "version": "1.0.0",
+  "description": "CSS compiler for the Pokérole system",
+  "scripts": {
+    "build": "gulp build",
+    "compile": "gulp css",
+    "watch": "gulp",
+    "gulp": "gulp"
+  },
+  "browserslist": [
+    "last 3 versions"
+  ],
+  "author": "Sir Intellegence",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "gulp-autoprefixer": "^8",
+    "gulp-sass": "^4",
+    "gulp-sourcemaps": "^3",
+    "@types/node": "^14.10.1",
+    "foundry-pc-types": "gitlab:foundry-projects/foundry-pc/foundry-pc-types",
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+  }
+}
