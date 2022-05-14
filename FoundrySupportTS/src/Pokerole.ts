@@ -1,12 +1,13 @@
 // Import document classes.
-import { PokeroleActor } from "./documents/actor.mjs";
-import { PokeroleItem } from "./documents/item.mjs";
+import { PokeroleActor } from "./documents/actor"
+import { PokeroleItem } from "./documents/item"
 // Import sheet classes.
-import { PokeroleActorSheet } from "./sheets/actor-sheet.mjs";
-import { PokeroleItemSheet } from "./sheets/item-sheet.mjs";
+import { PokeroleActorSheet } from "./sheets/actor-sheet"
+import { PokeroleItemSheet } from "./sheets/item-sheet"
 // Import helper/utility classes and constants.
-import { preloadHandlebarsTemplates } from "./helpers/templates.mjs";
-import { POKEROLE } from "./helpers/config.mjs";
+import { preloadHandlebarsTemplates } from "./helpers/templates"
+import { POKEROLE } from "./helpers/config"
+
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -14,16 +15,16 @@ import { POKEROLE } from "./helpers/config.mjs";
 
 Hooks.once('init', async function() {
 
-  // Add utility classes to the global game object so that they're more easily
-  // accessible in global contexts.
-  game.Pokerole = {
-    PokeroleActor,
-    PokeroleItem,
-    rollItemMacro
-  };
+  // // Add utility classes to the global game object so that they're more easily
+  // // accessible in global contexts.
+  // (game as any).Pokerole = {
+  //   PokeroleActor,
+  //   PokeroleItem,
+  //   rollItemMacro
+  // };
 
   // Add custom constants for configuration.
-  CONFIG.POKEROLE = POKEROLE;
+  (CONFIG as any).POKEROLE = POKEROLE
 
   /**
    * Set an initiative formula for the system
@@ -73,13 +74,15 @@ Handlebars.registerHelper('toLowerCase', function(str) {
 
 Hooks.once("ready", async function() {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
-  Hooks.on("hotbarDrop", (bar, data, slot) => createItemMacro(data, slot));
+  // Hooks.on("hotbarDrop", (bar, data, slot) => createItemMacro(data, slot));
 });
 
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
 /* -------------------------------------------- */
 
+
+let todo = `
 /**
  * Create a Macro from an Item drop.
  * Get an existing item macro if one exists, otherwise create a new one.
@@ -93,7 +96,7 @@ async function createItemMacro(data, slot) {
   const item = data.data;
 
   // Create the macro command
-  const command = `game.Pokerole.rollItemMacro("${item.name}");`;
+  const command = \`game.Pokerole.rollItemMacro("$ {item.name}");\`;
   let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
   if (!macro) {
     macro = await Macro.create({
@@ -120,8 +123,9 @@ function rollItemMacro(itemName) {
   if (speaker.token) actor = game.actors.tokens[speaker.token];
   if (!actor) actor = game.actors.get(speaker.actor);
   const item = actor ? actor.items.find(i => i.name === itemName) : null;
-  if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
+  if (!item) return ui.notifications.warn(\`Your controlled Actor does not have an item named $ {itemName}\`);
 
   // Trigger the item roll
   return item.roll();
 }
+`

@@ -1,0 +1,32 @@
+{
+	"compilerOptions": {
+		"removeComments": false,
+
+		"lib": ["es6", "ES2017"],
+
+		"types": [
+			"@league-of-foundry-developers/foundry-vtt-types",
+		],
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+
+		//TODO: w/out this get duplicate pixi.js lib imports
+		"skipLibCheck": true,
+
+		"strictNullChecks": true,
+		"noImplicitAny": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noUncheckedIndexedAccess": true,
+
+		"outDir": "build/",
+
+		"plugins": [
+			{"name": "typescript-eslint-language-service"}
+		]
+	},
+	"include": [
+		"**/*.ts",
+	],
+}

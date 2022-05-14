@@ -1,3 +1,5 @@
+let todo = `
+d\
 /**
  * Manage Active Effect instances through the Actor Sheet via effect control buttons.
  * @param {MouseEvent} event      The left-click event on the effect control
@@ -61,3 +63,4 @@ export function prepareActiveEffectCategories(effects) {
     }
     return categories;
 }
+`;

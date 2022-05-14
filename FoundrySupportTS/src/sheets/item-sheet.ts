@@ -3,7 +3,7 @@
  * @extends {ItemSheet}
  */
 export class PokeroleItemSheet extends ItemSheet {
-
+todo: `
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
@@ -18,11 +18,11 @@ export class PokeroleItemSheet extends ItemSheet {
   get template() {
     const path = "systems/Pokerole/templates/item";
     // Return a single sheet for all item types.
-    // return `${path}/item-sheet.html`;
+    // return \`$ {path}/item-sheet.html\`;
 
     // Alternatively, you could use the following return statement to do a
-    // unique item sheet by type, like `weapon-sheet.html`.
-    return `${path}/item-${this.item.data.type}-sheet.html`;
+    // unique item sheet by type, like \`weapon-sheet.html\`.
+    return \`$ {path}/item-$ {this.item.data.type}-sheet.html\`;
   }
 
   /* -------------------------------------------- */
@@ -60,4 +60,5 @@ export class PokeroleItemSheet extends ItemSheet {
 
     // Roll handlers, click handlers, etc. would go here.
   }
+  `
 }

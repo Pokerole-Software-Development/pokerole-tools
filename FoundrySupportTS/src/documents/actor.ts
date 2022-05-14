@@ -1,9 +1,10 @@
+
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
 export class PokeroleActor extends Actor {
-
+todo: `
   /** @override */
   prepareData() {
     // Prepare data for the actor. Calling the super version of this executes
@@ -31,7 +32,7 @@ export class PokeroleActor extends Actor {
   prepareDerivedData() {
     const actorData = this.data;
     const data = actorData.data;
-    const flags = actorData.flags.Pokerole || {};
+    const flags = actorData.flags["Pokerole"] || {};
 
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
@@ -71,5 +72,6 @@ export class PokeroleActor extends Actor {
       data.lvl = data.attributes.level.value ?? 0;
     }
   }
+  `
 
 }

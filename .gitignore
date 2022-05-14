@@ -372,3 +372,4 @@ npm-debug.log
 *.lock
 jsconfig.json
 foundry
+FoundrySupportTS/build/

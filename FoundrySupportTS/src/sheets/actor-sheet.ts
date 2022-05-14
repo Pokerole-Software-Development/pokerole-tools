@@ -1,11 +1,11 @@
-import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
+// import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
 export class PokeroleActorSheet extends ActorSheet {
-
+  todo:`
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
@@ -19,7 +19,7 @@ export class PokeroleActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
-    return `systems/Pokerole/templates/actor/actor-${this.actor.data.type}-sheet.html`;
+    return \`systems/Pokerole/templates/actor/actor-$ {this.actor.data.type}-sheet.html\`;
   }
 
   /* -------------------------------------------- */
@@ -152,7 +152,7 @@ export class PokeroleActorSheet extends ActorSheet {
     // Grab any data associated with this control.
     const data = duplicate(header.dataset);
     // Initialize a default name.
-    const name = `New ${type.capitalize()}`;
+    const name = \`New $ {type.capitalize()}\`;
     // Prepare the item object.
     const itemData = {
       name: name,
@@ -187,7 +187,7 @@ export class PokeroleActorSheet extends ActorSheet {
 
     // Handle rolls that supply the formula directly.
     if (dataset.roll) {
-      let label = dataset.label ? `[roll] ${dataset.label}` : '';
+      let label = dataset.label ? \`[roll] $ {dataset.label}\` : '';
       let roll = new Roll(dataset.roll, this.actor.getRollData());
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
@@ -197,5 +197,5 @@ export class PokeroleActorSheet extends ActorSheet {
       return roll;
     }
   }
-
+`
 }
