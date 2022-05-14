@@ -59,11 +59,10 @@ module.exports = function(grunt) {
 		copy: {
 			'build': {
 				expand: true,
-				cwd: 'web',
 				src: [
 					"system.json",
-					"templates/",
-					"lang/",
+					"templates/**",
+					"lang/**",
 				],
 				dest: 'build/',
 			},
