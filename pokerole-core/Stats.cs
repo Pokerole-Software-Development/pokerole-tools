@@ -14,10 +14,10 @@ namespace Pokerole.Core
 	{
 		private static bool initted = false;
 		private static readonly Object initLock = new object();
-		private static readonly List<IStat> statList = new List<IStat>();
-		private static readonly IReadOnlyList<IStat> readonlyStats = statList.AsReadOnly();
-		private static readonly Dictionary<BuiltInStat, IStat> builtInStatImplementations =
-			new Dictionary<BuiltInStat, IStat>(30);
+		private static readonly List<Stat> statList = new List<Stat>();
+		private static readonly IReadOnlyList<Stat> readonlyStats = statList.AsReadOnly();
+		private static readonly Dictionary<BuiltInStat, BuiltInStatImpl> builtInStatImplementations =
+			new Dictionary<BuiltInStat, BuiltInStatImpl>(30);
 		private static readonly IReadOnlyDictionary<BuiltInStat, Guid> baseTypeGuids =
 			new ReadOnlyDictionary<BuiltInStat, Guid>(new Dictionary<BuiltInStat, Guid>
 			{
@@ -59,7 +59,7 @@ namespace Pokerole.Core
 				{ BuiltInStat.SameAsTheCopiedMove, Guid.Parse("d6557cfa-c0d5-406c-a8f3-d492a2fd5ef3") },
 	#endregion
 			});
-		public static IReadOnlyList<IStat> RegisteredStats
+		public static IReadOnlyList<Stat> RegisteredStats
 		{
 			get
 			{
@@ -67,10 +67,10 @@ namespace Pokerole.Core
 				return readonlyStats;
 			}
 		}
-		public static IStat GetBuiltInStat(BuiltInStat stat)
+		public static Stat GetBuiltInStat(BuiltInStat stat)
 		{
 			CheckInit();
-			if (!builtInStatImplementations.TryGetValue(stat, out IStat? item))
+			if (!builtInStatImplementations.TryGetValue(stat, out BuiltInStatImpl? item))
 			{
 				throw new ArgumentException($"'{stat}' is not a valid built-in stat or has not been registered");
 			}
@@ -147,19 +147,13 @@ namespace Pokerole.Core
 			return new BuiltInStatImpl(stat, exclusivity, category);
 		}
 
-		private class BuiltInStatImpl : StatImpl
+		private record BuiltInStatImpl : Stat
 		{
-			private readonly BuiltInStat stat;
-			private readonly DataId dataId;
 			internal BuiltInStatImpl(BuiltInStat stat, StatExclusivity exclusivity, StatCategory category)
-				: base(exclusivity, category)
+				: base(new DataId((int)stat, baseTypeGuids[stat]), stat.ToString(), exclusivity, category)
 			{
-				this.stat = stat;
-				dataId = new DataId((int)stat, baseTypeGuids[stat]);
 			}
-			public override DataId DataId => dataId;
-			public override bool IsBuiltInStat => true;
-			public override string Name => stat.ToString();
+			public override bool IsBuiltIn => true;
 		}
 		private abstract class StatImpl : IStat
 		{
@@ -176,6 +170,20 @@ namespace Pokerole.Core
 			public StatCategory StatCategory => category;
 			public StatExclusivity StatExclusivity => exclusivity;
 			public ItemReference<IStat> ItemReference => new ItemReference<IStat>(DataId, Name);
+
+			public (string, object?)[] Values => new(String, object?)[]{
+				(nameof(DataId), DataId),
+				(nameof(Name), Name),
+				(nameof(IsBuiltInStat), IsBuiltInStat),
+				(nameof(StatCategory), StatCategory),
+				(nameof(StatExclusivity), StatExclusivity)
+			};
+
+			public DataKind Kind => DataKind.Stat;
+
+			public bool Mutable => false;
+
+			public bool HasBuilder => false;
 		}
 	}
 

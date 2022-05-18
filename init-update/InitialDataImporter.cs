@@ -317,7 +317,7 @@ namespace Pokerole.Tools.InitUpdate
 			//damage stat. Can be empty
 			item = fields[4];
 			BuiltInStat stat;
-			IStat statDef;
+			Stat statDef;
 			if (!String.IsNullOrEmpty(item))
 			{
 				stat = ParseEnum<BuiltInStat>(item);
