@@ -16,7 +16,7 @@ light. The flower’s aroma soothes
 the emotions of others.\
 If you find one in the wild, it must be
 the protector of the area.",
-Mega,3,Venusaur,Mega,,,Seed Pokémon,"With the power of the Mega Stone,
+Venusaur,3,Mega-Venusaur,Mega,Mega,,Seed Pokémon,"With the power of the Mega Stone,
 this Pokémon grows taller and
 thicker. It’s bark and skin are now
 impervious to the elements.\
@@ -40,13 +40,13 @@ intense flames that can melt any
 material. However, it will never touch
 a weaker foe. Not many trainers are
 able to handle its bad temper.",
-Mega,6,Charizard,Mega Y,,,Flame Pokémon,"With the power of the Mega Stone
+Charizard,6,Mega-Charizard Y,Mega Y,Mega,,Flame Pokémon,"With the power of the Mega Stone
 It becomes bold and confident. Its
 flying skills get better and t boasts
 speed and maneuverability. When it
 flies you cannot see it directly as its
 flames burn as bright as the sun.",
-Mega,6,Charizard,Mega X,,,Flame Pokémon,"The power of the Mega Stone
+Charizard,6,Mega-Charizard X,Mega X,Mega,,Flame Pokémon,"The power of the Mega Stone
 make its inner flames burn so hot
 that its body turns black as coal and
 blue fire escapes constantly from its
@@ -71,7 +71,7 @@ have been recorded to punch
 through steel. It is confident on its
 great defense and water spouts to
 overcome any obstacle.",
-Mega,9,Blastoise,Mega,,,Shellfish Pokemon,"With the power of the Mega Stone
+Blastoise,9,Mega-Blastoise,Mega,Mega,,Shellfish Pokemon,"With the power of the Mega Stone
 the canon on its back can shoot
 exploding water projectiles that can
 pierce through concrete. Its body
@@ -113,7 +113,7 @@ ever approach their nest.
 If disturbed, they will attack in swarm.
 It has three stings. The one on its tail
 secretes a powerful poison.",
-Mega,15,Beedrill,Mega,,,Poison Bee Pokémon,"With the power of the Mega Stone
+Beedrill,15,Mega-Beedrill,Mega,Mega,,Poison Bee Pokémon,"With the power of the Mega Stone
 all of its limbs are now powerful
 stingers. Their attack can be really
 vicious stinging and piercing its foe
@@ -138,7 +138,7 @@ is an excellent hunter with well
 developed wing muscles that make
 it strong enough to whip up a gusty
 windstorm with just a few flaps.",
-Mega,18,Pidgeot,Mega,,,Bird Pokémon,"With the power of the Mega Stone
+Pidgeot,18,Mega-Pidgeot,Mega,Mega,,Bird Pokémon,"With the power of the Mega Stone
 Pidgeot's flying becomes a blurred
 red stripe in the sky. It won’t stop
 soaring the skies while in this state
@@ -563,7 +563,7 @@ it learns. Over time it becomes too
 smart to allow anyone to be its
 master. Alakazam's psychic powers
 can be terrifying.",
-Mega,65,Alakazam,Mega,,,Psi Pokémon,"With the power of the Mega Stone
+Alakazam,65,Mega-Alakazam,Mega,Mega,,Psi Pokémon,"With the power of the Mega Stone
 it is constantly plagued with visions
 of the future which make it great at
 evading attacks. Its body is feeble
@@ -831,7 +831,7 @@ in casting curses upon innocents
 and eating the life of people and
 Pokémon. It lurks in the shadows
 and disguises itself as one.",
-Mega,94,Gengar,Mega,,,Shadow Pokémon,"With the power of the Mega Stone
+Gengar,94,Mega-Gengar,Mega,Mega,,Shadow Pokémon,"With the power of the Mega Stone
 Gengar can now teleport through
 dimensions, whatever horrors it
 witnesses there make it try to curse
@@ -850,7 +850,7 @@ becomes hard as steel. Steelix lives
 deep underground, tempered by
 high pressure and heat. It can see
 in the darkness.",
-Mega,208,Steelix,Mega,,,Iron Snake Pokémon,"With the power of the Mega Stone
+Steelix,208,Mega-Steelix,Mega,Mega,,Iron Snake Pokémon,"With the power of the Mega Stone
 its body goes through so much
 pressure that part of it becomes
 diamond crystals. Its defense is
@@ -1047,7 +1047,7 @@ young leaves once it learns to find
 its own food. In the wild, mothers
 and daughters fiercely defend
 each other.",
-Mega,115,Kangaskhan,Mega,,,Parent Pokémon,"The mother gives all the power of the
+Kangaskhan,115,Mega-Kangaskhan,Mega,Mega,,Parent Pokémon,"The mother gives all the power of the
 Mega Stone to her child. The child
 grows violent and both team up as
 formidable fighters. But the mother
@@ -1134,7 +1134,7 @@ flying, but to regulate its body
 temperature. Scizor's body can
 shrug off most attacks and its
 pincers can crush almost any object.",
-Mega,212,Scizor,Mega,,,Pincer Pokémon,"The power of the Mega Stone puts
+Scizor,212,Mega-Scizor,Mega,Mega,,Pincer Pokémon,"The power of the Mega Stone puts
 its body trough tremendous stress,
 if it is inexperienced at wielding it
 and the battle is too long its pincers
@@ -1198,7 +1198,7 @@ dislike cold, Pinsirs burrow and sleep
 under the ground on chilly nights.
 They like to eat sap and honey,
 but they are aggressive by nature.",
-Mega,127,Pinsir,Mega,,,Stagbeetle Pokémon,"With the power of the Mega Stone
+Pinsir,127,Mega-Pinsir,Mega,Mega,,Stagbeetle Pokémon,"With the power of the Mega Stone
 it develops wings and inhuman
 strength. It can lift foes heavier than
 itself and still fly with ease. Its mind
@@ -1224,7 +1224,7 @@ for the destruction it leaves in its
 wake. In ancient literature, there is a
 record of a Gyarados that razed a
 village when violence flared.",
-Mega,130,Gyarados,Mega,,,Atrocious Pokémon,"With the power of the Mega Stone
+Gyarados,130,Mega-Gyarados,Mega,Mega,,Atrocious Pokémon,"With the power of the Mega Stone
 its body suffers a lot of strain,
 making it faster and stronger but
 also angrier and uncontrollable.
@@ -1351,7 +1351,7 @@ spreading its wings and gliding.
 One has been revived from a fossil.
 It’s very dangerous; it attacks with
 the intent to tear apart its victims.",
-Mega,142,Aerodactyl,Mega,,,Fossil Pokémon,"With the power of the Mega Stone
+Aerodactyl,142,Mega-Aerodactyl,Mega,Mega,,Fossil Pokémon,"With the power of the Mega Stone
 it restores the original appearance
 it had millions of years ago with
 its body covered in sharp rocks. It
@@ -1415,11 +1415,11 @@ root,150,Mewtwo,,,,No Data,"An article in a science magazine
 talked about how much cloning
 research was progressing, but...
 could it be?",
-Mega,150,Mewtwo,Mega Y,,,No Data,"With the power of the Mega Stone
+Mewtwo,150,Mega-Mewtwo Y,Mega Y,Mega,,No Data,"With the power of the Mega Stone
 its body got smaller but its power
 grew immensely. It can blow up even
 a skyscraper with just its thoughts",
-Mega,150,Mewtwo,Mega X,,,No Data,"The power of the Mega Stone
+Mewtwo,150,Mega-Mewtwo X,Mega X,Mega,,No Data,"The power of the Mega Stone
 was absorbed into its muscles if it
 grapples you and its psychic force
 does not crack you its strong arms
@@ -1603,7 +1603,7 @@ in the old days, people sent light
 signals with the help of this Pokémon.
 It has a good disposition towards
 people in general.",
-Mega,181,Ampharos,Mega,,,Light Pokémon,"With the power of the Mega Stone
+Ampharos,181,Mega-Ampharos,Mega,Mega,,Light Pokémon,"With the power of the Mega Stone
 the dormant dragon genes it has
 are awakened. Its wool grows back
 as a silky mane that flows and
@@ -1832,7 +1832,7 @@ their powerful horn and chase off
 anyone who gets close to their
 prized honey. Not many Pokémon
 dare to mess with it in the wild.",
-Mega,214,Heracross,Mega,,,Single Horn Pokémon,"With the power of the Mega Stone its
+Heracross,214,Mega-Heracross,Mega,Mega,,Single Horn Pokémon,"With the power of the Mega Stone its
 muscles and exoskeleton grow in size
 and strength but after going back
 to normal its exoskeleton reduces
@@ -1968,7 +1968,7 @@ was thought to be the call of the
 grim reaper. Pokémon and people
 who hear it, will always shiver in fear.
 They are pack leaders, not followers",
-Mega,229,Houndoom,Mega,,,Dark Pokémon,"With the power of the Mega Stone
+Houndoom,229,Mega-Houndoom,Mega,Mega,,Dark Pokémon,"With the power of the Mega Stone
 its whole body radiates tremendous
 heat, so much that its claws are
 searing hot and turn red as a result,
@@ -2044,7 +2044,7 @@ They are extremely strong, their
 rage can change landscapes.
 Tyranitars are insolents, rebels and
 they care about no one.",
-Mega,248,Tyranitar,Mega,,,Armor Pokémon,"The power of the Mega Stone is so
+Tyranitar,248,Mega-Tyranitar,Mega,Mega,,Armor Pokémon,"The power of the Mega Stone is so
 overwhelming it splits its back open.
 It becomes overwhelmed by its
 ferocious instincts and it’s unclear if
@@ -2090,7 +2090,7 @@ lives. Their tails can restore a plant’s
 beauty. Sceptiles power is truly
 unmatched in their habitats. They
 are very proud, though.",
-Mega,254,Sceptile,Mega,,,Forest Pokémon,"With the power of the Mega Stone,
+Sceptile,254,Mega-Sceptile,Mega,Mega,,Forest Pokémon,"With the power of the Mega Stone,
 it allows itself to grow more feral in
 order to gain draconian powers.
 Its movements are swifter than ever
@@ -2115,7 +2115,7 @@ combust as new feathers grow back.
 They are courageous fighters and
 expert martial artists. Their wrists light
 in flames when it’s about to attack.",
-Mega,257,Blaziken,Mega,,,Blaze Pokémon,"The power of the Mega Stone
+Blaziken,257,Mega-Blaziken,Mega,Mega,,Blaze Pokémon,"The power of the Mega Stone
 makes its inner fire burn so strong
 that it sets its limbs ablaze. This
 allows it to move faster than ever
@@ -2140,7 +2140,7 @@ They nest in beaches, and shield
 their young with their strong arms.
 When a storm is coming, Swamperts
 build a fort with big rocks.",
-Mega,260,Swampert,Mega,,,Mud Fish Pokémon,"The power of the Mega Stone
+Swampert,260,Mega-Swampert,Mega,Mega,,Mud Fish Pokémon,"The power of the Mega Stone
 increases its muscle strength, it
 would appear to be slower but its
 skin is so slippy it allows it to quickly
@@ -2303,7 +2303,7 @@ They can distort this dimension,
 defy the laws of matter and physics.
 They risk their lives to protect their
 fellows.",
-Mega,282,Gardevoir,Mega,,,Embrace Pokémon,"The power of the Mega Stone
+Gardevoir,282,Mega-Gardevoir,Mega,Mega,,Embrace Pokémon,"The power of the Mega Stone
 makes its senses skyrocket.
 It is easily upset as it can feel the
 emotions from everyone in a wide
@@ -2444,7 +2444,7 @@ in the dark. They lurk deep inside
 caves, eating rocks, gemstones and
 crystals. Luckily, Sableyes are rarely
 seen. They love jewels and treasure.",
-Mega,302,Sableye,Mega,,,Darkness Pokémon,"The power of the Mega Stone
+Sableye,302,Mega-Sableye,Mega,Mega,,Darkness Pokémon,"The power of the Mega Stone
 made the jewel on its chest grow, it
 now uses it as a shield to repel any
 attack, but its movement is limited
@@ -2457,7 +2457,7 @@ guards, then, Mawile chomps the
 prey with huge steel jaws. They are
 very rare, though. Only a few have
 been seen in Hoenn's Victory Road.",
-Mega,303,Mawile,Mega,,,Deceiver Pokémon,"The power of the Mega Stone
+Mawile,303,Mega-Mawile,Mega,Mega,,Deceiver Pokémon,"The power of the Mega Stone
 makes its back jaws develop a mind
 of their own, they are vicious and
 won’t release anything they bite until
@@ -2482,7 +2482,7 @@ anything that crosses their path.
 Aggrons are violent and patrol their
 territory at all times, but also plant
 trees, stop fires and protect nature.",
-Mega,306,Aggron,Mega,,,Iron Armor Pokémon,"The power of the Mega Stone
+Aggron,306,Mega-Aggron,Mega,Mega,,Iron Armor Pokémon,"The power of the Mega Stone
 makes their already-small caring
 nature disappear. They become
 relentless and more machine-like,
@@ -2500,7 +2500,7 @@ their presence by lowering their
 ki. Medichams fight with expert
 yoga moves, foretelling their foe’s
 attacks and sensing their thoughts.",
-Mega,308,Medicham,Mega,,,Meditate Pokémon,"The power of the Mega Stone is
+Medicham,308,Mega-Medicham,Mega,Mega,,Meditate Pokémon,"The power of the Mega Stone is
 tempered thanks to its meditation
 skills. This makes it increase all of
 its capabilities but not as much as
@@ -2519,7 +2519,7 @@ up in forest fires. When they get in
 battle, thunderclouds show up with
 them. They are extremely rare to
 see in the wild.",
-Mega,310,Manectric,Mega,,,Discharge Pokémon,"The power of the Mega Stone gives
+Manectric,310,Mega-Manectric,Mega,Mega,,Discharge Pokémon,"The power of the Mega Stone gives
 it an insurmountable amount of
 electricity that gives it an explosive
 velocity, but it is too much for it to
@@ -2630,7 +2630,7 @@ really angry, otherwise they’d only
 erupt every 10 years. Camerupts
 live inside the craters of volcanoes.
 They are indifferent to humans.",
-Mega,323,Camerupt,Mega,,,Eruption Pokémon,"The power of the Mega Stone melts
+Camerupt,323,Mega-Camerupt,Mega,Mega,,Eruption Pokémon,"The power of the Mega Stone melts
 its two humps into a single one.
 The single hump is heavier making
 it slower, but its newly renewed
@@ -2707,7 +2707,7 @@ voices, evoking wonder, beauty and
 dreams to the listeners. They live far
 away from people and throw colorful
 fireballs at uninvited guests.",
-Mega,334,Altaria,Mega,,,Humming Pokémon,"The power of the Mega Stone
+Altaria,334,Mega-Altaria,Mega,Mega,,Humming Pokémon,"The power of the Mega Stone
 awakens a part of it full of wonder.
 Mega-Alatarias can be benevolent
 or ruthless depending on who they
@@ -2846,7 +2846,7 @@ and is overrun by the desire of
 revenge towards the kid that threw
 the toy away. If you open its mouth,
 all the cursed energy will escape.",
-Mega,354,Banette,Mega,,,Marionette Pokémon,"The power of the Mega Stone rips
+Banette,354,Mega-Banette,Mega,Mega,,Marionette Pokémon,"The power of the Mega Stone rips
 the layer keeping all the cursed
 energy in. Its vindictive nature is so
 overwhelming that it can’t help but
@@ -2897,7 +2897,7 @@ Whenever one is seen, a disaster is
 soon to follow - earthquakes, forest
 fires and tidal waves. Absols lead a
 lonely life.",
-Mega,359,Absol,Mega,,,Disaster Pokémon,"The power of the Mega Stone
+Absol,359,Mega-Absol,Mega,Mega,,Disaster Pokémon,"The power of the Mega Stone
 makes its fur elongate. What you
 see are not wings, just puffs of hair.
 It gets distressed by this form and
@@ -2916,7 +2916,7 @@ aggressive if provoked. When they
 hunt, they freeze their prey solid
 before eating it. They can live in
 warm places without trouble.",
-Mega,362,Glalie,Mega,,,Face Pokémon,"The power of the Mega Stone bent
+Glalie,362,Mega-Glalie,Mega,Mega,,Face Pokémon,"The power of the Mega Stone bent
 its jaw at an unnatural angle, this
 helps it spew enormous blizzards
 but leaves it unable to eat any prey
@@ -2997,7 +2997,7 @@ Salamence, however, is extremely
 dangerous, it scorches entire fields
 and mountains. It’s easily angered
 and completely uncontrollable.",
-Mega,373,Salamence,Mega,,,Dragon Pokémon,"The power of the Mega Stone gives
+Salamence,373,Mega-Salamence,Mega,Mega,,Dragon Pokémon,"The power of the Mega Stone gives
 it the nickname “The blood-soaked
 Crescent”. It is violent and very
 unpredictable, even turning on
@@ -3022,7 +3022,7 @@ computer. It pins its prey under its
 massive body, then eats it using
 the large mouth on its stomach. A
 powerful and ruthless Pokémon.",
-Mega,376,Metagross,Mega,,,Iron Leg Pokémon,"The power of the Mega Stone
+Metagross,376,Mega-Metagross,Mega,Mega,,Iron Leg Pokémon,"The power of the Mega Stone
 made its four minds combine. It is
 now a merciless machine-like beast.
 If it calculates its chances to win are
@@ -3052,7 +3052,7 @@ psychic powers and become invisible.
 They were raised by an old couple as
 their own children. The little girl had a
 red dress.",
-Mega,380,Latias,Mega,,,No Data,"Latias is very in sync with human
+Latias,380,Mega-Latias,Mega,Mega,,No Data,"Latias is very in sync with human
 emotions, it can communicate using
 telepathy. With the power of the
 Mega Stone all of its capabilities are
@@ -3065,7 +3065,7 @@ psychic powers and become invisible.
 They were raised by an old couple
 as their own children. The boy was
 the oldest and wore a blue shirt.",
-Mega,381,Latios,Mega,,,No Data,"Latios is very in sync with human
+Latios,381,Mega-Latios,Mega,Mega,,No Data,"Latios is very in sync with human
 logic, it can communicate using
 telepathy. With the power of the
 Mega Stone all of its capabilities are
@@ -3102,7 +3102,7 @@ in the outer layer of this world. It
 came to end the quarrel between
 Groudon and Kyogre, granted the
 world with blue skies and then left.",
-Mega,384,Rayquaza,Mega,,,No Data,"What does the power of the
+Rayquaza,384,Mega-Rayquaza,Mega,Mega,,No Data,"What does the power of the
 Mega Stone truly entail? Is it the
 bond between a Trainer and their
 companion?
@@ -3403,7 +3403,7 @@ danger. If they are touched roughly,
 they throw kicks and jump away.
 Keep the fur it sheds as it’s highly
 valued to make quality yarn.",
-Mega,428,Lopunny,Mega,,,Rabbit Pokémon,"The power of the Mega Stone
+Lopunny,428,Mega-Lopunny,Mega,Mega,,Rabbit Pokémon,"The power of the Mega Stone
 awakens its combative nature.
 Most of its fur is lost due to constant
 fighting, even its ears are used as
@@ -3481,7 +3481,7 @@ and uses its fins to fly extremely
 fast at low heights. Territorial and
 aggressive it will not rest until it
 catches any daring trespasser.",
-Mega,445,Garchomp,Mega,,,Mach Pokémon,"The excess of power from the Mega
+Garchomp,445,Mega-Garchomp,Mega,Mega,,Mach Pokémon,"The excess of power from the Mega
 Stone melted its fins and claws
 together forming sharp, dangerous
 scythes. If its disposition was already
@@ -3500,7 +3500,7 @@ not only see the auras but also to
 transform them into energy. It is
 also capable of understanding
 human speech.",
-Mega,448,Lucario,Mega,,,Aura Pokémon,"The explosive, pulsing energy of the
+Lucario,448,Mega-Lucario,Mega,Mega,,Aura Pokémon,"The explosive, pulsing energy of the
 auras and the Mega Stone have
 awoken its combative instincts.
 Its fighting style can be summed up
@@ -3577,7 +3577,7 @@ Ice Monster”. Now we know it is a
 Pokémon that can cover everything
 around with deep snow. It likes quiet
 places and only attacks if provoked.",
-Mega,460,Abomasnow,Mega,,,Frosted Tree Pokémon,"The power of the Mega Stone
+Abomasnow,460,Mega-Abomasnow,Mega,Mega,,Frosted Tree Pokémon,"The power of the Mega Stone
 freezes part of its body creating
 pointy icicles that hail upon its
 enemies in a blizzard. The angrier it
@@ -3952,7 +3952,7 @@ know the health state of others.
 It is a caring Pokémon with a sweet
 disposition to help, but it is not too
 common to see in the wild.",
-Mega,531,Audino,Mega,,,Hearing Pokémon,"The power of the Mega Stone
+Audino,531,Mega-Audino,Mega,Mega,,Hearing Pokémon,"The power of the Mega Stone
 increases the purity of this Pokémon,
 revealing its Fairy type. It is so caring
 and protective of its trainer that it can
@@ -5279,7 +5279,7 @@ root,719,Diancie,,,,Registered as #703 Carbink,"The popular saying goes like thi
 you will get a Diamond”
 But it surely was not referring to a
 Pokémon... or was it?",
-Mega,719,Diancie,Mega,,,Registered as #703 Carbink,"The popular saying goes like this:
+Diancie,719,Mega-Diancie,Mega,Mega,,Registered as #703 Carbink,"The popular saying goes like this:
 “If you put a Carbon under pressure
 you will get a Diamond”
 But it surely was not referring to a
