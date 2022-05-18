@@ -76,8 +76,8 @@ namespace Pokerole.Tools.InitUpdate
 			data.Images.AddRange(ReadPrimaryImages());
 			data.Images.AddRange(ReadDexImages());
 			GcStockImages();
-			var evoData = ReadDescriptionsAndEvoInfo();
-			ReadEvolutionTrees(evoData);
+			ReadDescriptionsAndEvoTrees();
+			//ReadEvolutionTrees(evoData);
 
 
 			//this one likes to take time... so do it last. Would shove it in a different thread, but that slows
@@ -2547,11 +2547,11 @@ namespace Pokerole.Tools.InitUpdate
 			}
 		}
 
-		private List<(DexEntry.Builder entry, String kind, String value)> ReadDescriptionsAndEvoInfo()
+		private void ReadDescriptionsAndEvoTrees()
 		{
 			List<(DexEntry.Builder entry, String kind, String value)> result = new List<(DexEntry.Builder entry,
 				string kind, string value)>(data.DexEntries.Count / 3);
-			String inputPath = Path.Combine(processedInputs, "Pokemon_data_Entry.tsv");
+			String inputPath = Path.Combine(processedInputs, "Pokemon_data_Entry - Output.csv");
 			HashSet<DexEntry.Builder> remaining = data.DexEntries.Where(ValidPredicate).ToHashSet();
 			var byDexNum = data.DexEntries.Where(ValidPredicate).ToLookup(item => item.DexNum.GetValueOrDefault());
 			if (byDexNum[0].Count() > 0)
@@ -2570,13 +2570,187 @@ namespace Pokerole.Tools.InitUpdate
 					return "\n";
 				});
 			}
+			bool first = true;
+			List<List<(String evolvedFrom, int dexNum, String name, String variant, String evolutionKind,
+				String evolutionJson, String category, String description, String issue)>> dataChunks =
+				new List<List<(string, int, string, string, string, string, string, string, string)>>();
+			//parse dat
+			using (TextFieldParser tsvParser = new TextFieldParser(inputPath))
+			{
+				List<(String evolvedFrom, int dexNum, String name, String variant, String evolutionKind,
+					String evolutionJson, String category, String description, String issue)> chunk =
+					new List<(string, int, string, string, string, string, string, string, string)>();
+				//stupid Google Docs can't export a tsv without losing line returns...
+				tsvParser.SetDelimiters(new string[] { "," });
+				tsvParser.HasFieldsEnclosedInQuotes = true;
+				while (!tsvParser.EndOfData)
+				{
+					String[] fields = tsvParser.ReadFields();
+					//skip the header
+					if (first)
+					{
+						first = false;
+						continue;
+					}
+					if (String.IsNullOrWhiteSpace(fields[0]))
+					{
+						//empty line
+						//make a copy of the chunk
+						dataChunks.Add(chunk.ToList());
+						chunk.Clear();
+						continue;
+					}
+					(String evolvedFrom, int dexNum, String name, String variant, String evolutionKind,
+						String evolutionJson, String category, String description, String issue) item;
+					item.evolvedFrom = fields[0];
+					item.dexNum = int.Parse(fields[1]);
+					item.name = fields[2];
+					item.variant = fields[3];
+					item.evolutionKind = fields[4];
+					item.evolutionJson = fields[5];
+					item.category = fields[6];
+					item.description = FixDescription(fields[7]);
+					item.issue = fields[8];
+					chunk.Add(item);
+				}
+				dataChunks.Add(chunk);
+			}
+			//read baby list
+			Dictionary<int, (int resultWithoutItem, String? babyItem, int adult1, int adult2, int adult3)>
+				babyList = new Dictionary<int, (int resultWithoutItem, string? babyItem, int adult1, int adult2, int adult3)>();
+			first = true;
+			foreach (String line in File.ReadLines(Path.Combine(processedInputs, "Babu Dex - Sheet1.tsv")))
+			{
+				if (first)
+				{
+					//skip the header
+					first = false;
+					continue;
+				}
+				String[] parts = line.Split('\t');
+				int babyDex = int.Parse(parts[0]);
+				if (!int.TryParse(parts[1], out int resultWithoutItem))
+				{
+					resultWithoutItem = -1;
+				}
+				String? breedItem = parts[2];
+				if (String.IsNullOrEmpty(breedItem))
+				{
+					breedItem = null;
+				}
+				int adult1 = int.Parse(parts[3]);
+				if (!int.TryParse(parts[4], out int adult2))
+				{
+					adult2 = -1;
+				}
+				if (!int.TryParse(parts[4], out int adult3))
+				{
+					adult3 = -1;
+				}
+				babyList.Add(babyDex, (resultWithoutItem, breedItem, adult1, adult2, adult3));
+			}
+			//process the chunks
+			DexEntry.Builder Lookup((String evolvedFrom, int dexNum, String name, String variant, String evolutionKind,
+				String evolutionJson, String category, String description, String issue) entry)
+			{
+				String name = entry.name;
+				if (!String.IsNullOrEmpty(entry.variant) && !entry.variant.StartsWith("Mega"))
+				{
+					name = $"{entry.variant} {name}";
+					
+				}
+				return monByName[name];
+			}
+			foreach (var chunk in dataChunks)
+			{
+				if (chunk[0].evolvedFrom != "root")
+				{
+					throw new InvalidOperationException("Chunk started with a non-root entry");
+				}
+				var entries = chunk.Select(Lookup).ToList();
+				if (entries.Count == 1)
+				{
+					//no tree. Not even megas
+					entries[0].Category = chunk[0].category;
+					entries[0].DexDescription = chunk[0].description;
+					continue;
+				}
+
+				var root = entries[0];
+				EvolutionTree.Builder tree = new EvolutionTree.Builder();
+				tree.Name = $"{root.Name} Line";
+				tree.Root = root.ItemReference;
+				switch (root.DexNum!.Value)
+				{
+					case 29: //Nidoran F
+					case 33: //Nidoran M
+					case 313: //Volbeat
+					case 314: //Illumise
+					{
+						bool isMale = root.DexNum == 29 || root.DexNum == 313;
+						int counterPart = root.DexNum < 300 ?
+							//Nidoran M+F
+							(isMale ? 29 : 33) :
+							//bugs
+							(isMale ? 314 : 313);
+						tree.BreedCounterpart = data.DexEntries.Where(ValidPredicate).First(item => item.DexNum ==
+							counterPart).ItemReference;
+						break;
+					}
+				}
+				if (babyList.TryGetValue(root.DexNum!.Value, out var babyVals))
+				{
+					root.IsBaby = true;
+					var (resultWithoutItem, babyItem, adult1, adult2, adult3) = babyVals;
+					if (babyItem != null)
+					{
+						if (resultWithoutItem < 1)
+						{
+							throw new InvalidOperationException("Item specified without alt root!");
+						}
+						tree.BabyEvolutionItem = new ItemReference<Item>(default, babyItem);
+						tree.NonBabyRoot = data.DexEntries.Where(ValidPredicate).First(item =>
+								item.DexNum == resultWithoutItem).ItemReference;
+					}
+				}
+				//add discription
+				root.Category = chunk[0].category;
+				root.DexDescription = chunk[0].description;
+				String[] names = chunk.Select(item => item.name).ToArray();
+				//loop through the reamaining entries
+				for (int i = 1; i < entries.Count; i++)
+				{
+					var item = chunk[i];
+					var entry = entries[i];
+					entry.Category = item.category;
+					entry.DexDescription = item.description;
+					var treeEntry = new EvolutionEntry.Builder();
+					//Mr.Mime's evolution forks by region we need to handle that here...
+					if (item.dexNum == 866)
+					{
+						//Mr. Rime
+						treeEntry.From = monByName["Galarian Mr. Mime"].ItemReference;
+					}
+					else
+					{
+						//it is generally the previous entry, but we can't be sure everywhere... Like eevee...
+						int j = Array.IndexOf(names, item.evolvedFrom);
+						treeEntry.From = entries[j].ItemReference;
+					}
+					treeEntry.To = entry.ItemReference;
+					treeEntry.Details = item.evolutionJson;
+					treeEntry.Kind = ParseEnum<EvolutionKind>(item.evolutionKind);
+					tree.EvolutionEntries.Add(treeEntry.Build());
+				}
+				data.EvolutionTrees.Add(tree);
+			}
 
 			using (TextFieldParser tsvParser = new TextFieldParser(inputPath))
 			{
 				//stupid Google Docs can't export a tsv without losing line returns...
 				tsvParser.SetDelimiters(new string[] { "," });
 				tsvParser.HasFieldsEnclosedInQuotes = true;
-				bool first = true;
+				first = true;
 				while (!tsvParser.EndOfData)
 				{
 					String[] fields = tsvParser.ReadFields();
@@ -2704,7 +2878,6 @@ namespace Pokerole.Tools.InitUpdate
 			{
 				throw new InvalidOperationException();
 			}
-			return result;
 		}
 		private void ReadEvolutionTrees(List<(DexEntry.Builder, String kind, String value)> evolutionCauses)
 		{
@@ -2747,54 +2920,6 @@ namespace Pokerole.Tools.InitUpdate
 				}
 			}
 			var byRoot = rawList.ToLookup(item => item.root, (item) => (item.from, item.to, item.misc));
-			//read baby list
-			Dictionary<int, (int resultWithoutItem, String? babyItem, int adult1, int adult2, int adult3)>
-				babyList = new Dictionary<int, (int resultWithoutItem, string? babyItem, int adult1, int adult2, int adult3)>();
-			foreach (String line in File.ReadLines(Path.Combine(processedInputs, "Babu Dex - Sheet1.tsv")))
-			{
-				String[] parts = line.Split('\t');
-				int babyDex = int.Parse(parts[0]);
-				if (!int.TryParse(parts[1], out int resultWithoutItem))
-				{
-					resultWithoutItem = -1;
-				}
-				String? breedItem = parts[2];
-				if (String.IsNullOrEmpty(breedItem))
-				{
-					breedItem = null;
-				}
-				int adult1 = int.Parse(parts[3]);
-				if (!int.TryParse(parts[4], out int adult2))
-				{
-					adult2 = -1;
-				}
-				if (!int.TryParse(parts[4], out int adult3))
-				{
-					adult3 = -1;
-				}
-				babyList.Add(babyDex, (resultWithoutItem, breedItem, adult1, adult2, adult3));
-			}
-			foreach (var items in byRoot)
-			{
-				var root = items.Key;
-				EvolutionTree.Builder tree = new EvolutionTree.Builder();
-				tree.Name = $"{root.Name} Line";
-				tree.Root = root.ItemReference;
-				if (babyList.TryGetValue(root.DexNum!.Value, out var babyVals)) {
-					root.IsBaby = true;
-					var (resultWithoutItem, babyItem, adult1, adult2, adult3) = babyVals;
-					if (babyItem != null)
-					{
-						if (resultWithoutItem < 1)
-						{
-							throw new InvalidOperationException("Item specified without alt root!");
-						}
-						tree.BabyEvolutionItem = new ItemReference<Item>(default, babyItem);
-						tree.NonBabyRoot = data.DexEntries.Where(ValidPredicate).First(item =>
-								item.DexNum == resultWithoutItem).ItemReference;
-					}
-				}
-			}
 			throw new NotImplementedException();
 
 

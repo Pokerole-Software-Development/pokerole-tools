@@ -35,7 +35,14 @@ namespace Pokerole.Core
 	}
 	public enum EvolutionKind
 	{
-		Invalid
+		None,
+		Level,
+		Mega,
+		Stat,
+		Stone,
+		Trade,
+		Special,
+		Item
 	}
 	public enum RivalBackground
 	{

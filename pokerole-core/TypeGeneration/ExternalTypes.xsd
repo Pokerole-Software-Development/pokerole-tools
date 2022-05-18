@@ -205,9 +205,14 @@
 	</xs:simpleType>
 	<xs:simpleType name="EvolutionKind" final="restriction">
 		<xs:restriction base="xs:NMTOKEN">
-			<xs:enumeration value="Invalid"/>
-			<!--<xs:enumeration value="Uncommon"/>
-			<xs:enumeration value="Rare"/>-->
+			<xs:enumeration value="None"/>
+			<xs:enumeration value="Level"/>
+			<xs:enumeration value="Mega"/>
+			<xs:enumeration value="Stat"/>
+			<xs:enumeration value="Stone"/>
+			<xs:enumeration value="Trade"/>
+			<xs:enumeration value="Special"/>
+			<xs:enumeration value="Item"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="RivalBackground" final="restriction">
