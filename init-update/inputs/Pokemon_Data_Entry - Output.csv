@@ -2260,13 +2260,13 @@ years, creating terrible wind storms.
 It is said they can read people’s
 minds to prey on their fears.",
 ,,,,,,,,
-root,276,Tailow,,,,Tiny Swallow Pokémon,"They are brave and noble, facing
+root,276,Taillow,,,,Tiny Swallow Pokémon,"They are brave and noble, facing
 bigger foes whoever they might be.
 However, being just a child, it usually
 feels lonely and cries at night. They
 can be seen migrating south in the
 winter.",
-Tailow,277,Swellow,,Level,"{ speed : ""Medium"" }",Swallow Pokémon,"They are vain Pokémon, acting with
+Taillow,277,Swellow,,Level,"{ speed : ""Medium"" }",Swallow Pokémon,"They are vain Pokémon, acting with
 grace and elegance. Swellows are
 seen circling the skies looking for
 prey. They can be incredibly fast.
@@ -2598,7 +2598,7 @@ and gangster attitude. They hurt
 Pokémon for fun and sink boats for
 sport. Sharpedos are among the
 fastest swimmers.",
-Sharpedo,319,Sharpedo,,,,Brutal Pokémon,"As soon as it feels the power of the
+Sharpedo,319,Mega-Sharpedo,,Mega,,Brutal Pokémon,"As soon as it feels the power of the
 Mega Stone surge through its body,
 its mind goes blank with fury and
 violence. Its sharp spikes and teeth
@@ -2748,7 +2748,7 @@ mud with only their whiskers
 exposed, waiting for prey to come. If
 the mud dries, they move back into
 the water.",
-Barboach,340,Wishcash,,Level,"{ speed : ""Medium"" }",Whiskers Pokémon,"Dangerous and territorial, they claim
+Barboach,340,Whiscash,,Level,"{ speed : ""Medium"" }",Whiskers Pokémon,"Dangerous and territorial, they claim
 entire ponds as their homes and will
 crush whoever dares to dive in with
 earthquakes. They eat anything
@@ -3077,7 +3077,7 @@ as the God that expanded the
 seas and oceans with torrential
 waters and huge tidal waves. It is
 the mortal enemy of Groudon.",
-Primal,382,Kyogre,Primal,,,No Data,"Millions of years ago chaos reigned.
+Kyogre,382,Primal Kyogre,,Form,,No Data,"Millions of years ago chaos reigned.
 Neverending typhoons drowning all
 life under unforgiving waters.
 Who was so sad and hurt in the
@@ -3090,7 +3090,7 @@ volcanoes and continents. Any
 water or clouds evaporate in its
 presence. It is the mortal enemy of
 Kyogre.",
-Primal,383,Groudon,Primal,,,No Data,"Millions of years ago chaos reigned.
+Groudon,383,Primal Groudon,,Form,,No Data,"Millions of years ago chaos reigned.
 Volcanoes erupting without control,
 and unbearable heat made all life
 dry out. Who was so angry inside the
@@ -3122,19 +3122,19 @@ ship’s crew mentioned a creature
 attacking them inside their ship.
 They all gave different descriptions
 of said creature.",
-Attack,386,Deoxys,Attack,,,No Data,"The main engineer of the space crew
+Deoxys,386,Attack Deoxys,Attack,,,No Data,"The main engineer of the space crew
 reported a tentacled creature that
 ripped with ease through the thick
 metal hull of the ship to escape. The
 ship was recovered and was indeed
 torn in two sections.",
-Defense,386,Deoxys,Defense,,,No Data,"One member of the space crew
+Deoxys,386,Defense Deoxys,Defense,,,No Data,"One member of the space crew
 mentioned a broad creature that
 could reflect their weapon’s attacks
 back at them.
 There was an explosion and the
 creature left, unscathed.",
-Speed,386,Deoxys,Speed,,,No Data,"The First officer mentioned a slim
+Deoxys,386,Speed Deoxys,Speed,,,No Data,"The First officer mentioned a slim
 creature that moved too fast
 for the radar to register and the
 eye to see. She saw it for a split
@@ -5291,7 +5291,7 @@ by a spell. The spell was a partial
 success as the demon could still
 roam free, but its power and evil
 was greatly diminished.",
-Hoopa,720,Hoopa,Unbound,,,No Data,"There is a story of an old demon
+Hoopa,720,Hoopa Unbound,Unbound,,,No Data,"There is a story of an old demon
 whose power unleashed horrors
 from other dimensions into earth,
 ripping the fabrics of existence, it

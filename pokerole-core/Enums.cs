@@ -42,7 +42,8 @@ namespace Pokerole.Core
 		Stone,
 		Trade,
 		Special,
-		Item
+		Item,
+		Form
 	}
 	public enum RivalBackground
 	{

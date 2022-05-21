@@ -2656,9 +2656,17 @@ namespace Pokerole.Tools.InitUpdate
 				String name = entry.name;
 				if (!String.IsNullOrEmpty(entry.variant) && !entry.variant.StartsWith("Mega"))
 				{
-					name = $"{entry.variant} {name}";
-					
+					if (entry.dexNum != 479)
+					{
+						name = $"{entry.variant} {name}";
+					}
+					//rotom goes the other way
+					else
+					{
+						name = $"{name} {entry.variant}";
+					}
 				}
+				name = name.Replace("é", "e");//backing dict doesn't have accents
 				return monByName[name];
 			}
 			foreach (var chunk in dataChunks)

@@ -213,6 +213,7 @@
 			<xs:enumeration value="Trade"/>
 			<xs:enumeration value="Special"/>
 			<xs:enumeration value="Item"/>
+			<xs:enumeration value="Form"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="RivalBackground" final="restriction">
