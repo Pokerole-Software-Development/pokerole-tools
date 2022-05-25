@@ -2656,14 +2656,14 @@ namespace Pokerole.Tools.InitUpdate
 				String name = entry.name;
 				if (!String.IsNullOrEmpty(entry.variant) && !entry.variant.StartsWith("Mega"))
 				{
-					if (entry.dexNum != 479)
-					{
-						name = $"{entry.variant} {name}";
-					}
-					//rotom goes the other way
-					else
+					//rotom, Zygard, Hoopa, and Oricorio go the other way
+					if (entry.dexNum is 479 or 718 or 720 or 741)
 					{
 						name = $"{name} {entry.variant}";
+					}
+					else
+					{
+						name = $"{entry.variant} {name}";
 					}
 				}
 				name = name.Replace("é", "e");//backing dict doesn't have accents

@@ -3122,19 +3122,19 @@ ship’s crew mentioned a creature
 attacking them inside their ship.
 They all gave different descriptions
 of said creature.",
-Deoxys,386,Attack Deoxys,Attack,,,No Data,"The main engineer of the space crew
+Deoxys,386,Deoxys,Attack,Form,,No Data,"The main engineer of the space crew
 reported a tentacled creature that
 ripped with ease through the thick
 metal hull of the ship to escape. The
 ship was recovered and was indeed
 torn in two sections.",
-Deoxys,386,Defense Deoxys,Defense,,,No Data,"One member of the space crew
+Deoxys,386,Deoxys,Defense,Form,,No Data,"One member of the space crew
 mentioned a broad creature that
 could reflect their weapon’s attacks
 back at them.
 There was an explosion and the
 creature left, unscathed.",
-Deoxys,386,Speed Deoxys,Speed,,,No Data,"The First officer mentioned a slim
+Deoxys,386,Deoxys,Speed,Form,,No Data,"The First officer mentioned a slim
 creature that moved too fast
 for the radar to register and the
 eye to see. She saw it for a split
@@ -3416,7 +3416,7 @@ nature, purring in happiness one
 second, then hooking its claws
 into its trainer’s nose. It loves to be
 admired and pampered.",
-Glameow,432,Purgugly,,Level,"{ speed : ""Medium"" }",Tiger Cat Pokémon,"It becomes wilder and aggressive
+Glameow,432,Purugly,,Level,"{ speed : ""Medium"" }",Tiger Cat Pokémon,"It becomes wilder and aggressive
 after evolving. It is known to claim
 other Pokémon nests as its own.
 It will make itself appear bigger and
@@ -3590,36 +3590,36 @@ of them in order to cause mischief.
 It changes its form to that of the
 electric appliance, allowing it to
 become more powerful.",
-Heat,479,Rotom,Heat,,,Plasma Pokémon,"A Microwave possessed by a Rotom.
+Rotom,479,Rotom,Heat,Form,,Plasma Pokémon,"A Microwave possessed by a Rotom.
 It uses Fire powers and burns the
 food of unsuspecting people.
 While on this form it can use the
 move: Overheat.",
-Fan,479,Rotom,Fan,,,Plasma Pokémon,"A Desk fan possessed by a Rotom.
+Rotom,479,Rotom,Fan,Form,,Plasma Pokémon,"A Desk fan possessed by a Rotom.
 It uses Wind powers and scatters
 everything around with terrible air
 Currents.
 While on this form it can use the
 move: Air Slash.",
-Mow,479,Rotom,Mow,,,Plasma Pokémon,"A Lawnmower possessed by a
+Rotom,479,Rotom,Mow,Form,,Plasma Pokémon,"A Lawnmower possessed by a
 Rotom. It uses Grass powers, mows
 awful patterns on the grass and
 chases people with the blades out.
 While on this form it can use the
 move: Leaf Storm.",
-Frost,479,Rotom,Frost,,,Plasma Pokémon,"A refrigerator possessed by a Rotom.
+Rotom,479,Rotom,Frost,Form,,Plasma Pokémon,"A refrigerator possessed by a Rotom.
 It uses Ice powers, traps people
 inside and freezes them in solid ice
 blocks.
 While on this form it can use the
 move: Blizzard.",
-Wash,479,Rotom,Wash,,,Plasma Pokémon,"A Washing machine possessed by
+Rotom,479,Rotom,Wash,Form,,Plasma Pokémon,"A Washing machine possessed by
 a Rotom. It uses Water powers
 and floods the houses with torrents
 of water.
 While on this form it can use the
 move: Hydro Pump.",
-Dex,479,Rotom,Dex,,,Plasma Pokémon,"A Pokédex possessed by a Rotom,
+Rotom,479,Rotom,Dex,Form,,Plasma Pokémon,"A Pokédex possessed by a Rotom,
 it has access to all the information
 inside the computer and uses the
 sounds to emulate speech.
@@ -3668,7 +3668,7 @@ mountain with its grip and mold
 living titans from the rubble.",
 ,,,,,,,,
 root,487,Giratina,,,,Plot Device,Plot Device,
-Giratina,487,Giratina,Origin,,,Plot Device,Plot Device,
+Giratina,487,Giratina,Origin,Form,,Plot Device,Plot Device,
 ,,,,,,,,
 root,488,Cresselia,,,,No Data,"The embodiment of dreams comes
 to life during the crescent moon
@@ -3875,13 +3875,13 @@ and they often gather in the parks.
 They are forgetful and not very
 smart, but they always remember
 the way back home.",
-Pidove,520,Tranquil,,Level,"{ speed : ""Medium"" }",Wild Pigeon Pokémon,"During war and old times people
+Pidove,520,Tranquill,,Level,"{ speed : ""Medium"" }",Wild Pigeon Pokémon,"During war and old times people
 made use of Tranquil’s sense of
 location to send letters. It will never
 fail to find it’s way back home. They
 like quiet forests and enjoy to relax
 in the peace and quiet.",
-Tranquil,521,Unfezant,,Level,"{ speed : ""Medium"" }",Proud Pokémon,"Males swing the beautiful plumage
+Tranquill,521,Unfezant,,Level,"{ speed : ""Medium"" }",Proud Pokémon,"Males swing the beautiful plumage
 on their heads to threaten others
 and to court females. Although less
 visually appealing, females are better
@@ -4036,13 +4036,13 @@ front and back to locate things
 around. Its bite injects a potent
 venom, enough to deter the large
 bird Pokémon that try to prey on it.",
-Venipede,544,Whirlpede,,Level,"{ speed : ""Medium"" }",Curlipede Pokémon,"It is usually motionless, when it is
+Venipede,544,Whirlipede,,Level,"{ speed : ""Medium"" }",Curlipede Pokémon,"It is usually motionless, when it is
 attacked, it rotates at high speed
 and then crashes into its opponent
 with its body full of poison spikes.
 Inside it is storing energy for evolving,
 which normally takes a few months.",
-Whirlpede,545,Scolipede,,Level,"{ speed : ""Medium"" }",Megapede Pokémon,"Highly aggressive, it uses the claws
+Whirlipede,545,Scolipede,,Level,"{ speed : ""Medium"" }",Megapede Pokémon,"Highly aggressive, it uses the claws
 on its neck to immobilize its prey
 and then inject them with poison
 to finish them off. Be very careful
@@ -4068,7 +4068,7 @@ known to be good for growing
 plants. The leaves on its head can
 be used for medicinal purposes, but
 they are extra bitter.",
-Petilil,549,Liligant,,Stone,"{ item : ""Sun Stone"" }",Flowering Pokémon,"Even veteran gardeners face a
+Petilil,549,Lilligant,,Stone,"{ item : ""Sun Stone"" }",Flowering Pokémon,"Even veteran gardeners face a
 challenge in getting its beautiful
 flower to bloom as it withers with
 ease. This Pokémon is popular
@@ -4113,7 +4113,7 @@ describe it as being blue and using
 psychic powers, but years of study
 have not seen those traits on this
 Pokémon that relies on brute force.",
-Darmanitan,555,Darmanitan,Zen Mode,,,Blazing Pokémon,"Apparently this Darmanitan just
+Darmanitan,555,Darmanitan,Zen,Form,,Blazing Pokémon,"Apparently this Darmanitan just
 became a statue after receiving a
 lot of damage. It remained immobile,
 but as soon as it’s health recovered
@@ -4131,7 +4131,7 @@ They walk into towns during the
 blizzards to steal food.
 Darmanitans seem mean, but they
 are gentle and shy.",
-Darmanitan,555,Darmanitan,"Galarian, Zen Mode",,,Zen Charm Pokémon (Galarian),"Zen Charm Pokémon (Galarian)
+Darmanitan,555,Darmanitan,Galarian Zen,Form,,Zen Charm Pokémon (Galarian),"Zen Charm Pokémon (Galarian)
 When Darmanitan gets angry 
 atrophied fire core is reignited, This
 Pokémon breathes fire and 
@@ -4720,7 +4720,7 @@ leave houses and buildings in ruins.
 Some people claim a Pokémon riding
 the winds is responsible for all the
 devastation.",
-Tornadus,641,Tornadus,Therian,,,No Data,"Some Pokémon reveal their true
+Tornadus,641,Tornadus,Form,Form,,No Data,"Some Pokémon reveal their true
 forms after recovering power lost to
 them. Great forces of nature can
 help them recover their strength
@@ -4733,7 +4733,7 @@ fires are always the result of a giant
 thunder storm. Forest rangers tell
 about a blue demon’s shadow that
 was inside the storm clouds.",
-Thundurus,642,Thundurus,Therian,,,No Data,"Some Pokémon reveal their true
+Thundurus,642,Thundurus,Form,Form,,No Data,"Some Pokémon reveal their true
 forms after recovering power lost to
 them. Great forces of nature can
 help them recover their strength
@@ -4759,7 +4759,7 @@ places who suffer them are left with
 a plentiful harvest that year. Feared
 by some, revered by others who
 claim to have seen it.",
-Landorus,645,Landorus,Therian,,,No Data,"Some Pokémon reveal their true
+Landorus,645,Landorus,Form,Form,,No Data,"Some Pokémon reveal their true
 forms after recovering power lost to
 them. Great forces of nature can
 help them recover their strength
@@ -4772,13 +4772,13 @@ depict a giant dragon being thorn
 apart into a black and white shards
 Of the rest of the picture only
 shattered fragments of ice remain.",
-Kyurem,646,Kyurem,Black,,,No Data,"In the Icy mountains at the east of
+Kyurem,646,Kyurem,Black,Form,,No Data,"In the Icy mountains at the east of
 Unova, you can hear the wails of a
 creature suffering as if it missed a
 part of its very soul.
 Dark clouds and lightning are sure
 to follow.",
-Kyurem,646,Kyurem,White,,,No Data,"In the Icy mountains at the west of
+Kyurem,646,Kyurem,White,Form,,No Data,"In the Icy mountains at the west of
 Unova, you can hear the wails of a
 creature suffering as if it missed a
 part of its very soul.
@@ -4791,7 +4791,7 @@ the land to a golden age. The
 young of the group was brave and
 naive. It could gallop on the water
 surface leaving a rainbow behind.",
-Keldeo,647,Keldeo,Resolute,,,No Data,"The old fairy tale ends with the
+Keldeo,647,Keldeo,Form,Form,,No Data,"The old fairy tale ends with the
 youngest Pokémon rising above evil
 and injustice due to its resolute and
 determined desire for justice. The
@@ -4802,7 +4802,7 @@ root,648,Meloetta,,,,No Data,"There are old songs about a beautiful
 Pokémon that inspired the hearts
 of artists through its graceful dance
 and singing.",
-Meloetta,648,Meloetta,Pirouette,,,No Data,"There are old songs about a beautiful
+Meloetta,648,Meloetta,Form,Form,,No Data,"There are old songs about a beautiful
 Pokémon that inspired the hearts
 of artists through its graceful dance
 and singing.",
@@ -4870,7 +4870,7 @@ swift movements, then slices them
 with throwing sharp water stars.
 If it was not properly disciplined, it will
 never listen any master.",
-Frogadier,658,Greninja,BBF,,,Ninja Pokémon,"The mysteries of the Pokémon world
+Frogadier,658,Greninja,BBF,Form,,Ninja Pokémon,"The mysteries of the Pokémon world
 are vast. There is something called
 “The Bond Phenomenon” were
 a Pokémon and its trainer share
@@ -5024,7 +5024,7 @@ A crushing grip can be felt on the
 arm of the wielder.
 While in this form it can only use
 Support moves.",
-Aegislash,681,Aegislash,Sword Form,,,Royal Sword Pokémon,"Those who wield this sword hear
+Aegislash,681,Aegislash,Form,Form,,Royal Sword Pokémon,"Those who wield this sword hear
 whispers of bloodlust and power.
 This cursed sword has the souls of
 those who fell by its blade.
@@ -5259,20 +5259,20 @@ The main tale is about a King full of
 grief and hate who built a doomsday
 machine to kill everyone in the world.",
 ,,,,,,,,
-root,718,Zygarde,Core/Cell,,,No Data,"Only the the cores react to stimuli,
+root,718,Zygarde,Cell,,,No Data,"Only the the cores react to stimuli,
 the cells remain mostly inanimate.
 They gather in great numbers to
 create and strengthen Zygarde.",
-Core/Cell,718,Zygarde,10%,Special,"{ item : ""Zyguarde cells"" }",No Data,"When 10% of the Zygarde Cells
+Zygarde,718,Zygarde,10%,Special,"{ item : ""Zyguarde cells"" }",No Data,"When 10% of the Zygarde Cells
 gather, they form this Pokémon, the
 more cells it gathers the more its
 strength will increase.",
-Core/Cell,718,Zygarde,50%,Special,"{ item : ""Zyguarde cells"" }",No Data,"Underground tunnels have been
+Zygarde,718,Zygarde,50%,Special,"{ item : ""Zyguarde cells"" }",No Data,"Underground tunnels have been
 found all over the Kalos Region.
 There are rumors of a creature who
 lives in them that attacks people
 damaging the ecosystem.",
-Core/Cell,718,Zygarde,100%,Special,"{ item : ""Zyguarde cells"" }",No Data,The complete form of Zygarde,
+Zygarde,718,Zygarde,100%,Special,"{ item : ""Zyguarde cells"" }",No Data,The complete form of Zygarde,
 ,,,,,,,,
 root,719,Diancie,,,,Registered as #703 Carbink,"The popular saying goes like this:
 “If you put a Carbon under pressure
@@ -5291,7 +5291,7 @@ by a spell. The spell was a partial
 success as the demon could still
 roam free, but its power and evil
 was greatly diminished.",
-Hoopa,720,Hoopa Unbound,Unbound,,,No Data,"There is a story of an old demon
+Hoopa,720,Hoopa,Unbound,Form,,No Data,"There is a story of an old demon
 whose power unleashed horrors
 from other dimensions into earth,
 ripping the fabrics of existence, it
@@ -5424,25 +5424,25 @@ form. Crabominables are not very
 smart and throw punches to friends
 and foes alike when they panic.",
 ,,,,,,,,
-Baile,741,Oricorio,Baile,,,Dancing Pokémon,"What was thought to be different
+root,741,Oricorio,Fire,,,Dancing Pokémon,"What was thought to be different
 species ended up being a single
 Pokémon. Oricorio Baile is an intense
 and passionate Pokémon, every
 flap of its wings produces embers,
 its fiery dance has inspired many.",
-Pom-Pom,741,Oricorio,Pom-Pom,,,Dancing Pokémon,"What was thought to be different
+Oricorio,741,Oricorio,Electric,Form,,Dancing Pokémon,"What was thought to be different
 species ended up being a single
 Pokémon. Oricorio Pom-Pom is full
 of cheer and energy, it charges
 its feathers with static electricity,
 releasing sparks with every swing.",
-Pa'u,741,Oricorio,Pa'u,,,Dancing Pokémon,"What was thought to be different
+Oricorio,741,Oricorio,Psychic,Form,,Dancing Pokémon,"What was thought to be different
 species ended up being a single
 Pokémon. Oricorio Pa'u has an
 aloof but ultimately relaxed nature.
 Its dance is focused and has an
 hypnotic rhythm.",
-Sensu,741,Oricorio,Sensu,,,Dancing Pokémon,"What was thought to be different
+Oricorio,741,Oricorio,Ghost,Form,,Dancing Pokémon,"What was thought to be different
 species ended up being a single
 Pokémon. Oricorio Sensu is calm
 and indifferent, its dance is said to
