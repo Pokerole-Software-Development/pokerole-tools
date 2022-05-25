@@ -147,7 +147,7 @@ namespace Pokerole.Core
 					{
 						try
 						{
-							BuiltIn = XmlConvert.ToBoolean(rawBultIn);
+							BuiltIn = XmlConvert.ToBoolean(rawBultIn.ToLower());
 						}
 						catch (FormatException)
 						{

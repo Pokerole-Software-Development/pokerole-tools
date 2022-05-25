@@ -1869,7 +1869,7 @@ namespace Pokerole.Tools.InitUpdate
 		private byte[]? ReadImage(String path)
 		{
 #pragma warning disable CS0162 // Unreachable code detected
-			const bool readImages = false; //set to true to have the importer include image data in the export
+			const bool readImages = true; //set to true to have the importer include image data in the export
 			if (readImages)
 			{
 				return File.ReadAllBytes(path);
@@ -2768,52 +2768,6 @@ namespace Pokerole.Tools.InitUpdate
 				throw new InvalidOperationException();
 			}
 		}
-		private void ReadEvolutionTrees(List<(DexEntry.Builder, String kind, String value)> evolutionCauses)
-		{
-			Dictionary<DexEntry.Builder, (String kind, String value)> evolutionCauseDict = evolutionCauses.ToDictionary(
-				item => item.Item1, item => (item.kind, item.value));
-			//load ShadeSlayer's scrape
-			List<(DexEntry.Builder root, DexEntry.Builder from, String misc, DexEntry.Builder to)> rawList =
-				new List<(DexEntry.Builder, DexEntry.Builder, string, DexEntry.Builder)>();
-			using (TextFieldParser csvParser = new TextFieldParser(Path.Combine(processedInputs, "pokeEvoListFixed.csv")))
-			{
-				csvParser.Delimiters = new String[]{ "," };
-				csvParser.HasFieldsEnclosedInQuotes = true;
-				Regex regex = new Regex("#(\\d+) (.+)");
-				while (!csvParser.EndOfData)
-				{
-					DexEntry.Builder Parse(String item)
-					{
-						Match m = regex.Match(item);
-						if (!m.Success)
-						{
-							throw new InvalidOperationException();
-						}
-						var key = m.Groups[2].Value;
-						if (monByName.TryGetValue(key, out DexEntry.Builder? value))
-						{
-							return value;
-						}
-						return monByName[key + " (provisional)"];
-					}
-					String[] parts = csvParser.ReadFields();
-					if (!HAS_DLC_MON && parts[0].Contains("Kubfu"))
-					{
-						continue;
-					}
-					var root = Parse(parts[0]);
-					var from = Parse(parts[1]);
-					var misc = parts[2];
-					var to = Parse(parts[3]);
-					rawList.Add((root, from, misc, to));
-				}
-			}
-			var byRoot = rawList.ToLookup(item => item.root, (item) => (item.from, item.to, item.misc));
-			throw new NotImplementedException();
-
-
-		}
-
 
 		private bool ValidPredicate(DexEntry.Builder entry)
 		{
