@@ -2315,6 +2315,12 @@ a battle, it uses the blades on his
 arms as if they were swords. It is a
 loyal Pokémon and won’t doubt to
 fiercely protect its trainer.",
+Gallade,475,Mega-Gallade,,Mega,,Blade Pokémon,"With the power of the Mega Stone
+it senses the emotions of others in a
+large radius and will go help anyone
+in need. It will only attack if it needs
+to defend someone or something. It
+is protective and brave.",
 ,,,,,,,,
 root,283,Surskit,,,,Pond Skater Pokémon,"Surskit secretes oil from its feet to
 skate on water. It may be found on
@@ -5493,7 +5499,7 @@ as a distress signal, other members
 of its species will travel far and wide
 to attend the call for help. When
 this happens you must run.",
-Wishiwashi,746,Wishiwashi,Swarm,,,Small Fry Pokémon,"A school of Wishiwashi is the demon
+Wishiwashi,746,Wishiwashi,Swarm,Form,,Small Fry Pokémon,"A school of Wishiwashi is the demon
 of the sea. Even Gyarados flee in
 terror when one approaches.
 Since it is formed by lots of members,
@@ -5622,7 +5628,8 @@ and herbal medicine to those in need.
 It is incredibly smart even learning
 how to use pokeballs, for that reason
 it dislikes being ordered around.",
-Oranguru,766,Passimian,,,,Teamwork Pokémon,"They live in packs of 20 members,
+,,,,,,,,
+root,766,Passimian,,,,Teamwork Pokémon,"They live in packs of 20 members,
 they are all coordinated to pass
 around the food and to defend
 their nest. Their leader is not the
@@ -5655,7 +5662,7 @@ are the remains of all its victims.
 Some say these unmarked graves
 will give birth to a new Sandygast.",
 ,,,,,,,,
-root,771,Pykumuku,,,,Sea Cucumber Pokémon,"Once this Pokémon finds a spot
+root,771,Pyukumuku,,,,Sea Cucumber Pokémon,"Once this Pokémon finds a spot
 it likes it will remain there without
 moving, even if food is out of reach.
 It can expel its organs through its
@@ -5681,7 +5688,7 @@ cores and shells, when they become
 too heavy they fall to the ground.
 Move damage can break the shell
 and leave the core exposed.",
-Minior,774,Minior,Core,,,Meteor Pokémon,"Without its shell Minior can move
+Minior,774,Minior,Core,Form,,Meteor Pokémon,"Without its shell Minior can move
 faster. They have playful and colorful
 personalities. If a Minior wants to
 regrow their shell they must go to
@@ -5788,11 +5795,11 @@ telescope changed shapes and
 remained motionless for the rest of
 the investigation. A strange energy
 was gathering on its core.",
-Cosmoem,791,Solgaleo,Sword,Level,,No Data,"There are legends about a being
+Cosmoem,791,Solgaleo,,Level,"{ game: ""Sword"" }",No Data,"There are legends about a being
 that radiated with the sun, on its
 forehead a third eye that connected
 to another dimension.",
-Cosmoem,792,Lunala,Shield,Level,,No Data,"There are legends about a being
+Cosmoem,792,Lunala,,Level,"{ game: ""Shield"" }",No Data,"There are legends about a being
 that shined with the moon, on its
 forehead a third eye that connected
 to another dimension.",
@@ -5852,19 +5859,19 @@ abyss, but then today it made an
 appearance. the creature attached
 itself to our light sources, depleting
 them until it was all in darkness.",
-Necrozma,800,Necrozma,Dusk Mane,,,Aether Foundation Log #182,"The shadowy creature is in pain, and
+Necrozma,800,Necrozma,Dusk Mane,Special,,Aether Foundation Log #182,"The shadowy creature is in pain, and
 it hungers for any light it can find.
 I wonder how would it fare on the
 other side, back in our world. Would
 the sunlight ease its spirit or release
 a terrible monster?",
-Necrozma,800,Necrozma,Dawn Wings,,,Aether Foundation Log #182,"The shadowy creature is in pain, and
+Necrozma,800,Necrozma,Dawn Wings,Special,,Aether Foundation Log #182,"The shadowy creature is in pain, and
 it hungers for any light it can find.
 I wonder how would it fare on the
 other side, back in our world. Would
 the moonlight ease its spirit or
 release a terrible monster?",
-Necrozma,800,Necrozma,Ultra Burst,,,Aether Foundation S.O.S Message,"Alert to national authorities we had
+Necrozma,800,Necrozma,Ultra Burst,Special,,Aether Foundation S.O.S Message,"Alert to national authorities we had
 a serious breach of security! This is
 an emergency! Close the port-
 (White Noise).",
@@ -5934,13 +5941,13 @@ then uses the stick to create rhythmic
 beats that makes plan glow and
 grow. Grookey are enthusiastic and
 kind creatures that love music.",
-Grookey,811,Thwakey,,Level,"{ speed : ""Medium"" }",Beat Pokémon,"Thwakeys are passionate about
+Grookey,811,Thwackey,,Level,"{ speed : ""Medium"" }",Beat Pokémon,"Thwakeys are passionate about
 their drumming, they can get so
 caught up in their music that they
 don’t notice the battle is already
 over. The faster they can beat their
 drums, the stronger they are.",
-Thwakey,812,Rillaboom,,Level,"{ speed : ""Medium"" }",Drummer Pokémon,"The leader owns the largest drum
+Thwackey,812,Rillaboom,,Level,"{ speed : ""Medium"" }",Drummer Pokémon,"The leader owns the largest drum
 among its troop and has the best
 drumming technique which makes
 roots sprout to attack its foes. But
@@ -6158,18 +6165,6 @@ They often try to engulf prey that
 is too large and it ends up blocking
 their gullets. They are airheaded and
 often forget what they were doing.",
-Cramorant,845,Cramorant,Arrokuda Gulping Form,,,Gulp Pokémon,"Cramorant's Gulping Form.
-It dove in the sea and caught an
-Arrokuda, it’s trying to swallow it but
-the fish Pokémon is simply too big.
-Stay clear of Cramoran'ts way, lest it
-spits it out towards you",
-Cramorant,845,Cramorant,Pikachu Gulping Form,,,Gulp Pokémon,"Cramorant’s Gorging Form.
-Somehow Cramorant caught a
-Pikachu instead of a fish, the poor
-creature is dazed but it will wake at
-any moment to zap anyone in front
-of it.",
 ,,,,,,,,
 root,846,Arrokuda,,,,Rush Pokémon,"They propel themselves, swimming
 at high speeds to hunt their prey.
@@ -6190,13 +6185,13 @@ the brighter their skin color becomes.
 They need a lot of nurturing but are
 bad tempered and ill mannered so
 not many take the task.",
-Toxel,849,Toxtricity,Amped Form,Level,"{ speed : ""Slow"", special : ""Extrovert"" }",Punk Pokémon,"Commonly called “Amped Form”, its
+Toxel,849,Toxtricity,Amped,Level,"{ speed : ""Slow"", special : ""Extrovert"" }",Punk Pokémon,"Commonly called “Amped Form”, its
 nature determines its evolution, If a
 Toxel is extroverted it will evolve to
 be a short-tempered Toxtricity. They
 emit high pitched sounds and let out
 powerful discharges to provoke others.",
-Toxel,849,Toxtricity,Low Key Form,Level,"{ speed : ""Slow"", special : ""Introvert"" }",Punk Pokémon,"Commonly called “Low Key Form”,
+Toxel,849,Toxtricity,Low Key,Level,"{ speed : ""Slow"", special : ""Introvert"" }",Punk Pokémon,"Commonly called “Low Key Form”,
 its nature determines its evolution,
 If a Toxel is introverted it will evolve
 to be a chill Toxtricity. They emit low
@@ -6333,7 +6328,7 @@ dangling its single hair into the sea
 to lure in prey. When they tire of
 swimming they simply let their ice
 hear be drifted away by the sea.",
-Eiscue,875,Eiscue,No-Ice,,,Penguin Pokémon,"Eiscue “No-Ice” Form is actually its
+Eiscue,875,Eiscue,Form,Form,,Penguin Pokémon,"Eiscue “No-Ice” Form is actually its
 true Form. Without the ice to protect
 it you can see its worried expression,
 it’s actually quite endearing. It can
@@ -6425,7 +6420,7 @@ root,888,Zacian,,,,No Data,"There is a legend of a heroine who
 through sheer might wielded the
 blade of heroes and vanquished a
 great evil away.",
-Zacian,888,Zacian,Crowned Sword,,,No Data,"There is a legend about a mighty
+Zacian,888,Zacian,Form,Form,,No Data,"There is a legend about a mighty
 sword able to cut down anything
 with a single strike, it became known
 as the Fairy King’s Sword, and it
@@ -6435,7 +6430,7 @@ root,889,Zamazenta,,,,No Data,"There is a legend of a hero who
 through sheer might wielded the
 shield of heroes to protect the
 people from the greatest evil.",
-Zamazenta,889,Zamazenta,Crowned Shield,,,No Data,"There is a legend about a mighty
+Zamazenta,889,Zamazenta,Form,Form,,No Data,"There is a legend about a mighty
 shield able to deflect any attack,
 it became known as the Fighting
 Master’s Shield, not even the largest

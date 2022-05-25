@@ -69,6 +69,9 @@ namespace Pokerole.Tools.InitUpdate
 			AddEntries(movesByName, ReadMoves());
 			AddEntries(itemsByName, ReadItems());
 			AddEntries(monByName, ReadDexEntries());
+			//this one likes to take time... so do it last. Would shove it in a different thread, but that slows
+			//the debugger down when it hits a break point
+			var task = ReadHeightWeightsAndBreedingInfo();
 			LinkMegaEvolves();
 			AddEntries(abilitiesByName, ReadAbilities());
 			ReadMoveLists();
@@ -78,11 +81,8 @@ namespace Pokerole.Tools.InitUpdate
 			GcStockImages();
 			ReadDescriptionsAndEvoTrees();
 			//ReadEvolutionTrees(evoData);
+			task.GetAwaiter().GetResult();
 
-
-			//this one likes to take time... so do it last. Would shove it in a different thread, but that slows
-			//the debugger down when it hits a break point
-			ReadHeightWeightsAndBreedingInfo().GetAwaiter().GetResult();
 			StringWriter writer = new StringWriter();
 			xmlSerializer.Serialize(writer, data);
 			File.WriteAllText("output.xml", writer.ToString());
@@ -2656,8 +2656,17 @@ namespace Pokerole.Tools.InitUpdate
 				String name = entry.name;
 				if (!String.IsNullOrEmpty(entry.variant) && !entry.variant.StartsWith("Mega"))
 				{
-					//rotom, Zygard, Hoopa, and Oricorio go the other way
-					if (entry.dexNum is 479 or 718 or 720 or 741)
+					//The following go the other way:
+					//Rotom
+					//Zygard
+					//Hoopa
+					//Oricorio
+					//Lyncanroc
+					//Wishiwashi
+					//Minior
+					//Necrozma
+					//Toxtricity
+					if (entry.dexNum is 479 or 718 or 720 or 741 or 745 or 746 or 774 or 800 or 849)
 					{
 						name = $"{name} {entry.variant}";
 					}
@@ -2676,6 +2685,7 @@ namespace Pokerole.Tools.InitUpdate
 					throw new InvalidOperationException("Chunk started with a non-root entry");
 				}
 				var entries = chunk.Select(Lookup).ToList();
+				entries.ForEach(item => remaining.Remove(item));
 				if (entries.Count == 1)
 				{
 					//no tree. Not even megas
@@ -2686,6 +2696,7 @@ namespace Pokerole.Tools.InitUpdate
 
 				var root = entries[0];
 				EvolutionTree.Builder tree = new EvolutionTree.Builder();
+				tree.DataId = new DataId(null, Guid.NewGuid());
 				tree.Name = $"{root.Name} Line";
 				tree.Root = root.ItemReference;
 				switch (root.DexNum!.Value)
@@ -2751,136 +2762,6 @@ namespace Pokerole.Tools.InitUpdate
 					tree.EvolutionEntries.Add(treeEntry.Build());
 				}
 				data.EvolutionTrees.Add(tree);
-			}
-
-			using (TextFieldParser tsvParser = new TextFieldParser(inputPath))
-			{
-				//stupid Google Docs can't export a tsv without losing line returns...
-				tsvParser.SetDelimiters(new string[] { "," });
-				tsvParser.HasFieldsEnclosedInQuotes = true;
-				first = true;
-				while (!tsvParser.EndOfData)
-				{
-					String[] fields = tsvParser.ReadFields();
-					//skip the header
-					if (first)
-					{
-						first = false;
-						continue;
-					}
-					int dexNum = int.Parse(fields[0]);
-					String name = fields[1];
-					String variant = fields[2];
-					String evoKind = fields[3];
-					String evoValue = fields[4];
-					String dexCategory = fields[5];
-					String description = FixDescription(fields[6]);
-					if (dexNum == 845 && !String.IsNullOrEmpty(variant))
-					{
-						//ignoring those for now
-						continue;
-					}
-					IEnumerable<DexEntry.Builder> forDexNum = byDexNum[dexNum];
-					DexEntry.Builder FindEntry()
-					{
-						switch (dexNum)
-						{
-							case 555:
-							{
-								//EVIL Darmanitan!!!
-								String target = variant switch
-								{
-									"" => "Darmanitan",
-									"Zen Mode" => "Zen Darmanitan",
-									"Galarian" => "Galarian Darmanitan",
-									"Galarian, Zen Mode" => "Galarian Zen Darmanitan",
-									_ => throw new InvalidOperationException()
-								};
-								return forDexNum.First(item => item.Name == target);
-
-							}
-
-							case 718:
-							{
-								String target = variant switch
-								{
-									"" => "50%",
-									"10%" => "10%",
-									"Core/Cell" => "Cell",
-									"100%" => "100%",
-									_ => throw new InvalidOperationException()
-								};
-								return forDexNum.First(item => item.Name == $"Zygarde {target}");
-
-							}
-
-							case 741:
-							{
-
-								String target = variant switch
-								{
-									"Baile" => "Fire",
-									"Pom-Pom" => "Electric",
-									"Pa'u" => "Psychic",
-									"Sensu" => "Ghost",
-									_ => throw new InvalidOperationException()
-								};
-								return forDexNum.First(item => item.Name == $"Oricorio {target}");
-							}
-							case 849:
-							{
-								//adjust so Amped and Low Key handle properly
-								variant = variant.Replace(" Form", "");
-								break;
-							}
-						}
-
-						char[] separators = { ' ', '-' };
-						if (!String.IsNullOrEmpty(variant))
-						{
-							foreach (var item in forDexNum)
-							{
-								//try various parsings
-								if (TryMatchPermutations(separators, test=>test == item.Name, variant, name) != null)
-								{
-									return item;
-								}
-							}
-						}
-						if (variant.StartsWith("Mega"))
-						{
-							if (variant == "Mega")
-							{
-								return forDexNum.First(entry => entry.MegaEvolutionBaseEntry.HasValue);
-							}
-							return forDexNum.First(entry => entry.MegaEvolutionBaseEntry.HasValue &&
-								entry.Name!.EndsWith(variant[^1]));
-						}
-						if (String.IsNullOrEmpty(variant))
-						{
-							return forDexNum.First(entry => String.IsNullOrEmpty(entry.Variant) &&
-								!entry.MegaEvolutionBaseEntry.HasValue);
-						}
-						//if we have gotten this far, then we shall call this "Form" type, since that is usually
-						//what it is called. Regional forms and Forms that do match names should be handled already.
-						//We can handle the reduced corner cases manually
-						
-						foreach (var item in forDexNum)
-						{
-							//try various parsings
-							if (TryMatchPermutations(separators, test => test == item.Name, "Form", name) != null)
-							{
-								return item;
-							}
-						}
-						throw new InvalidOperationException();
-					}
-					var entry = FindEntry();
-					entry.Category = dexCategory;
-					entry.DexDescription = description;
-					result.Add((entry, evoKind, evoValue));
-					remaining.Remove(entry);
-				}
 			}
 			if (remaining.Where(item=>!item.Name!.Contains("provisional")).Count() > 0)
 			{
