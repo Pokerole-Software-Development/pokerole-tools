@@ -111,11 +111,18 @@ namespace Pokerole.Tools.InitUpdate
 				{
 					if (!item.IsValid)
 					{
+						var missingVals = item.MissingValues;
 						//exclusions
 						if (item is DexEntry.Builder entry)
 						{
-							if (entry.DexNum!.Value is 0)
+							if (entry.DexNum!.Value is 0 || entry.Name!.Contains("(provisional)"))
 							{
+								continue;
+							}
+							if ((entry.Name!.Contains(" Dex") || entry.Name!.Contains(" Cell"))
+								&& missingVals.Count == 1 && missingVals[0] == "SpriteImage")
+							{
+								//don't have a dex image for Rotom Dex or Zygarde Cell
 								continue;
 							}
 						}
@@ -2692,6 +2699,19 @@ namespace Pokerole.Tools.InitUpdate
 				}
 				babyList.Add(babyDex, (resultWithoutItem, breedItem, adult1, adult2, adult3));
 			}
+			//read starter list
+			ISet<String> starters = new HashSet<String>();
+			foreach (var line in File.ReadLines(Path.Combine(processedInputs, "Starters_pokedex.txt")))
+			{
+				//skip empty lines
+				if (line.Length == 0)
+				{
+					continue;
+				}
+				//only interested in the pokemon name, so grab that
+				String monName = line.Split(" = ")[0];
+				starters.Add(monName);
+			}
 			//process the chunks
 			DexEntry.Builder Lookup((String evolvedFrom, int dexNum, String name, String variant, String evolutionKind,
 				String evolutionJson, String category, String description, String issue) entry)
@@ -2732,8 +2752,12 @@ namespace Pokerole.Tools.InitUpdate
 				if (entries.Count == 1)
 				{
 					//no tree. Not even megas
-					entries[0].Category = chunk[0].category;
-					entries[0].DexDescription = chunk[0].description;
+					DexEntry.Builder firstEntry = entries[0];
+					firstEntry.Category = chunk[0].category;
+					firstEntry.DexDescription = chunk[0].description;
+					//not a baby
+					firstEntry.IsBaby = false;
+					firstEntry.SuggestedStarter = starters.Contains(firstEntry.Name!);
 					continue;
 				}
 
@@ -2759,6 +2783,12 @@ namespace Pokerole.Tools.InitUpdate
 							counterPart).ItemReference;
 						break;
 					}
+				}
+				//no one is a baby by default
+				foreach (var item in entries)
+				{
+					item.IsBaby = false;
+					item.SuggestedStarter = starters.Contains(item.Name!);
 				}
 				if (babyList.TryGetValue(root.DexNum!.Value, out var babyVals))
 				{
