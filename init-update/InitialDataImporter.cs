@@ -23,6 +23,7 @@ namespace Pokerole.Tools.InitUpdate
 {
 	class InitialDataImporter
 	{
+		private const bool READ_IMAGES = true;//set to true to have the importer include image data in the export
 		private const String csvFetchUrl = "https://raw.githubusercontent.com/XShadeSlayerXx/PokeRole-Discord.py-Base/master/";
 		//private const String csvFetchUrl = "https://raw.githubusercontent.com/SirIntellegence/PokeRole-Discord.py-Base/typofix3/";
 		private const string MOVE_MISSING_DESCRIP = "This move is missing";
@@ -82,7 +83,7 @@ namespace Pokerole.Tools.InitUpdate
 			ReadDescriptionsAndEvoTrees();
 			//ReadEvolutionTrees(evoData);
 			task.GetAwaiter().GetResult();
-
+			VerifyBuildable();
 			StringWriter writer = new StringWriter();
 			xmlSerializer.Serialize(writer, data);
 			File.WriteAllText("output.xml", writer.ToString());
@@ -92,6 +93,44 @@ namespace Pokerole.Tools.InitUpdate
 			PokeroleXmlData data2 = (PokeroleXmlData)xmlSerializer.Deserialize(new StringReader(writer.ToString()));
 
 			//Console.WriteLine("Hello World!");
+		}
+
+		private void VerifyBuildable()
+		{
+			IEnumerable<IItemBuilder>[] builders =
+			{
+				data.Abilities,
+				data.DexEntries,
+				data.EvolutionTrees,
+				data.Images,
+				data.Moves
+			};
+			foreach (var iter in builders)
+			{
+				foreach (var item in iter)
+				{
+					if (!item.IsValid)
+					{
+						//exclusions
+						if (item is DexEntry.Builder entry)
+						{
+							if (entry.DexNum!.Value is 0)
+							{
+								continue;
+							}
+						}
+						//item was not buildable in final form
+						throw new InvalidOperationException();
+					}
+					if (item is ImageRef.Builder image && READ_IMAGES)
+					{
+						if (image.Data == null || image.Data.Length < 1)
+						{
+							throw new InvalidOperationException("Image was not read");
+						}
+					}
+				}
+			}
 		}
 
 		private void AddEntries<K, V>(Dictionary<K, V> destination, Dictionary<K, V> toAdd) where
@@ -1447,8 +1486,12 @@ namespace Pokerole.Tools.InitUpdate
 					//{
 
 					//}
-					ItemReference<ImageRef> MakeImage(bool shiny, bool female, bool right)
+					ItemReference<ImageRef> MakeImage(/*ItemReference<ImageRef>? previous,*/ bool shiny, bool female, bool right)
 					{
+						//if (previous.HasValue)
+						//{
+						//	return previous.Value;
+						//}
 						bool gen7 = form.isPrevGen;
 						String baseSlug = spriteDex.Slug;
 						String formName = key;
@@ -1869,7 +1912,7 @@ namespace Pokerole.Tools.InitUpdate
 		private byte[]? ReadImage(String path)
 		{
 #pragma warning disable CS0162 // Unreachable code detected
-			const bool readImages = true; //set to true to have the importer include image data in the export
+			const bool readImages = READ_IMAGES;
 			if (readImages)
 			{
 				return File.ReadAllBytes(path);
