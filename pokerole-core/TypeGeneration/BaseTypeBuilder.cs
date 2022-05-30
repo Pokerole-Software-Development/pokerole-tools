@@ -14,6 +14,59 @@ using Pokerole.Core.TypeGeneration;
 
 namespace Pokerole.Core{
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
+	public record CharSheet
+	{
+		public CharSheet()
+		{
+		}
+		[XmlType(nameof(CharSheet), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
+		public partial class Builder : ItemBuilder<CharSheet>
+		{
+			public Builder()
+			{			}
+			public Builder(CharSheet charSheet)
+			{
+			}
+			public override (String, Object?)[] Values => new (String, Object?)[] {
+			};
+			/// <summary>
+			/// Whether or not all of the required Properites of this instance are set to build a new
+			/// <see cref="CharSheet"/>. <see cref="Build"/> will throw an exception if this returns false.
+			/// </summary>
+			public override bool IsValid
+			{
+				get
+				{
+					return true;
+				}
+			}
+			/// <summary>
+			/// Which properties of this instance are not set, but should be set. Generally for debugging.
+			/// </summary>
+			public override List<String> MissingValues
+			{
+				get
+				{
+					List<String> missing = new List<String>(0);
+					return missing;
+				}
+			}
+			/// <summary>
+			/// Build and instance of <see cref="CharSheet"/> from this Builder
+			/// </summary>
+			/// <returns>A new instance of <see cref="CharSheet"/></returns>
+			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
+			/// have been set</exception>
+			public override CharSheet Build(){
+				if (!IsValid)
+				{
+					throw new InvalidOperationException("Not all required fields were set");
+				}
+				return new CharSheet();
+			}
+		}
+	}
+	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
 	public partial record Move : BaseDataItem<Move>
 	{
 		public Move(DataId dataId,
@@ -31,7 +84,7 @@ namespace Pokerole.Core{
 			ItemReference<Stat>? damageStat,
 			ItemReference<Stat>? secondaryDamageStat,
 			bool secondaryDamageIsNegative,
-			int damageModifier,
+			int? damageModifier,
 			bool hasSpecialAccuracyMod,
 			bool hasSpecialDamageMod,
 			string additionalInfo,
@@ -119,7 +172,7 @@ namespace Pokerole.Core{
 		/// <summary>
 		/// How many more dice to add to the damage roll pool
 		/// </summary>
-		public int DamageModifier { get; }
+		public int? DamageModifier { get; }
 		/// <summary>
 		/// Refer to AdditionalInfo if this is true
 		/// </summary>
@@ -384,17 +437,8 @@ namespace Pokerole.Core{
 			/// <summary>
 			/// How many more dice to add to the damage roll pool
 			/// </summary>
-			[XmlIgnore]
+			[XmlElement(IsNullable = true)]
 			public int? DamageModifier { get; set; }
-			[Browsable(false)]
-			[DebuggerHidden]
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			[XmlElement("DamageModifier", IsNullable = false)]
-			public int DamageModifierNullableXmlAccessor
-			{
-				get => DamageModifier ?? default;
-				set => DamageModifier = value;
-			}
 			/// <summary>
 			/// Refer to AdditionalInfo if this is true
 			/// </summary>
@@ -514,10 +558,6 @@ namespace Pokerole.Core{
 					{
 						return false;
 					}
-					if (DamageModifier is null)
-					{
-						return false;
-					}
 					if (HasSpecialAccuracyMod is null)
 					{
 						return false;
@@ -544,7 +584,7 @@ namespace Pokerole.Core{
 			{
 				get
 				{
-					List<String> missing = new List<String>(17);
+					List<String> missing = new List<String>(16);
 					if (Name is null)
 					{
 						missing.Add("Name");
@@ -593,10 +633,6 @@ namespace Pokerole.Core{
 					{
 						missing.Add("SecondaryDamageIsNegative");
 					}
-					if (DamageModifier is null)
-					{
-						missing.Add("DamageModifier");
-					}
 					if (HasSpecialAccuracyMod is null)
 					{
 						missing.Add("HasSpecialAccuracyMod");
@@ -642,7 +678,7 @@ namespace Pokerole.Core{
 					DamageStat,
 					SecondaryDamageStat,
 					SecondaryDamageIsNegative!.Value,
-					DamageModifier!.Value,
+					DamageModifier,
 					HasSpecialAccuracyMod!.Value,
 					HasSpecialDamageMod!.Value,
 					AdditionalInfo!,

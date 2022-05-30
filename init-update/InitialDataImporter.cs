@@ -44,6 +44,20 @@ namespace Pokerole.Tools.InitUpdate
 		private static readonly String projectRoot = Path.GetFullPath("../../../..");
 		private static readonly String processedInputs = Path.Combine(projectRoot, "init-update/inputs");
 
+		//these moves should exist, but don't, so create dummy entries for them
+		private readonly ReadOnlyCollection<String> missingMoves = new List<String>
+		{
+			"Poltergeist",
+			//"Behemoth Blade",
+			//"Behemoth Bash"
+			"Expanding Force",
+			"Shell Side Arm",
+			"Eerie Spell",
+			"Freezing Glare",
+			"Thunderous Kick",
+			"Fiery Wrath"
+		}.AsReadOnly();
+
 		public InitialDataImporter()
 		{
 			String previousOutput;
@@ -123,6 +137,14 @@ namespace Pokerole.Tools.InitUpdate
 								&& missingVals.Count == 1 && missingVals[0] == "SpriteImage")
 							{
 								//don't have a dex image for Rotom Dex or Zygarde Cell
+								continue;
+							}
+						}
+						if (item is Move.Builder move)
+						{
+							//some of those are dummy entries. Skip them
+							if (missingMoves.Contains(move.Name!))
+							{
 								continue;
 							}
 						}
@@ -268,19 +290,6 @@ namespace Pokerole.Tools.InitUpdate
 					moves.Add(name, builder);
 				}
 			}
-			//these moves should exist, but don't, so create dummy entries for them
-			String[] missingMoves =
-			{
-				"Poltergeist",
-				//"Behemoth Blade",
-				//"Behemoth Bash"
-				"Expanding Force",
-				"Shell Side Arm",
-				"Eerie Spell",
-				"Freezing Glare",
-				"Thunderous Kick",
-				"Fiery Wrath"
-			};
 			Stat noneStat = StatManager.GetBuiltInStat(BuiltInStat.None);
 			ITypeDefinition typelessType = TypeManager.GetBuiltInType(BuiltInType.Typeless);
 			foreach (var moveName in missingMoves)
@@ -413,6 +422,12 @@ namespace Pokerole.Tools.InitUpdate
 			item = fields[7];
 			stat = String.IsNullOrEmpty(item) ? BuiltInStat.None : ParseEnum<BuiltInStat>(item);
 			statDef = StatManager.GetBuiltInStat(stat);
+			negative = item.Contains("missing", StringComparison.OrdinalIgnoreCase);
+			if (negative)
+			{
+				item = item.Replace("missing", "", StringComparison.OrdinalIgnoreCase);
+			}
+			builder.SecondaryDamageIsNegative = negative;
 			builder.SecondaryAccuracyStat = new ItemReference<Stat>(statDef.DataId, statDef.Name);
 
 			//target
@@ -432,11 +447,49 @@ namespace Pokerole.Tools.InitUpdate
 			item = fields[9];
 			if (!String.IsNullOrEmpty(item) && "-" != item)
 			{
-				builder.Effects.Add(item);
+				builder.AdditionalInfo = item;
+			}
+			else
+			{
+				builder.AdditionalInfo = "";
 			}
 			item = fields[10];
 			builder.Description = item;
 
+			//infer missing items...
+			builder.Ranged = false;
+			builder.ReducedAccuracy = 0;
+			builder.HasSpecialAccuracyMod = false;
+			builder.HasSpecialDamageMod = false;
+			if (builder.AdditionalInfo.Length > 0)
+			{
+				String effectsRaw = builder.AdditionalInfo;
+				if (effectsRaw.Contains("Ranged"))
+				{
+					effectsRaw = Regex.Replace(effectsRaw, "Ranged\\.?", "");
+					builder.Ranged = true;
+				}
+				Match m = Regex.Match(effectsRaw, "-(\\d+) Accuracy\\.?");
+				if (m.Success)
+				{
+					//remove that
+					effectsRaw = effectsRaw.Remove(m.Index, m.Length);
+					//set that
+					builder.ReducedAccuracy = int.Parse(m.Groups[1].Value);
+				}
+				if (effectsRaw.Contains("Accuracy"))
+				{
+					//has specialness
+					builder.HasSpecialAccuracyMod = true;
+				}
+				if (effectsRaw.Contains("Damage Pool"))
+				{
+					//also special
+					builder.HasSpecialDamageMod = true;
+				}
+
+				builder.AdditionalInfo = effectsRaw.Trim();
+			}
 
 			return builder;
 		}
