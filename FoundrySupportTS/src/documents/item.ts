@@ -3,7 +3,7 @@
  * @extends {Item}
  */
 export class PokeroleItem extends Item {
-todo: `
+todo: string = `
 
   /**
    * Augment the basic Item data model with additional dynamic data.

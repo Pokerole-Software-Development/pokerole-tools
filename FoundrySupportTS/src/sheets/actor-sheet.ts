@@ -1,11 +1,43 @@
 // import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
 
+import { DEFAULT_TOKEN } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
+
+class ActorSheetOptions implements ActorSheet.Options{
+	//set to defaults
+	token?: TokenDocument | null | undefined;
+	viewPermission: 0 | 1 | 2 | 3 = CONST.DOCUMENT_PERMISSION_LEVELS.LIMITED;
+	closeOnSubmit: boolean = true;
+	submitOnChange: boolean = false;
+	submitOnClose: boolean = false;
+	editable: boolean = true;
+	sheetConfig: boolean = false;
+	baseApplication: string | null = null;
+	width: number | null = null;
+	height: number | "auto" | null = null;
+	top: number | null = null;
+	left: number | null = null;
+	scale: number | null = null;
+	popOut: boolean = true;
+	minimizable: boolean = true;
+	resizable: boolean = false;
+	id: string = "";
+	classes: string[] = [];
+	title: string = "";
+	template: string | null = null;
+	scrollY: string[] = [];
+	tabs: Omit<TabsConfiguration, "callback">[] = [];
+	dragDrop: Omit<DragDropConfiguration, "permissions" | "callbacks">[] = [];
+	filters: Omit<SearchFilterConfiguration, "callback">[] = [];
+
+}
+class ActorSheetData implements ActorSheet.Data<ActorSheetOptions>{
+	
+}
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-export class PokeroleActorSheet extends ActorSheet {
-  todo:`
+export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetData> {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
@@ -19,7 +51,7 @@ export class PokeroleActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
-    return \`systems/Pokerole/templates/actor/actor-$ {this.actor.data.type}-sheet.html\`;
+    return `systems/Pokerole/templates/actor/actor-$ {this.actor.data.type}-sheet.html`;
   }
 
   /* -------------------------------------------- */
@@ -104,7 +136,7 @@ export class PokeroleActorSheet extends ActorSheet {
     html.find('.item-edit').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.items.get(li.data("itemId"));
-      item.sheet.render(true);
+      item?.sheet?.render(true);
     });
 
     // -------------------------------------------------------------

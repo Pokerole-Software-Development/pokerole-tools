@@ -3,7 +3,7 @@
  * @extends {ItemSheet}
  */
 export class PokeroleItemSheet extends ItemSheet {
-todo: `
+todo: string = `
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {

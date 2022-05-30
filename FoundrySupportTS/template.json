@@ -13,6 +13,8 @@
           "min": 0,
           "max": 5
         },
+		"dexterity": 0,
+		"alert": 0,
         "biography": ""
       }
     },

@@ -1,10 +1,11 @@
+import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/module.mjs";
 
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
 export class PokeroleActor extends Actor {
-todo: `
+
   /** @override */
   prepareData() {
     // Prepare data for the actor. Calling the super version of this executes
@@ -42,7 +43,7 @@ todo: `
   /**
    * Prepare Character type specific data
    */
-  _prepareCharacterData(actorData) {
+  _prepareCharacterData(actorData: ActorData) {
     if (actorData.type !== 'character') return;
 
     // Make modifications to data here. For example:
@@ -64,14 +65,13 @@ todo: `
   /**
    * Prepare character roll data.
    */
-  _getCharacterRollData(data) {
+  _getCharacterRollData(data: any) {
     if (this.data.type !== 'character') return;
-
+	console.log(data);
     // Add level for easier access, or fall back to 0.
     if (data.attributes.level) {
       data.lvl = data.attributes.level.value ?? 0;
     }
   }
-  `
 
 }

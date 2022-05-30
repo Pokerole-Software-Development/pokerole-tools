@@ -18,11 +18,11 @@ Hooks.once('init', async function() {
 
   // // Add utility classes to the global game object so that they're more easily
   // // accessible in global contexts.
-  // (game as any).Pokerole = {
-  //   PokeroleActor,
-  //   PokeroleItem,
-  //   rollItemMacro
-  // };
+  (game as any).Pokerole = {
+    PokeroleActor,
+    PokeroleItem,
+    // rollItemMacro
+  };
 
   // Add custom constants for configuration.
   (CONFIG as any).POKEROLE = POKEROLE
@@ -32,7 +32,7 @@ Hooks.once('init', async function() {
    * @type {String}
    */
   CONFIG.Combat.initiative = {
-    formula: "1d20",
+    formula: "@stat.insight + @stat.aware + 1d6",
     decimals: 2
   };
 

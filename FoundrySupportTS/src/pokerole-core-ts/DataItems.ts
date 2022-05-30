@@ -35,20 +35,20 @@ namespace pokerole{
 			}
 			return `DisplayName = ${this.displayName}, ${this.dataId}`;
 		}
-		public static Builder = class<T> extends ItemBuilder<ItemReference<T>>{
-			public isValid(): boolean {
-				throw new Error('Method not implemented.');
-			}
-			public build(): ItemReference<T> {
-				throw new Error('Method not implemented.');
-			}
-			public missingItems(): String[] {
-				throw new Error('Method not implemented.');
-			}
-			public values(): [String, unknown][] {
-				throw new Error('Method not implemented.');
-			}
+		// public static Builder = class<T> extends ItemBuilder<ItemReference<T>>{
+		// 	public isValid(): boolean {
+		// 		throw new Error('Method not implemented.');
+		// 	}
+		// 	public build(): ItemReference<T> {
+		// 		throw new Error('Method not implemented.');
+		// 	}
+		// 	public missingItems(): String[] {
+		// 		throw new Error('Method not implemented.');
+		// 	}
+		// 	public values(): [String, unknown][] {
+		// 		throw new Error('Method not implemented.');
+		// 	}
 
-		}
+		// }
 	}
 }

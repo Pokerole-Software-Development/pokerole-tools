@@ -1,0 +1,11 @@
+Implementing "Roll initiative"
+	two stats and ugly sheet
+	use vtt initiative system?
+
+
+
+Step 1: Foundry Hello World!
+Step 2: Tiny x5 C# library that adds two values and ensure it runs in Foundry
+Step 3: Basic Milestone: Implement perception check
+
+Get it working with a stupid implementation and then flesh it out.
