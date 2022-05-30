@@ -14,59 +14,6 @@ using Pokerole.Core.TypeGeneration;
 
 namespace Pokerole.Core{
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
-	public record CharSheet
-	{
-		public CharSheet()
-		{
-		}
-		[XmlType(nameof(CharSheet), Namespace = "https://www.pokeroleproject.com/schemas/Structures.xsd")]
-		public partial class Builder : ItemBuilder<CharSheet>
-		{
-			public Builder()
-			{			}
-			public Builder(CharSheet charSheet)
-			{
-			}
-			public override (String, Object?)[] Values => new (String, Object?)[] {
-			};
-			/// <summary>
-			/// Whether or not all of the required Properites of this instance are set to build a new
-			/// <see cref="CharSheet"/>. <see cref="Build"/> will throw an exception if this returns false.
-			/// </summary>
-			public override bool IsValid
-			{
-				get
-				{
-					return true;
-				}
-			}
-			/// <summary>
-			/// Which properties of this instance are not set, but should be set. Generally for debugging.
-			/// </summary>
-			public override List<String> MissingValues
-			{
-				get
-				{
-					List<String> missing = new List<String>(0);
-					return missing;
-				}
-			}
-			/// <summary>
-			/// Build and instance of <see cref="CharSheet"/> from this Builder
-			/// </summary>
-			/// <returns>A new instance of <see cref="CharSheet"/></returns>
-			/// <exception cref="InvalidOperationException">If this method is called when not all required properties
-			/// have been set</exception>
-			public override CharSheet Build(){
-				if (!IsValid)
-				{
-					throw new InvalidOperationException("Not all required fields were set");
-				}
-				return new CharSheet();
-			}
-		}
-	}
-	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]
 	public partial record Move : BaseDataItem<Move>
 	{
 		public Move(DataId dataId,

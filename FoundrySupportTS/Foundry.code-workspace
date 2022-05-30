@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\pokerole-core\\TypeGeneration"
+		},
+		{
+			"path": "..\\pokerole-core-ts"
+		}
+	],
+	"settings": {}
+}
