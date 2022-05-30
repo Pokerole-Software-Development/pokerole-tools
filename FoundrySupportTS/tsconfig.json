@@ -6,9 +6,12 @@
 
 		"types": [
 			"@league-of-foundry-developers/foundry-vtt-types",
+			"@types/uuid"
 		],
 		"moduleResolution": "node",
 		"esModuleInterop": true,
+		"strictPropertyInitialization": true,
+		"target": "ES6",
 
 		//TODO: w/out this get duplicate pixi.js lib imports
 		"skipLibCheck": true,

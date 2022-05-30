@@ -19,6 +19,15 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BaseTypeBuilder.cs</LastGenOutput>
     </None>
+    <None Update="TypeGeneration\FoundryTemplateGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FoundryTemplateGenerator.json</LastGenOutput>
+    </None>
+    <None Update="TypeGeneration\FoundryTemplateGenerator.json">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FoundryTemplateGenerator.tt</DependentUpon>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

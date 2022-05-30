@@ -5,10 +5,9 @@
 		},
 		{
 			"path": "..\\pokerole-core\\TypeGeneration"
-		},
-		{
-			"path": "..\\pokerole-core-ts"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"editor.rulers": [120]
+	}
 }
