@@ -32,7 +32,7 @@ Hooks.once('init', async function() {
    * @type {String}
    */
   CONFIG.Combat.initiative = {
-    formula: "@stat.insight + @stat.aware + 1d6",
+    formula: "@stat.dexterity + @stat.alert + 1d6",
     decimals: 2
   };
 

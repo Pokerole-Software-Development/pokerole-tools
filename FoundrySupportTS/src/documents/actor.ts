@@ -1,5 +1,8 @@
 import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/module.mjs";
 
+export class ActorRollData{
+
+}
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -53,7 +56,7 @@ export class PokeroleActor extends Actor {
   /**
    * Override getRollData() that's supplied to rolls.
    */
-  getRollData() {
+  getRollData() : ActorRollData {
     const data = super.getRollData();
 
     // Prepare character roll data.

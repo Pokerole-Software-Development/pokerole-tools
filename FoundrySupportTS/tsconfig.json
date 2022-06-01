@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"removeComments": false,
 
-		"lib": ["es6", "ES2017"],
+		"lib": ["es6", "ES2020", "DOM"],
 
 		"types": [
 			"@league-of-foundry-developers/foundry-vtt-types",

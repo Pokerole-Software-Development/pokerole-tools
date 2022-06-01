@@ -1,37 +1,39 @@
 // import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
-
+import { ActorRollData } from "../documents/actor";
 import { DEFAULT_TOKEN } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
+import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
 
-class ActorSheetOptions implements ActorSheet.Options{
-	//set to defaults
-	token?: TokenDocument | null | undefined;
-	viewPermission: 0 | 1 | 2 | 3 = CONST.DOCUMENT_PERMISSION_LEVELS.LIMITED;
-	closeOnSubmit: boolean = true;
-	submitOnChange: boolean = false;
-	submitOnClose: boolean = false;
-	editable: boolean = true;
-	sheetConfig: boolean = false;
-	baseApplication: string | null = null;
-	width: number | null = null;
-	height: number | "auto" | null = null;
-	top: number | null = null;
-	left: number | null = null;
-	scale: number | null = null;
-	popOut: boolean = true;
-	minimizable: boolean = true;
-	resizable: boolean = false;
-	id: string = "";
-	classes: string[] = [];
-	title: string = "";
-	template: string | null = null;
-	scrollY: string[] = [];
-	tabs: Omit<TabsConfiguration, "callback">[] = [];
-	dragDrop: Omit<DragDropConfiguration, "permissions" | "callbacks">[] = [];
-	filters: Omit<SearchFilterConfiguration, "callback">[] = [];
+interface ActorSheetOptions extends ActorSheet.Options{
+	// //set to defaults
+	// token?: TokenDocument | null | undefined;
+	// viewPermission: 0 | 1 | 2 | 3 = CONST.DOCUMENT_PERMISSION_LEVELS.LIMITED;
+	// closeOnSubmit: boolean = true;
+	// submitOnChange: boolean = false;
+	// submitOnClose: boolean = false;
+	// editable: boolean = true;
+	// sheetConfig: boolean = false;
+	// baseApplication: string | null = null;
+	// width: number | null = null;
+	// height: number | "auto" | null = null;
+	// top: number | null = null;
+	// left: number | null = null;
+	// scale: number | null = null;
+	// popOut: boolean = true;
+	// minimizable: boolean = true;
+	// resizable: boolean = false;
+	// id: string = "";
+	// classes: string[] = [];
+	// title: string = "";
+	// template: string | null = null;
+	// scrollY: string[] = [];
+	// tabs: Omit<TabsConfiguration, "callback">[] = [];
+	// dragDrop: Omit<DragDropConfiguration, "permissions" | "callbacks">[] = [];
+	// filters: Omit<SearchFilterConfiguration, "callback">[] = [];
 
 }
-class ActorSheetData implements ActorSheet.Data<ActorSheetOptions>{
-	
+interface ActorSheetData extends ActorSheet.Data<ActorSheetOptions>{
+	flags: Record<string, unknown>;
+	rollData: ActorRollData;
 }
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -68,20 +70,21 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
     const actorData = this.actor.data.toObject(false);
 
     // Add the actor's data to context.data for easier access, as well as flags.
-    context.data = actorData.data;
-    context.flags = actorData.flags;
+		var realContext = context as unknown as ActorSheetData;
+    realContext.data = actorData.data as any;
+    realContext.flags = actorData.flags;
 
     // Prepare character data and items.
     if (actorData.type == 'character') {
-      this._prepareItems(context);
-      this._prepareCharacterData(context);
+      this._prepareItems(realContext);
+      this._prepareCharacterData(realContext);
     }
 
     // Add roll data for TinyMCE editors.
-    context.rollData = context.actor.getRollData();
+    realContext.rollData = realContext.actor.getRollData() as ActorRollData;
 
     // Prepare active effects
-    context.effects = prepareActiveEffectCategories(this.actor.effects);
+    // realContext.effects = prepareActiveEffectCategories(this.actor.effects);
 
     return context;
   }
@@ -93,7 +96,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
    *
    * @return {undefined}
    */
-  _prepareCharacterData(context) {
+  _prepareCharacterData(context: ActorSheetData) {
   }
 
   /**
@@ -103,33 +106,33 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
    *
    * @return {undefined}
    */
-  _prepareItems(context) {
+  _prepareItems(context: ActorSheetData) {
     // Initialize containers.
-    const gear = [];
-    const features = [];
+    // const gear = [];
+    // const features = [];
 
-    // Iterate through items, allocating to containers
-    for (let i of context.items) {
-      i.img = i.img || DEFAULT_TOKEN;
-      // Append to gear.
-      if (i.type === 'item') {
-        gear.push(i);
-      }
-      // Append to features.
-      else if (i.type === 'feature') {
-        features.push(i);
-      }
-    }
+    // // Iterate through items, allocating to containers
+    // for (let i of context.items) {
+    //   i.img = i.img || DEFAULT_TOKEN;
+    //   // Append to gear.
+    //   if (i.type === 'item') {
+    //     gear.push(i);
+    //   }
+    //   // Append to features.
+    //   else if (i.type === 'feature') {
+    //     features.push(i);
+    //   }
+    // }
 
-    // Assign and return
-    context.gear = gear;
-    context.features = features;
+    // // Assign and return
+    // context.gear = gear;
+    // context.features = features;
    }
 
   /* -------------------------------------------- */
 
   /** @override */
-  activateListeners(html) {
+  activateListeners(html: JQuery) {
     super.activateListeners(html);
 
     // Render the item sheet for viewing/editing prior to the editable check.
@@ -150,22 +153,22 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
     html.find('.item-delete').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.items.get(li.data("itemId"));
-      item.delete();
+      item!.delete();
       li.slideUp(200, () => this.render(false));
     });
 
     // Active Effect management
-    html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
+    // html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
 
     // Rollable abilities.
     html.find('.rollable').click(this._onRoll.bind(this));
 
     // Drag events for macros.
     if (this.actor.owner) {
-      let handler = ev => this._onDragStart(ev);
+      let handler = (ev: DragEvent) => this._onDragStart(ev);
       html.find('li.item').each((i, li) => {
         if (li.classList.contains("inventory-header")) return;
-        li.setAttribute("draggable", true);
+        li.setAttribute("draggable", true + "");
         li.addEventListener("dragstart", handler, false);
       });
     }
@@ -176,15 +179,15 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
    * @param {Event} event   The originating click event
    * @private
    */
-  async _onItemCreate(event) {
+  async _onItemCreate(event: Event) {
     event.preventDefault();
-    const header = event.currentTarget;
+    const header = event.currentTarget as any;
     // Get the type of item to create.
     const type = header.dataset.type;
     // Grab any data associated with this control.
     const data = duplicate(header.dataset);
     // Initialize a default name.
-    const name = \`New $ {type.capitalize()}\`;
+    const name = `New $ {type.capitalize()}`;
     // Prepare the item object.
     const itemData = {
       name: name,
@@ -203,9 +206,9 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
    * @param {Event} event   The originating click event
    * @private
    */
-  _onRoll(event) {
+  _onRoll(event: Event) {
     event.preventDefault();
-    const element = event.currentTarget;
+    const element = event.currentTarget as any;
     const dataset = element.dataset;
 
     // Handle item rolls.
@@ -219,15 +222,15 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 
     // Handle rolls that supply the formula directly.
     if (dataset.roll) {
-      let label = dataset.label ? \`[roll] $ {dataset.label}\` : '';
+      let label = dataset.label ? `[roll] $ {dataset.label}` : '';
       let roll = new Roll(dataset.roll, this.actor.getRollData());
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
         flavor: label,
-        rollMode: game.settings.get('core', 'rollMode'),
+        rollMode: (game as Game).settings.get('core', 'rollMode'),
       });
       return roll;
     }
   }
-`
+
 }
