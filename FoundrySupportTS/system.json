@@ -21,7 +21,7 @@
   "gridUnits": "ft",
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "will",
-  "initiative": "dexterity + alert + 1d6",
+  "initiative": "@dexterity + @alert + 1d6",
   "url": "",
   "manifest": "",
   "download": "",
