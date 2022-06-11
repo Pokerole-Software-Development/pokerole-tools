@@ -1,10 +1,15 @@
 ﻿/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-<#@ include file="BaseTypeBuilder.ttinclude"
+<#@ template debug="true" hostspecific="false" language="C#"
 #><#@ assembly name="System.Core"
+#><#@ assembly name="System.Runtime"
 #><#@ assembly name="System.Xml"
 #><#@ assembly name="System.Xml.Linq"
+#><#@ assembly name="System.Xml.ReaderWriter"
+#><#@ assembly name="System.Private.Xml"
+#><#@ assembly name="System.Collections"
+#><#@ assembly name="$(SolutionDir)/ClassGenerator/bin/Debug/netcoreapp3.1/ClassGenerator.dll"
 #><#@ import namespace="System.Linq"
 #><#@ import namespace="System.Text"
 #><#@ import namespace="System.Collections.Generic"
@@ -15,12 +20,14 @@
 #><#@ import namespace="System.Collections.Generic"
 #><#@ import namespace="System.IO"
 #><#@ import namespace="System.CodeDom.Compiler"
+#><#@ import namespace="Pokerole"
 #><#@ output extension=".cs" #><#
 	//Note: this file's license header gets copied to the output
-	isTypeScript = false;
-	var data = CompileSchema();
-	XmlSchema primarySchema = data.primarySchema;
-	Dictionary<String, ClassDef> classes = data.classes;
+	//Generator.logError = (error) => this.Host.LogErrors(new CompilerErrorCollection(){error});
+	Generator.sourceKind = SourceKind.CSharp;
+	var data = Generator.CompileSchema();
+	var primarySchema = data.primarySchema;
+	Dictionary<String, Generator.ClassDef> classes = data.classes;
  #>
 using System;
 using System.Collections.Generic;
@@ -37,7 +44,7 @@ using Pokerole.Core.TypeGeneration;
 namespace Pokerole.Core{
 <#
 	//make the classes!!!
-	foreach	(ClassDef classDef in classes.Values)
+	foreach	(Generator.ClassDef classDef in classes.Values)
 	{
 		StringBuilder constructorArgBuilder = new StringBuilder(classDef.fields.Count * 20);
 		String mutableAccessor = classDef.isMutable ? "set; " : "";
@@ -74,7 +81,7 @@ namespace Pokerole.Core{
 			firstParam = false;
 			Write("DataId dataId");
 		}
-		foreach	(FieldDef field in classDef.fields){
+		foreach	(Generator.FieldDef field in classDef.fields){
 			if (firstParam){
 				firstParam = false;
 			}
@@ -91,7 +98,7 @@ namespace Pokerole.Core{
 
 		{
 <#
-		foreach(FieldDef field in classDef.fields){
+		foreach(Generator.FieldDef field in classDef.fields){
 			Write("\t\t\t{0} = {1};\r\n", field.name, field.type.GetAssignment(LowercaseInitial(field.name), true));
 		}
 #>
@@ -106,7 +113,7 @@ namespace Pokerole.Core{
 		public override ItemReference<<#=classDef.name#>> ItemReference => new ItemReference<<#=classDef.name#>>(DataId<#=nameAppend#>);
 
 <#}
-		foreach(FieldDef field in classDef.fields){
+		foreach(Generator.FieldDef field in classDef.fields){
 #>
 		/// <summary>
 		/// <#= !String.IsNullOrEmpty(field.documentation) ? field.documentation : "Someone didn't document this item..." #>
@@ -118,7 +125,7 @@ namespace Pokerole.Core{
 		public override DataKind Kind => DataKind.<#=classDef.name#>;
 		public override (String, Object?)[] Values => new (String, Object?)[] {
 <#
-			foreach(FieldDef field in classDef.fields){
+			foreach(Generator.FieldDef field in classDef.fields){
 				WriteLine("\t\t\t(nameof({0}), {0}),", field.name);
 			}
 #>		};
@@ -141,7 +148,7 @@ namespace Pokerole.Core{
 			public Builder()
 			{<#
 		bool first = true;
-		foreach (FieldDef field in classDef.fields)
+		foreach (Generator.FieldDef field in classDef.fields)
 		{
 			if (field.type.ListType == null)
 			{
@@ -167,7 +174,7 @@ namespace Pokerole.Core{
 		}
 #>
 <#
-		foreach (FieldDef field in classDef.fields){
+		foreach (Generator.FieldDef field in classDef.fields){
 			String assignment = field.type.GetAssignment(String.Format("{0}.{1}", lowercaseClassName, field.name), false);
 			Write("\t\t\t\t{0} = {1};\r\n", field.name, assignment);
 		}
@@ -185,7 +192,7 @@ namespace Pokerole.Core{
 
 <#}
 
-		foreach	(FieldDef field in classDef.fields)
+		foreach	(Generator.FieldDef field in classDef.fields)
 		{
 			//does this need special handling or can we just do this the easy way?
 			bool needsBuilderEntry = field.type.NeedsXmlBuilder();
@@ -258,7 +265,7 @@ namespace Pokerole.Core{
 				continue;
 				
 			}
-			ClassDef otherDef = field.type.ClassType;
+			Generator.ClassDef otherDef = field.type.ClassType;
 			if (otherDef != null)
 			{
 				//non-list custom type
@@ -301,7 +308,7 @@ namespace Pokerole.Core{
 		}#>
 			public override (String, Object?)[] Values => new (String, Object?)[] {
 <#
-		foreach(FieldDef field in classDef.fields){
+		foreach(Generator.FieldDef field in classDef.fields){
 			WriteLine("\t\t\t\t(nameof({0}), {0}),", field.name);
 		}
 #>			};
@@ -321,7 +328,7 @@ namespace Pokerole.Core{
 					}
 <#		}#>
 <#
-		foreach(FieldDef field in classDef.fields)
+		foreach(Generator.FieldDef field in classDef.fields)
 		{
 			if (field.type.isNullable)
 			{
@@ -341,7 +348,7 @@ namespace Pokerole.Core{
 <#
 		//count needed entries
 		int required = 0;
-		foreach(FieldDef field in classDef.fields)
+		foreach(Generator.FieldDef field in classDef.fields)
 		{
 			if (!field.type.isNullable)
 			{
@@ -357,7 +364,7 @@ namespace Pokerole.Core{
 				{
 					List<String> missing = new List<String>(<#=required#>);
 <#
-		foreach(FieldDef field in classDef.fields)
+		foreach(Generator.FieldDef field in classDef.fields)
 		{
 			if (!field.type.isNullable)
 			{
@@ -391,7 +398,7 @@ namespace Pokerole.Core{
 			firstParam = false;
 			Write("DataId!.Value");
 		}
-		foreach (FieldDef field in classDef.fields)
+		foreach (Generator.FieldDef field in classDef.fields)
 		{
 			if (firstParam)
 			{
@@ -427,11 +434,13 @@ namespace Pokerole.Core{
 		Rank, //plan on converting that from an enum at some point in time
 		//end of hardcoded values
 <#
-	foreach	(ClassDef classDef in classes.Values){
+	foreach	(Generator.ClassDef classDef in classes.Values){
 		if (classDef.isDataItem){
 			WriteLine("\t\t{0},", classDef.name);
 		}
 	}
 #>
 	}
-}
+}<#+
+	String LowercaseInitial(String s){ return Generator.LowercaseInitial(s);}
+#>

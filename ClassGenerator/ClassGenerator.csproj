@@ -41,7 +41,7 @@
   <ItemGroup>
     <None Update="BaseTypeBuilder.tt">
       <LastGenOutput>BaseTypeBuilder.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
+      <Generator>TextTemplatingFileGeneratorCore</Generator>
     </None>
     <None Update="FoundryTemplateGenerator.json">
       <DependentUpon>FoundryTemplateGenerator.tt</DependentUpon>

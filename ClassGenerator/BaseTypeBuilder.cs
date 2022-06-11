@@ -10,8 +10,8 @@ using System.Xml;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Drawing;
-using Pokerole.Core.TypeGeneration;
 using Newtonsoft.Json;
+using Pokerole.Core.TypeGeneration;
 
 namespace Pokerole.Core{
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]

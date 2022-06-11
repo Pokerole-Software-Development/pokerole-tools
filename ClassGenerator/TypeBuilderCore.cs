@@ -13,25 +13,31 @@ using System.CodeDom.Compiler;
 
 namespace Pokerole
 {
+	public enum SourceKind
+	{
+		CSharp,
+		TypeScript,
+		Json
+	}
 	public static class Generator
 	{
-		public enum SourceKind
-		{
-			CSharp,
-			TypeScript,
-			Json
-		}
+		public static Action<CompilerError> logError = error => throw new InvalidOperationException(
+			$"Error logger was not set. Could not log {error}");
 		public static SourceKind sourceKind;
-		public static (XmlSchema primarySchema, Dictionary<string, ClassDef> classes,
-			CompilerErrorCollection errors) CompileSchema()
+		public struct Data
+		{
+			public XmlSchema primarySchema;
+			public Dictionary<string, ClassDef> classes;
+		}
+		public static Data CompileSchema()
 		{
 			Assembly thisAssembly = Assembly.GetExecutingAssembly();
 			var baseDir = Path.GetDirectoryName(thisAssembly.Location) ??
 				throw new InvalidOperationException("Assembly parent directory missing?!?!?");
 			XmlSchemaSet schemaSet = new XmlSchemaSet();
 			String structuresPath = Path.Combine(baseDir, "Structures.xsd");
-			var schemaStream = thisAssembly.GetManifestResourceStream("Pokerole.Structures.xsd") ??
-				throw new InvalidOperationException("Missing Structures.xsd");
+			//var schemaStream = thisAssembly.GetManifestResourceStream("Pokerole.Structures.xsd") ??
+			//	throw new InvalidOperationException("Missing Structures.xsd (");
 			XmlSchema primarySchema = XmlSchema.Read(new FileStream(structuresPath, FileMode.Open), null);
 			schemaSet.Add(primarySchema);
 			String[] additionalSchemaFiles = {
@@ -48,7 +54,6 @@ namespace Pokerole
 				throw new InvalidOperationException("Schema failed to compile");
 			}
 			var schemaItems = primarySchema.Items;
-			CompilerErrorCollection errors = new CompilerErrorCollection();
 			Dictionary<String, ClassDef> classes = new Dictionary<String, ClassDef>();
 			foreach (XmlSchemaObject item in schemaItems)
 			{
@@ -62,18 +67,15 @@ namespace Pokerole
 						continue;
 					}
 					String message = "Handling of type not implemnted: " + item;
-					errors.Add(new CompilerError(structuresPath, item.LineNumber, item.LinePosition, "Unknown type", message));
+					logError?.Invoke(new CompilerError(structuresPath, item.LineNumber, item.LinePosition,
+						"Unknown type", message));
 					continue;
 				}
 				XmlSchemaType baseType = typeDef.BaseXmlSchemaType;
 				bool isDataItem = baseType.Name == "BaseDataItem" || baseType.Name == "MutableBaseDataItem";
 				bool isMutable = baseType.Name == "MutableBaseDataItem";
-				ClassDef def = new ClassDef();
-				def.definition = typeDef;
-				def.isDataItem = isDataItem;
-				def.name = typeDef.Name;
-				def.isMutable = isMutable;
-				def.isReferenceType = IsReferenceType(schemaSet, typeDef.QualifiedName);
+				ClassDef def = new ClassDef(isDataItem, IsReferenceType(schemaSet, typeDef.QualifiedName),
+					typeDef.Name, typeDef, isMutable);
 				classes[def.name] = def;
 			}
 			//parse things further since we now know all classes in the template file
@@ -84,11 +86,9 @@ namespace Pokerole
 				def.fields = new List<FieldDef>((sequence == null ? 0 : sequence.Items.Count) + typeDef.Attributes.Count);
 				foreach (XmlSchemaAttribute attr in typeDef.Attributes)
 				{
-					FieldDef field = new FieldDef();
-					field.name = attr.Name;
+					FieldDef field = new FieldDef(attr.Name, new FieldType(NormalizeType(attr.SchemaTypeName.Name),
+						IsReferenceType(schemaSet, attr.SchemaTypeName)));
 					field.isAttribute = true;
-					field.type = new FieldType(NormalizeType(attr.SchemaTypeName.Name),
-						IsReferenceType(schemaSet, attr.SchemaTypeName));
 					if (attr.Annotation != null)
 					{
 						XmlSchemaDocumentation? documentation = attr.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
@@ -113,20 +113,6 @@ namespace Pokerole
 					{
 						//skip that one. It will be present in the base class
 						continue;
-					}
-					FieldDef field = new FieldDef();
-					field.name = item.Name;
-					if (item.Annotation != null)
-					{
-						XmlSchemaDocumentation? documentation = item.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
-						if (documentation != null)
-						{
-							XmlNode node = documentation.Markup.FirstOrDefault();
-							if (node != null)
-							{
-								field.documentation = node.InnerText;
-							}
-						}
 					}
 					FieldType? genericType = null;
 					FieldType? listType = null;
@@ -153,9 +139,24 @@ namespace Pokerole
 									proxyType = unhandled.InnerText;
 									break;
 								default:
-									errors.Add(new CompilerError(structuresPath, item.LineNumber, item.LinePosition,
+									logError?.Invoke(new CompilerError(structuresPath, item.LineNumber, item.LinePosition,
 									"Unknown attribute", String.Format("Attribute '{0}' is unknown", unhandled.LocalName)));
 									break;
+							}
+						}
+					}
+					FieldDef field = new FieldDef(item.Name, FieldType.ResolveType(genericType, listType,
+						item.SchemaTypeName, schemaSet, classes));
+					field.name = item.Name;
+					if (item.Annotation != null)
+					{
+						XmlSchemaDocumentation? documentation = item.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
+						if (documentation != null)
+						{
+							XmlNode node = documentation.Markup.FirstOrDefault();
+							if (node != null)
+							{
+								field.documentation = node.InnerText;
 							}
 						}
 					}
@@ -166,7 +167,11 @@ namespace Pokerole
 					def.fields.Add(field);
 				}
 			}
-			return (primarySchema, classes, errors);
+			return new Data
+			{
+				primarySchema = primarySchema,
+				classes = classes
+			};
 		}
 
 
@@ -198,7 +203,7 @@ namespace Pokerole
 			}
 			return false;
 		}
-		static FieldType GrabTypeFromAttribute(XmlSchemaElement parent, XmlAttribute unhandled, String structuresPath,
+		static FieldType? GrabTypeFromAttribute(XmlSchemaElement parent, XmlAttribute unhandled, String structuresPath,
 			XmlSchemaSet schemaSet, Dictionary<String, ClassDef> classes)
 		{
 			String verified;
@@ -206,11 +211,9 @@ namespace Pokerole
 			{ verified = XmlConvert.VerifyName(unhandled.Value); }
 			catch (XmlException)
 			{
-				this.Host.LogErrors(new CompilerErrorCollection(){
-					new CompilerError(structuresPath, parent.LineNumber, parent.LinePosition,
+				logError?.Invoke(new CompilerError(structuresPath, parent.LineNumber, parent.LinePosition,
 					"Unknown type", String.Format("Given type is not fully qualified: '{0}'",
-					unhandled.Value))
-					});
+					unhandled.Value)));
 				return null;
 			}
 			XmlQualifiedName name;
@@ -223,14 +226,14 @@ namespace Pokerole
 			{
 				name = new XmlQualifiedName(verified);
 			}
-			ClassDef def;
+			ClassDef? def;
 			if (!classes.TryGetValue(name.Name, out def))
 			{
 				def = null;
 			}
 			return new FieldType(NormalizeType(name.Name), IsReferenceType(schemaSet, name), def);
 		}
-		String LowercaseInitial(String input)
+		public static String LowercaseInitial(String input)
 		{
 			if (String.IsNullOrEmpty(input))
 			{
@@ -262,24 +265,38 @@ namespace Pokerole
 			public bool isReferenceType;
 			public String name;
 			public XmlSchemaComplexType definition;
-			public List<FieldDef> fields;
+			public List<FieldDef> fields = new List<FieldDef> ();
 			public bool isMutable;
+			public ClassDef(bool isDataItem, bool isReferenceType, String name, XmlSchemaComplexType definition,
+				bool isMutable)
+			{
+				this.isDataItem = isDataItem;
+				this.isReferenceType = isReferenceType;
+				this.name = name;
+				this.definition = definition;
+				this.isMutable = isMutable;
+			}
 		}
 		public class FieldDef
 		{
 			public bool isAttribute;
-			public String documentation;
+			public String? documentation;
 			public string name;
 			public bool referById = false;
 			//public bool isDict;
 			//public bool isList;
 			public FieldType type;
-			public String proxyType;
+			public String? proxyType;
 			//public String keyType, valueType;
 			//public String listType;
 			//public String genericType;
 			//public bool nullable;
 			//public bool isReferenceType;
+			public FieldDef(String name, FieldType type)
+			{
+				this.name = name;
+				this.type = type;
+			}
 			public String NonNullReference()
 			{
 				return type.IsReferenceType ? $"{name}!" : $"{name} ?? default";
@@ -290,27 +307,27 @@ namespace Pokerole
 			String plainType;
 			public bool isNullable = false;
 			public bool IsReferenceType { get; }
-			public ClassDef ClassType { get; }
-			private FieldType genericType;
-			public FieldType ListType { get; }
+			public ClassDef? ClassType { get; }
+			private FieldType? genericType;
+			public FieldType? ListType { get; }
 			public FieldType(String plainType, bool isReferenceType)
 			{
 				this.plainType = plainType;
 				IsReferenceType = isReferenceType;
 			}
-			public FieldType(String plainType, bool isReferenceType, ClassDef classDef)
+			public FieldType(String plainType, bool isReferenceType, ClassDef? classDef)
 			{
 				this.plainType = plainType;
 				IsReferenceType = isReferenceType;
 				ClassType = classDef;
 			}
 			//FieldType(String plainType, FieldType genericType
-			public static FieldType ResolveType(FieldType genericType, FieldType listType,
+			public static FieldType ResolveType(FieldType? genericType, FieldType? listType,
 				XmlQualifiedName typeName, XmlSchemaSet schemaSet, Dictionary<String, ClassDef> classes)
 			{
 				return new FieldType(genericType, listType, typeName, schemaSet, classes);
 			}
-			FieldType(FieldType genericType, FieldType listType,
+			FieldType(FieldType? genericType, FieldType? listType,
 				XmlQualifiedName typeName, XmlSchemaSet schemaSet, Dictionary<String, ClassDef> classes)
 			{
 				ClassDef? tempDef;
@@ -335,16 +352,16 @@ namespace Pokerole
 				}
 				return false;
 			}
-			public static String GetBasicTypeDeclaration(String type, FieldType genericType, bool nullable)
+			public static String GetBasicTypeDeclaration(String type, FieldType? genericType, bool nullable)
 			{
 				String? generic = genericType != null ? genericType.plainType : null;
 				return GetBasicTypeDeclaration(type, generic, nullable);
 			}
-			public static String GetBasicTypeDeclaration(FieldType type, FieldType genericType, bool nullable)
+			public static String GetBasicTypeDeclaration(FieldType type, FieldType? genericType, bool nullable)
 			{
 				return GetBasicTypeDeclaration(type.plainType, genericType, nullable);
 			}
-			public static String GetBasicTypeDeclaration(String type, String genericType, bool nullable)
+			public static String GetBasicTypeDeclaration(String type, String? genericType, bool nullable)
 			{
 				if (!String.IsNullOrEmpty(genericType))
 				{
