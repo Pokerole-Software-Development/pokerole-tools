@@ -15,7 +15,12 @@
 // * This Source Code Form is subject to the terms of the Mozilla Public
 // * License, v. 2.0. If a copy of the MPL was not distributed with this
 // * file, You can obtain one at https://mozilla.org/MPL/2.0/.
-
+	enum SourceKind{
+		CSharp,
+		TypeScript,
+		Json
+	}
+	SourceKind sourceKind;
 	//not using ValueTuple's since the Devart editor apparently can't handle those...
 	struct Data { public XmlSchema primarySchema; public Dictionary<String, ClassDef> classes; }
 	Data CompileSchema(){
@@ -159,7 +164,7 @@
 		switch (name.Name){
 			case "string":
 			case "byte[]":
-			case"base64Binary":
+			case "base64Binary":
 				return true;
 		}
 		XmlSchemaObject item = schemaSet.GlobalTypes[name];

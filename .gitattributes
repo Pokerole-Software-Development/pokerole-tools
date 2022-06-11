@@ -2,4 +2,4 @@
 #*.sln text eol=crlf
 #*.cs text eol=crlf
 #stop being stupid git. Leave it all alone!!!
-* text eol=keep
+#* text eol=keep

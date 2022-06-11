@@ -17,6 +17,7 @@
 #><#@ import namespace="System.CodeDom.Compiler"
 #><#@ output extension=".cs" #><#
 	//Note: this file's license header gets copied to the output
+	isTypeScript = false;
 	var data = CompileSchema();
 	XmlSchema primarySchema = data.primarySchema;
 	Dictionary<String, ClassDef> classes = data.classes;
@@ -30,6 +31,7 @@ using System.Xml;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Drawing;
+using Newtonsoft.Json;
 using Pokerole.Core.TypeGeneration;
 
 namespace Pokerole.Core{

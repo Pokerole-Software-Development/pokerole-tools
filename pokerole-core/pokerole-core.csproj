@@ -15,6 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="TypeGeneration\BaseTypeBuilder.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BaseTypeBuilder.cs</LastGenOutput>
@@ -27,6 +32,15 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FoundryTemplateGenerator.tt</DependentUpon>
+    </None>
+    <None Update="TypeGeneration\JsonSchemaGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JsonSchemaGenerator.json</LastGenOutput>
+    </None>
+    <None Update="TypeGeneration\JsonSchemaGenerator.json">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JsonSchemaGenerator.tt</DependentUpon>
     </None>
   </ItemGroup>
 

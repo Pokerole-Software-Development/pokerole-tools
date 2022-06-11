@@ -72,6 +72,12 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	<!-- <xs:complexType name="CharSheet" abstract="true">
+		<xs:sequence>
+			
+		</xs:sequence>
+		
+	</xs:complexType> -->
 	<xs:complexType name="Move">
 		<xs:complexContent>
 			<xs:extension base="ex:BaseDataItem">
@@ -662,6 +668,7 @@
 	<xs:complexType name="MonInstance">
 		<xs:complexContent>
 			<xs:extension base="ex:MutableBaseDataItem">
+				<xs:annotation></xs:annotation>
 				<xs:sequence>
 					<xs:element name="Picture" type="ex:ItemReference" ex:genericType="ImageRef">
 						<xs:annotation>

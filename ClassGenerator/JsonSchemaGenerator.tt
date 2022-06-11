@@ -1,0 +1,24 @@
+﻿<#@ include file="BaseTypeBuilder.ttinclude"
+#><#@ assembly name="System.Core"
+#><#@ assembly name="EnvDTE"
+#><#@ assembly name="VSLangProj"
+#><#@ import namespace="System.Linq"
+#><#@ import namespace="System.Text"
+#><#@ import namespace="System.Collections.Generic"
+#><#@ output extension=".json" #><#
+//load Newtonsoft Json schema stuff
+//taken from https://stackoverflow.com/a/26588422/1366594
+var templateItem = dte.Solution.FindProjectItem(this.Host.TemplateFile);
+var project = templateItem.ContainingProject;
+var vsProject = project.Object as VSLangProj.VSProject;
+foreach(var referenceObj in vsProject.References)
+{
+	var reference = (VSLangProj.Reference)referenceObj;
+	if(reference.Name != "Newtonsoft.Json.Schema") continue;
+	var serviceContractAssembly = Assembly.LoadFile(reference.Path);
+	var serviceContractType = serviceContractAssembly.GetType(serviceContractReferenceType);
+	// Do something with it here
+}
+
+#>5<#@ import namespace="Newtonsoft.Json.Schema.Generation"
+#>

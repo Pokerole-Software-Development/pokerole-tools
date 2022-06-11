@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsDEBUG-DexViewer", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pokerole-common", "pokerole-common\pokerole-common.csproj", "{0A2BD35D-FF33-4945-BA1F-43BE13A8554B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassGenerator", "ClassGenerator\ClassGenerator.csproj", "{E330774D-E857-4FE1-9C88-A5C6C7AD944E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{0A2BD35D-FF33-4945-BA1F-43BE13A8554B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A2BD35D-FF33-4945-BA1F-43BE13A8554B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A2BD35D-FF33-4945-BA1F-43BE13A8554B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E330774D-E857-4FE1-9C88-A5C6C7AD944E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E330774D-E857-4FE1-9C88-A5C6C7AD944E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E330774D-E857-4FE1-9C88-A5C6C7AD944E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E330774D-E857-4FE1-9C88-A5C6C7AD944E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

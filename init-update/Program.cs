@@ -12,6 +12,7 @@ using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.FileIO;
 using System.Diagnostics;
 using PdfHandler;
+using Newtonsoft.Json.Schema.Generation;
 
 namespace Pokerole.Tools.InitUpdate
 {
@@ -20,13 +21,16 @@ namespace Pokerole.Tools.InitUpdate
 		static void Main(string[] args)
 		{
 
+			JSchemaGenerator generator = new JSchemaGenerator();
+			var schema = generator.Generate(typeof(PokeroleXmlData));
+			Console.Write(schema.ToString());
 			//ImageFetcher fetcher = new ImageFetcher();
 			//fetcher.FetchImages();
 			//String filename = "";
 			//var values = PdfParser.ParsePdf(filename);
 
-			InitialDataImporter importer = new InitialDataImporter();
-			importer.DoImport();
+			//InitialDataImporter importer = new InitialDataImporter();
+			//importer.DoImport();
 		}
 
 	}

@@ -31,6 +31,8 @@
 	<xs:attribute name="listItemType" type="xs:QName"/>
 	<xs:attribute name="hasBuiltIn" type="xs:boolean"/>
 	<xs:attribute name="proxyType" type="xs:string"/>
+	<!--<xs:-->
+	<xs:attribute name="isSheet" type="xs:boolean"/>
 	<!--<xs:attribute name="isDict" type="xs:boolean"/>-->
 	<!--<xs:attribute name="keyType" type="xs:QName"/>
 	<xs:attribute name="valueType" type="xs:QName"/>-->

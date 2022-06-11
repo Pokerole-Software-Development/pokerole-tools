@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Drawing;
 using Pokerole.Core.TypeGeneration;
+using Newtonsoft.Json;
 
 namespace Pokerole.Core{
 	[System.CodeDom.Compiler.GeneratedCode("BaseTypeBuilder.tt", "??")]

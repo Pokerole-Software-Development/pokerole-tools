@@ -8,6 +8,7 @@
 #><#@ import namespace="System.Collections.Generic"
 #><#@ output extension=".json" #><#
 	//Note: this file's license header gets copied to the output
+	sourceKind = SourceKind.Json;
 	var data = CompileSchema();
 	XmlSchema primarySchema = data.primarySchema;
 	Dictionary<String, ClassDef> classes = data.classes;
