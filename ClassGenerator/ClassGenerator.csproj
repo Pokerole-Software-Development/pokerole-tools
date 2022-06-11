@@ -6,7 +6,24 @@
 
   <ItemGroup>
     <Compile Remove="BaseTypeBuilder.cs" />
-    <Compile Remove="TypeBuilderCore.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ExternalTypes.xsd" />
+    <None Remove="MissingTypes.xsd" />
+    <None Remove="Structures.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ExternalTypes.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MissingTypes.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Structures.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -15,16 +32,16 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </None>
-    <None Include="TypeBuilderCore.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="BaseTypeBuilder.tt">
       <LastGenOutput>BaseTypeBuilder.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="ExternalTypes.xsd">
-      <SubType>Designer</SubType>
     </None>
     <None Update="FoundryTemplateGenerator.json">
       <DependentUpon>FoundryTemplateGenerator.tt</DependentUpon>
@@ -52,12 +69,6 @@
     <None Update="JsonSchemaGenerator.tt">
       <LastGenOutput>JsonSchemaGenerator.json</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="MissingTypes.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="Structures.xsd">
-      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
 
