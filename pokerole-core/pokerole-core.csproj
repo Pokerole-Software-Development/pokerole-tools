@@ -7,11 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="TypeGeneration\BaseTypeBuilder.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>BaseTypeBuilder.tt</DependentUpon>
-    </None>
+    <Compile Remove="TypeGeneration\**" />
+    <EmbeddedResource Remove="TypeGeneration\**" />
+    <None Remove="TypeGeneration\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,40 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="TypeGeneration\BaseTypeBuilder.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>BaseTypeBuilder.cs</LastGenOutput>
-    </None>
-    <None Update="TypeGeneration\FoundryTemplateGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FoundryTemplateGenerator.json</LastGenOutput>
-    </None>
-    <None Update="TypeGeneration\FoundryTemplateGenerator.json">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>FoundryTemplateGenerator.tt</DependentUpon>
-    </None>
-    <None Update="TypeGeneration\JsonSchemaGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>JsonSchemaGenerator.json</LastGenOutput>
-    </None>
-    <None Update="TypeGeneration\JsonSchemaGenerator.json">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>JsonSchemaGenerator.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="TypeGeneration\BaseTypeBuilder.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>BaseTypeBuilder.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
 
 

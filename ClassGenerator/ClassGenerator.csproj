@@ -4,4 +4,65 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="BaseTypeBuilder.cs" />
+    <Compile Remove="TypeBuilderCore.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="BaseTypeBuilder.cs">
+      <DependentUpon>BaseTypeBuilder.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <None Include="TypeBuilderCore.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="BaseTypeBuilder.tt">
+      <LastGenOutput>BaseTypeBuilder.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="ExternalTypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="FoundryTemplateGenerator.json">
+      <DependentUpon>FoundryTemplateGenerator.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <None Update="FoundryTemplateGenerator.tt">
+      <LastGenOutput>FoundryTemplateGenerator.json</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="FoundryTypeBuilder.ts">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FoundryTypeBuilder.tt</DependentUpon>
+    </None>
+    <None Update="FoundryTypeBuilder.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FoundryTypeBuilder.ts</LastGenOutput>
+    </None>
+    <None Update="JsonSchemaGenerator.json">
+      <DependentUpon>JsonSchemaGenerator.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <None Update="JsonSchemaGenerator.tt">
+      <LastGenOutput>JsonSchemaGenerator.json</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="MissingTypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Structures.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
 </Project>

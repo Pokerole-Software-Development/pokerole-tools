@@ -1,29 +1,24 @@
-﻿<#@ template debug="true" hostspecific="true" language="C#"
-#><#@ assembly name="System.Core"
-#><#@ assembly name="System.Xml"
-#><#@ assembly name="System.Xml.Linq"
-#><#@ import namespace="System.Linq"
-#><#@ import namespace="System.Text"
-#><#@ import namespace="System.Collections.Generic"
-#><#@ import namespace="System.Xml.Linq"
-#><#@ import namespace="System.Xml"
-#><#@ import namespace="System.Linq"
-#><#@ import namespace="System.Xml.Schema"
-#><#@ import namespace="System.Collections.Generic"
-#><#@ import namespace="System.IO"
-#><#@ import namespace="System.CodeDom.Compiler" #><#+
-// * This Source Code Form is subject to the terms of the Mozilla Public
-// * License, v. 2.0. If a copy of the MPL was not distributed with this
-// * file, You can obtain one at https://mozilla.org/MPL/2.0/.
-	enum SourceKind{
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml.Schema;
+public static class Generator
+{
+	public enum SourceKind
+	{
 		CSharp,
 		TypeScript,
 		Json
 	}
-	SourceKind sourceKind;
+	public static SourceKind sourceKind;
 	//not using ValueTuple's since the Devart editor apparently can't handle those...
 	struct Data { public XmlSchema primarySchema; public Dictionary<String, ClassDef> classes; }
-	Data CompileSchema(){
+	public static Data CompileSchema()
+	{
 		XmlSchemaSet schemaSet = new XmlSchemaSet();
 		String structuresPath = this.Host.ResolvePath("Structures.xsd");
 		XmlSchema primarySchema = XmlSchema.Read(new FileStream(structuresPath, FileMode.Open), null);
@@ -32,20 +27,24 @@
 			"ExternalTypes.xsd",
 			"MissingTypes.xsd"
 		};
-		foreach (var filename in additionalSchemaFiles){
+		foreach (var filename in additionalSchemaFiles)
+		{
 			schemaSet.Add(XmlSchema.Read(new FileStream(this.Host.ResolvePath(filename), FileMode.Open), null));
 		}
 		schemaSet.Compile();
-		if (!schemaSet.IsCompiled || !primarySchema.IsCompiled){
+		if (!schemaSet.IsCompiled || !primarySchema.IsCompiled)
+		{
 			throw new InvalidOperationException("Schema failed to compile");
 		}
 		var schemaItems = primarySchema.Items;
 
 		Dictionary<String, ClassDef> classes = new Dictionary<String, ClassDef>();
-		foreach	(XmlSchemaObject item in schemaItems){
+		foreach (XmlSchemaObject item in schemaItems)
+		{
 			XmlSchemaComplexType typeDef = item as XmlSchemaComplexType;
-			if (typeDef == null){
-				XmlSchemaElement element= item as XmlSchemaElement;
+			if (typeDef == null)
+			{
+				XmlSchemaElement element = item as XmlSchemaElement;
 				if (element != null && element.Name == "PokeroleData")
 				{
 					//skip that one
@@ -69,7 +68,8 @@
 			classes[def.name] = def;
 		}
 		//parse things further since we now know all classes in the template file
-		foreach (var def in classes.Values){
+		foreach (var def in classes.Values)
+		{
 			XmlSchemaComplexType typeDef = def.definition;
 			XmlSchemaSequence sequence = def.definition.ContentTypeParticle as XmlSchemaSequence;
 			def.fields = new List<FieldDef>((sequence == null ? 0 : sequence.Items.Count) + typeDef.Attributes.Count);
@@ -83,9 +83,11 @@
 				if (attr.Annotation != null)
 				{
 					XmlSchemaDocumentation documentation = attr.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
-					if (documentation != null){
+					if (documentation != null)
+					{
 						XmlNode node = documentation.Markup.FirstOrDefault();
-						if (node != null){
+						if (node != null)
+						{
 							field.documentation = node.InnerText;
 						}
 					}
@@ -96,8 +98,10 @@
 			{
 				continue;
 			}
-			foreach	(XmlSchemaElement item in sequence.Items){
-				if (item.Name == "DataId"){
+			foreach (XmlSchemaElement item in sequence.Items)
+			{
+				if (item.Name == "DataId")
+				{
 					//skip that one. It will be present in the base class
 					continue;
 				}
@@ -106,9 +110,11 @@
 				if (item.Annotation != null)
 				{
 					XmlSchemaDocumentation documentation = item.Annotation.Items.OfType<XmlSchemaDocumentation>().FirstOrDefault();
-					if (documentation != null){
+					if (documentation != null)
+					{
 						XmlNode node = documentation.Markup.FirstOrDefault();
-						if (node != null){
+						if (node != null)
+						{
 							field.documentation = node.InnerText;
 						}
 					}
@@ -120,13 +126,14 @@
 				{
 					foreach (XmlAttribute unhandled in item.UnhandledAttributes)
 					{
-						switch (unhandled.LocalName){
+						switch (unhandled.LocalName)
+						{
 							//case "keyType":
-								//keyType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
-								//break;
+							//keyType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
+							//break;
 							//case "valueType":
-								//valueType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
-								//break;
+							//valueType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
+							//break;
 							case "listItemType":
 								listType = GrabTypeFromAttribute(item, unhandled, structuresPath, schemaSet, classes);
 								break;
@@ -161,7 +168,8 @@
 
 	static bool IsReferenceType(XmlSchemaSet schemaSet, XmlQualifiedName name)
 	{
-		switch (name.Name){
+		switch (name.Name)
+		{
 			case "string":
 			case "byte[]":
 			case "base64Binary":
@@ -169,7 +177,8 @@
 		}
 		XmlSchemaObject item = schemaSet.GlobalTypes[name];
 		XmlSchemaComplexType type = item as XmlSchemaComplexType;
-		if (type != null){
+		if (type != null)
+		{
 			switch (type.Name)
 			{
 				case "ItemReference":
@@ -179,7 +188,7 @@
 					return false;
 			}
 			//if (type.Name == "ItemReference" || type.Name == "DataId"){
-				//return false;
+			//return false;
 			//}
 			return true;
 		}
@@ -189,7 +198,8 @@
 		XmlSchemaSet schemaSet, Dictionary<String, ClassDef> classes)
 	{
 		String verified;
-		try{verified = XmlConvert.VerifyName(unhandled.Value); }
+		try
+		{ verified = XmlConvert.VerifyName(unhandled.Value); }
 		catch (XmlException)
 		{
 			this.Host.LogErrors(new CompilerErrorCollection(){
@@ -216,18 +226,23 @@
 		}
 		return new FieldType(NormalizeType(name.Name), IsReferenceType(schemaSet, name), def);
 	}
-	String LowercaseInitial(String input){
-		if (String.IsNullOrEmpty(input)){
+	String LowercaseInitial(String input)
+	{
+		if (String.IsNullOrEmpty(input))
+		{
 			return input;
 		}
 		String result = char.ToLowerInvariant(input[0]) + input.Substring(1);
-		if (result == "throw"){
+		if (result == "throw")
+		{
 			return "@throw";
 		}
 		return result;
 	}
-	static String NormalizeType(String input){
-		switch (input){
+	static String NormalizeType(String input)
+	{
+		switch (input)
+		{
 			case "boolean":
 				return "bool";
 			case "base64Binary":
@@ -237,7 +252,8 @@
 		}
 		return input;
 	}
-	class ClassDef{
+	class ClassDef
+	{
 		public bool isDataItem;
 		public bool isReferenceType;
 		public String name;
@@ -245,7 +261,8 @@
 		public List<FieldDef> fields;
 		public bool isMutable;
 	}
-	class FieldDef{
+	class FieldDef
+	{
 		public bool isAttribute;
 		public String documentation;
 		public string name;
@@ -259,7 +276,8 @@
 		//public String genericType;
 		//public bool nullable;
 		//public bool isReferenceType;
-		public String NonNullReference(){
+		public String NonNullReference()
+		{
 			return type.IsReferenceType ? $"{name}!" : $"{name} ?? default";
 		}
 	}
@@ -289,11 +307,12 @@
 			return new FieldType(genericType, listType, typeName, schemaSet, classes);
 		}
 		FieldType(FieldType genericType, FieldType listType,
-			XmlQualifiedName typeName, XmlSchemaSet schemaSet, Dictionary<String, ClassDef> classes){
+			XmlQualifiedName typeName, XmlSchemaSet schemaSet, Dictionary<String, ClassDef> classes)
+		{
 			ClassDef tempDef;
 			IsReferenceType = IsReferenceType(schemaSet, typeName) || listType != null;
 			plainType = NormalizeType(typeName.Name);
-			if(classes.TryGetValue(plainType, out tempDef))
+			if (classes.TryGetValue(plainType, out tempDef))
 			{
 				ClassType = tempDef;
 			}
@@ -376,13 +395,13 @@
 			{
 				return $"new List<{itemType}>({incomingValue})";
 			}
-			return $"new List<{itemType}>({incomingValue}).AsReadOnly()";			
+			return $"new List<{itemType}>({incomingValue}).AsReadOnly()";
 			//if (!readOnly)
 			//{
-				//return $"new Dictionary<{keyType}, {valueType}>({incomingValue})";
+			//return $"new Dictionary<{keyType}, {valueType}>({incomingValue})";
 			//}
 			//return $"new ReadOnlyDictionary<{keyType}, {valueType}>(new Dictionary<{keyType}, {valueType}>({incomingValue}))";
 		}
 	}
 
- #>
+}
