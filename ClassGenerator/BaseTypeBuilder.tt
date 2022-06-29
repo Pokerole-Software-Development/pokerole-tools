@@ -25,9 +25,9 @@
 	//Note: this file's license header gets copied to the output
 	//Generator.logError = (error) => this.Host.LogErrors(new CompilerErrorCollection(){error});
 	Generator.sourceKind = SourceKind.CSharp;
-	var data = Generator.CompileSchema();
-	var primarySchema = data.primarySchema;
-	Dictionary<String, Generator.ClassDef> classes = data.classes;
+	var (primarySchema, classes) = Generator.CompileSchema();
+	//var primarySchema = data.primarySchema;
+	//Dictionary<String, Generator.ClassDef> classes = data.classes;
  #>
 using System;
 using System.Collections.Generic;

@@ -24,12 +24,7 @@ namespace Pokerole
 		public static Action<CompilerError> logError = error => throw new InvalidOperationException(
 			$"Error logger was not set. Could not log {error}");
 		public static SourceKind sourceKind;
-		public struct Data
-		{
-			public XmlSchema primarySchema;
-			public Dictionary<string, ClassDef> classes;
-		}
-		public static Data CompileSchema()
+		public static (XmlSchema primarySchema, Dictionary<String, ClassDef> classes) CompileSchema()
 		{
 			Assembly thisAssembly = Assembly.GetExecutingAssembly();
 			var baseDir = Path.GetDirectoryName(thisAssembly.Location) ??
@@ -167,11 +162,12 @@ namespace Pokerole
 					def.fields.Add(field);
 				}
 			}
-			return new Data
-			{
-				primarySchema = primarySchema,
-				classes = classes
-			};
+			return (primarySchema, classes);
+			//return new Data
+			//{
+			//	primarySchema = primarySchema,
+			//	classes = classes
+			//};
 		}
 
 
@@ -304,7 +300,7 @@ namespace Pokerole
 		}
 		public class FieldType
 		{
-			String plainType;
+			public String plainType;
 			public bool isNullable = false;
 			public bool IsReferenceType { get; }
 			public ClassDef? ClassType { get; }
