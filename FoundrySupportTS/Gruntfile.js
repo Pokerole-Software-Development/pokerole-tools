@@ -61,6 +61,7 @@ module.exports = function(grunt) {
 				expand: true,
 				src: [
 					"system.json",
+					"template.json",
 					"templates/**",
 					"lang/**",
 				],

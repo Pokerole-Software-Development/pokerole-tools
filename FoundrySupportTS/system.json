@@ -1,29 +1,29 @@
 {
-  "name": "Pokerole",
-  "title": "Pokérole",
-  "description": "The Pokérole system for FoundryVTT!",
-  "version": "0.0.0",
-  "minimumCoreVersion": "0.8.6",
-  "compatibleCoreVersion": "9",
-  "author": "Sir Intellegence",
-  "esmodules": ["module/Pokerole.mjs"],
-  "styles": ["css/Pokerole.css"],
-  "scripts": [],
-  "packs": [],
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
-    }
-  ],
-  "gridDistance": 5,
-  "gridUnits": "ft",
-  "primaryTokenAttribute": "health",
-  "secondaryTokenAttribute": "will",
-  "initiative": "@dexterity + @alert + 1d6",
-  "url": "",
-  "manifest": "",
-  "download": "",
-  "license": "LICENSE.txt"
+	"name": "Pokerole",
+	"title": "Pokérole",
+	"description": "The Pokérole system for FoundryVTT!",
+	"version": "0.0.0",
+	"minimumCoreVersion": "0.8.6",
+	"compatibleCoreVersion": "9",
+	"author": "Sir Intellegence",
+	"esmodules": ["module/Pokerole.mjs"],
+	"styles": ["css/Pokerole.css"],
+	"scripts": [],
+	"packs": [],
+	"languages": [
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "lang/en.json"
+		}
+	],
+	"gridDistance": 2.5,
+	"gridUnits": "ft",
+	"primaryTokenAttribute": "health",
+	"secondaryTokenAttribute": "will",
+	"initiative": "@dexterity + @alert + 1d6",
+	"url": "",
+	"manifest": "",
+	"download": "",
+	"license": "LICENSE.txt"
 }

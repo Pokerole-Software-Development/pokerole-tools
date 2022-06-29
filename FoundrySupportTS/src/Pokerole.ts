@@ -7,8 +7,7 @@ import { PokeroleItemSheet } from "./sheets/item-sheet"
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from "./helpers/templates"
 import { POKEROLE } from "./helpers/config"
-
-
+throw new Error("This is a test");
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */

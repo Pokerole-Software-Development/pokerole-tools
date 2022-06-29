@@ -5,6 +5,12 @@ indent_size = 4
 indent_style = tab
 tab_width = 4
 
+[*.html]
+#html is apparently indentation heavy
+indent_size = 2
+indent_style = tab
+tab_width = 2
+
 [*.ts]
 #### Core EditorConfig Options ####
 
