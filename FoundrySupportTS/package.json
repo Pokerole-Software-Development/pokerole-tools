@@ -20,15 +20,15 @@
     "@typescript-eslint/parser": "^4.26.1",
     "eslint": "^7.28.0",
     "fs-extra": "^10.0.0",
+    "grunt": "^1.5.3",
     "grunt-concurrent": "^3.0.0",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-less": "^3.0.0",
     "grunt-contrib-uglify": "^5.0.1",
     "grunt-contrib-watch": "^1.1.0",
-    "grunt": "^1.5.3",
     "less": "^4.1.1",
-    "typescript-eslint-language-service": "^4.1.4",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.2",
+    "typescript-eslint-language-service": "^4.1.4"
   }
 }
