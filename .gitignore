@@ -374,3 +374,5 @@ jsconfig.json
 foundry
 FoundrySupportTS/build/
 Unversioned Reference/
+
+FoundrySupportTS/foundryuserdata/

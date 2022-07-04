@@ -33,7 +33,7 @@ interface ActorSheetOptions extends ActorSheet.Options{
 }
 interface ActorSheetData extends ActorSheet.Data<ActorSheetOptions>{
 	flags: Record<string, unknown>;
-	rollData: ActorRollData; foundry is not reading the flipping files!!!
+	rollData: ActorRollData;// foundry is not reading the flipping files!!!
 }
 /**
  * Extend the basic ActorSheet with some very simple modifications

@@ -24,12 +24,13 @@
 		"noUncheckedIndexedAccess": true,
 
 		"outDir": "build/",
+		"sourceMap": true,
 
 		"plugins": [
 			{"name": "typescript-eslint-language-service"}
 		]
 	},
 	"include": [
-		"**/*.ts",
+		"**/*.ts",// "src/Pokerole.mts",
 	],
 }

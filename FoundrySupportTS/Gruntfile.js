@@ -99,6 +99,9 @@ module.exports = function(grunt) {
 				'copy',
 				'typeScript',
 			],
+			// 'debug': {
+
+			// },
 			'watch': {
 				tasks: [
 					'_watch',

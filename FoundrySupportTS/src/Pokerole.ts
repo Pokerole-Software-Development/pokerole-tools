@@ -1,29 +1,33 @@
 // Import document classes.
-import { PokeroleActor } from "./documents/actor"
-import { PokeroleItem } from "./documents/item"
+import { PokeroleActor } from "./documents/actor.js"
+import { PokeroleItem } from "./documents/item.js"
 // Import sheet classes.
-import { PokeroleActorSheet } from "./sheets/actor-sheet"
-import { PokeroleItemSheet } from "./sheets/item-sheet"
+import { PokeroleActorSheet } from "./sheets/actor-sheet.js"
+import { PokeroleItemSheet } from "./sheets/item-sheet.js"
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from "./helpers/templates"
 import { POKEROLE } from "./helpers/config"
-throw new Error("This is a test");
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
 
 Hooks.once('init', async function() {
-
+  console.error("Hello!");
+  console.log("World!");
+  // throw new Error("This is a test");
   // // Add utility classes to the global game object so that they're more easily
   // // accessible in global contexts.
-  (game as any).Pokerole = {
+  //initialized before 'init'
+  (game as Game).Pokerole = {
     PokeroleActor,
     PokeroleItem,
     // rollItemMacro
   };
+  console.error("This is a test");
 
   // Add custom constants for configuration.
+  CONFIG.POKEROLE = POKEROLE;
   (CONFIG as any).POKEROLE = POKEROLE
 
   /**

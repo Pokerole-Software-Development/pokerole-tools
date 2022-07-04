@@ -6,7 +6,7 @@
 	"minimumCoreVersion": "0.8.6",
 	"compatibleCoreVersion": "9",
 	"author": "Sir Intellegence",
-	"esmodules": ["module/Pokerole.mjs"],
+	"esmodules": ["Pokerole.js"],
 	"styles": ["css/Pokerole.css"],
 	"scripts": [],
 	"packs": [],
@@ -22,8 +22,8 @@
 	"primaryTokenAttribute": "health",
 	"secondaryTokenAttribute": "will",
 	"initiative": "@dexterity + @alert + 1d6",
-	"url": "",
-	"manifest": "",
+	"url": "https://github.com/SirIntellegence/pokerole-tools",
+	"manifest": "https://raw.githubusercontent.com/SirIntellegence/pokerole-tools/main/FoundrySupportTS/system.json",
 	"download": "",
 	"license": "LICENSE.txt"
 }

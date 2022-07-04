@@ -5,14 +5,44 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "grunt-build",
+			"name": "Debug Foundry",
 			"type": "node",
+			"env": {
+				// "DEBUG": "*"
+			},
 			"request": "launch",
-			"cwd": "${workspaceRoot}/",
-			"runtimeExecutable": "npm",
+			"program": "${workspaceFolder}/foundry/resources/app/main.js",
+			"args": [
+				"--dataPath=${workspaceFolder}/foundryuserdata"
+			],
 			"runtimeArgs": [
-				"run", "build"
-			]
-		}
+				"--preserve-symlinks"
+			],
+			"cwd": "${workspaceFolder}",
+			"killBehavior": "polite",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"outputCapture": "std",
+			"sourceMaps": true,
+			"outFiles": [
+				"${workspaceFolder}/**/*.js",
+				"${workspaceFolder}/**/*.ts",
+				"${workspaceFolder}/**/*.mjs",
+				"${workspaceFolder}/**/*.mts",
+				"!**/node_modules/**"
+			],
+
+		},
+		// {
+		// 	"name": "grunt-build",
+		// 	"type": "node",
+		// 	"request": "launch",
+		// 	"cwd": "${workspaceRoot}/",
+		// 	"runtimeExecutable": "npm",
+		// 	"runtimeArgs": [
+		// 		"run", "build"
+		// 	]
+		// }
 	]
 }
