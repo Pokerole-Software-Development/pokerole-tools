@@ -1,22 +1,28 @@
 {
 	"Actor": {
-		"types": ["character"],
+		"types": [ "pokemon", "rival", "trainer"],
 		"templates": {
 			"base": {
+				"nature": "Timid",
 				"health": {
 					"value": 10,
 					"min": 0,
 					"max": 10
 				},
-				"power": {
-					"value": 5,
-					"min": 0,
-					"max": 5
-				},
 				"dexterity": 0,
 				"alert": 0,
 				"biography": "",
-				"will": 0
+				"will": {
+					"value": 0,
+					"max": 5,
+					"min": 0
+				}
+			},
+			"player": {
+
+			},
+			"human":{
+				"money": 0
 			}
 		},
 		"character": {

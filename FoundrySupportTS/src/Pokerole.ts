@@ -5,30 +5,27 @@ import { PokeroleItem } from "./documents/item.js"
 import { PokeroleActorSheet } from "./sheets/actor-sheet.js"
 import { PokeroleItemSheet } from "./sheets/item-sheet.js"
 // Import helper/utility classes and constants.
-import { preloadHandlebarsTemplates } from "./helpers/templates"
-import { POKEROLE } from "./helpers/config"
+import { preloadHandlebarsTemplates } from "./helpers/templates.js"
+import { POKEROLE } from "./helpers/config.js"
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
 
-Hooks.once('init', async function() {
-  console.error("Hello!");
-  console.log("World!");
+Hooks.once('init', async function () {
+  console.log(`Pokérole | Initializing the Pokérole Game System\n${POKEROLE.ASCII}`);
   // throw new Error("This is a test");
-  // // Add utility classes to the global game object so that they're more easily
-  // // accessible in global contexts.
+  // Add utility classes to the global game object so that they're more easily
+  // accessible in global contexts.
   //initialized before 'init'
   (game as Game).Pokerole = {
     PokeroleActor,
     PokeroleItem,
     // rollItemMacro
   };
-  console.error("This is a test");
 
   // Add custom constants for configuration.
   CONFIG.POKEROLE = POKEROLE;
-  (CONFIG as any).POKEROLE = POKEROLE
 
   /**
    * Set an initiative formula for the system

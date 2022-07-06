@@ -4,7 +4,7 @@ import { DEFAULT_TOKEN } from "@league-of-foundry-developers/foundry-vtt-types/s
 import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
 
 interface ActorSheetOptions extends ActorSheet.Options{
-	// //set to defaults
+	// //set to defaults 
 	// token?: TokenDocument | null | undefined;
 	// viewPermission: 0 | 1 | 2 | 3 = CONST.DOCUMENT_PERMISSION_LEVELS.LIMITED;
 	// closeOnSubmit: boolean = true;
@@ -33,7 +33,7 @@ interface ActorSheetOptions extends ActorSheet.Options{
 }
 interface ActorSheetData extends ActorSheet.Data<ActorSheetOptions>{
 	flags: Record<string, unknown>;
-	rollData: ActorRollData;// foundry is not reading the flipping files!!!
+	rollData: ActorRollData;
 }
 /**
  * Extend the basic ActorSheet with some very simple modifications

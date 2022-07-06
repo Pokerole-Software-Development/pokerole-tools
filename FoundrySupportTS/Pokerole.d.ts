@@ -4,5 +4,5 @@ interface Game{
 }
 interface CONFIG{
 	//define later
-	POKEROLE: any;
+	POKEROLE: POKEROLE;
 }
