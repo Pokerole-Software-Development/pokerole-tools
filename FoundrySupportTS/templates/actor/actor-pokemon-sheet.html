@@ -2,6 +2,8 @@
 
 	<!--Future note: Install a single click handler on all dots and figure out what to do based on the dot ID since
 	they already describe themselves-->
+	{{!-- Shadeslayer (regarding text placement): I put the nature to the right, but the type below because it could
+	be pretty long --}}
 	{{!-- Sheet Header --}}
 	<header class="sheet-header">
 		<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
@@ -46,6 +48,7 @@
 	{{!-- Sheet Tab Navigation --}}
 	<nav class="sheet-tabs tabs" data-group="primary">
 		{{!-- Default tab is specified in actor-sheet.mjs --}}
+		<a class="item" data-tab="primary">Primary Sheet</a>
 		<a class="item" data-tab="features">Features</a>
 		<a class="item" data-tab="description">Description</a>
 		<a class="item" data-tab="items">Items</a>
@@ -54,6 +57,27 @@
 
 	{{!-- Sheet Body --}}
 	<section class="sheet-body">
+		{{!-- Owned Features Tab --}}
+		<div class="tab primary" data-group="primary" data-tab="primary">
+			<!-- { 9{> "systems/Pokerole/templates/actor/parts/Mon-card.svg"}} -->
+			<img src="systems/Pokerole/templates/actor/parts/Mon-card.svg" alt="primary sheet" id="sheet-svg"/>
+			<!-- <section class="grid grid-3col">
+				<aside class="sidebar">
+
+					{{!-- The grid classes are defined in scss/global/_grid.scss. To use,
+					use both the "grid" and "grid-Ncol" class where "N" can be any number
+					from 1 to 12 and will create that number of columns. --}}
+				</aside>
+
+				{{!-- For the main features list, span the right two columns --}}
+				<section class="main grid-span-2">
+					{{!-- This is a Handlebars partial. They're stored in the `/parts` folder next to this sheet, and defined in
+					module/helpers/templates.mjs --}}
+					{{> "systems/Pokerole/templates/actor/parts/actor-features.html"}}
+				</section>
+
+			</section> -->
+		</div>
 
 		{{!-- Owned Features Tab --}}
 		<div class="tab features" data-group="primary" data-tab="features">

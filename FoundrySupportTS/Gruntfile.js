@@ -58,14 +58,29 @@ module.exports = function(grunt) {
 
 		copy: {
 			'build': {
-				expand: true,
-				src: [
-					"system.json",
-					"template.json",
-					"templates/**",
-					"lang/**",
-				],
-				dest: 'build/',
+				files: [
+					{
+						expand: true,
+						src: [
+							"system.json",
+							"template.json",
+							"templates/**",
+							"lang/**",
+						],
+						dest: 'build/',
+					},
+					{
+						expand: true,
+						src: [
+							"../SourceMaterial/*.svg"
+						],
+						flatten: true,
+						dest: 'build/templates/actor/parts/',
+					},
+				]
+				// rename: function (dest, src) {
+				// 	//move the svgs 
+				// }
 			},
 		},
 

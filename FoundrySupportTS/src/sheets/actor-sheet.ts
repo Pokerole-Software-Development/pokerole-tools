@@ -34,6 +34,7 @@ interface ActorSheetOptions extends ActorSheet.Options{
 interface ActorSheetData extends ActorSheet.Data<ActorSheetOptions>{
 	flags: Record<string, unknown>;
 	rollData: ActorRollData;
+	moves: ActorData['items'];
 }
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -47,10 +48,14 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 			template: "systems/Pokerole/templates/actor/actor-sheet.html",
 			width: 600,
 			height: 600,
-			tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "features" }]
+			tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "primary" }]
 		});
 	}
-
+	protected async _render(force?: boolean | undefined, options?: Application.RenderOptions<ActorSheet.Options>
+		| undefined): Promise<void> {
+		super._render(force, options);
+		// this.
+	}
 	/** @override */
 	get template() {
 		return `systems/Pokerole/templates/actor/actor-${this.actor.data.type}-sheet.html`;
@@ -76,7 +81,7 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 
 		// Prepare character data and items.
 		if (actorData.type == 'character') {
-			this._prepareItems(realContext);
+			this._prepareMonItems(realContext);
 			this._prepareCharacterData(realContext);
 		}
 
@@ -107,27 +112,39 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 	 *
 	 * @return {undefined}
 	 */
-	_prepareItems(context: ActorSheetData) {
+	_prepareMonItems(context: ActorSheetData) {
 		// Initialize containers.
-		// const gear = [];
-		// const features = [];
+		const gear = [];
+		const features = [];
+		const moves = [];
+		const types = [];
+		const accessories = [];
 
-		// // Iterate through items, allocating to containers
-		// for (let i of context.items) {
-		//   i.img = i.img || DEFAULT_TOKEN;
-		//   // Append to gear.
-		//   if (i.type === 'item') {
-		//     gear.push(i);
-		//   }
-		//   // Append to features.
-		//   else if (i.type === 'feature') {
-		//     features.push(i);
-		//   }
-		// }
-
-		// // Assign and return
-		// context.gear = gear;
-		// context.features = features;
+		// Iterate through items, allocating to containers
+		for (let i of context.items) {
+			i.img = i.img || DEFAULT_TOKEN;
+			if (i.type === 'move') {
+				moves.push(i);
+			}
+			if (i.type === 'type') {
+				types.push(i);
+			}
+			if (i.type === 'accessory') {
+				accessories.push(i);
+			}
+			// Append to gear.
+			if (i.type === 'item') {
+				gear.push(i);
+			}
+			// Append to features.
+			else if (i.type === 'feature') {
+				features.push(i);
+			}
+		}
+		// Assign and return
+		context.moves.clear = moves;
+		context.gear = gear;
+		context.features = features;
 	}
 
 	/* -------------------------------------------- */
@@ -173,6 +190,7 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 				li.addEventListener("dragstart", handler, false);
 			});
 		}
+
 	}
 
 	/**
