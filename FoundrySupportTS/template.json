@@ -32,6 +32,9 @@
 					"value": 1
 				}
 			}
+		},
+		"pokemon":{
+			"templates": ["base"]
 		}
 	},
 	"Item": {

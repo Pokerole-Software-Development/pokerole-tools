@@ -2,6 +2,7 @@
 import { ActorRollData } from "../documents/actor";
 import { DEFAULT_TOKEN } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
 import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
+import * as fs from "fs";
 
 interface ActorSheetOptions extends ActorSheet.Options{
 	// //set to defaults 
@@ -51,11 +52,11 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 			tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "primary" }]
 		});
 	}
-	protected async _render(force?: boolean | undefined, options?: Application.RenderOptions<ActorSheet.Options>
-		| undefined): Promise<void> {
-		super._render(force, options);
-		// this.
-	}
+	// protected async _render(force?: boolean | undefined, options?: Application.RenderOptions<ActorSheet.Options>
+	// 	| undefined): Promise<void> {
+	// 	super._render(force, options);
+	// 	// this.
+	// }
 	/** @override */
 	get template() {
 		return `systems/Pokerole/templates/actor/actor-${this.actor.data.type}-sheet.html`;
@@ -80,7 +81,7 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 		realContext.flags = actorData.flags;
 
 		// Prepare character data and items.
-		if (actorData.type == 'character') {
+		if (actorData.type == 'pokemon') {
 			this._prepareMonItems(realContext);
 			this._prepareCharacterData(realContext);
 		}
@@ -119,34 +120,72 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 		const moves = [];
 		const types = [];
 		const accessories = [];
+		// // Iterate through items, allocating to containers
+		// for (let i of context.items) {
+		//   i.img = i.img || DEFAULT_TOKEN;
+		//   // Append to gear.
+		//   if (i.type === 'item') {
+		//     gear.push(i);
+		//   }
+		//   // Append to features.
+		//   else if (i.type === 'feature') {
+		//     features.push(i);
+		//   }
+		// }
 
-		// Iterate through items, allocating to containers
-		for (let i of context.items) {
-			i.img = i.img || DEFAULT_TOKEN;
-			if (i.type === 'move') {
-				moves.push(i);
-			}
-			if (i.type === 'type') {
-				types.push(i);
-			}
-			if (i.type === 'accessory') {
-				accessories.push(i);
-			}
-			// Append to gear.
-			if (i.type === 'item') {
-				gear.push(i);
-			}
-			// Append to features.
-			else if (i.type === 'feature') {
-				features.push(i);
-			}
-		}
-		// Assign and return
-		context.moves.clear = moves;
-		context.gear = gear;
-		context.features = features;
+		// // Assign and return
+		// context.gear = gear;
+		// context.features = features;
+
+		// // Iterate through items, allocating to containers
+		// for (let i of context.items) {
+		// 	i.img = i.img || DEFAULT_TOKEN;
+		// 	if (i.type === 'move') {
+		// 		moves.push(i);
+		// 	}
+		// 	if (i.type === 'type') {
+		// 		types.push(i);
+		// 	}
+		// 	if (i.type === 'accessory') {
+		// 		accessories.push(i);
+		// 	}
+		// 	// Append to gear.
+		// 	if (i.type === 'item') {
+		// 		gear.push(i);
+		// 	}
+		// 	// Append to features.
+		// 	else if (i.type === 'feature') {
+		// 		features.push(i);
+		// 	}
+		// }
+		// // Assign and return
+		// context.moves.clear = moves;
+		// context.gear = gear;
+		// context.features = features;
 	}
+	// protected _injectHTML(html: JQuery<HTMLElement>): void {
+	// 	super._injectHTML(html);
+	// 	if (!html.hasClass("svg-target")) {
+	// 		return;
+	// 	}
+	// 	var element = html.get(0)!;
+	// 	var path = String(element.textContent);
+	// 	var contents = fetch()
+	// 	var parsed = jQuery.parseXML(contents);
+	// 	element.textContent = "";
+	// 	element.appendChild(parsed.getRootNode());
+	// 	// parsed.
+	// 	// //trim off the xml declaration
+	// 	// var declarationEnd = contents.indexOf("?>");
+	// 	// if (declarationEnd > 0) {
+	// 	// 	//it should be
+	// 	// 	contents = contents.substring(declarationEnd + 2);
+	// 	// }
+	// 	// //shove it in
+	// 	// jQuery.
 
+		
+	// }
 	/* -------------------------------------------- */
 
 	/** @override */
