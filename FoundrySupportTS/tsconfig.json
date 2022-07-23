@@ -24,7 +24,7 @@
 		"noUncheckedIndexedAccess": true,
 
 		"outDir": "build/",
-		"sourceMap": true,
+		//"sourceMap": true, make debugging difficult for some reason? Something about 404 on ts files
 
 		"plugins": [
 			{"name": "typescript-eslint-language-service"}

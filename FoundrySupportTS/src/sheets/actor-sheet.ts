@@ -1,8 +1,9 @@
 // import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
-import { ActorRollData } from "../documents/actor";
+import * as act from "../documents/actor";
 import { DEFAULT_TOKEN } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
 import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
-import * as fs from "fs";
+import { assert } from "console";
+
 
 interface ActorSheetOptions extends ActorSheet.Options{
 	// //set to defaults 
@@ -34,7 +35,7 @@ interface ActorSheetOptions extends ActorSheet.Options{
 }
 interface ActorSheetData extends ActorSheet.Data<ActorSheetOptions>{
 	flags: Record<string, unknown>;
-	rollData: ActorRollData;
+	rollData: act.ActorRollData;
 	moves: ActorData['items'];
 }
 /**
@@ -87,7 +88,7 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 		}
 
 		// Add roll data for TinyMCE editors.
-		realContext.rollData = realContext.actor.getRollData() as ActorRollData;
+		realContext.rollData = realContext.actor.getRollData() as act.ActorRollData;
 
 		// Prepare active effects
 		// realContext.effects = prepareActiveEffectCategories(this.actor.effects);
@@ -163,31 +164,83 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 		// context.gear = gear;
 		// context.features = features;
 	}
-	// protected _injectHTML(html: JQuery<HTMLElement>): void {
-	// 	super._injectHTML(html);
-	// 	if (!html.hasClass("svg-target")) {
-	// 		return;
-	// 	}
-	// 	var element = html.get(0)!;
-	// 	var path = String(element.textContent);
-	// 	var contents = fetch()
-	// 	var parsed = jQuery.parseXML(contents);
-	// 	element.textContent = "";
-	// 	element.appendChild(parsed.getRootNode());
-	// 	// parsed.
-	// 	// //trim off the xml declaration
-	// 	// var declarationEnd = contents.indexOf("?>");
-	// 	// if (declarationEnd > 0) {
-	// 	// 	//it should be
-	// 	// 	contents = contents.substring(declarationEnd + 2);
-	// 	// }
-	// 	// //shove it in
-	// 	// jQuery.
+	protected _injectHTML(html: JQuery<HTMLElement>): void {
+		super._injectHTML(html);
+		var svgTarget = html.find(".svg-target");
+		if (svgTarget === null || svgTarget.length < 1) {
+			return;
+		}
+		var embed = svgTarget.get(0)! as HTMLEmbedElement;
+		var svg = embed.getSVGDocument()!;
+		if (svg == null) {
+			//stupid race condition... run it later
+			var thisRef = this;
+			embed.addEventListener("load", function () {
+				//var t = this;Apparently, 'this' is now embed?
+				var svg = this.getSVGDocument();
+				if (svg == null) {
+					throw new Error("Svg content missing");
+				}
+				thisRef._markUpSvg(svg);
+			});
+			return;
+		}
+		this._markUpSvg(svg);
+	}
+	private _markUpSvg(svg: Document) {
 
-		
-	// }
+		//bake the inkscape IDs in. We could do this ahead of time, but that would require writing a tool to
+		//do that... Why waste time figuring that out if we can just do it here?
+		var items: HTMLElement[] = [];
+		$("*", svg).each((index, element) => {
+			var inkAttr = element.getAttribute("inkscape:label");
+			if (inkAttr === null) {
+				return;
+			}
+			//don't make changes in here... Just in case...
+			items.push(element);
+		});
+
+		for (var element of items) {
+			var inkId = element.getAttribute("inkscape:label")!;
+			element.id = inkId;
+			//so we can list them all later. I don't know if we can just grab references here and use them later,
+			//so I am just setting classes first
+			element.classList.add("svg-item");
+		}
+
+		// for (const element of svg.getElementsByTagName("*")) {
+			
+		// }
+
+		// var elements = svg.evaluate("//[inkscape:label]", svg, label => {
+		// 	return label === "inkscape" ? "http://www.inkscape.org/namespaces/inkscape" : "";
+		// }, XPathResult.ORDERED_NODE_ITERATOR_TYPE);
+		// var items = [];
+		// for (var item = elements.iterateNext(); item !== null; item = elements.iterateNext()){
+		// 	items.push(item as Element);
+		// }
+
+		// //apparently node list isn't iterable but has a forEach method?
+		// var found = 0;
+		// svg.querySelectorAll<SVGElement>("[label]").forEach((element, index, parent) => {
+		// 	var realId = element.getAttribute("inkscape:label");
+		// 	found++;
+		// });
+		console.log(`Found ${items.length} svg elements`);		
+	}
 	/* -------------------------------------------- */
-
+	render(force?: boolean | undefined, options?: Application.RenderOptions<ActorSheet.Options> | undefined): this {
+		super.render(force, options);
+		//don't really care about the args. We are just here to fill in stat circles and such.
+		//and collect things... That too...
+		var base = this._element!;here?
+		//find me my svg items!
+		var svgItems = base.find(".svg-item").toArray();
+		console.log(`Found ${svgItems.length} items during render`);
+		return this;
+	}
+	
 	/** @override */
 	activateListeners(html: JQuery) {
 		super.activateListeners(html);
@@ -202,6 +255,9 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 		// -------------------------------------------------------------
 		// Everything below here is only needed if the sheet is editable
 		if (!this.isEditable) return;
+
+		
+
 
 		// Add Inventory Item
 		html.find('.item-create').click(this._onItemCreate.bind(this));

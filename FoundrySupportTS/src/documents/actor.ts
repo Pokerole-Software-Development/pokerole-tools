@@ -22,6 +22,7 @@ export class PokeroleActor extends Actor {
 	prepareBaseData() {
 		// Data modifications in this step occur before processing embedded
 		// documents or derived data.
+
 	}
 
 	/**
@@ -35,24 +36,91 @@ export class PokeroleActor extends Actor {
 	 */
 	prepareDerivedData() {
 		const actorData = this.data;
-		const data = actorData.data;
+		const data = actorData.data as PokeroleActorData;
 		const flags = actorData.flags["Pokerole"] || {};
+
+		data.confidence = this._calculateConfidence(data.nature)
 
 		// Make separate methods for each Actor type (character, npc, etc.) to keep
 		// things organized.
-		this._prepareCharacterData(actorData);
+		switch (actorData.type) {
+			case "pokemon":
+				this._preparePokemonData(actorData);
+				break;
+			case "trainer":
+				this._prepareTrainerData(actorData);
+				break;
+			case "rival":
+				this._prepareRivalData(actorData);
+				break;
+		}
 	}
 
 	/**
 	 * Prepare Character type specific data
 	 */
-	_prepareCharacterData(actorData: ActorData) {
-		if (actorData.type !== 'character') return;
+	_preparePokemonData(actorData: ActorData) {
+
+		// Make modifications to data here. For example:
+		const data = actorData.data;
+	}
+	/**
+	 * Prepare Trainer type specific data
+	 */
+	_prepareTrainerData(actorData: ActorData) {
+
+		// Make modifications to data here. For example:
+		const data = actorData.data;
+	}
+	/**
+	 * Prepare Rival type specific data
+	 */
+	_prepareRivalData(actorData: ActorData) {
+		// Page 475, Storyteller Note
+		// "Rivals don’t need Attributes or Skill Points, simply assume they will Roll one or two more dice
+		// than the players."
 
 		// Make modifications to data here. For example:
 		const data = actorData.data;
 	}
 
+	_calculateConfidence(nature: Nature) : number {
+		switch (nature) {
+			case Nature.Adamant:
+			case Nature.Serious:
+			case Nature.Timid:
+				return 4;
+			case Nature.Careful:
+			case Nature.Lonely:
+			case Nature.Quiet:
+				return 5;
+			case Nature.Bashful:
+			case Nature.Naughty:
+			case Nature.Rash:
+				return 6;
+			case Nature.Docile:
+			case Nature.Hasty:
+			case Nature.Impish:
+			case Nature.Naive:
+			case Nature.Sassy:
+				return 7;
+			case Nature.Calm:
+			case Nature.Lax:
+			case Nature.Mild:
+			case Nature.Relaxed:
+				return 8;
+			case Nature.Bold:
+			case Nature.Brave:
+			case Nature.Hardy:
+			case Nature.Quirky:
+				return 9;
+			case Nature.Gentle:
+			case Nature.Jolly:
+			case Nature.Modest:
+				return 10;
+		}
+	}
+	
 	/**
 	 * Override getRollData() that's supplied to rolls.
 	 */
@@ -78,3 +146,70 @@ export class PokeroleActor extends Actor {
 	}
 
 }
+export enum Nature {
+	Adamant,
+	Bashful,
+	Bold,
+	Brave,
+	Calm,
+	Careful,
+	Docile,
+	Gentle,
+	Hardy,
+	Hasty,
+	Impish,
+	Jolly,
+	Lax,
+	Lonely,
+	Mild,
+	Modest,
+	Naive,
+	Naughty,
+	Quiet,
+	Quirky,
+	Rash,
+	Relaxed,
+	Sassy,
+	Serious,
+	Timid
+}
+export interface PokeroleActorData{
+	nature: Nature;
+	health: {
+		min: number;
+		max: number;
+		value: number;
+	}
+	will: {
+		min: number;
+		max: number;
+		value: number;
+	}
+	confidence: number;
+}
+export interface HumanActorData extends PokeroleActorData{
+
+}
+export interface RivalActorData extends HumanActorData{
+
+}
+export interface PlayerActorData extends PokeroleActorData {
+	dexterity: {
+		min: number;
+		max: number;
+		value: number;
+	}
+	alert: {
+		min: number;
+		max: number;
+		value: number;
+	}
+
+}
+export interface PokemonActorData extends PlayerActorData{
+	
+}
+export interface TrainerActorData extends Merge<PlayerActorData, HumanActorData>{
+	
+}
+

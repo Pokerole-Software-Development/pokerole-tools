@@ -66,6 +66,7 @@ module.exports = function(grunt) {
 							"template.json",
 							"templates/**",
 							"lang/**",
+							//"**/*.ts"//for source map debugging
 						],
 						dest: 'build/',
 					},

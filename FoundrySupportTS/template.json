@@ -9,20 +9,31 @@
 					"min": 0,
 					"max": 10
 				},
-				"dexterity": 0,
-				"alert": 0,
-				"biography": "",
 				"will": {
 					"value": 0,
 					"max": 5,
 					"min": 0
-				}
+				},
+				"rank": "Starter"
 			},
 			"player": {
+				"dexterity": {
+					"value": 0,
+					"max": 5,
+					"min": 0
+				},
+				"alert": {
+					"value": 0,
+					"max": 5,
+					"min": 0
+				},
+				"biography": ""
 
 			},
 			"human":{
-				"money": 0
+				"money": 0,
+				"age": 0
+
 			}
 		},
 		"character": {
@@ -38,17 +49,17 @@
 		}
 	},
 	"Item": {
-		"types": ["item", "feature"],
+		"types": ["item", "accessory", "move", "type", "feature"],
 		"templates": {
 			"base": {
 				"description": ""
 			}
 		},
 		"item": {
-		"templates": ["base"],
-		"quantity": 1,
-		"weight": 0,
-		"formula": "d20 + @str.mod + ceil(@lvl / 2)"
+			"templates": ["base"],
+			"quantity": 1,
+			"weight": 0,
+			"formula": "d20 + @str.mod + ceil(@lvl / 2)"
 		},
 		"feature": {
 			"templates": ["base"]

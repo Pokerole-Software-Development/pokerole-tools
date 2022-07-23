@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../ClassGenerator"
+		},
+		{
+			"path": "../pokerole-core"
 		}
 	],
 	"settings": {

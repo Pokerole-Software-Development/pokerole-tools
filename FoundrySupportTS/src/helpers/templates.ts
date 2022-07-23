@@ -9,10 +9,6 @@
     // Actor partials.
     "systems/Pokerole/templates/actor/parts/actor-features.html",
     "systems/Pokerole/templates/actor/parts/actor-items.html",
-    "systems/Pokerole/templates/actor/parts/actor-effects.html",
-    // "systems/Pokerole/templates/actor/parts/Mon-card.svg",
-    // "systems/Pokerole/templates/actor/parts/move-block.svg",
-    // "systems/Pokerole/templates/actor/parts/Rival with image blockers.svg",
-    // "systems/Pokerole/templates/actor/parts/Trainer-card.svg",
+    "systems/Pokerole/templates/actor/parts/actor-effects.html"
   ]);
 };
