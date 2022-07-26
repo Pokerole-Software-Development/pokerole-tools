@@ -3,6 +3,7 @@
 		"types": [ "pokemon", "rival", "trainer"],
 		"templates": {
 			"base": {
+				"name": "",
 				"nature": "Timid",
 				"health": {
 					"value": 10,
@@ -17,35 +18,58 @@
 				"rank": "Starter"
 			},
 			"player": {
-				"dexterity": {
-					"value": 0,
-					"max": 5,
-					"min": 0
-				},
-				"alert": {
-					"value": 0,
-					"max": 5,
-					"min": 0
-				},
-				"biography": ""
-
+				"biography": "",
+				"strength": 0,
+				"dexterity": 0,
+				"vitality": 0,
+				"insight": 0,
+				"brawl": 0,
+				"evasion": 0,
+				"alert": 0,
+				"athletic": 0,
+				"nature": 0,
+				"stealth": 0,
+				"allure": 0,
+				"etiquette": 0,
+				"intimidate": 0,
+				"perform": 0,
+				"tough": 0,
+				"cool": 0,
+				"beauty": 0,
+				"clever": 0,
+				"cute": 0,
+				"misc1": 0
 			},
 			"human":{
 				"money": 0,
 				"age": 0
-
-			}
-		},
-		"character": {
-			"templates": ["base"],
-			"attributes": {
-				"level": {
-					"value": 1
-				}
 			}
 		},
 		"pokemon":{
-			"templates": ["base"]
+			"templates": ["base", "player"],
+			"happiness": 0,
+			"loyalty": 0,
+			"battleCount": 0,
+			"vicoryCount": 0,
+			"special": 0,
+			"channel": 0,
+			"clash": 0
+		},
+		"trainer": {
+			"templates": ["base", "player"],
+			"playerName": "",
+			"throw": 0,
+			"evasion": 0,
+			"weapons": 0,
+			"crafts": 0,
+			"lore": 0,
+			"medicine": 0,
+			"science": 0,
+			"misc2": 0,
+			"misc3": 0,
+			"misc4": 0,
+			"monSeen": 0,
+			"monCaught": 0
 		}
 	},
 	"Item": {

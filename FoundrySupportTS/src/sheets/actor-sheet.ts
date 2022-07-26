@@ -1,8 +1,9 @@
 // import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
-import * as act from "../documents/actor";
+import * as act from "../documents/actor.js";
 import { DEFAULT_TOKEN } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
 import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
 import { assert } from "console";
+import { POKEROLE } from "../helpers/config.js";
 
 
 interface ActorSheetOptions extends ActorSheet.Options{
@@ -31,18 +32,28 @@ interface ActorSheetOptions extends ActorSheet.Options{
 	// tabs: Omit<TabsConfiguration, "callback">[] = [];
 	// dragDrop: Omit<DragDropConfiguration, "permissions" | "callbacks">[] = [];
 	// filters: Omit<SearchFilterConfiguration, "callback">[] = [];
-
+	// data: act.PokeroleActorData;
 }
 interface ActorSheetData extends ActorSheet.Data<ActorSheetOptions>{
 	flags: Record<string, unknown>;
 	rollData: act.ActorRollData;
 	moves: ActorData['items'];
+	dotData: Map<string, DotInfo>;
+}
+interface DotInfo {
+	min: number;
+	val: number;
+	max: number;
+	/**
+	 * Dots for this stat. The item for i is at i - 1
+	 */
+	dots: HTMLElement[];
 }
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorSheetData> {
+export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetData> {
 	/** @override */
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
@@ -64,35 +75,39 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 	}
 
 	/* -------------------------------------------- */
-
+	/**
+	 * Cached result of {@link getData} for svg operations since the svg won't be ready right away
+	 */
+	private _svgContextCache?: ActorSheetData = undefined;
 	/** @override */
-	getData() {
+	async getData(options?: Partial<ActorSheetOptions>) {
+		//base impl is awaited anyway
 		// Retrieve the data structure from the base sheet. You can inspect or log
 		// the context variable to see the structure, but some key properties for
 		// sheets are the actor object, the data object, whether or not it's
 		// editable, the items array, and the effects array.
-		const context = super.getData();
+		const context = (await super.getData(options)) as ActorSheetData;
 
 		// Use a safe clone of the actor data for further operations.
 		const actorData = this.actor.data.toObject(false);
 
 		// Add the actor's data to context.data for easier access, as well as flags.
-		var realContext = context as unknown as ActorSheetData;
-		realContext.data = actorData.data as any;
-		realContext.flags = actorData.flags;
+		// var realContext = context as unknown as ActorSheetData;
+		context.data = actorData.data as any;//figure that type issue out later
+		context.flags = actorData.flags;
 
 		// Prepare character data and items.
-		if (actorData.type == 'pokemon') {
-			this._prepareMonItems(realContext);
-			this._prepareCharacterData(realContext);
+		if (actorData.type == POKEROLE.ActorTypes.mon) {
+			this._prepareMonItems(context);
+			this._prepareCharacterData(context);
 		}
 
 		// Add roll data for TinyMCE editors.
-		realContext.rollData = realContext.actor.getRollData() as act.ActorRollData;
+		context.rollData = context.actor.getRollData() as act.ActorRollData;
 
 		// Prepare active effects
 		// realContext.effects = prepareActiveEffectCategories(this.actor.effects);
-
+		this._svgContextCache = context;
 		return context;
 	}
 
@@ -154,7 +169,7 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 		// 	if (i.type === 'item') {
 		// 		gear.push(i);
 		// 	}
-		// 	// Append to features.
+		// 	// Append to features. 
 		// 	else if (i.type === 'feature') {
 		// 		features.push(i);
 		// 	}
@@ -164,8 +179,7 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 		// context.gear = gear;
 		// context.features = features;
 	}
-	protected _injectHTML(html: JQuery<HTMLElement>): void {
-		super._injectHTML(html);
+	private _findAndInitSvg(html: JQuery) {
 		var svgTarget = html.find(".svg-target");
 		if (svgTarget === null || svgTarget.length < 1) {
 			return;
@@ -175,24 +189,30 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 		if (svg == null) {
 			//stupid race condition... run it later
 			var thisRef = this;
-			embed.addEventListener("load", function () {
-				//var t = this;Apparently, 'this' is now embed?
-				var svg = this.getSVGDocument();
+			const initFunc = function () {
+				var svg = embed.getSVGDocument();
 				if (svg == null) {
 					throw new Error("Svg content missing");
 				}
-				thisRef._markUpSvg(svg);
-			});
+				//so it doesn't get run more than once
+				embed.removeEventListener("load", initFunc);
+				thisRef._initSvg(svg);
+			};
+			embed.addEventListener("load", initFunc);
 			return;
 		}
-		this._markUpSvg(svg);
+		this._initSvg(svg);
 	}
-	private _markUpSvg(svg: Document) {
-
+	private _initSvg(svg: Document) {
+		var items = this._markUpSvg(svg);
+		//now we need to figure out what is what
+		this._assignSvgObjects(items);
+	}
+	private _markUpSvg(svg: Document) : HTMLElement[] {
 		//bake the inkscape IDs in. We could do this ahead of time, but that would require writing a tool to
 		//do that... Why waste time figuring that out if we can just do it here?
 		var items: HTMLElement[] = [];
-		$("*", svg).each((index, element) => {
+		$("*", svg).each((_, element) => {
 			var inkAttr = element.getAttribute("inkscape:label");
 			if (inkAttr === null) {
 				return;
@@ -208,42 +228,103 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 			//so I am just setting classes first
 			element.classList.add("svg-item");
 		}
-
-		// for (const element of svg.getElementsByTagName("*")) {
-			
-		// }
-
-		// var elements = svg.evaluate("//[inkscape:label]", svg, label => {
-		// 	return label === "inkscape" ? "http://www.inkscape.org/namespaces/inkscape" : "";
-		// }, XPathResult.ORDERED_NODE_ITERATOR_TYPE);
-		// var items = [];
-		// for (var item = elements.iterateNext(); item !== null; item = elements.iterateNext()){
-		// 	items.push(item as Element);
-		// }
-
-		// //apparently node list isn't iterable but has a forEach method?
-		// var found = 0;
-		// svg.querySelectorAll<SVGElement>("[label]").forEach((element, index, parent) => {
-		// 	var realId = element.getAttribute("inkscape:label");
-		// 	found++;
-		// });
-		console.log(`Found ${items.length} svg elements`);		
+		console.log(`Found ${items.length} svg elements`);
+		return items;
 	}
-	/* -------------------------------------------- */
-	render(force?: boolean | undefined, options?: Application.RenderOptions<ActorSheet.Options> | undefined): this {
-		super.render(force, options);
-		//don't really care about the args. We are just here to fill in stat circles and such.
-		//and collect things... That too...
-		var base = this._element!;here?
-		//find me my svg items!
-		var svgItems = base.find(".svg-item").toArray();
-		console.log(`Found ${svgItems.length} items during render`);
-		return this;
+	_assignSvgObjects(svgItems: HTMLElement[]) {
+		const context = this._svgContextCache;
+		if (context === undefined) {
+			throw new Error("Missing data context for SVG");
+		}
+		const isMon = context.data.type === POKEROLE.ActorTypes.mon;
+		//Note: \w includes \d
+		var dotFinder = /^(\w+)\-(\d+)$/;
+		var textAreas = [];
+		var clickAreas = [];
+		for (var item of svgItems) {
+			var matchResult = dotFinder.exec(item.id);
+			if (matchResult !== null) {
+				var stat = matchResult[1]!;
+				var dotNum = parseInt(matchResult[2]!)
+				if (!context.dotData) {
+					//init that...
+					context.dotData = new Map();
+				}
+				var dotInfo = context.dotData.get(stat);
+				if (dotInfo === undefined) {
+					//init that
+					var minMaxData = this._getMinMaxDotData(isMon, stat);
+					dotInfo = {
+						min: minMaxData.min,
+						max: minMaxData.max,
+						dots: [],
+						val: minMaxData.min//we don't know yet...
+					};
+				}
+				if (dotNum > dotInfo.max) {
+					throw new Error(`stat dot for ${stat} was greater than the max of ${dotInfo.max}`);
+				}
+				dotInfo.dots[dotNum - 1] = item;
+				continue;
+			}
+			if (item.id.startsWith("click_")) {
+				clickAreas.push(item);
+				continue;
+			}
+			//text area
+			textAreas.push(item);
+		}
+		//fill in dem dots
+		for (var pair of context.dotData) {
+			this._setStat(context, pair[0], pair[1]);
+		}
 	}
-	
+	private _getMinMaxDotData(isMon: boolean, stat: string): { min: number, max: number } {
+		switch (stat) {
+			case 'strength':
+			case 'dexterity':
+			case 'vitality':
+			case 'special':
+			case 'insight':
+				var max = isMon ? 12 : 5;
+				return { min: 1, max: max };
+			default:
+				return { min: 0, max: 5 };
+		}
+	}
+	private _setStat(context: ActorSheetData, stat: string, dotInfo: DotInfo) {
+		if (context.data.type === POKEROLE.ActorTypes.rival) {
+			return;
+		}
+		// just double checking, these should all be paths
+		//supporting circles since I want to change them to that eventually...
+		for (var dot of dotInfo.dots) {
+			if (dot.tagName !== "path" && dot.tagName !== "circle") {
+				//svg set up wrong
+				throw new Error(`Named dot (${dot.id}) was not an svg path!`)
+			}
+		}
+		var data = context.data.data as act.PlayerActorData;
+		var num = act.getStat(data, stat);
+		if (num === undefined) {
+			throw new Error(`Unknown stat: ${stat}`);
+		}
+		if (num < dotInfo.min) {
+			num = dotInfo.min;
+		}
+		for (var i = 0; i < dotInfo.dots.length; i++){
+			var on = num < i;//well, techinically num<=i+1, but that takes more text
+			var dot = dotInfo.dots[i]!;
+			//black if on, white if not
+			var color = on ? "#000000" : "#ffffff";
+			dot.style.fill = color;
+		}
+	}
 	/** @override */
 	activateListeners(html: JQuery) {
 		super.activateListeners(html);
+		//don't really have anywhere else to do this... so...
+		this._findAndInitSvg(html);
 
 		// Render the item sheet for viewing/editing prior to the editable check.
 		html.find('.item-edit').click(ev => {
@@ -285,7 +366,9 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 				li.addEventListener("dragstart", handler, false);
 			});
 		}
-
+	}
+	_svgAddListeners(svg: Document) {
+		
 	}
 
 	/**
@@ -348,3 +431,4 @@ export class PokeroleActorSheet extends ActorSheet{//<ActorSheetOptions,ActorShe
 	}
 
 }
+

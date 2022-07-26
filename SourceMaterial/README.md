@@ -1,5 +1,5 @@
 These SVG files have a number of elements that can be addressed by name and modified.
-All stats dots follow the pattern of `lowercase(statname)-(dot number)`. So, like `strength-1` for the first dot of Strength
+All stats dots follow the pattern of `lowercase(statname)-(dot number)`. So, like `strength-1` for the first dot of Strength and `misc1-1` is the first dot of the first misc skill
 The Rival sheets has a number of "blocker" elements over some items. If you wish to have, say, "Hax0rus" visible, set the visibility of the object/group of that name to false and it will be visible.
 Checkmarks are not supported at this time
 There are additional named SVG items to allow for the poisioning of text. They may be on paths, groups, or invisible rectangles, so keep an eye out for those. They are listed below:

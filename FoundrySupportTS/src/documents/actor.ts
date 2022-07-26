@@ -1,4 +1,5 @@
 import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/module.mjs";
+import { POKEROLE } from "../helpers/config.js";
 
 export class ActorRollData{
 
@@ -188,28 +189,62 @@ export interface PokeroleActorData{
 	confidence: number;
 }
 export interface HumanActorData extends PokeroleActorData{
-
+	age: number;
+	money: number;
 }
 export interface RivalActorData extends HumanActorData{
 
 }
 export interface PlayerActorData extends PokeroleActorData {
-	dexterity: {
-		min: number;
-		max: number;
-		value: number;
-	}
-	alert: {
-		min: number;
-		max: number;
-		value: number;
-	}
-
+	strength: number,
+	dexterity: number,
+	vitality: number,
+	insight: number,
+	brawl: number,
+	evasion: number,
+	alert: number,
+	athletic: number,
+	nature: number,
+	stealth: number,
+	allure: number,
+	etiquette: number,
+	intimidate: number,
+	perform: number,
+	tough: number,
+	cool: number,
+	beauty: number,
+	clever: number,
+	cute: number,
+	misc1: number
 }
-export interface PokemonActorData extends PlayerActorData{
-	
+export interface PokemonActorData extends PlayerActorData {
+	happiness: number,
+	loyalty: number,
+	battleCount: number,
+	vicoryCount: number,
+	special: number,
+	channel: number,
+	clash: number
 }
-export interface TrainerActorData extends Merge<PlayerActorData, HumanActorData>{
-	
+export interface TrainerActorData extends Merge<PlayerActorData, HumanActorData> {
+	throw: number,
+	evasion: number,
+	weapons: number,
+	crafts: number,
+	lore: number,
+	medicine: number,
+	science: number,
+	misc2: number,
+	misc3: number,
+	misc4: number,
+	monSeen: number,
+	monCaught: number
+}
+export function getStat(data: PlayerActorData, stat: string): number | undefined  {
+	//only return data from stats
+	if (!POKEROLE.isStat(stat)) {
+		return undefined;
+	}
+	return getProperty(data, stat) as number;
 }
 
