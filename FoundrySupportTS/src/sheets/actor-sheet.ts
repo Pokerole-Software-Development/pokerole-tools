@@ -4,6 +4,7 @@ import { DEFAULT_TOKEN } from "@league-of-foundry-developers/foundry-vtt-types/s
 import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
 import { assert } from "console";
 import { POKEROLE } from "../helpers/config.js";
+import { stringify } from "querystring";
 
 
 interface ActorSheetOptions extends ActorSheet.Options{
@@ -48,6 +49,7 @@ interface DotInfo {
 	 * Dots for this stat. The item for i is at i - 1
 	 */
 	dots: HTMLElement[];
+	// group: HTMLElement;
 }
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -64,11 +66,9 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 			tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "primary" }]
 		});
 	}
-	// protected async _render(force?: boolean | undefined, options?: Application.RenderOptions<ActorSheet.Options>
-	// 	| undefined): Promise<void> {
-	// 	super._render(force, options);
-	// 	// this.
-	// }
+	//Note: \w includes \d
+	private static dotFinder: RegExp = /^(\w+)\-(\d+)$/;
+	private static dotParentFinder: RegExp = /^(\w+)\ Dots$/;
 	/** @override */
 	get template() {
 		return `systems/Pokerole/templates/actor/actor-${this.actor.data.type}-sheet.html`;
@@ -79,6 +79,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 	 * Cached result of {@link getData} for svg operations since the svg won't be ready right away
 	 */
 	private _svgContextCache?: ActorSheetData = undefined;
+	private _svgCached?: HTMLElement;
 	/** @override */
 	async getData(options?: Partial<ActorSheetOptions>) {
 		//base impl is awaited anyway
@@ -187,6 +188,17 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		var embed = svgTarget.get(0)! as HTMLEmbedElement;
 		var svg = embed.getSVGDocument()!;
 		if (svg == null) {
+			if (this._svgCached) {
+				//this is to avoid needing to load the svg over when the form goes for an update. Because loading
+				//the svg again results in flicker
+				var svgCached = this._svgCached;
+				if (svgCached.parentElement) {
+					//remove that
+					svgCached.remove();
+				}
+				embed.replaceWith(svgCached);
+				return;
+			}
 			//stupid race condition... run it later
 			var thisRef = this;
 			const initFunc = function () {
@@ -204,6 +216,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		this._initSvg(svg);
 	}
 	private _initSvg(svg: Document) {
+		this._svgCached = svg.documentElement;
 		var items = this._markUpSvg(svg);
 		//now we need to figure out what is what
 		this._assignSvgObjects(items);
@@ -236,13 +249,11 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		if (context === undefined) {
 			throw new Error("Missing data context for SVG");
 		}
-		const isMon = context.data.type === POKEROLE.ActorTypes.mon;
-		//Note: \w includes \d
-		var dotFinder = /^(\w+)\-(\d+)$/;
+		const isMon = context.actor.type === POKEROLE.ActorTypes.mon;
 		var textAreas = [];
 		var clickAreas = [];
 		for (var item of svgItems) {
-			var matchResult = dotFinder.exec(item.id);
+			var matchResult = PokeroleActorSheet.dotFinder.exec(item.id);
 			if (matchResult !== null) {
 				var stat = matchResult[1]!;
 				var dotNum = parseInt(matchResult[2]!)
@@ -254,15 +265,19 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 				if (dotInfo === undefined) {
 					//init that
 					var minMaxData = this._getMinMaxDotData(isMon, stat);
+					//find group parent
+					
 					dotInfo = {
 						min: minMaxData.min,
 						max: minMaxData.max,
 						dots: [],
-						val: minMaxData.min//we don't know yet...
+						val: minMaxData.min,//we don't know yet...
 					};
+					//add to the map
+					context.dotData.set(stat, dotInfo);
 				}
 				if (dotNum > dotInfo.max) {
-					throw new Error(`stat dot for ${stat} was greater than the max of ${dotInfo.max}`);
+					throw new Error(`stat dot for ${stat} (${dotNum}) was greater than the max of ${dotInfo.max}`);
 				}
 				dotInfo.dots[dotNum - 1] = item;
 				continue;
@@ -276,8 +291,38 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		}
 		//fill in dem dots
 		for (var pair of context.dotData) {
-			this._setStat(context, pair[0], pair[1]);
+			const statName = pair[0];
+			const dotInfo = pair[1];
+			this._setStatSvg(context, pair[0], pair[1]);
+			//add click listeners to them if not readonly
+			if (this.isEditable) {
+				// make a "text input field" so the stupid data will persist
+				var parentGroup = dotInfo.dots[0]!;
+				const dots = dotInfo.dots;
+				var thisRef = this;
+				for (var i = 0; i < dots.length; i++){
+					var dot = dots[i]!;
+					const iRef = i;
+					dot.addEventListener("click", (ev) => {
+						ev.preventDefault();
+						var target = ev.button == 2 ? iRef : iRef + 1;
+						var dataObj = <act.PlayerActorData>this.actor.data.data;
+						act.setStat(dataObj, statName, target);
+						this._setStatSvg0(dataObj, statName, dotInfo);
+						//send update information
+						// var dataPath = `data.${statName}`;
+						var dataPartial = {} as any;
+						dataPartial[statName] = target;
+						this.actor.update({
+							data: dataPartial
+						}, );
+						// thisRef._setStatSvg()
+					});
+				}
+			}
 		}
+		//add click listeners to them
+
 	}
 	private _getMinMaxDotData(isMon: boolean, stat: string): { min: number, max: number } {
 		switch (stat) {
@@ -292,10 +337,13 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 				return { min: 0, max: 5 };
 		}
 	}
-	private _setStat(context: ActorSheetData, stat: string, dotInfo: DotInfo) {
+	private _setStatSvg(context: ActorSheetData, stat: string, dotInfo: DotInfo) {
 		if (context.data.type === POKEROLE.ActorTypes.rival) {
 			return;
 		}
+		this._setStatSvg0(context.data as unknown as act.PlayerActorData, stat, dotInfo);
+	}
+	private _setStatSvg0(data: act.PlayerActorData, stat: string, dotInfo: DotInfo) {
 		// just double checking, these should all be paths
 		//supporting circles since I want to change them to that eventually...
 		for (var dot of dotInfo.dots) {
@@ -304,16 +352,16 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 				throw new Error(`Named dot (${dot.id}) was not an svg path!`)
 			}
 		}
-		var data = context.data.data as act.PlayerActorData;
 		var num = act.getStat(data, stat);
 		if (num === undefined) {
-			throw new Error(`Unknown stat: ${stat}`);
+			//apparently not set yet...
+			num = 0;
 		}
 		if (num < dotInfo.min) {
 			num = dotInfo.min;
 		}
 		for (var i = 0; i < dotInfo.dots.length; i++){
-			var on = num < i;//well, techinically num<=i+1, but that takes more text
+			var on = num > i;//well, techinically num>=i+1, but that takes more text
 			var dot = dotInfo.dots[i]!;
 			//black if on, white if not
 			var color = on ? "#000000" : "#ffffff";

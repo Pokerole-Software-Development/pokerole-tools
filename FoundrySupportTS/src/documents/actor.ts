@@ -1,4 +1,5 @@
 import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/module.mjs";
+import { ToObjectFalseType } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes.js";
 import { POKEROLE } from "../helpers/config.js";
 
 export class ActorRollData{
@@ -174,7 +175,7 @@ export enum Nature {
 	Serious,
 	Timid
 }
-export interface PokeroleActorData{
+export interface PokeroleActorData {//extends foundry.abstract.Document<any,any>{
 	nature: Nature;
 	health: {
 		min: number;
@@ -246,5 +247,12 @@ export function getStat(data: PlayerActorData, stat: string): number | undefined
 		return undefined;
 	}
 	return getProperty(data, stat) as number;
+}
+export function setStat(data: PlayerActorData, stat: string, val: number){
+	//only set data from stats
+	if (!POKEROLE.isStat(stat)) {
+		return;
+	}
+	setProperty(data, stat, val);
 }
 
