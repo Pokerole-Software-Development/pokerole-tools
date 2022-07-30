@@ -58,14 +58,54 @@
 	{{!-- Sheet Body --}}
 	<section class="sheet-body">
 		{{!-- Owned Features Tab --}}
-		<div class="tab primary" data-group="primary" data-tab="primary">
+		{{!-- Smacking relative on this (via class) so the absolute root changes, resulting in the child items staying
+		in this block and scrolling with it--}}
+		<div class="tab primary svgRelativeRoot" data-group="primary" data-tab="primary">
 			{{!-- <span class="svg-target">systems/Pokerole/templates/actor/parts/Mon-card.svg</span> --}}
 			<!-- { 9{> "systems/Pokerole/templates/actor/parts/Mon-card.svg"}} -->
 			<embed id="svg" class="svg-target" src="systems/Pokerole/templates/actor/parts/Mon-card.svg"
 			type="image/svg+xml"/>
 			{{!--place to store what we are putting over the svg. We can move them in later--}}
 			<div style="display:none">
-adasdas
+				<div id="hpDisplay" class="svgInner">
+					{{!-- <input type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number" /> --}}
+					<span class="svgInner">{{data.health.value}} / {{data.health.max}}</span>
+					{{!-- <input type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number" /> --}}
+				</div>
+				<div id="willDisplay" class="svgInner">
+					{{!-- <input type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number" /> --}}
+					<span class="svgInner">{{data.will.value}} / {{data.will.max}}</span>
+					{{!-- <input type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number" /> --}}
+				</div>
+				<select id="natureSelect" class="svgInner" name="data.nature">
+					{{#select data.nature}}
+					<option value="Adamant">Adamant</option>
+					<option value="Bashful">Bashful</option>
+					<option value="Bold">Bold</option>
+					<option value="Brave">Brave</option>
+					<option value="Calm">Calm</option>
+					<option value="Careful">Careful</option>
+					<option value="Docile">Docile</option>
+					<option value="Gentle">Gentle</option>
+					<option value="Hardy">Hardy</option>
+					<option value="Hasty">Hasty</option>
+					<option value="Impish">Impish</option>
+					<option value="Jolly">Jolly</option>
+					<option value="Lax">Lax</option>
+					<option value="Lonely">Lonely</option>
+					<option value="Mild">Mild</option>
+					<option value="Modest">Modest</option>
+					<option value="Naive">Naive</option>
+					<option value="Naughty">Naughty</option>
+					<option value="Quiet">Quiet</option>
+					<option value="Quirky">Quirky</option>
+					<option value="Rash">Rash</option>
+					<option value="Relaxed">Relaxed</option>
+					<option value="Sassy">Sassy</option>
+					<option value="Serious">Serious</option>
+					<option value="Timid">Timid</option>
+					{{/select}}
+				</select>
 			</div>
 			{{!-- <img src="systems/Pokerole/templates/actor/parts/Mon-card.svg" alt="primary sheet" id="sheet-svg"/> --}}
 			<!-- <section class="grid grid-3col">

@@ -2,7 +2,7 @@
 import * as act from "../documents/actor.js";
 import { DEFAULT_TOKEN } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
 import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
-import { assert } from "console";
+// import { assert } from "console";
 import { POKEROLE } from "../helpers/config.js";
 import { stringify } from "querystring";
 
@@ -48,7 +48,7 @@ interface DotInfo {
 	/**
 	 * Dots for this stat. The item for i is at i - 1
 	 */
-	dots: HTMLElement[];
+	dots: SVGElement[];
 	// group: HTMLElement;
 }
 /**
@@ -136,6 +136,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 	 */
 	_prepareMonItems(context: ActorSheetData) {
 		// Initialize containers.
+		//effects == status?
 		const gear = [];
 		const features = [];
 		const moves = [];
@@ -223,9 +224,10 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 	private _initSvg(svg: HTMLElement, oldParent: HTMLEmbedElement) {
 		//find my items...
 		var items = svg.getElementsByClassName("svg-item");
-		//now we need to figure out what is what
-		this._assignSvgObjects(Array.from(items) as HTMLElement[]);
+		//adding before going over the svg items so we can position things correctly
 		oldParent.replaceWith(svg);
+		//now we need to figure out what is what
+		this._assignSvgObjects(Array.from(items) as SVGElement[], svg.parentElement!);
 	}
 	private _markUpSvg(svg: Document) : HTMLElement {
 		//bake the inkscape IDs in. We could do this ahead of time, but that would require writing a tool to
@@ -263,7 +265,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		root.remove();
 		return root;
 	}
-	_assignSvgObjects(svgItems: HTMLElement[]) {
+	_assignSvgObjects(svgItems: SVGElement[], domParent: HTMLElement) {
 		const context = this._svgContextCache;
 		if (context === undefined) {
 			throw new Error("Missing data context for SVG");
@@ -355,7 +357,32 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		//remember to put text elements OVER the SVG so they will refresh properly
 		for (var item of textAreas) {
 			switch (item.id) {
+				case "hp":
+					this._moveElement(item, "hpDisplay", domParent);
+					// var willDisplay = $("#hpDisplay", this.element).get(0) as HTMLDivElement;
+					// if (!willDisplay) {
+					// 	//wat???!?!?!
+					// 	item.style.fill = "red";
+					// 	break;
+					// }
+					// this._moveOver(willDisplay, item, domParent);
+					break;
+				case 'will':
+					this._moveElement(item, "willDisplay", domParent);
+					// var willDisplay = $("#willDisplay", this.element).get(0) as HTMLDivElement;
+					// if (!willDisplay) {
+					// 	//wat???!?!?!
+					// 	item.style.fill = "red";
+					// 	break;
+					// }
+					// this._moveOver(willDisplay, item, domParent);
+					break;
 				case 'nature':
+					var select = this._moveElement(item, 'natureSelect', domParent);
+					// if (select) {
+					// 	HandlebarsHelpers.select("{{data.nature}}", )
+					// }
+					break;
 					// var select = new HTMLSelectElement();
 					// var options = select.options;
 					// options.
@@ -363,6 +390,59 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 					// item.
 			}
 		}
+	}
+	private _moveElement(item: SVGElement, htmlId: string, domDest: HTMLElement) : HTMLElement | null {
+		var display = $(`#${htmlId}`, this.element).get(0) as HTMLElement;
+		if (!display) {
+			//could not find!!!
+			item.style.fill = "red";
+			return null;
+		}
+		this._moveOver(display, item, domDest);
+		return display;
+	}
+	/**
+	 * Move {@link item} such that it is over {@link dest}
+	 * @param item 
+	 * @param dest 
+	 */
+	private _moveOver(item: HTMLElement, dest: SVGElement, domDest: HTMLElement) {
+		//run some maths!!!
+		//these are relative the the browser window, so we need to get relative values
+		var rects = domDest.getClientRects();//this.element[0]!.getClientRects();
+		//there should only be one?
+		console.assert(rects.length == 1);
+		var windowRect = rects[0]!;
+		rects = dest.getClientRects();
+		//there should only be one?
+		console.assert(rects.length == 1);
+		var destRect = rects[0]!;
+		var x = destRect.x;
+		var y = destRect.y;
+		x -= windowRect.x;
+		y -= windowRect.y;
+		item.remove();
+		domDest.append(item);
+		item.style.position = "absolute";
+		item.style.top = y + "px";
+		item.style.left = x + "px";
+
+		item.style.height = destRect.height + "px";
+		item.style.width = destRect.width + "px";
+
+		// var
+		// 	// var rootParent = svgRoot.parentElement!;
+		// 	hpDisplay.remove();
+		// // item.appendChild(hpDisplay);
+		// rootParent.appendChild(hpDisplay);
+		// // //move it into position...
+		// hpDisplay.style.position = "absolute";
+		// hpDisplay.style.top = "10px";
+		// hpDisplay.style.left = "10px";
+		// var x = 0;
+		// var y = 0;
+		// var parent = dest;
+
 
 	}
 	private _getMinMaxDotData(isMon: boolean, stat: string): { min: number, max: number } {
@@ -374,6 +454,13 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 			case 'insight':
 				var max = isMon ? 12 : 5;
 				return { min: 1, max: max };
+			case "perform":
+			case "tough":
+			case "cool":
+			case "beauty":
+			case "clever": 
+			case "cute":
+				return { min: 1, max: 5 };
 			default:
 				return { min: 0, max: 5 };
 		}

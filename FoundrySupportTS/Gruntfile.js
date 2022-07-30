@@ -49,7 +49,7 @@ module.exports = function(grunt) {
 					// compress: true,
 				},
 				files: {
-					'build/css/main.css': 'css/Pokerole.less',
+					'build/css/Pokerole.css': 'css/Pokerole.less',
 				}
 			}
 		},
