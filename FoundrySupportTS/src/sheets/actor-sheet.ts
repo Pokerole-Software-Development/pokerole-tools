@@ -67,19 +67,23 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		});
 	}
 	//Note: \w includes \d
-	private static dotFinder: RegExp = /^(\w+)\-(\d+)$/;
+	private static readonly dotFinder: RegExp = /^(\w+)\-(\d+)$/;
 	private static dotParentFinder: RegExp = /^(\w+)\ Dots$/;
 	/** @override */
 	get template() {
 		return `systems/Pokerole/templates/actor/actor-${this.actor.data.type}-sheet.html`;
 	}
 
+	/**
+	 * Pristine copy of the sheet's svg element. This is stored after baking IDs
+	 */
+	private _cachedPristineSvg?: HTMLElement;
 	/* -------------------------------------------- */
 	/**
 	 * Cached result of {@link getData} for svg operations since the svg won't be ready right away
 	 */
 	private _svgContextCache?: ActorSheetData = undefined;
-	private _svgCached?: HTMLElement;
+	// private _svgCached?: HTMLElement;
 	/** @override */
 	async getData(options?: Partial<ActorSheetOptions>) {
 		//base impl is awaited anyway
@@ -180,48 +184,50 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		// context.gear = gear;
 		// context.features = features;
 	}
+	private _cacheSvg(svg: Document) {
+		//this is to avoid needing to load the svg over when the form goes for an update. Because loading
+		//the svg again results in flicker
+		if (this._cachedPristineSvg) {
+			return;
+		}
+		this._cachedPristineSvg = this._markUpSvg(svg);
+	}
 	private _findAndInitSvg(html: JQuery) {
 		var svgTarget = html.find(".svg-target");
 		if (svgTarget === null || svgTarget.length < 1) {
 			return;
 		}
 		var embed = svgTarget.get(0)! as HTMLEmbedElement;
-		var svg = embed.getSVGDocument()!;
-		if (svg == null) {
-			if (this._svgCached) {
-				//this is to avoid needing to load the svg over when the form goes for an update. Because loading
-				//the svg again results in flicker
-				var svgCached = this._svgCached;
-				if (svgCached.parentElement) {
-					//remove that
-					svgCached.remove();
-				}
-				embed.replaceWith(svgCached);
-				return;
-			}
-			//stupid race condition... run it later
+		//do we have a cached copy?
+		if (!this._cachedPristineSvg) {
+			//we will need to get it later...
 			var thisRef = this;
 			const initFunc = function () {
 				var svg = embed.getSVGDocument();
 				if (svg == null) {
 					throw new Error("Svg content missing");
 				}
+				thisRef._cacheSvg(svg);
 				//so it doesn't get run more than once
 				embed.removeEventListener("load", initFunc);
-				thisRef._initSvg(svg);
+				var copy = thisRef._cachedPristineSvg!.cloneNode(true) as HTMLElement;
+				thisRef._initSvg(copy, embed);
 			};
+			//stupid race condition... run it later
 			embed.addEventListener("load", initFunc);
 			return;
 		}
-		this._initSvg(svg);
+		var copy = this._cachedPristineSvg.cloneNode(true) as HTMLElement;
+		this._initSvg(copy, embed);
 	}
-	private _initSvg(svg: Document) {
-		this._svgCached = svg.documentElement;
-		var items = this._markUpSvg(svg);
+	private _initSvg(svg: HTMLElement, oldParent: HTMLEmbedElement) {
+		//find my items...
+		var items = svg.getElementsByClassName("svg-item");
 		//now we need to figure out what is what
-		this._assignSvgObjects(items);
+		this._assignSvgObjects(Array.from(items) as HTMLElement[]);
+		oldParent.replaceWith(svg);
 	}
-	private _markUpSvg(svg: Document) : HTMLElement[] {
+	private _markUpSvg(svg: Document) : HTMLElement {
 		//bake the inkscape IDs in. We could do this ahead of time, but that would require writing a tool to
 		//do that... Why waste time figuring that out if we can just do it here?
 		var items: HTMLElement[] = [];
@@ -242,7 +248,9 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 			element.classList.add("svg-item");
 		}
 		console.log(`Found ${items.length} svg elements`);
-		return items;
+		var root = svg.documentElement;
+		root.remove();
+		return root;
 	}
 	_assignSvgObjects(svgItems: HTMLElement[]) {
 		const context = this._svgContextCache;
@@ -300,6 +308,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 				var parentGroup = dotInfo.dots[0]!;
 				const dots = dotInfo.dots;
 				var thisRef = this;
+				//add click listeners to them
 				for (var i = 0; i < dots.length; i++){
 					var dot = dots[i]!;
 					const iRef = i;
@@ -321,7 +330,18 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 				}
 			}
 		}
-		//add click listeners to them
+		//handle named areas
+		//remember to put text elements OVER the SVG so they will refresh properly
+		for (var item of textAreas) {
+			switch (item.id) {
+				case 'nature':
+					var select = new HTMLSelectElement();
+					var options = select.options;
+					// options.
+					// select.
+					// item.
+			}
+		}
 
 	}
 	private _getMinMaxDotData(isMon: boolean, stat: string): { min: number, max: number } {

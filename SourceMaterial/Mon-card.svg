@@ -4992,11 +4992,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.9195959"
-     inkscape:cx="719.51223"
-     inkscape:cy="471.43689"
+     inkscape:zoom="1.4"
+     inkscape:cx="410.03879"
+     inkscape:cy="381.57587"
      inkscape:document-units="mm"
-     inkscape:current-layer="g33083"
+     inkscape:current-layer="surface943924"
      showgrid="false"
      inkscape:window-width="2562"
      inkscape:window-height="1400"
@@ -16211,10 +16211,6 @@
              inkscape:label="brawl-4" />
         </g>
       </g>
-      <g
-         id="g34991"
-         clip-path="url(#clip242)"
-         style="clip-rule:nonzero" />
       <rect
          style="fill:none;fill-opacity:1;stroke:none;stroke-width:0.74999994;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="rect4014"
@@ -16271,6 +16267,14 @@
          x="669.81604"
          y="224.11377"
          inkscape:label="clash" />
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.74999994;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect4025"
+         width="101.2886"
+         height="24.385763"
+         x="504.46664"
+         y="52.514118"
+         inkscape:label="nature" />
     </g>
   </g>
 </svg>
