@@ -236,6 +236,17 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 			if (inkAttr === null) {
 				return;
 			}
+			//These ones DON'T COUNT!
+			switch (inkAttr) {
+				case "Layer 1":
+				case "POKEMON SHEET 2.0":
+					return;
+				default:
+					if (/(?:path|g)\d+/.test(inkAttr)) {
+						//no
+						return;
+					}
+			}
 			//don't make changes in here... Just in case...
 			items.push(element);
 		});
@@ -257,6 +268,16 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		if (context === undefined) {
 			throw new Error("Missing data context for SVG");
 		}
+		//Debug: Did we mark everything?
+		// if (true) {
+		// 	for (var item of svgItems) {
+		// 		item.style.fill = "cyan";
+		// 		// item.style.border = "solid";
+		// 		// item.style.borderColor = "#00FFFF";
+		// 		// item.style.borderWidth = "5px";
+		// 		// item.style.border
+		// 	}need to mark the move boxes. Will do that later
+		// }
 		const isMon = context.actor.type === POKEROLE.ActorTypes.mon;
 		var textAreas = [];
 		var clickAreas = [];
@@ -335,8 +356,8 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		for (var item of textAreas) {
 			switch (item.id) {
 				case 'nature':
-					var select = new HTMLSelectElement();
-					var options = select.options;
+					// var select = new HTMLSelectElement();
+					// var options = select.options;
 					// options.
 					// select.
 					// item.
