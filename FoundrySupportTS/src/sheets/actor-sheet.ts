@@ -358,7 +358,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		for (var item of textAreas) {
 			switch (item.id) {
 				case "hp":
-					this._moveElement(item, "hpDisplay", domParent);
+					this._moveElement(item, "lblHp", domParent);
 					// var willDisplay = $("#hpDisplay", this.element).get(0) as HTMLDivElement;
 					// if (!willDisplay) {
 					// 	//wat???!?!?!
@@ -368,7 +368,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 					// this._moveOver(willDisplay, item, domParent);
 					break;
 				case 'will':
-					this._moveElement(item, "willDisplay", domParent);
+					this._moveElement(item, "lblWill", domParent);
 					// var willDisplay = $("#willDisplay", this.element).get(0) as HTMLDivElement;
 					// if (!willDisplay) {
 					// 	//wat???!?!?!
@@ -378,21 +378,41 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 					// this._moveOver(willDisplay, item, domParent);
 					break;
 				case 'nature':
-					var select = this._moveElement(item, 'natureSelect', domParent);
-					// if (select) {
-					// 	HandlebarsHelpers.select("{{data.nature}}", )
-					// }
+					this._moveElement(item, 'cboNature', domParent);
 					break;
-					// var select = new HTMLSelectElement();
-					// var options = select.options;
-					// options.
-					// select.
-					// item.
+				case 'confidence':
+					this._moveElement(item, 'lblConfidence', domParent);
+					break;
+				//#region Pokemon
+				case 'battleCount':
+					this._moveElement(item, "nudBattleCount", domParent);
+					break;
+				case 'victoryCount':
+					this._moveElement(item, "nudVictoryCount", domParent);
+					break;
+				case 'primaryAccessory':
+					this._moveElement(item, 'txtPrimaryAccessory', domParent);
+					break;
+				case 'item':
+					this._moveElement(item, 'txtItem', domParent);
+					break;
+				case 'defenses':
+					this._moveElement(item, 'lblDefense', domParent);
+					break;
+				//#endregion
 			}
 		}
 	}
+	/**
+	 * Move the item specified by {@link htmlId} over {@link item}. The found element is returned. If the element
+	 * could not be found, null will be returned and {@link item}'s fill will be set to red
+	 * @param item 
+	 * @param htmlId 
+	 * @param domDest 
+	 * @returns 
+	 */
 	private _moveElement(item: SVGElement, htmlId: string, domDest: HTMLElement) : HTMLElement | null {
-		var display = $(`#${htmlId}`, this.element).get(0) as HTMLElement;
+		var display = $(`.${htmlId}`, this.element).get(0) as HTMLElement;
 		if (!display) {
 			//could not find!!!
 			item.style.fill = "red";

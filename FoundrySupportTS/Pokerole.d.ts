@@ -1,3 +1,4 @@
+/// <reference path="src/helpers/config.ts"/>
 interface Game{
 	//define later
 	Pokerole: any;

@@ -46,14 +46,14 @@ export class PokeroleActor extends Actor {
 		// Make separate methods for each Actor type (character, npc, etc.) to keep
 		// things organized.
 		switch (actorData.type) {
-			case "pokemon":
-				this._preparePokemonData(actorData);
+			case POKEROLE.ActorTypes.mon:// "pokemon":
+				this._preparePokemonData(actorData, data as PokemonActorData);
 				break;
-			case "trainer":
-				this._prepareTrainerData(actorData);
+			case POKEROLE.ActorTypes.trainer:
+				this._prepareTrainerData(actorData, data as TrainerActorData);
 				break;
-			case "rival":
-				this._prepareRivalData(actorData);
+			case POKEROLE.ActorTypes.rival:
+				this._prepareRivalData(actorData, data as RivalActorData);
 				break;
 		}
 	}
@@ -61,15 +61,15 @@ export class PokeroleActor extends Actor {
 	/**
 	 * Prepare Character type specific data
 	 */
-	_preparePokemonData(actorData: ActorData) {
-
-		// Make modifications to data here. For example:
-		const data = actorData.data;
+	_preparePokemonData(actorData: ActorData, monData: PokemonActorData) {
+		
+		monData.defense = monData.vitality;
+		monData.specialDefense = POKEROLE.UseInsightForSpecialDefense ? monData.insight : monData.vitality;
 	}
 	/**
 	 * Prepare Trainer type specific data
 	 */
-	_prepareTrainerData(actorData: ActorData) {
+	_prepareTrainerData(actorData: ActorData, trainderData: TrainerActorData) {
 
 		// Make modifications to data here. For example:
 		const data = actorData.data;
@@ -77,7 +77,7 @@ export class PokeroleActor extends Actor {
 	/**
 	 * Prepare Rival type specific data
 	 */
-	_prepareRivalData(actorData: ActorData) {
+	_prepareRivalData(actorData: ActorData, rivalData: RivalActorData) {
 		// Page 475, Storyteller Note
 		// "Rivals don’t need Attributes or Skill Points, simply assume they will Roll one or two more dice
 		// than the players."
@@ -86,7 +86,20 @@ export class PokeroleActor extends Actor {
 		const data = actorData.data;
 	}
 
-	_calculateConfidence(nature: Nature) : number {
+	_calculateConfidence(nature: Nature | string): number {
+		if (typeof nature === 'string') {
+			//convert to enum
+			var val = (<any>Nature)[<string>nature] as Nature;
+			if (!val) {
+				return 0;
+			}
+			// const temp: keyof typeof Nature = <string>nature as any;
+			// if (!temp) {
+			// 	return 0;
+			// }
+			nature = val;
+			// nature = keyof typeof Nature[<string>nature]; (<any>Nature)[nature];
+		}
 		switch (nature) {
 			case Nature.Adamant:
 			case Nature.Serious:
@@ -187,6 +200,7 @@ export interface PokeroleActorData {//extends foundry.abstract.Document<any,any>
 		max: number;
 		value: number;
 	}
+	//calucated data
 	confidence: number;
 }
 export interface HumanActorData extends PokeroleActorData{
@@ -225,7 +239,10 @@ export interface PokemonActorData extends PlayerActorData {
 	vicoryCount: number,
 	special: number,
 	channel: number,
-	clash: number
+	clash: number,
+	//calculated data
+	defense: number,
+	specialDefense: number
 }
 export interface TrainerActorData extends Merge<PlayerActorData, HumanActorData> {
 	throw: number,

@@ -18,11 +18,22 @@ Hooks.once('init', async function () {
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
   //initialized before 'init'
-  (game as Game).Pokerole = {
+  var theGame = game as Game;
+  theGame.Pokerole = {
     PokeroleActor,
     PokeroleItem,
     // rollItemMacro
   };
+  theGame.settings.register('Pokerole', 'UseInsightForSpecialDefense',
+    {
+      name: 'Use insight for special defense',
+      hint: 'Whether or not to use insight for special defense instead of vitality',
+      type: Boolean,
+      onChange: val=> {
+        POKEROLE.UseInsightForSpecialDefense = val.valueOf();
+      }
+    }
+  );
 
   // Add custom constants for configuration.
   CONFIG.POKEROLE = POKEROLE;

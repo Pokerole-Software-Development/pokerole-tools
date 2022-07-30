@@ -63,21 +63,21 @@
 		<div class="tab primary svgRelativeRoot" data-group="primary" data-tab="primary">
 			{{!-- <span class="svg-target">systems/Pokerole/templates/actor/parts/Mon-card.svg</span> --}}
 			<!-- { 9{> "systems/Pokerole/templates/actor/parts/Mon-card.svg"}} -->
-			<embed id="svg" class="svg-target" src="systems/Pokerole/templates/actor/parts/Mon-card.svg"
+			<embed class="svg-target" src="systems/Pokerole/templates/actor/parts/Mon-card.svg"
 			type="image/svg+xml"/>
 			{{!--place to store what we are putting over the svg. We can move them in later--}}
 			<div style="display:none">
-				<div id="hpDisplay" class="svgInner">
+				<div class="svgInner lblHp">
 					{{!-- <input type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number" /> --}}
 					<span class="svgInner">{{data.health.value}} / {{data.health.max}}</span>
 					{{!-- <input type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number" /> --}}
 				</div>
-				<div id="willDisplay" class="svgInner">
+				<div class="svgInner lblWill">
 					{{!-- <input type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number" /> --}}
 					<span class="svgInner">{{data.will.value}} / {{data.will.max}}</span>
 					{{!-- <input type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number" /> --}}
 				</div>
-				<select id="natureSelect" class="svgInner" name="data.nature">
+				<select class="svgInner cboNature" name="data.nature">
 					{{#select data.nature}}
 					<option value="Adamant">Adamant</option>
 					<option value="Bashful">Bashful</option>
@@ -106,6 +106,14 @@
 					<option value="Timid">Timid</option>
 					{{/select}}
 				</select>
+				<input class="svgInner nudBattleCount" type="number" name="data.battleCount" value="{{data.battleCount}}"
+				data-dtype="Number" min="0" />
+				<input class="svgInner nudVictoryCount" type="number" name="data.victoryCount" value="{{data.victoryCount}}"
+				data-dtype="Number" min="0" />
+				<span class="svgInner lblConfidence">{{data.confidence}}</span>
+				<input name="data.primaryAccessory" class="svgInner txtPrimaryAccessory" type="text" value="{{data.primaryAccessory}}"/>
+				<input name="data.item" class="svgInner txtItem" type="text" value="{{data.item}}"/>
+				<span class="svgInner lblDefense">{{data.defense}} - {{data.specialDefense}}</span>
 			</div>
 			{{!-- <img src="systems/Pokerole/templates/actor/parts/Mon-card.svg" alt="primary sheet" id="sheet-svg"/> --}}
 			<!-- <section class="grid grid-3col">
@@ -124,6 +132,7 @@
 				</section>
 
 			</section> -->
+			<input
 		</div>
 
 		{{!-- Owned Features Tab --}}
