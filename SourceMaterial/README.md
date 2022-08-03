@@ -27,7 +27,7 @@ There are additional named SVG items to allow for the poisioning of text. They m
 	* primaryAccessory: The area for the large accessory text thing
 	* accessory\[1-4]: Small accessory boxes 1-4
 	* type: Pokemon type(s). You are responsible for subdividing the area
-	* weakness: The >>**NON-RECTANGULAR**<< area to put type weakensses. You may have a decent number of them, so I am giving you as much space as I can. The shape of the path is (a rectangle covering the area) - (the rectangle of the 'weakness' text)
+	* weakness: The >>**NON-RECTANGULAR**<< area to put type weakensses. You may have a decent number of them, so I am giving you as much space as I can. The shape of the path is a rectangle covering the area minus the rectangle of the 'weakness' text
 	* size: The 'mon's size
 	* weight: the 'mon's weight
 	* defenses: Area for the 'mon's DEF and S.DEF (in that order)

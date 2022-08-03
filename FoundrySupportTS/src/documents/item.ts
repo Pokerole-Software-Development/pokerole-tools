@@ -1,70 +1,126 @@
+import { ActorRollData, PokeroleActor } from "./actor";
+
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
 export class PokeroleItem extends Item {
-todo: string = `
+	/**
+	 * Augment the basic Item data model with additional dynamic data.
+	 */
+	prepareData() {
+		// As with the actor class, items are documents that can have their data
+		// preparation methods overridden (such as prepareBaseData()).
+		super.prepareData();
+	}
 
-  /**
-   * Augment the basic Item data model with additional dynamic data.
-   */
-  prepareData() {
-    // As with the actor class, items are documents that can have their data
-    // preparation methods overridden (such as prepareBaseData()).
-    super.prepareData();
-  }
+	/**
+	 * Prepare a data object which is passed to any Roll formulas which are created related to this Item
+	 * @private
+	 */
+	getRollData(): ActorRollData{//refine return value later...
+		// If present, return the actor's roll data.
+		if (!this.actor) {
+			return {};
+		}
+		const rollData = (this.actor as PokeroleActor).getRollData();
+		rollData.item = foundry.utils.deepClone(this.data.data) as PokeroleItemData;
 
-  /**
-   * Prepare a data object which is passed to any Roll formulas which are created related to this Item
-   * @private
-   */
-   getRollData() {
-    // If present, return the actor's roll data.
-    if ( !this.actor ) return null;
-    const rollData = this.actor.getRollData();
-    rollData.item = foundry.utils.deepClone(this.data.data);
+		return rollData;
+	}
 
-    return rollData;
-  }
+	/**
+	 * Handle clickable rolls.
+	 * @param {Event} event   The originating click event
+	 * @private
+	 */
+	async roll() {
+		if (!(game instanceof Game)) {
+			//wat??
+			return undefined;
+		}
+		const item = this.data;
 
-  /**
-   * Handle clickable rolls.
-   * @param {Event} event   The originating click event
-   * @private
-   */
-  async roll() {
-    const item = this.data;
+		// Initialize chat data.
+		const speaker = ChatMessage.getSpeaker({ actor: this.actor ?? undefined });
+		const rollMode = game.settings.get('core', 'rollMode');
+		const label = `[${item.type}] ${item.name}`;
 
-    // Initialize chat data.
-    const speaker = ChatMessage.getSpeaker({ actor: this.actor });
-    const rollMode = game.settings.get('core', 'rollMode');
-    const label = \`[$ {item.type}] $ {item.name}\`;
+		if (this.data.type === 'move') {
+			//that is a doosie. It gets its own method
+			return rollMove();
+		}
 
-    // If there's no roll data, send a chat message.
-    if (!this.data.data.formula) {
-      ChatMessage.create({
-        speaker: speaker,
-        rollMode: rollMode,
-        flavor: label,
-        content: item.data.description ?? ''
-      });
-    }
-    // Otherwise, create a roll and send a chat message from it.
-    else {
-      // Retrieve roll data.
-      const rollData = this.getRollData();
-
-      // Invoke the roll and submit it to chat.
-      const roll = new Roll(rollData.item.formula, rollData);
-      // If you need to store the value first, uncomment the next line.
-      // let result = await roll.roll({async: true});
-      roll.toMessage({
-        speaker: speaker,
-        rollMode: rollMode,
-        flavor: label,
-      });
-      return roll;
-    }
-  }
-  `
+		// If there's no roll data, send a chat message.
+		if (!this.data.data.formula) {
+			ChatMessage.create({
+				speaker: speaker,
+				rollMode: rollMode,
+				flavor: label,
+				content: item.data.description ?? ''
+			});
+			return undefined;
+		}
+		// Otherwise, create a roll and send a chat message from it.
+		else {
+			// Retrieve roll data.
+			const rollData = this.getRollData();
+ask how to roll against multiple opponents
+			// Invoke the roll and submit it to chat.
+			const roll = new Roll(rollData.item.formula, rollData);
+				// If you need to store the value first, uncomment the next line.
+			// let result = await roll.roll({async: true});
+			roll.toMessage({
+				speaker: speaker,
+				rollMode: rollMode,
+				flavor: label,
+			});
+			return roll;
+		}
+	}
+}
+export interface PokeroleItemData {
+	name: string;
+	description: string;
+}
+export interface AbilityItemData extends PokeroleItemData{
+	//todo: add special logics???
+}
+export enum MoveCategory{
+	Physical,
+	Special,
+	Support
+}
+export enum MoveTarget {
+	Foe,
+	RandomFoe,
+	AllFoes,
+	User,
+	OneAlly,
+	UserAndAllies,
+	Area,
+	Battlefield,
+	BattlefieldAndArea
+}
+export interface MoveItemData extends PokeroleItemData{
+	//oh dear...
+	// name: string;covered by base
+	// description: string;
+	power: number;
+	moveCategory: MoveCategory;
+	type: string,
+	moveTarget: MoveTarget;
+	ranged: boolean;
+	primaryAccuracyStat: string,
+	primaryAccuracyIsNegative: boolean;
+	secondaryAccuracyStat: string,
+	reducedAccuracy: number;
+	damageStat?: string,
+	secondaryDamageStat?: string,
+	secondaryDamageIsNegative: boolean;
+	damageModifier: number
+	hasSpecialAccuracyMod: boolean;
+	hasSpecialDamageMod: boolean;
+	additionalInfo: string;
+	effects: string[];
 }

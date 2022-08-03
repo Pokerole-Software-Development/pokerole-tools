@@ -1,10 +1,11 @@
 // import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
-import * as act from "../documents/actor.js";
+// import * as act from "../documents/actor.js";
 import { DEFAULT_TOKEN } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
 import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
 // import { assert } from "console";
 import { POKEROLE } from "../helpers/config.js";
 import { stringify } from "querystring";
+import { ActorRollData, getActorStat, PlayerActorData, setActorStat } from "../documents/actor.js";
 
 
 interface ActorSheetOptions extends ActorSheet.Options{
@@ -37,7 +38,7 @@ interface ActorSheetOptions extends ActorSheet.Options{
 }
 interface ActorSheetData extends ActorSheet.Data<ActorSheetOptions>{
 	flags: Record<string, unknown>;
-	rollData: act.ActorRollData;
+	rollData: ActorRollData;
 	moves: ActorData['items'];
 	dotData: Map<string, DotInfo>;
 }
@@ -108,7 +109,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		}
 
 		// Add roll data for TinyMCE editors.
-		context.rollData = context.actor.getRollData() as act.ActorRollData;
+		context.rollData = context.actor.getRollData() as ActorRollData;
 
 		// Prepare active effects
 		// realContext.effects = prepareActiveEffectCategories(this.actor.effects);
@@ -142,6 +143,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		const moves = [];
 		const types = [];
 		const accessories = [];
+		// var ability;
 		// // Iterate through items, allocating to containers
 		// for (let i of context.items) {
 		//   i.img = i.img || DEFAULT_TOKEN;
@@ -159,7 +161,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		// context.gear = gear;
 		// context.features = features;
 
-		// // Iterate through items, allocating to containers
+		// Iterate through items, allocating to containers
 		// for (let i of context.items) {
 		// 	i.img = i.img || DEFAULT_TOKEN;
 		// 	if (i.type === 'move') {
@@ -171,6 +173,9 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		// 	if (i.type === 'accessory') {
 		// 		accessories.push(i);
 		// 	}
+		// 	if (i.type === 'ability') {
+		// 		ability = i;
+		// 	}
 		// 	// Append to gear.
 		// 	if (i.type === 'item') {
 		// 		gear.push(i);
@@ -180,8 +185,9 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		// 		features.push(i);
 		// 	}
 		// }
+		
 		// // Assign and return
-		// context.moves.clear = moves;
+		// context.moves = moves;
 		// context.gear = gear;
 		// context.features = features;
 	}
@@ -338,13 +344,13 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 					dot.addEventListener("click", (ev) => {
 						ev.preventDefault();
 						var target = ev.button == 2 ? iRef : iRef + 1;
-						var dataObj = <act.PlayerActorData>this.actor.data.data;
-						act.setStat(dataObj, statName, target);
+						var dataObj = <PlayerActorData>this.actor.data.data;
+						setActorStat(dataObj, statName, target);
 						this._setStatSvg0(dataObj, statName, dotInfo);
 						//send update information
 						// var dataPath = `data.${statName}`;
 						var dataPartial = {} as any;
-						dataPartial[statName] = target;
+						dataPartial['stats'][statName] = target;
 						this.actor.update({
 							data: dataPartial
 						}, );
@@ -359,23 +365,9 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 			switch (item.id) {
 				case "hp":
 					this._moveElement(item, "lblHp", domParent);
-					// var willDisplay = $("#hpDisplay", this.element).get(0) as HTMLDivElement;
-					// if (!willDisplay) {
-					// 	//wat???!?!?!
-					// 	item.style.fill = "red";
-					// 	break;
-					// }
-					// this._moveOver(willDisplay, item, domParent);
 					break;
 				case 'will':
 					this._moveElement(item, "lblWill", domParent);
-					// var willDisplay = $("#willDisplay", this.element).get(0) as HTMLDivElement;
-					// if (!willDisplay) {
-					// 	//wat???!?!?!
-					// 	item.style.fill = "red";
-					// 	break;
-					// }
-					// this._moveOver(willDisplay, item, domParent);
 					break;
 				case 'nature':
 					this._moveElement(item, 'cboNature', domParent);
@@ -398,6 +390,12 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 					break;
 				case 'defenses':
 					this._moveElement(item, 'lblDefense', domParent);
+					break;
+				case 'name':
+					this._moveElement(item, 'lblName', domParent);
+					break;
+				case 'ability':
+					this._moveElement(item, 'lblAbility', domParent);
 					break;
 				//#endregion
 			}
@@ -489,9 +487,9 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		if (context.data.type === POKEROLE.ActorTypes.rival) {
 			return;
 		}
-		this._setStatSvg0(context.data as unknown as act.PlayerActorData, stat, dotInfo);
+		this._setStatSvg0(context.data as unknown as PlayerActorData, stat, dotInfo);
 	}
-	private _setStatSvg0(data: act.PlayerActorData, stat: string, dotInfo: DotInfo) {
+	private _setStatSvg0(data: PlayerActorData, stat: string, dotInfo: DotInfo) {
 		// just double checking, these should all be paths
 		//supporting circles since I want to change them to that eventually...
 		for (var dot of dotInfo.dots) {
@@ -500,7 +498,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 				throw new Error(`Named dot (${dot.id}) was not an svg path!`)
 			}
 		}
-		var num = act.getStat(data, stat);
+		var num = getActorStat(data, stat);
 		if (num === undefined) {
 			//apparently not set yet...
 			num = 0;

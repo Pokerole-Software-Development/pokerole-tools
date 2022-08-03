@@ -1,9 +1,10 @@
 import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/module.mjs";
 import { ToObjectFalseType } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes.js";
 import { POKEROLE } from "../helpers/config.js";
+import { PokeroleItem, PokeroleItemData } from "./item.js";
 
 export class ActorRollData{
-
+	item?: PokeroleItemData
 }
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -63,8 +64,10 @@ export class PokeroleActor extends Actor {
 	 */
 	_preparePokemonData(actorData: ActorData, monData: PokemonActorData) {
 		
-		monData.defense = monData.vitality;
-		monData.specialDefense = POKEROLE.UseInsightForSpecialDefense ? monData.insight : monData.vitality;
+		monData.defense = monData.stats.vitality;
+		monData.specialDefense = POKEROLE.UseInsightForSpecialDefense ?
+			monData.stats.insight :
+			monData.stats.vitality;
 	}
 	/**
 	 * Prepare Trainer type specific data
@@ -188,6 +191,7 @@ export enum Nature {
 	Serious,
 	Timid
 }
+//Strongly typed data containers
 export interface PokeroleActorData {//extends foundry.abstract.Document<any,any>{
 	nature: Nature;
 	health: {
@@ -210,7 +214,7 @@ export interface HumanActorData extends PokeroleActorData{
 export interface RivalActorData extends HumanActorData{
 
 }
-export interface PlayerActorData extends PokeroleActorData {
+export interface PlayerStats {
 	strength: number,
 	dexterity: number,
 	vitality: number,
@@ -232,19 +236,25 @@ export interface PlayerActorData extends PokeroleActorData {
 	cute: number,
 	misc1: number
 }
-export interface PokemonActorData extends PlayerActorData {
-	happiness: number,
-	loyalty: number,
-	battleCount: number,
-	vicoryCount: number,
+export interface PlayerActorData extends PokeroleActorData {
+	stats: PlayerStats;
+}
+export interface PokemonStats extends PlayerStats {
 	special: number,
 	channel: number,
 	clash: number,
+	happiness: number,
+	loyalty: number,
+}
+export interface PokemonActorData extends PlayerActorData {
+	stats: PokemonStats,
+	battleCount: number,
+	vicoryCount: number,
 	//calculated data
 	defense: number,
 	specialDefense: number
 }
-export interface TrainerActorData extends Merge<PlayerActorData, HumanActorData> {
+export interface TrainerStats extends PlayerStats{
 	throw: number,
 	evasion: number,
 	weapons: number,
@@ -255,21 +265,24 @@ export interface TrainerActorData extends Merge<PlayerActorData, HumanActorData>
 	misc2: number,
 	misc3: number,
 	misc4: number,
+}
+export interface TrainerActorData extends Merge<PlayerActorData, HumanActorData> {
+	stats: TrainerStats,
 	monSeen: number,
 	monCaught: number
 }
-export function getStat(data: PlayerActorData, stat: string): number | undefined  {
+export function getActorStat(data: PlayerActorData, stat: string): number | undefined  {
 	//only return data from stats
 	if (!POKEROLE.isStat(stat)) {
 		return undefined;
 	}
 	return getProperty(data, stat) as number;
 }
-export function setStat(data: PlayerActorData, stat: string, val: number){
+export function setActorStat(data: PlayerActorData, stat: string, val: number){
 	//only set data from stats
 	if (!POKEROLE.isStat(stat)) {
 		return;
 	}
-	setProperty(data, stat, val);
+	setProperty(data.stats, stat, val);
 }
 

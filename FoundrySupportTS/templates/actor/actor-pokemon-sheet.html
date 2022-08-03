@@ -49,6 +49,7 @@
 	<nav class="sheet-tabs tabs" data-group="primary">
 		{{!-- Default tab is specified in actor-sheet.mjs --}}
 		<a class="item" data-tab="primary">Primary Sheet</a>
+		<a class="item" data-tab="data-entry">Data Entry</a>
 		<a class="item" data-tab="features">Features</a>
 		<a class="item" data-tab="description">Description</a>
 		<a class="item" data-tab="items">Items</a>
@@ -114,25 +115,12 @@
 				<input name="data.primaryAccessory" class="svgInner txtPrimaryAccessory" type="text" value="{{data.primaryAccessory}}"/>
 				<input name="data.item" class="svgInner txtItem" type="text" value="{{data.item}}"/>
 				<span class="svgInner lblDefense">{{data.defense}} - {{data.specialDefense}}</span>
+				<span class="svgInner lblName">{{actor.name}}</span>
+				<span class="svgInner lblAbility">{{data.ability.name}}</span>
 			</div>
-			{{!-- <img src="systems/Pokerole/templates/actor/parts/Mon-card.svg" alt="primary sheet" id="sheet-svg"/> --}}
-			<!-- <section class="grid grid-3col">
-				<aside class="sidebar">
-
-					{{!-- The grid classes are defined in scss/global/_grid.scss. To use,
-					use both the "grid" and "grid-Ncol" class where "N" can be any number
-					from 1 to 12 and will create that number of columns. --}}
-				</aside>
-
-				{{!-- For the main features list, span the right two columns --}}
-				<section class="main grid-span-2">
-					{{!-- This is a Handlebars partial. They're stored in the `/parts` folder next to this sheet, and defined in
-					module/helpers/templates.mjs --}}
-					{{> "systems/Pokerole/templates/actor/parts/actor-features.html"}}
-				</section>
-
-			</section> -->
-			<input
+		</div>
+		<div class="tab data-entry svgRelativeRoot" data-group="primary" data-tab="data-entry">
+			{{!-- This is where everyone goes to set the unsettable --}}
 		</div>
 
 		{{!-- Owned Features Tab --}}
