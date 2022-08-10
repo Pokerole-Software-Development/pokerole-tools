@@ -276,7 +276,7 @@ export function getActorStat(data: PlayerActorData, stat: string): number | unde
 	if (!POKEROLE.isStat(stat)) {
 		return undefined;
 	}
-	return getProperty(data, stat) as number;
+	return getProperty(data.stats, stat) as number;
 }
 export function setActorStat(data: PlayerActorData, stat: string, val: number){
 	//only set data from stats

@@ -199,7 +199,17 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		}
 		this._cachedPristineSvg = this._markUpSvg(svg);
 	}
-	private _findAndInitSvg(html: JQuery) {
+	protected _injectHTML(html: JQuery<HTMLElement>): void {
+		//put that in before it gets loaded
+		this._injectSvg(html);
+		super._injectHTML(html);
+	}
+	protected _replaceHTML(element: JQuery<HTMLElement>, html: JQuery<HTMLElement>): void {
+		this._injectSvg(html);
+		super._replaceHTML(element, html);
+	}
+	private _currentSvg?: HTMLElement;
+	private _injectSvg(html: JQuery) {
 		var svgTarget = html.find(".svg-target");
 		if (svgTarget === null || svgTarget.length < 1) {
 			return;
@@ -217,21 +227,25 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 				thisRef._cacheSvg(svg);
 				//so it doesn't get run more than once
 				embed.removeEventListener("load", initFunc);
-				var copy = thisRef._cachedPristineSvg!.cloneNode(true) as HTMLElement;
-				thisRef._initSvg(copy, embed);
+				thisRef._currentSvg = thisRef._cachedPristineSvg!.cloneNode(true) as HTMLElement;
+				embed.replaceWith(thisRef._currentSvg);
+				thisRef._initSvg();//since we had to delay it
 			};
 			//stupid race condition... run it later
 			embed.addEventListener("load", initFunc);
 			return;
 		}
-		var copy = this._cachedPristineSvg.cloneNode(true) as HTMLElement;
-		this._initSvg(copy, embed);
+		this._currentSvg = this._cachedPristineSvg.cloneNode(true) as HTMLElement;
+		embed.replaceWith(this._currentSvg);
 	}
-	private _initSvg(svg: HTMLElement, oldParent: HTMLEmbedElement) {
+	private _initSvg() {
+		var svg = this._currentSvg;
+		if (!svg) {
+			//try again later
+			return;
+		}
 		//find my items...
 		var items = svg.getElementsByClassName("svg-item");
-		//adding before going over the svg items so we can position things correctly
-		oldParent.replaceWith(svg);
 		//now we need to figure out what is what
 		this._assignSvgObjects(Array.from(items) as SVGElement[], svg.parentElement!);
 	}
@@ -350,6 +364,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 						//send update information
 						// var dataPath = `data.${statName}`;
 						var dataPartial = {} as any;
+						dataPartial['stats'] = {} as any;
 						dataPartial['stats'][statName] = target;
 						this.actor.update({
 							data: dataPartial
@@ -518,7 +533,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 	activateListeners(html: JQuery) {
 		super.activateListeners(html);
 		//don't really have anywhere else to do this... so...
-		this._findAndInitSvg(html);
+		this._initSvg();
 
 		// Render the item sheet for viewing/editing prior to the editable check.
 		html.find('.item-edit').click(ev => {

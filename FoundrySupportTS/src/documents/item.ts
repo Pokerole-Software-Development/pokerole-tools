@@ -1,3 +1,4 @@
+import { ItemData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
 import { ActorRollData, PokeroleActor } from "./actor";
 
 /**
@@ -46,37 +47,52 @@ export class PokeroleItem extends Item {
 		const rollMode = game.settings.get('core', 'rollMode');
 		const label = `[${item.type}] ${item.name}`;
 
-		if (this.data.type === 'move') {
+		if (item.type === 'move') {
 			//that is a doosie. It gets its own method
-			return rollMove();
+			return await this.rollMove(item, item.data as MoveItemData);
 		}
-
-		// If there's no roll data, send a chat message.
-		if (!this.data.data.formula) {
-			ChatMessage.create({
-				speaker: speaker,
-				rollMode: rollMode,
-				flavor: label,
-				content: item.data.description ?? ''
-			});
+		//don't know of any other item that rolls dice ATM
+		var innerData = item.data as PokeroleItemData;
+		ChatMessage.create({
+			speaker: speaker,
+			rollMode: rollMode,
+			flavor: label,
+			content: innerData.description ?? ''
+		});
+		return undefined;
+// 		// If there's no roll data, send a chat message.
+// 		if (!this.data.data.formula) {
+// 			ChatMessage.create({
+// 				speaker: speaker,
+// 				rollMode: rollMode,
+// 				flavor: label,
+// 				content: innerData.description ?? ''
+// 			});
+// 			return undefined;
+// 		}
+// 		// Otherwise, create a roll and send a chat message from it.
+// 		else {
+// 			// Retrieve roll data.
+// 			const rollData = this.getRollData();
+// ask how to roll against multiple opponents
+// 			// Invoke the roll and submit it to chat.
+// 			const roll = new Roll(rollData.item.formula, rollData);
+// 				// If you need to store the value first, uncomment the next line.
+// 			// let result = await roll.roll({async: true});
+// 			roll.toMessage({
+// 				speaker: speaker,
+// 				rollMode: rollMode,
+// 				flavor: label,
+// 			});
+// 			return roll;
+// 		}
+	}
+	async rollMove(item: ItemData, move: MoveItemData) {
+		if (!(game instanceof Game) || !game.user) {
+			//wat??
 			return undefined;
 		}
-		// Otherwise, create a roll and send a chat message from it.
-		else {
-			// Retrieve roll data.
-			const rollData = this.getRollData();
-ask how to roll against multiple opponents
-			// Invoke the roll and submit it to chat.
-			const roll = new Roll(rollData.item.formula, rollData);
-				// If you need to store the value first, uncomment the next line.
-			// let result = await roll.roll({async: true});
-			roll.toMessage({
-				speaker: speaker,
-				rollMode: rollMode,
-				flavor: label,
-			});
-			return roll;
-		}
+		var targets = game.user.targets;
 	}
 }
 export interface PokeroleItemData {
