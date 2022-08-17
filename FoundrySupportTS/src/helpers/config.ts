@@ -106,7 +106,9 @@ ______     _                  _
 				return true;
 		}
 		return false;
-	}
+	},
+	//Currently not supporting custom types
+	TypeManager: new TypeManager(),
 		
 	
 };
