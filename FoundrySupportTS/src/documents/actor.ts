@@ -273,14 +273,14 @@ export interface TrainerActorData extends Merge<PlayerActorData, HumanActorData>
 }
 export function getActorStat(data: PlayerActorData, stat: string): number | undefined  {
 	//only return data from stats
-	if (!POKEROLE.isStat(stat)) {
+	if (!POKEROLE.StatsUtils.isStat(stat)) {
 		return undefined;
 	}
 	return getProperty(data.stats, stat) as number;
 }
 export function setActorStat(data: PlayerActorData, stat: string, val: number){
 	//only set data from stats
-	if (!POKEROLE.isStat(stat)) {
+	if (!POKEROLE.StatsUtils.isStat(stat)) {
 		return;
 	}
 	setProperty(data.stats, stat, val);

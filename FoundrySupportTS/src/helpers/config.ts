@@ -1,6 +1,6 @@
+import { TypeManager } from "./TypeManager.js"
 export const POKEROLE = {
 	//ASCII art becase everyone else is doing it...
-	//TODO: Fix? It doesn't show up in the browser log properly
 	ASCII:
 `_____________________________________
 ______     _                  _      
@@ -51,7 +51,6 @@ ______     _                  _
 		"clash",
 		//trainer
 		"throw",
-		"evasion",
 		"weapons",
 		"crafts",
 		"lore",
@@ -61,55 +60,71 @@ ______     _                  _
 		"misc3",
 		"misc4",
 	],
-	isStat: function (val: string): boolean {
-		switch (val) {
-			//player
-			case "strength":
-			case "dexterity":
-			case "vitality":
-			case "insight":
-			case "brawl":
-			case "evasion":
-			case "alert":
-			case "athletic":
-			case "nature":
-			case "stealth":
-			case "allure":
-			case "etiquette":
-			case "intimidate":
-			case "perform":
-			case "tough":
-			case "cool":
-			case "beauty":
-			case "clever":
-			case "cute":
-			case "misc1":
-			//mon
-			case "happiness":
-			case "loyalty":
-			case "battleCount":
-			case "vicoryCount":
-			case "special":
-			case "channel":
-			case "clash":
-			//trainer
-			case "throw":
-			case "evasion":
-			case "weapons":
-			case "crafts":
-			case "lore":
-			case "medicine":
-			case "science":
-			case "misc2":
-			case "misc3":
-			case "misc4":
-				return true;
+	StatsUtils: {
+		getStatType: function (val: string): ("trainer" | "mon" | "both" | undefined) {
+
+			switch (val) {
+				//player
+				case "strength":
+				case "dexterity":
+				case "vitality":
+				case "insight":
+				case "brawl":
+				case "evasion":
+				case "alert":
+				case "athletic":
+				case "nature":
+				case "stealth":
+				case "allure":
+				case "etiquette":
+				case "intimidate":
+				case "perform":
+				case "tough":
+				case "cool":
+				case "beauty":
+				case "clever":
+				case "cute":
+				case "misc1":
+					return "both";
+				//mon
+				case "happiness":
+				case "loyalty":
+				case "battleCount":
+				case "vicoryCount":
+				case "special":
+				case "channel":
+				case "clash":
+					return "mon";
+				//trainer
+				case "throw":
+				case "weapons":
+				case "crafts":
+				case "lore":
+				case "medicine":
+				case "science":
+				case "misc2":
+				case "misc3":
+				case "misc4":
+					return "trainer";
+			}
+			return undefined;
+		},
+		isStat: function (val: string): boolean {
+			return this.getStatType(val) !== undefined;
+		},
+		getStatList: function (val: ("trainer" | "mon")): string[]{
+			var result = [];
+			for (var stat of POKEROLE.KnownStats) {
+				var typeResult = POKEROLE.StatsUtils.getStatType(stat);
+				if (typeResult === val || typeResult === "both") {
+					result.push(stat);
+				}
+			}
+			return result;
 		}
-		return false;
 	},
 	//Currently not supporting custom types
 	TypeManager: new TypeManager(),
-		
 	
 };
 

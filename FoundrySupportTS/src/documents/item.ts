@@ -1,5 +1,5 @@
 import { ItemData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
-import { ActorRollData, PokeroleActor } from "./actor";
+import { ActorRollData, PokeroleActor } from "./actor.js";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -87,12 +87,13 @@ export class PokeroleItem extends Item {
 // 			return roll;
 // 		}
 	}
-	async rollMove(item: ItemData, move: MoveItemData) {
+	async rollMove(item: ItemData, move: MoveItemData) {;
 		if (!(game instanceof Game) || !game.user) {
 			//wat??
 			return undefined;
 		}
 		var targets = game.user.targets;
+		return undefined;
 	}
 }
 export interface PokeroleItemData {

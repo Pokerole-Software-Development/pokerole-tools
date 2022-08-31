@@ -1,4 +1,4 @@
-class TypeManager {
+export class TypeManager {
 	//currently not supporting custom types
 	private readonly _typeData: TypeTableData = TypeTableData.createDefault();
 	private readonly _typeTable: Map<string, TypeTableEntry> = new Map();

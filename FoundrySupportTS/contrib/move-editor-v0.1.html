@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<!-- this was adapted from https://www.w3docs.com/tools/editor/5789 -->
+
+<html>
+
+<head>
+	<title>Move Editor</title>
+	<style>
+		html,
+		body {
+			display: flex;
+			justify-content: center;
+			height: 100%;
+		}
+
+		body,
+		div,
+		h1,
+		form,
+		input,
+		p {
+			padding: 0;
+			margin: 0;
+			outline: none;
+			font-family: Roboto, Arial, sans-serif;
+			font-size: 16px;
+			color: #666;
+		}
+
+		h1 {
+			padding: 10px 0;
+			font-size: 32px;
+			font-weight: 300;
+			text-align: center;
+		}
+
+		p {
+			font-size: 12px;
+		}
+
+		hr {
+			color: #a9a9a9;
+			opacity: 0.3;
+		}
+
+		.main-block {
+			max-width: 7200px;
+			min-height: 460px;
+			padding: 10px 0;
+			margin: auto;
+			border-radius: 5px;
+			border: solid 1px #ccc;
+			box-shadow: 1px 2px 5px rgba(0, 0, 0, .31);
+			background: #ebebeb;
+		}
+
+		form {
+			margin: 0 30px;
+		}
+
+		input[type=radio] {
+			display: none;
+		}
+
+		label#icon {
+			margin: 0;
+			border-radius: 5px 0 0 5px;
+		}
+
+		label.radio {
+			position: relative;
+			display: inline-block;
+			padding-top: 4px;
+			margin-right: 20px;
+			text-indent: 30px;
+			overflow: visible;
+			cursor: pointer;
+		}
+
+		label.radio:before {
+			content: "";
+			position: absolute;
+			top: 2px;
+			left: 0;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background: #1c87c9;
+		}
+
+		label.radio:after {
+			content: "";
+			position: absolute;
+			width: 9px;
+			height: 4px;
+			top: 8px;
+			left: 4px;
+			border: 3px solid #fff;
+			border-top: none;
+			border-right: none;
+			transform: rotate(-45deg);
+			opacity: 0;
+		}
+
+		input[type=radio]:checked+label:after {
+			opacity: 1;
+		}
+
+		input[type=text],
+		input[type=password] {
+			width: calc(100% - 57px);
+			height: 36px;
+			margin: 13px 0 0 -5px;
+			padding-left: 10px;
+			border-radius: 0 5px 5px 0;
+			border: solid 1px #cbc9c9;
+			box-shadow: 1px 2px 5px rgba(0, 0, 0, .09);
+			background: #fff;
+		}
+
+		.btn-block {
+			margin-top: 10px;
+			text-align: center;
+		}
+
+		button {
+			width: 100%;
+			padding: 10px 0;
+			margin: 10px auto;
+			border-radius: 5px;
+			border: none;
+			background: #1c87c9;
+			font-size: 14px;
+			font-weight: 600;
+			color: #fff;
+		}
+
+		button:hover {
+			background: #26a9e0;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="main-block">
+		<h1>Move Editor</h1>
+
+		<form action="/custom-url" method="POST">
+			<hr>
+			<select name="Type" placeholder="Type">
+				<option value="Bug">Bug</option>
+				<option value="Dark">Dark</option>
+				<option value="Dragon">Dragon</option>
+				<option value="Electric">Electric</option>
+				<option value="Fairy">Fairy</option>
+				<option value="Fighting">Fighting</option>
+				<option value="Fire">Fire</option>
+				<option value="Flying">Flying</option>
+				<option value="Ghost">Ghost</option>
+				<option value="Grass">Grass</option>
+				<option value="Ground">Ground</option>
+				<option value="Ice">Ice</option>
+				<option value="Normal">Normal</option>
+				<option value="Poison">Poison</option>
+				<option value="Psychic">Psychic</option>
+				<option value="Rock">Rock</option>
+				<option value="Steel">Steel</option>
+				<option value="Water">Water</option>
+			</select>
+			<select name="Category">
+				<option value="Support">Support</option>
+				<option value="Physical">Physical</option>
+				<option value="Special">Special</option>
+			</select>
+			<select name="Target">
+				<option value="Foe">Foe</option>
+				<option value="Random_Foe">Random Foe</option>
+				<option value="All_Foes">All Foes</option>
+				<option value="User">User</option>
+				<option value="One_Ally">One Ally</option>
+				<option value="User_and_Allies">User and Allies</option>
+				<option value="Battlefield">Battlefield</option>
+				<option value="Area">Area</option>
+				<option value="Battlefield_and_Area">Battlefield and Area</option>
+				<option value="Any">Any</option>
+			</select>
+			<select name="Ranged">
+				<option value="Not-Ranged">Not Ranged</option>
+				<option value="Ranged">Ranged</option>
+			</select>
+			<hr>
+			<!-- input type="textarea" name="Effect" id="Effect" rows="5" placeholder="Effect" required/ -->
+			<!-- input type="textarea" name="Description" id="Description" rows="5" placeholder="Description" required/ -->
+			<textarea name="Effect" id="Effect" rows="5" cols="50" placeholder="Effect"></textarea>
+			<br>
+			<textarea name="Description" id="Description" rows="5" cols="50" placeholder="Description"></textarea>
+			<br>
+			<hr>
+			<h4>Damage Stats</h4>
+			<p>Power</p>
+			<input type="number" name="Power" placeholder="0" required />
+			<input type="text" name="Damage1" placeholder="Strength/Special/..." required />
+			<input type="text" name="Damage2" placeholder="Happiness/Will/None/..." required />
+			<hr>
+			<h4>Accuracy Stats</h4>
+			<input type="text" name="Accuracy1" placeholder="Dexterity/Cute/..." required />
+			<input type="text" name="Accuracy2" placeholder="Brawl/Perform/..." required />
+			<p>Accuracy Modifier</p>
+			<!-- 'max' tag to make this negative only -->
+			<input type="number" name="Accuracy_Modifier" max="0" placeholder="0" />
+			<hr>
+			<h4>Additional Info</h4>
+			<textarea name="Info" id="Info" rows="5" cols="50" placeholder="Notes go here."></textarea>
+			<div class="btn-block">
+				<button type="submit">Submit</button>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>
