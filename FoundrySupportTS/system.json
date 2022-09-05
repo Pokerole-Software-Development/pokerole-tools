@@ -3,9 +3,19 @@
 	"title": "Pokérole",
 	"description": "The Pokérole system for FoundryVTT!",
 	"version": "0.0.0",
-	"minimumCoreVersion": "0.8.6",
-	"compatibleCoreVersion": "9",
-	"author": "Sir Intellegence",
+	"compatability-comment" : "using v9 ref libs on a v10 testing system",
+	"compatability": {
+		"minimum": "10",
+		"maximum": "10"
+	},
+	"authors": [
+		{
+			"name": "Sir Intellegence",
+			"discord": "SirIntellegence(Brain-Storm.exe)#1064",
+			"url": "",
+			"email": ""
+		}
+	],
 	"esmodules": ["Pokerole.js"],
 	"styles": ["css/Pokerole.css"],
 	"scripts": [],

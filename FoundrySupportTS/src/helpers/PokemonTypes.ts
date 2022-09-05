@@ -1,4 +1,4 @@
-class TypeTableData{
+export class TypeTableData{
 	types: TypeTableEntry[] = [];
 	// types: TypeTableEntry[] = [];
 	public static createDefault(): TypeTableData {
@@ -331,7 +331,7 @@ class TypeTableData{
 	}
 
 }
-enum BuiltInType {
+export enum BuiltInType {
 	Normal = "Normal",//normal is first so it will be the default
 	Typeless = "Typeless",
 	Fire = "Fire",
@@ -352,7 +352,7 @@ enum BuiltInType {
 	Steel = "Steel",
 	Fairy = "Fairy"
 }
-class TypeTableEntry{
+export class TypeTableEntry{
 	name: string;
 	backgroundColor?: number;
 	resistances: string[] = [];

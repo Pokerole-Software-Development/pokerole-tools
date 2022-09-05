@@ -13,3 +13,22 @@ interface CONFIG{
 	//define later
 	POKEROLE: POKEROLE;
 }
+
+interface Actor{
+	/**
+	 * V10 data object
+	 */
+	system: Object;
+}
+interface Item{
+	/**
+	 * V10 data object
+	 */
+	system: Object;
+}
+/**
+ * @deprecated Not used in V10
+ */
+interface ActorData{
+
+}

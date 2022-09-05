@@ -27,7 +27,7 @@ export class PokeroleActor extends Actor {
 		// documents or derived data.
 
 	}
-
+	readonly system: PokeroleActorData = super.system as PokeroleActorData;
 	/**
 	 * @override
 	 * Augment the basic actor data with additional dynamic data. Typically,
@@ -38,23 +38,25 @@ export class PokeroleActor extends Actor {
 	 * is queried and has a roll executed directly from it).
 	 */
 	prepareDerivedData() {
-		const actorData = this.data;
-		const data = actorData.data as PokeroleActorData;
-		const flags = actorData.flags["Pokerole"] || {};
+		var actorData = this.system;
+		// const actorData = this.data;
+		const data = actorData as PokeroleActorData;
 
 		data.confidence = this._calculateConfidence(data.nature)
 
 		// Make separate methods for each Actor type (character, npc, etc.) to keep
 		// things organized.
-		switch (actorData.type) {
+		//Note: the type of data is OBJECT! We are just showing the data via interfaces that will likely
+		//be discarded at runtime
+		switch (this.type) {
 			case POKEROLE.ActorTypes.mon:// "pokemon":
-				this._preparePokemonData(actorData, data as PokemonActorData);
+				this._preparePokemonData(actorData as PokemonActorData);
 				break;
 			case POKEROLE.ActorTypes.trainer:
-				this._prepareTrainerData(actorData, data as TrainerActorData);
+				this._prepareTrainerData(actorData as TrainerActorData);
 				break;
 			case POKEROLE.ActorTypes.rival:
-				this._prepareRivalData(actorData, data as RivalActorData);
+				this._prepareRivalData(actorData as RivalActorData);
 				break;
 		}
 	}
@@ -62,7 +64,7 @@ export class PokeroleActor extends Actor {
 	/**
 	 * Prepare Character type specific data
 	 */
-	_preparePokemonData(actorData: ActorData, monData: PokemonActorData) {
+	_preparePokemonData(monData: PokemonActorData) {
 		
 		monData.defense = monData.stats.vitality;
 		monData.specialDefense = POKEROLE.UseInsightForSpecialDefense ?
@@ -72,21 +74,21 @@ export class PokeroleActor extends Actor {
 	/**
 	 * Prepare Trainer type specific data
 	 */
-	_prepareTrainerData(actorData: ActorData, trainderData: TrainerActorData) {
+	_prepareTrainerData(trainderData: TrainerActorData) {
 
-		// Make modifications to data here. For example:
-		const data = actorData.data;
+		// // Make modifications to data here. For example:
+		// const data = actorData.data;
 	}
 	/**
 	 * Prepare Rival type specific data
 	 */
-	_prepareRivalData(actorData: ActorData, rivalData: RivalActorData) {
+	_prepareRivalData(rivalData: RivalActorData) {
 		// Page 475, Storyteller Note
 		// "Rivals don’t need Attributes or Skill Points, simply assume they will Roll one or two more dice
 		// than the players."
 
-		// Make modifications to data here. For example:
-		const data = actorData.data;
+		// // Make modifications to data here. For example:
+		// const data = actorData.data;
 	}
 
 	_calculateConfidence(nature: Nature | string): number {

@@ -125,6 +125,18 @@ ______     _                  _
 	},
 	//Currently not supporting custom types
 	TypeManager: new TypeManager(),
+	getReadableColor: function (backgroundColor: number): number {
+		if (backgroundColor % 1 !== 0) {
+			//not a whole number?!?!?
+			console.warn(`The color ${backgroundColor} was not an integer`);
+			backgroundColor = Math.round(backgroundColor);
+		}
+		var red = (backgroundColor & 0xFF0000) >> 4;
+		var green = (backgroundColor & 0x00FF00) >> 2;
+		var blue = backgroundColor & 0x0000FF;
+		//taken from https://stackoverflow.com/a/3943023/1366594
+		return (red * 0.299 + green * 0.587 + blue * 0.114) > 186 ? 0xFF000000 : 0xFFFFFFFF;
+	}
 	
 };
 

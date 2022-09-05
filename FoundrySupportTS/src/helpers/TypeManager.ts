@@ -1,3 +1,5 @@
+import { TypeTableData, TypeTableEntry } from "./PokemonTypes.js"
+
 export class TypeManager {
 	//currently not supporting custom types
 	private readonly _typeData: TypeTableData = TypeTableData.createDefault();
@@ -10,6 +12,15 @@ export class TypeManager {
 	listTypes(): string[]{
 		return [... this._typeTable.keys()];
 	}
+	/**
+	 * Get the color assigned to the given type, undefined if the type doesn't have a color,
+	 * or null if there is no such type
+	 * @param typename type to get the color for
+	 */
+	getColorForType(typename: string): number | null | undefined {
+		var type = this._typeTable.get(typename);
+		return type === undefined ? null : type.backgroundColor;
+	} 
 	/**
 	 * Calculate how effective {@param attackType} is against the combinations of {@param defenseTypes}.
 	 * A null result inidates an immunity, 0 indicates "effective", values greater than 0 indicate
