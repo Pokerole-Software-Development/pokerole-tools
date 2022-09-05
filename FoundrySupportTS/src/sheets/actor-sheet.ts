@@ -72,7 +72,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 	private static dotParentFinder: RegExp = /^(\w+)\ Dots$/;
 	/** @override */
 	get template() {
-		return `systems/Pokerole/templates/actor/actor-${this.actor.data.type}-sheet.html`;
+		return `systems/Pokerole/templates/actor/actor-${this.actor.type}-sheet.html`;
 	}
 
 	/**

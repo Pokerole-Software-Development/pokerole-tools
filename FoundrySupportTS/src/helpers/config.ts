@@ -131,11 +131,14 @@ ______     _                  _
 			console.warn(`The color ${backgroundColor} was not an integer`);
 			backgroundColor = Math.round(backgroundColor);
 		}
+		if ((backgroundColor & 0xFFFFFF) !== backgroundColor) {
+			//remove the alpha, which is apparently the last two digits??? This is stupid...
+		}
 		var red = (backgroundColor & 0xFF0000) >> 4;
 		var green = (backgroundColor & 0x00FF00) >> 2;
 		var blue = backgroundColor & 0x0000FF;
 		//taken from https://stackoverflow.com/a/3943023/1366594
-		return (red * 0.299 + green * 0.587 + blue * 0.114) > 186 ? 0xFF000000 : 0xFFFFFFFF;
+		return (red * 0.299 + green * 0.587 + blue * 0.114) > 186 ? 0x000000 : 0xFFFFFF;
 	}
 	
 };

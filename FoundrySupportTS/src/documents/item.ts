@@ -40,19 +40,19 @@ export class PokeroleItem extends Item {
 			//wat??
 			return undefined;
 		}
-		const item = this.data;
+		const item = this.system as PokeroleItemData;
 
 		// Initialize chat data.
 		const speaker = ChatMessage.getSpeaker({ actor: this.actor ?? undefined });
 		const rollMode = game.settings.get('core', 'rollMode');
-		const label = `[${item.type}] ${item.name}`;
+		const label = `[${this.type}] ${item.name}`;
 
-		if (item.type === 'move') {
+		if (this.type === 'move') {
 			//that is a doosie. It gets its own method
-			return await this.rollMove(item, item.data as MoveItemData);
+			return await this.rollMove(item as MoveItemData);
 		}
 		//don't know of any other item that rolls dice ATM
-		var innerData = item.data as PokeroleItemData;
+		var innerData = item;
 		ChatMessage.create({
 			speaker: speaker,
 			rollMode: rollMode,
@@ -87,7 +87,7 @@ export class PokeroleItem extends Item {
 // 			return roll;
 // 		}
 	}
-	async rollMove(item: ItemData, move: MoveItemData) {;
+	async rollMove(move: MoveItemData) {
 		if (!(game instanceof Game) || !game.user) {
 			//wat??
 			return undefined;
@@ -99,6 +99,9 @@ export class PokeroleItem extends Item {
 export interface PokeroleItemData {
 	name: string;
 	description: string;
+}
+export interface AccessoryItemData extends PokeroleItemData{
+
 }
 export interface AbilityItemData extends PokeroleItemData{
 	//todo: add special logics???

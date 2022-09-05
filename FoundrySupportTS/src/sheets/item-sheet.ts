@@ -1,11 +1,11 @@
-import { PokeroleItemData } from "../documents/item.js";
+import { MoveItemData, PokeroleItemData } from "../documents/item.js";
 import { POKEROLE } from "../helpers/config.js";
 
 interface ItemSheetOptions extends ItemSheet.Options{
 
 }
 interface ItemSheetData extends ItemSheet.Data<ItemSheetOptions>{
-
+	// readonly system: Object;
 }
 
 /**
@@ -20,7 +20,7 @@ export class PokeroleItemSheet extends ItemSheet<ItemSheetOptions, ItemSheetData
 			classes: ["Pokerole", "sheet", "item"],
 			width: 520,
 			height: 480,
-			tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+			tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "primary" }]
 		});
 	}
 
@@ -32,7 +32,7 @@ export class PokeroleItemSheet extends ItemSheet<ItemSheetOptions, ItemSheetData
 
 		// Alternatively, you could use the following return statement to do a
 		// unique item sheet by type, like \`weapon-sheet.html\`.
-		return `${path}/item-${this.item.data.type}-sheet.html`;
+		return `${path}/item-${this.item.type}-sheet.html`;
 	}
 	private _cachedContext?: PokeroleItemData;
 
@@ -42,10 +42,9 @@ export class PokeroleItemSheet extends ItemSheet<ItemSheetOptions, ItemSheetData
 	getData(options?: Partial<ItemSheetOptions>) {
 		// Retrieve base data structure.
 		const context = super.getData(options) as ItemSheetData;
-
 		// Use a safe clone of the item data for further operations.
-		const itemData = context.item.data;//.toObject(false);
-		const item = itemData.data as PokeroleItemData;
+		const itemData = context.item.system;// system;//.toObject(false);
+		const item = itemData as unknown as PokeroleItemData;
 		this._cachedContext = item;
 		// Retrieve the roll data for TinyMCE editors.
 		// context.rollData = {};
@@ -63,6 +62,21 @@ export class PokeroleItemSheet extends ItemSheet<ItemSheetOptions, ItemSheetData
 
 	/* -------------------------------------------- */
 
+	protected async _renderInner(data: ItemSheetData): Promise<JQuery<HTMLElement>> {
+		var result = await super._renderInner(data);
+		if (!this._cachedContext//just in case...
+			|| this.item.type !== 'move') {
+			return result;
+		}
+		var moveData = data.item.system as MoveItemData;
+		this.applyTypeColor(moveData.type, result);
+		return result;
+		// if (this.item.type === 'move') {
+		// 	this.applyTypeColor((this._cachedContext as MoveItemData).type, html);
+		// }
+		// super._injectHTML(html);
+	}
+
 	/** @override */
 	activateListeners(html: JQuery<HTMLElement>) {
 		super.activateListeners(html);
@@ -70,7 +84,7 @@ export class PokeroleItemSheet extends ItemSheet<ItemSheetOptions, ItemSheetData
 		// Everything below here is only needed if the sheet is editable
 		if (!this.isEditable) return;
 
-		if (this.item.data.type === 'move') {
+		if (this.item.type === 'move') {
 			html.find(".type.combobox").on('change', e => {
 				var combobox = e.target! as HTMLSelectElement;
 				this.applyTypeColor(combobox);
@@ -78,10 +92,13 @@ export class PokeroleItemSheet extends ItemSheet<ItemSheetOptions, ItemSheetData
 		}
 		// Roll handlers, click handlers, etc. would go here.
 	}
-	applyTypeColor(typename: string | HTMLSelectElement) {
+	applyTypeColor(typename: string | HTMLSelectElement, root?: JQuery<HTMLElement>) {
 		if (typename instanceof HTMLSelectElement) {
 			//get the type from that
 			typename = typename.value;
+		}
+		if (!root) {
+			root = this.element;
 		}
 		var color = POKEROLE.TypeManager.getColorForType(typename);
 		if (color === null || color === undefined) {
@@ -91,8 +108,12 @@ export class PokeroleItemSheet extends ItemSheet<ItemSheetOptions, ItemSheetData
 			return;
 		}
 		var readableColor = POKEROLE.getReadableColor(color);
+		var element = root[0]!;
+		var style = element.style;
+		//truncate background color since apparently, alpha is last???
 		//setting alpha to 255 in case it isn't
-		this.element.css("background-color", 0xFF000000 | color);
-		this.element.css("color", readableColor);
+		 color = color | 0xff000000; //breaks things???
+		style.backgroundColor = `#${color.toString(16)};`;
+		style.color = `#${readableColor.toString(16)};`;
 	}
 }

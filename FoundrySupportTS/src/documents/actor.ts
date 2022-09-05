@@ -27,7 +27,7 @@ export class PokeroleActor extends Actor {
 		// documents or derived data.
 
 	}
-	readonly system: PokeroleActorData = super.system as PokeroleActorData;
+	// readonly system: PokeroleActorData = super.system as PokeroleActorData;
 	/**
 	 * @override
 	 * Augment the basic actor data with additional dynamic data. Typically,
@@ -157,7 +157,7 @@ export class PokeroleActor extends Actor {
 	 * Prepare character roll data.
 	 */
 	_getCharacterRollData(data: any) {
-		if (this.data.type !== 'character') return;
+		if (this.type !== 'character') return;
 		console.log(data);
 		// Add level for easier access, or fall back to 0.
 		if (data.attributes.level) {
@@ -214,7 +214,10 @@ export interface HumanActorData extends PokeroleActorData{
 	money: number;
 }
 export interface RivalActorData extends HumanActorData{
-
+	/**
+	 * Id of the player related to this rival
+	 */
+	relatedPlayer: string;
 }
 export interface PlayerStats {
 	strength: number,
@@ -268,7 +271,7 @@ export interface TrainerStats extends PlayerStats{
 	misc3: number,
 	misc4: number,
 }
-export interface TrainerActorData extends Merge<PlayerActorData, HumanActorData> {
+export interface TrainerActorData extends PlayerActorData, HumanActorData {
 	stats: TrainerStats,
 	monSeen: number,
 	monCaught: number

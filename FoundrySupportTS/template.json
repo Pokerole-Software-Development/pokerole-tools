@@ -79,7 +79,7 @@
 		}
 	},
 	"Item": {
-		"types": ["item", "accessory", "move", "type", "feature", "ability", "dexentry"],
+		"types": ["item", "accessory", "move", "type", "ability", "dexentry"],
 		"templates": {
 			"base": {
 				"name": "",
@@ -93,9 +93,6 @@
 			"formula": "d20 + @str.mod + ceil(@lvl / 2)"
 		},
 		"ability":{
-			"templates": ["base"]
-		},
-		"feature": {
 			"templates": ["base"]
 		},
 		"move": {
