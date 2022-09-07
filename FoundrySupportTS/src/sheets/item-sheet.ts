@@ -23,7 +23,8 @@ export class PokeroleItemSheet extends ItemSheet<ItemSheetOptions, ItemSheetData
 			tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "primary" }]
 		});
 	}
-
+	//cache that
+	private static monStats: readonly string[] = POKEROLE.StatsUtils.getStatList("mon");
 	/** @override */
 	get template() {
 		const path = "systems/Pokerole/templates/item";
@@ -69,6 +70,18 @@ export class PokeroleItemSheet extends ItemSheet<ItemSheetOptions, ItemSheetData
 			return result;
 		}
 		var moveData = data.item.system as MoveItemData;
+		// var rootDoc = result.do it is too late to add the items in...
+		// //fill in combo box choices
+		// var options = [];
+		// for (var stat of PokeroleItemSheet.monStats) {
+		// 	var el = new HTMLOptionElement();
+		// 	el.value = stat;
+		// 	el.text = stat;
+		// 	options.push(el);
+		// }
+		//find insertion points
+
+
 		this.applyTypeColor(moveData.type, result);
 		return result;
 		// if (this.item.type === 'move') {

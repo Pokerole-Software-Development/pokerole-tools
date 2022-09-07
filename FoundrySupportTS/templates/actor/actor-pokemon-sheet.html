@@ -17,27 +17,27 @@
 				and it will add a small amount of padding, a border, and will
 				center all of its child elements content and text. --}}
 				<div class="resource flex-group-center">
-					<label for="data.health.value" class="resource-label">HP</label>
+					<label for="system.health.value" class="resource-label">HP</label>
 					<div class="resource-content flexrow flex-center flex-between">
-						<input type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number"/>
+						<input type="text" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
 						<span> / </span>
-						<input type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number"/>
+						<input type="text" name="system.health.max" value="{{system.health.max}}" data-dtype="Number"/>
 					</div>
 				</div>
 
 				<div class="resource flex-group-center">
-					<label for="data.will.value" class="resource-label">Will</label>
+					<label for="system.will.value" class="resource-label">Will</label>
 					<div class="resource-content flexrow flex-center flex-between">
-						<input type="text" name="data.will.value" value="{{data.will.value}}" data-dtype="Number"/>
+						<input type="text" name="system.will.value" value="{{system.will.value}}" data-dtype="Number"/>
 						<span> / </span>
-						<input type="text" name="data.will.max" value="{{data.will.max}}" data-dtype="Number"/>
+						<input type="text" name="system.will.max" value="{{system.will.max}}" data-dtype="Number"/>
 					</div>
 				</div>
 
 				<div class="resource flex-group-center">
-					<label for="data.attributes.level.value" class="resource-label">Level</label>
+					<label for="system.attributes.level.value" class="resource-label">Level</label>
 					<div class="resource-content flexrow flex-center flex-between">
-						<input type="text" name="data.attributes.level.value" value="{{data.attributes.level.value}}" data-dtype="Number"/>
+						<input type="text" name="system.attributes.level.value" value="{{system.attributes.level.value}}" data-dtype="Number"/>
 					</div>
 				</div>
 
@@ -69,17 +69,17 @@
 			{{!--place to store what we are putting over the svg. We can move them in later--}}
 			<div style="display:none">
 				<div class="svgInner lblHp">
-					{{!-- <input type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number" /> --}}
-					<span class="svgInner">{{data.health.value}} / {{data.health.max}}</span>
-					{{!-- <input type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number" /> --}}
+					{{!-- <input type="text" name="system.health.value" value="{{system.health.value}}" data-dtype="Number" /> --}}
+					<span class="svgInner">{{system.health.value}} / {{system.health.max}}</span>
+					{{!-- <input type="text" name="system.health.max" value="{{system.health.max}}" data-dtype="Number" /> --}}
 				</div>
 				<div class="svgInner lblWill">
-					{{!-- <input type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number" /> --}}
-					<span class="svgInner">{{data.will.value}} / {{data.will.max}}</span>
-					{{!-- <input type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number" /> --}}
+					{{!-- <input type="text" name="system.health.value" value="{{system.health.value}}" data-dtype="Number" /> --}}
+					<span class="svgInner">{{system.will.value}} / {{system.will.max}}</span>
+					{{!-- <input type="text" name="system.health.max" value="{{system.health.max}}" data-dtype="Number" /> --}}
 				</div>
-				<select class="svgInner cboNature" name="data.nature">
-					{{#select data.nature}}
+				<select class="svgInner cboNature" name="system.nature">
+					{{#select system.nature}}
 					<option value="Adamant">Adamant</option>
 					<option value="Bashful">Bashful</option>
 					<option value="Bold">Bold</option>
@@ -107,16 +107,16 @@
 					<option value="Timid">Timid</option>
 					{{/select}}
 				</select>
-				<input class="svgInner nudBattleCount" type="number" name="data.battleCount" value="{{data.battleCount}}"
+				<input class="svgInner nudBattleCount" type="number" name="system.battleCount" value="{{system.battleCount}}"
 				data-dtype="Number" min="0" />
-				<input class="svgInner nudVictoryCount" type="number" name="data.victoryCount" value="{{data.victoryCount}}"
+				<input class="svgInner nudVictoryCount" type="number" name="system.victoryCount" value="{{system.victoryCount}}"
 				data-dtype="Number" min="0" />
-				<span class="svgInner lblConfidence">{{data.confidence}}</span>
-				<input name="data.primaryAccessory" class="svgInner txtPrimaryAccessory" type="text" value="{{data.primaryAccessory}}"/>
-				<input name="data.item" class="svgInner txtItem" type="text" value="{{data.item}}"/>
-				<span class="svgInner lblDefense">{{data.defense}} - {{data.specialDefense}}</span>
+				<span class="svgInner lblConfidence">{{system.confidence}}</span>
+				<input name="system.primaryAccessory" class="svgInner txtPrimaryAccessory" type="text" value="{{system.primaryAccessory}}"/>
+				<input name="system.item" class="svgInner txtItem" type="text" value="{{system.item}}"/>
+				<span class="svgInner lblDefense">{{system.defense}} - {{system.specialDefense}}</span>
 				<span class="svgInner lblName">{{actor.name}}</span>
-				<span class="svgInner lblAbility">{{data.ability.name}}</span>
+				<span class="svgInner lblAbility">{{system.ability.name}}</span>
 			</div>
 		</div>
 		<div class="tab data-entry svgRelativeRoot" data-group="primary" data-tab="data-entry">
@@ -145,7 +145,7 @@
 		{{!-- Biography Tab --}}
 		<div class="tab biography" data-group="primary" data-tab="description">
 			{{!-- If you want TinyMCE editors to output inline rolls when rendered, you need to pass the actor's roll data to the rollData property. --}}
-			{{editor content=data.biography target="data.biography" rollData=rollData button=true owner=owner editable=editable}}
+			{{editor system.biography target="system.biography" rollData=rollData button=true owner=owner editable=editable}}
 		</div>
 
 		{{!-- Owned Items Tab --}}

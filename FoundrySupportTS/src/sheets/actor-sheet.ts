@@ -5,7 +5,7 @@ import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/f
 // import { assert } from "console";
 import { POKEROLE } from "../helpers/config.js";
 import { stringify } from "querystring";
-import { ActorRollData, getActorStat, PlayerActorData, setActorStat } from "../documents/actor.js";
+import { ActorRollData, getActorStat, PlayerActorData, PokemonActorData, setActorStat } from "../documents/actor.js";
 
 
 interface ActorSheetOptions extends ActorSheet.Options{
@@ -95,7 +95,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 		const context = (await super.getData(options)) as ActorSheetData;
 
 		// Use a safe clone of the actor data for further operations.
-		const actorData = this.actor.data.toObject(false);
+		const actorData = this.actor.system.toObject(false) as PlayerActorData;
 
 		// Add the actor's data to context.data for easier access, as well as flags.
 		// var realContext = context as unknown as ActorSheetData;

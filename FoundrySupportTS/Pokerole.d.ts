@@ -18,7 +18,7 @@ interface Actor{
 	/**
 	 * V10 data object
 	 */
-	system: Object;
+	system: Object & SystemDataField;
 	/**
 	 * Deprecated in v10. Use 'system' instead
 	 */
@@ -28,7 +28,7 @@ interface Item{
 	/**
 	 * V10 data object
 	 */
-	system: Object;
+	system: Object & SystemDataField;
 	/**
 	 * Deprecated in v10. Use 'system' instead
 	 */
@@ -75,5 +75,5 @@ interface PokeroleItem {
 	readonly system: PokeroleItemData & SystemDataField;
 }
 interface SystemDataField extends DocumentField<object>{
-
+	toObject(source: false): object;
 }

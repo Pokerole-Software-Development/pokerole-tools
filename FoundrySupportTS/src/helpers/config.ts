@@ -62,7 +62,6 @@ ______     _                  _
 	],
 	StatsUtils: {
 		getStatType: function (val: string): ("trainer" | "mon" | "both" | undefined) {
-
 			switch (val) {
 				//player
 				case "strength":
