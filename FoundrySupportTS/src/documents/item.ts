@@ -1,11 +1,16 @@
 import { ItemData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
 import { ActorRollData, PokeroleActor } from "./actor.js";
+// import { Item } from "@league-of-foundry-developers/foundry-vtt-types"
 
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
 export class PokeroleItem extends Item {
+
+	// get system(): PokeroleItemData & SystemDataField {
+	// 	return <PokeroleItemData & SystemDataField>super.system;
+	// }
 	/**
 	 * Augment the basic Item data model with additional dynamic data.
 	 */
@@ -40,7 +45,7 @@ export class PokeroleItem extends Item {
 			//wat??
 			return undefined;
 		}
-		const item = this.system as PokeroleItemData;
+		const item = this.system as unknown as PokeroleItemData;
 
 		// Initialize chat data.
 		const speaker = ChatMessage.getSpeaker({ actor: this.actor ?? undefined });

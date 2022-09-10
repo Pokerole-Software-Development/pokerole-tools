@@ -5,42 +5,18 @@ import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/f
 // import { assert } from "console";
 import { POKEROLE } from "../helpers/config.js";
 import { stringify } from "querystring";
-import { ActorRollData, getActorStat, PlayerActorData, PokemonActorData, setActorStat } from "../documents/actor.js";
+import { ActorRollData, getActorStat, PlayerActorData, PokemonActorData, PokeroleActor, PokeroleActorData, setActorStat } from "../documents/actor.js";
 
 
-interface ActorSheetOptions extends ActorSheet.Options{
-	// //set to defaults 
-	// token?: TokenDocument | null | undefined;
-	// viewPermission: 0 | 1 | 2 | 3 = CONST.DOCUMENT_PERMISSION_LEVELS.LIMITED;
-	// closeOnSubmit: boolean = true;
-	// submitOnChange: boolean = false;
-	// submitOnClose: boolean = false;
-	// editable: boolean = true;
-	// sheetConfig: boolean = false;
-	// baseApplication: string | null = null;
-	// width: number | null = null;
-	// height: number | "auto" | null = null;
-	// top: number | null = null;
-	// left: number | null = null;
-	// scale: number | null = null;
-	// popOut: boolean = true;
-	// minimizable: boolean = true;
-	// resizable: boolean = false;
-	// id: string = "";
-	// classes: string[] = [];
-	// title: string = "";
-	// template: string | null = null;
-	// scrollY: string[] = [];
-	// tabs: Omit<TabsConfiguration, "callback">[] = [];
-	// dragDrop: Omit<DragDropConfiguration, "permissions" | "callbacks">[] = [];
-	// filters: Omit<SearchFilterConfiguration, "callback">[] = [];
-	// data: act.PokeroleActorData;
+interface PokeroleActorSheetOptions extends ActorSheet.Options{
 }
-interface ActorSheetData extends ActorSheet.Data<ActorSheetOptions>{
-	flags: Record<string, unknown>;
+interface PokeroleActorSheetData extends ActorSheet.Data<PokeroleActorSheetOptions>{
+	// flags: Record<string, unknown>;
 	rollData: ActorRollData;
 	moves: ActorData['items'];
 	dotData: Map<string, DotInfo>;
+	actor: PokeroleActor & this["document"];
+	systemCopy: PokeroleActorData//PokeroleActor["system"];
 }
 interface DotInfo {
 	min: number;
@@ -56,7 +32,7 @@ interface DotInfo {
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetData> {
+export class PokeroleActorSheet extends ActorSheet<PokeroleActorSheetOptions,PokeroleActorSheetData> {
 	/** @override */
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
@@ -83,27 +59,26 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 	/**
 	 * Cached result of {@link getData} for svg operations since the svg won't be ready right away
 	 */
-	private _svgContextCache?: ActorSheetData = undefined;
+	private _svgContextCache?: PokeroleActorSheetData = undefined;
 	// private _svgCached?: HTMLElement;
 	/** @override */
-	async getData(options?: Partial<ActorSheetOptions>) {
+	async getData(options?: Partial<PokeroleActorSheetOptions>) {
 		//base impl is awaited anyway
 		// Retrieve the data structure from the base sheet. You can inspect or log
 		// the context variable to see the structure, but some key properties for
 		// sheets are the actor object, the data object, whether or not it's
 		// editable, the items array, and the effects array.
-		const context = (await super.getData(options)) as ActorSheetData;
+		const context = (await super.getData(options)) as PokeroleActorSheetData;
 
 		// Use a safe clone of the actor data for further operations.
-		const actorData = this.actor.system.toObject(false) as PlayerActorData;
+		const actorData = context.actor.system.toObject(false) as PokeroleActorData;
 
 		// Add the actor's data to context.data for easier access, as well as flags.
-		// var realContext = context as unknown as ActorSheetData;
-		context.data = actorData.data as any;//figure that type issue out later
-		context.flags = actorData.flags;
+		context.systemCopy = actorData;
+		// context.flags = actorData.flags;//resolving data -> system change
 
 		// Prepare character data and items.
-		if (actorData.type == POKEROLE.ActorTypes.mon) {
+		if (context.actor.type == POKEROLE.ActorTypes.mon) {
 			this._prepareMonItems(context);
 			this._prepareCharacterData(context);
 		}
@@ -124,7 +99,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 	 *
 	 * @return {undefined}
 	 */
-	_prepareCharacterData(context: ActorSheetData) {
+	_prepareCharacterData(context: PokeroleActorSheetData) {
 		return new Object();
 	}
 
@@ -135,7 +110,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 	 *
 	 * @return {undefined}
 	 */
-	_prepareMonItems(context: ActorSheetData) {
+	_prepareMonItems(context: PokeroleActorSheetData) {
 		// Initialize containers.
 		//effects == status?
 		const gear = [];
@@ -498,7 +473,7 @@ export class PokeroleActorSheet extends ActorSheet<ActorSheetOptions,ActorSheetD
 				return { min: 0, max: 5 };
 		}
 	}
-	private _setStatSvg(context: ActorSheetData, stat: string, dotInfo: DotInfo) {
+	private _setStatSvg(context: PokeroleActorSheetData, stat: string, dotInfo: DotInfo) {
 		if (context.data.type === POKEROLE.ActorTypes.rival) {
 			return;
 		}

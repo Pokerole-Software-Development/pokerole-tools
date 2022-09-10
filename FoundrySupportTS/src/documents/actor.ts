@@ -11,6 +11,12 @@ export class ActorRollData{
  * @extends {Actor}
  */
 export class PokeroleActor extends Actor {
+	// /**
+	//  * @override
+	//  */
+	// override get system(): PokeroleActorData & SystemDataField {
+	// 	return <PokemonActorData & SystemDataField>super.system;
+	// }
 
 	/** @override */
 	prepareData() {
@@ -40,7 +46,7 @@ export class PokeroleActor extends Actor {
 	prepareDerivedData() {
 		var actorData = this.system;
 		// const actorData = this.data;
-		const data = actorData as PokeroleActorData;
+		const data = actorData as unknown as PokeroleActorData;
 
 		data.confidence = this._calculateConfidence(data.nature)
 
@@ -50,13 +56,13 @@ export class PokeroleActor extends Actor {
 		//be discarded at runtime
 		switch (this.type) {
 			case POKEROLE.ActorTypes.mon:// "pokemon":
-				this._preparePokemonData(actorData as PokemonActorData);
+				this._preparePokemonData(data as PokemonActorData);
 				break;
 			case POKEROLE.ActorTypes.trainer:
-				this._prepareTrainerData(actorData as TrainerActorData);
+				this._prepareTrainerData(data as TrainerActorData);
 				break;
 			case POKEROLE.ActorTypes.rival:
-				this._prepareRivalData(actorData as RivalActorData);
+				this._prepareRivalData(data as RivalActorData);
 				break;
 		}
 	}
@@ -194,7 +200,7 @@ export enum Nature {
 	Timid
 }
 //Strongly typed data containers
-export interface PokeroleActorData {//extends foundry.abstract.Document<any,any>{
+export interface PokeroleActorData{//extends SystemDataField(This breaks too many things...) {//extends foundry.abstract.Document<any,any>{
 	nature: Nature;
 	health: {
 		min: number;

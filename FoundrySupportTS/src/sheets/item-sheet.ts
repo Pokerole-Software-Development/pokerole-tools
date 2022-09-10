@@ -1,4 +1,4 @@
-import { MoveItemData, PokeroleItemData } from "../documents/item.js";
+import { MoveItemData, PokeroleItemData, PokeroleItem } from "../documents/item.js";
 import { POKEROLE } from "../helpers/config.js";
 
 interface ItemSheetOptions extends ItemSheet.Options{
@@ -6,6 +6,7 @@ interface ItemSheetOptions extends ItemSheet.Options{
 }
 interface ItemSheetData extends ItemSheet.Data<ItemSheetOptions>{
 	// readonly system: Object;
+	readonly item: PokeroleItem & this["document"];
 }
 
 /**
@@ -69,7 +70,7 @@ export class PokeroleItemSheet extends ItemSheet<ItemSheetOptions, ItemSheetData
 			|| this.item.type !== 'move') {
 			return result;
 		}
-		var moveData = data.item.system as MoveItemData;
+		var moveData = data.item.system as unknown as MoveItemData;
 		// var rootDoc = result.do it is too late to add the items in...
 		// //fill in combo box choices
 		// var options = [];
@@ -116,8 +117,8 @@ export class PokeroleItemSheet extends ItemSheet<ItemSheetOptions, ItemSheetData
 		var color = POKEROLE.TypeManager.getColorForType(typename);
 		if (color === null || color === undefined) {
 			// use the default colors
-			this.element.css("background-color", "unset");
-			this.element.css("color", "unset");
+			root.css("background-color", "unset");
+			root.css("color", "unset");
 			return;
 		}
 		var readableColor = POKEROLE.getReadableColor(color);
