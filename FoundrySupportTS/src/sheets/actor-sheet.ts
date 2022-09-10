@@ -10,13 +10,14 @@ import { ActorRollData, getActorStat, PlayerActorData, PokemonActorData, Pokerol
 
 interface PokeroleActorSheetOptions extends ActorSheet.Options{
 }
+//Note: This is apparently what gets passed to handlebars for the html generation
 interface PokeroleActorSheetData extends ActorSheet.Data<PokeroleActorSheetOptions>{
 	// flags: Record<string, unknown>;
 	rollData: ActorRollData;
 	moves: ActorData['items'];
 	dotData: Map<string, DotInfo>;
 	actor: PokeroleActor & this["document"];
-	systemCopy: PokeroleActorData//PokeroleActor["system"];
+	system: PokeroleActorData//PokeroleActor["system"];
 }
 interface DotInfo {
 	min: number;
@@ -71,10 +72,11 @@ export class PokeroleActorSheet extends ActorSheet<PokeroleActorSheetOptions,Pok
 		const context = (await super.getData(options)) as PokeroleActorSheetData;
 
 		// Use a safe clone of the actor data for further operations.
-		const actorData = context.actor.system.toObject(false) as PokeroleActorData;
+		const actorCopy = context.actor.toObject(false);
 
 		// Add the actor's data to context.data for easier access, as well as flags.
-		context.systemCopy = actorData;
+		//stupid dumb, 'system' not defined yet...
+		context.system = (actorCopy as any).system as PokeroleActorData;
 		// context.flags = actorData.flags;//resolving data -> system change
 
 		// Prepare character data and items.
@@ -333,7 +335,7 @@ export class PokeroleActorSheet extends ActorSheet<PokeroleActorSheetOptions,Pok
 					dot.addEventListener("click", (ev) => {
 						ev.preventDefault();
 						var target = ev.button == 2 ? iRef : iRef + 1;
-						var dataObj = <PlayerActorData>this.actor.data.data;
+						var dataObj = <PlayerActorData><unknown>this.actor.system;
 						setActorStat(dataObj, statName, target);
 						this._setStatSvg0(dataObj, statName, dotInfo);
 						//send update information
@@ -342,7 +344,7 @@ export class PokeroleActorSheet extends ActorSheet<PokeroleActorSheetOptions,Pok
 						dataPartial['stats'] = {} as any;
 						dataPartial['stats'][statName] = target;
 						this.actor.update({
-							data: dataPartial
+							system: dataPartial
 						}, );
 						// thisRef._setStatSvg()
 					});
@@ -474,10 +476,10 @@ export class PokeroleActorSheet extends ActorSheet<PokeroleActorSheetOptions,Pok
 		}
 	}
 	private _setStatSvg(context: PokeroleActorSheetData, stat: string, dotInfo: DotInfo) {
-		if (context.data.type === POKEROLE.ActorTypes.rival) {
+		if (context.actor.type === POKEROLE.ActorTypes.rival) {
 			return;
 		}
-		this._setStatSvg0(context.data as unknown as PlayerActorData, stat, dotInfo);
+		this._setStatSvg0(context.system as PlayerActorData, stat, dotInfo);
 	}
 	private _setStatSvg0(data: PlayerActorData, stat: string, dotInfo: DotInfo) {
 		// just double checking, these should all be paths

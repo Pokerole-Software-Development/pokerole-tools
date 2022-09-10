@@ -11,6 +11,7 @@
 				// "DEBUG": "*"
 			},
 			"request": "launch",
+			//TODO: move paths to outside the development folder
 			"program": "${workspaceFolder}/foundry/resources/app/main.js",
 			"args": [
 				"--dataPath=${workspaceFolder}/foundryuserdata"
@@ -18,7 +19,7 @@
 			"runtimeArgs": [
 				"--preserve-symlinks"
 			],
-			"cwd": "${workspaceFolder}",
+			"cwd": "${workspaceFolder}/foundry",
 			"killBehavior": "polite",
 			"skipFiles": [
 				"<node_internals>/**"
