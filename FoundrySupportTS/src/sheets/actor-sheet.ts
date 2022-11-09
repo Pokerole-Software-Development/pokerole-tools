@@ -77,6 +77,7 @@ export class PokeroleActorSheet extends ActorSheet<PokeroleActorSheetOptions,Pok
 		// Add the actor's data to context.data for easier access, as well as flags.
 		//stupid dumb, 'system' not defined yet...
 		context.system = (actorCopy as any).system as PokeroleActorData;
+		context.data = actorCopy;
 		// context.flags = actorData.flags;//resolving data -> system change
 
 		// Prepare character data and items.

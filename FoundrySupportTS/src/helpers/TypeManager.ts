@@ -14,7 +14,7 @@ export class TypeManager {
 	}
 	/**
 	 * Get the color assigned to the given type, undefined if the type doesn't have a color,
-	 * or null if there is no such type
+	 * or null if there is no such type. The number is formatted as 0xAARRGGBB. AA should always be FF
 	 * @param typename type to get the color for
 	 */
 	getColorForType(typename: string): number | null | undefined {

@@ -7,6 +7,7 @@ interface ItemSheetOptions extends ItemSheet.Options{
 interface ItemSheetData extends ItemSheet.Data<ItemSheetOptions>{
 	// readonly system: Object;
 	readonly item: PokeroleItem & this["document"];
+	readonly system: PokeroleItemData;
 }
 
 /**
@@ -45,8 +46,10 @@ export class PokeroleItemSheet extends ItemSheet<ItemSheetOptions, ItemSheetData
 		// Retrieve base data structure.
 		const context = super.getData(options) as ItemSheetData;
 		// Use a safe clone of the item data for further operations.
-		const itemData = context.item.system;// system;//.toObject(false);
-		const item = itemData as unknown as PokeroleItemData;
+		const itemCopy = context.item.toObject(false);
+		//const itemData = itemCopy.system.toObject(false);// system;//.toObject(false);
+		//shush you
+		const item = (itemCopy as any).system as PokeroleItemData;
 		this._cachedContext = item;
 		// Retrieve the roll data for TinyMCE editors.
 		// context.rollData = {};

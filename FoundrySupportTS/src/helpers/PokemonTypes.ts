@@ -354,6 +354,9 @@ export enum BuiltInType {
 }
 export class TypeTableEntry{
 	name: string;
+	/**
+	 * The color for this type expressed as 0xAARRGGBB or undefinded if one has not been defined
+	 */
 	backgroundColor?: number;
 	resistances: string[] = [];
 	weaknesses: string[] = [];
